@@ -1,0 +1,62 @@
+# This is the yaml file for generating the ERGA Assembly Report (EAR) using the make_EAR.py script
+# Please complete the required information pointed as <Insert ...>
+# The file EAR_example.yaml contains an example of a properly completed yaml file
+
+# GENERAL INFORMATION
+ToLID: <Insert ToLID>
+Species: <Insert species name>
+Submitter: <Insert submitter full name>
+Affiliation: <Insert affiliation>
+Tag: <Insert tag> # valid tags are ERGA-Pilot, ERGA-BGE, ERGA-Satellite
+
+
+
+# SEQUENCING DATA
+DATA:
+      - <Insert data type>: <insert data coverage> 
+
+
+
+# GENOME PROFILING DATA
+PROFILING:
+  GenomeScope:
+    version: <Insert GenomeScope version>
+    results_folder: <Insert GenomeScope results folder path>
+  Smudgeplot:
+    version: <Insert Smudgeplot version>
+    results_folder: <Insert Smudgeplot results folder path>
+
+
+
+# ASSEMBLY PIPELINE
+CONTIGGING:
+  <Insert tool name>: 
+    version: <Insert tool version>
+    <Insert assembly type>: # valid types are hap1 (or hap2 if available), pri (or alt if available), collapsed...
+      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
+      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
+      merqury_folder: <Insert Merqury results folder path>
+
+  <Insert another tool name>: 
+    version: <Insert tool version>
+    <Insert assembly type>: # valid types are hap1 (or hap2 if available), pri (or alt if available), collapsed...
+      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
+      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
+      merqury_folder: <Insert Merqury results folder path>
+
+
+SCAFFOLDING:
+  <Insert tool name>: 
+    version: <Insert tool version>
+    <Insert assembly type>: # valid types are hap1 (or hap2 if available), pri (or alt if available), collapsed...
+      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
+      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
+      pretext_FullMap_png: <Insert pretext FullMap.png full path>
+
+
+
+# CONTAMINATION SCREENING:
+Blobtools:
+  version: <Insert Blobtools version>
+  db_version: <Insert nr databse version>
+    <Insert assembly type>: <Insert Blobtools results folder path>

@@ -1,6 +1,6 @@
 # This is the yaml file for generating the ERGA Assembly Report (EAR) using the make_EAR.py script
 # Please complete the required information pointed as <Insert ...>
-# The file EAR_example.yaml contains an example of a properly completed yaml file
+# The file [example]rCarCar2_EAR.yaml contains an example of a completed yaml file
 
 # GENERAL INFORMATION
 ToLID: <Insert ToLID>

@@ -51,12 +51,13 @@ SCAFFOLDING:
     <Insert assembly type>: # valid types are hap1 (or hap2 if available), pri (or alt if available), collapsed...
       gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
       busco_short_summary_txt: <Insert busco_short_summary.txt full path>
+      merqury_folder: <Insert Merqury results folder path>
       pretext_FullMap_png: <Insert pretext FullMap.png full path>
 
 
 
-# CONTAMINATION SCREENING:
-Blobtools:
-  version: <Insert Blobtools version>
-  db_version: <Insert nr databse version>
-    <Insert assembly type>: <Insert Blobtools results folder path>
+## CONTAMINATION SCREENING:
+#Blobtools:
+#  version: <Insert Blobtools version>
+#  db_version: <Insert nr databse version>
+#    <Insert assembly type>: <Insert Blobtools results folder path>

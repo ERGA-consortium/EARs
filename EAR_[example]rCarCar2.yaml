@@ -1,87 +1,92 @@
 # This is the yaml file for generating the ERGA Assembly Report (EAR) using the make_EAR.py script
-# Please complete the required information pointed as <Insert ...>
-# The file EAR_example.yaml contains an example of a properly completed yaml file
+# This file is filled as an example
 
 # GENERAL INFORMATION
 ToLID: rCarCar2
 Species: Caretta caretta
 Submitter: Diego De Panis
 Affiliation: BeGenDiv
-Tag: ERGA-example # valid tags are ERGA-Pilot, ERGA-BGE, ERGA-Satellite
+Tags: ERGA-test # valid tags are ERGA-Pilot, ERGA-BGE, ERGA-Satellite
 
 
 
 # SEQUENCING DATA
 DATA:
-      - HiFi: <insert data coverage>
-      - Bionano: <insert data coverage>
-      - OmniC: <insert data coverage>
+      - HiFi: 40x
+      - Bionano:  
+      - OmniC: 90x
 
 
 
 # GENOME PROFILING DATA
 PROFILING:
   GenomeScope:
-    version: <Insert GenomeScope version>
-    results_folder: <Insert GenomeScope results folder path>
+    version: 2.0
+    results_folder: /Users/home/rCarCar2/genomescope
   Smudgeplot:
-    version: <Insert Smudgeplot version>
-    results_folder: <Insert Smudgeplot results folder path>
+    version: 0.2.5
+    results_folder: /Users/home/ear_test/smudge
 
 
 
 # ASSEMBLY PIPELINE
 CONTIGGING:
   Hifiasm: 
-    version: <Insert tool version>
-    hap1: # valid types are hap1 (or hap2 if available), pri (or alt if available), collapsed
-      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
-      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
-      merqury_folder: <Insert Merqury results folder path>    
-    hap2: # valid types are hap1 (or hap2 if available), pri (or alt if available), collapsed
-      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
-      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
-      merqury_folder: <Insert Merqury results folder path>
+    version: 0.19.4
+    hap1:
+      gfastats--nstar-report_txt: /Users/home/rCarCar2/GEP/Hifiasm_19.4_l1_hap1/ASSEMBLY_STATISTICS/hif_hap1_gfastats.txt
+      busco_short_summary_txt: /Users/home/rCarCar2/GEP/Hifiasm_19.4_l1_hap1/BUSCOs/l1Hi_hap1/short_summary.specific.sauropsida_odb10.l1Hi_hap1.txt
+      merqury_folder: /Users/home/rCarCar2/GEP/Hifiasm_19.4_l1_hap1/QV.KMER-COMPLETENESS.CN-SPECTRA
+    hap2:
+      gfastats--nstar-report_txt: /Users/home/rCarCar2/GEP/Hifiasm_19.4_l1_hap2/ASSEMBLY_STATISTICS/hif_hap2_gfastats.txt
+      busco_short_summary_txt: /Users/home/rCarCar2/GEP/Hifiasm_19.4_l1_hap2/BUSCOs/l1Hi_hap2/short_summary.specific.sauropsida_odb10.l1Hi_hap2.txt
+      merqury_folder: /Users/home/rCarCar2/GEP/Hifiasm_19.4_l1_hap1/QV.KMER-COMPLETENESS.CN-SPECTRA
 
-  purge_dups: 
-    version: <Insert tool version>
-    hap1: # valid types are hap1 (or hap2 if available), pri (or alt if available), collapsed
-      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
-      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
-      merqury_folder: <Insert Merqury results folder path>    
-    hap2: # valid types are hap1 (or hap2 if available), pri (or alt if available), collapsed
-      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
-      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
-      merqury_folder: <Insert Merqury results folder path>
+  purge_dups:
+    version: 1.2.6
+    hap1:
+      gfastats--nstar-report_txt: /Users/home/rCarCar2/GEP/purgedups_hap1/ASSEMBLY_STATISTICS/pur_hap1_gfastats.txt
+      busco_short_summary_txt: /Users/home/rCarCar2/GEP/purgedups_hap1/BUSCOs/pur_hap1/short_summary.specific.sauropsida_odb10.pur_hap1.txt
+      merqury_folder: /Users/home/rCarCar2/GEP/purgedups_hap1/QV.KMER-COMPLETENESS.CN-SPECTRA
+    hap2:
+      gfastats--nstar-report_txt: /Users/home/rCarCar2/GEP/purgedups_hap2/ASSEMBLY_STATISTICS/pur_hap2_gfastats.txt
+      busco_short_summary_txt: /Users/home/rCarCar2/GEP/purgedups_hap2/BUSCOs/pur_hap2/short_summary.specific.sauropsida_odb10.pur_hap2.txt
+      merqury_folder: /Users/home/rCarCar2/GEP/purgedups_hap1/QV.KMER-COMPLETENESS.CN-SPECTRA
 
 
 SCAFFOLDING:
-  Bionano: 
-    version: <Insert tool version>
-    hap1: # valid types are hap1 (or hap2 if available), pri (or alt if available), collapsed
-      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
-      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
-      pretext_FullMap_png: <Insert pretext FullMap.png full path>
-    hap2: # valid types are hap1 (or hap2 if available), pri (or alt if available), collapsed
-      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
-      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
-      pretext_FullMap_png: <Insert pretext FullMap.png full path>
+  Bionano:
+    version: Galaxy_3.7.0
+    hap1:
+      gfastats--nstar-report_txt: /Users/home/rCarCar2/GEP/bionano_hap1/ASSEMBLY_STATISTICS/bion_hap1_gfastats.txt
+      busco_short_summary_txt: /Users/home/rCarCar2/GEP/bionano_hap1/BUSCOs/bio_hap1/short_summary.specific.sauropsida_odb10.bio_hap1.txt
+      merqury_folder: /Users/home/rCarCar2/GEP/bionano_hap1/QV.KMER-COMPLETENESS.CN-SPECTRA
+      pretext_FullMap_png: 
+    hap2:
+      gfastats--nstar-report_txt: /Users/home/rCarCar2/GEP/bionano_hap2/ASSEMBLY_STATISTICS/bion_hap2_gfastats.txt
+      busco_short_summary_txt: /Users/home/rCarCar2/GEP/bionano_hap2/BUSCOs/bio_hap2/short_summary.specific.sauropsida_odb10.bio_hap2.txt
+      merqury_folder: /Users/home/rCarCar2/GEP/bionano_hap1/QV.KMER-COMPLETENESS.CN-SPECTRA
+      pretext_FullMap_png:
 
-  YaHS: 
-    version: <Insert tool version>
-    hap1: # valid types are hap1 (or hap2 if available), pri (or alt if available), collapsed
-      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
-      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
-      pretext_FullMap_png: <Insert pretext FullMap.png full path>
-    hap2: # valid types are hap1 (or hap2 if available), pri (or alt if available), collapsed
-      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
-      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
-      pretext_FullMap_png: <Insert pretext FullMap.png full path>
+  YaHS:
+    version: 1.1
+    hap1:
+      gfastats--nstar-report_txt: /Users/home/rCarCar2/GEP/yahs_hap1/ASSEMBLY_STATISTICS/yah_hap1_gfastats.txt
+      busco_short_summary_txt: /Users/home/rCarCar2/GEP/yahs_hap1/BUSCOs/yah_hap1/short_summary.specific.sauropsida_odb10.yah_hap1.txt
+      merqury_folder: /Users/home/rCarCar2/GEP/yahs_hap1/QV.KMER-COMPLETENESS.CN-SPECTRA
+      pretext_FullMap_png: /Users/home/rCarCar2/GEP/yahs_hap1/PRETEXT/yahs_hap1FullMap.png
+    hap2:
+      gfastats--nstar-report_txt: /Users/home/rCarCar2/GEP/yahs_hap2/ASSEMBLY_STATISTICS/yah_hap2_gfastats.txt
+      busco_short_summary_txt: /Users/home/rCarCar2/GEP/yahs_hap2/BUSCOs/yah_hap2/short_summary.specific.sauropsida_odb10.yah_hap2.txt
+      merqury_folder: /Users/home/rCarCar2/GEP/yahs_hap1/QV.KMER-COMPLETENESS.CN-SPECTRA
+      pretext_FullMap_png: /Users/home/rCarCar2/GEP/yahs_hap2/PRETEXT/yahs_hap2FullMap.png
 
 
 
 # CONTAMINATION SCREENING:
-Blobtools:
-  version: <Insert Blobtools version>
-  db_version: <Insert nr databse version>
-    <Insert assembly type>: <Insert Blobtools results folder path>
+#SCREENING:
+#  Blobtools:
+#    version: 
+#    db_version: 
+#    hap1:
+#    hap2:

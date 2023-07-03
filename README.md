@@ -4,5 +4,5 @@ Here you will find genome assembly reports approved by the ERGA Sequencing and A
 
 
 ```bash
-conda env create -f environment.yml
+conda env create -f EAR_env.yml
 ```

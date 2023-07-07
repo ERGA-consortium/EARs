@@ -100,7 +100,32 @@ for result in goat_results:
     if haploid_number != 'NA' and chrom_num != 'NA':
         ploidy = (round(chrom_num / haploid_number))
 
-        
+
+# Make species data table -----------------------
+sp_data = [
+    ["ToLID", "Species", "Class", "Order", "Haploid Number", "Ploidy"],
+    [tol_id, species, class_name, order_name, f"{haploid_number} (source: {haploid_source})", ploidy]
+]
+
+# Transpose the data
+transposed_sp_data = list(map(list, zip(*sp_data)))
+
+# Create the table with the transposed data
+sp_data_table = Table(transposed_sp_data)
+
+# Style the table
+sp_data_table.setStyle(TableStyle([
+    ("BACKGROUND", (0, 0), (-1, -1), colors.white),
+    ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+    ('FONTNAME', (0, 0), (0, 0), 'Courier'),  # regular font for row1, col1
+    ('FONTNAME', (1, 0), (1, 0), 'Courier-Bold'),  # bold font for row1, col2
+    ('FONTNAME', (0, 1), (-1, -1), 'Courier'),  # regular font for the rest of the table
+    ("FONTSIZE", (0, 0), (-1, -1), 12),
+    ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
+    ("GRID", (0, 0), (-1, -1), 0.5, colors.black)
+]))
+
+
         
 # Reading SEQUENCING DATA section from yaml -----------------------------------
 
@@ -117,6 +142,47 @@ if data_list:
             reads_data_table.append([technology, coverage])
 else:
     print('Warning: No data found in the YAML file.')    
+
+# create the data table
+data_table = Table(reads_data_table)
+
+# Style the table
+data_table.setStyle(TableStyle([
+    ('BACKGROUND', (0, 0), (-1, 0), '#d3d3d3'),  # grey background for the header
+    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),       # center alignment
+    ('FONTNAME', (0, 0), (-1, -1), 'Courier'),  # bold font for the header
+    ('FONTSIZE', (0, 0), (-1, -1), 12),           # font size for the header
+    ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
+    ("GRID", (0, 0), (-1, -1), 0.5, colors.black)
+]))
+
+
+
+# Get names of pipeline tools/versions ----------------------------------------
+    
+# Get k v for Pipeline section
+pipeline_table_data = [['Tool', 'Version']]  # headers
+
+for section, section_content in yaml_data.items():
+    if isinstance(section_content, dict):
+        for tool, tool_properties in section_content.items():
+            if isinstance(tool_properties, dict):
+                version = tool_properties.get('version')
+                # replace empty values with 'NA'
+                if not version:
+                    version = 'NA'
+                pipeline_table_data.append([tool, version])
+
+# create pipeline table
+pipeline_table = Table(pipeline_table_data)
+pipeline_table.setStyle(TableStyle([
+    ('BACKGROUND', (0, 0), (-1, 0), '#d3d3d3'),  # grey background for the header
+    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),       # center alignment
+    ('FONTNAME', (0, 0), (-1, -1), 'Courier'),  # bold font for the header
+    ('FONTSIZE', (0, 0), (-1, -1), 12),           # font size for the header
+    ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
+    ("GRID", (0, 0), (-1, -1), 0.5, colors.black)
+]))
 
 
 
@@ -220,6 +286,27 @@ smu_plot_file_path = os.path.join(smudgeplot_folder, '*smudgeplot.png')
 smu_plot_file = glob.glob(smu_plot_file_path)[0]
 smulog_plot_file_path = os.path.join(smudgeplot_folder, '*smudgeplot_log10.png')
 smulog_plot_file = glob.glob(smulog_plot_file_path)[0]
+
+
+# Get the genome all profiling data
+profiling_data = [
+    ["Estimated Haploid Length", "Heterozygosity rate", "Kmer coverage", "Proposed ploidy"],
+    [genome_haploid_length, f"{heterozygous}%", round(kmercov_value, 2), proposed_ploidy]
+]
+
+# Transpose profiling data
+transposed_profiling_data = list(map(list, zip(*profiling_data)))
+
+# Create the summary table
+profiling_table = Table(transposed_profiling_data)
+profiling_table.setStyle(TableStyle([
+    ('BACKGROUND', (0, 0), (-1, -1), colors.white),
+    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+    ('FONTNAME', (0, 0), (-1, -1), 'Courier'),  # Use Courier font
+    ('FONTSIZE', (0, 0), (-1, -1), 12),
+    ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
+    ('GRID', (0, 0), (-1, -1), 0.5, colors.black)
+]))
 
 
 
@@ -408,6 +495,8 @@ cont_table_data.append(['Kmer compl.'] + [completeness_data.get((tool, haplotype
 for metric in ['BUSCO sing.', 'BUSCO dupl.', 'BUSCO frag.', 'BUSCO miss.']:
     cont_table_data.append([metric] + [busco_data[metric].get((tool, haplotype), '') for tool in contigging_data for haplotype in haplotypes if haplotype in contigging_data[tool]])
 
+
+# create table object and its atributes
 cont_table = Table(cont_table_data)
 
 cont_table.setStyle(TableStyle([
@@ -499,7 +588,6 @@ scaf_table = Table(scaf_table_data)
 
 scaf_table.setStyle(TableStyle([
     ('BACKGROUND', (0, 0), (-1, 0), '#d3d3d3'),  # grey background for the header
-#    ("BACKGROUND", (0, 0), (-1, -1), colors.white),
     ('ALIGN', (0, 0), (-1, -1), 'CENTER'),       # center alignment
     ('FONTNAME', (0, 0), (-1, -1), 'Courier'),  # bold font for the header
     ('FONTSIZE', (0, 0), (-1, -1), 10),           # font size
@@ -508,147 +596,6 @@ scaf_table.setStyle(TableStyle([
 ]))
 
 
-# SECTION 5 ------------------------------------------------------------------------------------
-
-## Get data for contamination plot and document ending
-
-# Get the current date and time in CET timezone
-now_utc = datetime.now(pytz.utc)
-cet = pytz.timezone("CET")
-now_cet = now_utc.astimezone(cet)
-date_time_str = now_cet.strftime("%Y-%m-%d %H:%M:%S %Z")
-    
-    
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-###################################################################################################
-
-# Set up the PDF file
-pdf_filename = f"{tol_id}_EAR.pdf"
-pdf = SimpleDocTemplate(pdf_filename, pagesize=A4)
-elements = []
-
-
-#### PLEASE DEFINE HERE ALL THE STYLES!!!!!!!!!!!
-styles = getSampleStyleSheet()
-title_style = ParagraphStyle(name='TitleStyle', fontName='Courier', fontSize=20)  # Define the custom style
-subtitle_style = ParagraphStyle(name='SubtitleStyle', fontName='Courier', fontSize=16)  # Define the custom style
-ver_paragraph_style = ParagraphStyle(name='VerStyle', fontName='Courier', fontSize=12)  # Define the custom style
-tags_paragraph_style = ParagraphStyle(name='TagsStyle', fontName='Courier', fontSize=12)  # Define the custom style
-
-
-# Add the title ---------------------------------
-title = Paragraph("ERGA Assembly Report", title_style)  # Apply the custom style to the Paragraph object
-elements.append(title)
-
-# Add a spacer
-elements.append(Spacer(1, 12))
-
-
-
-# Add version -----------------------------------
-ver_paragraph = Paragraph(EAR_version, ver_paragraph_style)  # Apply the custom style to the Paragraph object
-elements.append(ver_paragraph)
-
-# Add a spacer
-elements.append(Spacer(1, 12))
-
-
-
-# Add tags --------------------------------------
-tags_paragraph = Paragraph(f"Tags: {tags}", tags_paragraph_style)  # Apply the custom style to the Paragraph object
-elements.append(tags_paragraph)
-
-# Add a spacer
-elements.append(Spacer(1, 24))
-
-
-
-# Make species data table ----------------------#
-sp_data = [
-    ["ToLID", "Species", "Class", "Order", "Haploid Number", "Ploidy"],
-    [tol_id, species, class_name, order_name, f"{haploid_number} (source: {haploid_source})", ploidy]
-]
-
-# Transpose the data
-transposed_sp_data = list(map(list, zip(*sp_data)))
-
-# Create the table with the transposed data
-sp_data_table = Table(transposed_sp_data)
-
-# Style the table
-sp_data_table.setStyle(TableStyle([
-    ("BACKGROUND", (0, 0), (-1, -1), colors.white),
-    ("ALIGN", (0, 0), (-1, -1), "CENTER"),
-    ('FONTNAME', (0, 0), (0, 0), 'Courier'),  # regular font for row1, col1
-    ('FONTNAME', (1, 0), (1, 0), 'Courier-Bold'),  # bold font for row1, col2
-    ('FONTNAME', (0, 1), (-1, -1), 'Courier'),  # regular font for the rest of the table
-    ("FONTSIZE", (0, 0), (-1, -1), 12),
-    ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
-    ("GRID", (0, 0), (-1, -1), 0.5, colors.black)
-]))
-
-# Add the table to the elements
-elements.append(sp_data_table)
-
-# Add spacer
-elements.append(Spacer(1, 32))
-
-
-
-# Add data profile section subtitle -------------
-subtitle = Paragraph("Data profile", subtitle_style)  # Apply the custom style to the Paragraph object
-elements.append(subtitle)
-
-# Add a spacer
-elements.append(Spacer(1, 24))
-
-# Add DATA table 
-# create the table
-data_table = Table(reads_data_table)
-
-# Style the table
-data_table.setStyle(TableStyle([
-    ('BACKGROUND', (0, 0), (-1, 0), '#d3d3d3'),  # grey background for the header
-    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),       # center alignment
-    ('FONTNAME', (0, 0), (-1, -1), 'Courier'),  # bold font for the header
-    ('FONTSIZE', (0, 0), (-1, -1), 12),           # font size for the header
-    ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
-    ("GRID", (0, 0), (-1, -1), 0.5, colors.black)
-]))
-
-elements.append(data_table)
-
-
-# Add spacer
-elements.append(Spacer(1, 32))
-
-# Add pipeline section subtitle -----------------
-subtitle = Paragraph("Pipeline summary", subtitle_style)  # Apply the custom style to the Paragraph object
-elements.append(subtitle)
-
-# Add a spacer
-elements.append(Spacer(1, 24))
 
 # Make "pipeline" table with all tools and versions 
     
@@ -676,46 +623,124 @@ pipeline_table.setStyle(TableStyle([
     ("GRID", (0, 0), (-1, -1), 0.5, colors.black)
 ]))
 
+
+
+# SECTION 5 ------------------------------------------------------------------------------------
+
+## Get data for contamination plot [THIS IS CURRENTLY NOT PART OF THE REPORT] 
+
+# Get the current date and time in CET timezone
+now_utc = datetime.now(pytz.utc)
+cet = pytz.timezone("CET")
+now_cet = now_utc.astimezone(cet)
+date_time_str = now_cet.strftime("%Y-%m-%d %H:%M:%S %Z")
+
+
+
+###################################################################################################
+
+# Set up the PDF file
+pdf_filename = f"{tol_id}_EAR.pdf"
+pdf = SimpleDocTemplate(pdf_filename, pagesize=A4)
+elements = []
+
+
+# Set all the styles
+styles = getSampleStyleSheet()
+styles.add(ParagraphStyle(name='TitleStyle', fontName='Courier', fontSize=20))
+styles.add(ParagraphStyle(name='subTitleStyle', fontName='Courier', fontSize=16))
+styles.add(ParagraphStyle(name='normalStyle', fontName='Courier', fontSize=12))
+styles.add(ParagraphStyle(name='miniStyle', fontName='Courier', fontSize=8))
+styles.add(ParagraphStyle(name='FileNameStyle', fontName='Courier', fontSize=6))
+#title_style = ParagraphStyle(name='TitleStyle', fontName='Courier', fontSize=20)
+#subtitle_style = ParagraphStyle(name='SubtitleStyle', fontName='Courier', fontSize=16)
+#normal_text_style = ParagraphStyle(name='normalStyle', fontName='Courier', fontSize=12)
+#small_text_style = ParagraphStyle(name='SmallStyle', fontName='Courier', fontSize=8)
+#custom_style = ParagraphStyle(name='CustomStyle', parent=getSampleStyleSheet()['Normal'], fontName='Courier', fontSize=8)
+#styles.add(ParagraphStyle(name='TitleStyle', fontSize=12, fontName='Courier'))
+
+
+
+# Add the title ---------------------------------
+title = Paragraph("ERGA Assembly Report", styles['TitleStyle'])  # Apply the custom style to the Paragraph object
+elements.append(title)
+
+# Add a spacer
+elements.append(Spacer(1, 12))
+
+# Add version -----------------------------------
+ver_paragraph = Paragraph(EAR_version, styles['normalStyle'])  # Apply the custom style to the Paragraph object
+elements.append(ver_paragraph)
+
+# Add a spacer
+elements.append(Spacer(1, 12))
+
+# Add tags --------------------------------------
+tags_paragraph = Paragraph(f"Tags: {tags}", styles['normalStyle'])  # Apply the custom style to the Paragraph object
+elements.append(tags_paragraph)
+
+# Add a spacer
+elements.append(Spacer(1, 24))
+
+
+
+# Add species table
+elements.append(sp_data_table)
+
+# Add spacer
+elements.append(Spacer(1, 32))
+
+
+
+# Add data profile section subtitle -------------
+subtitle = Paragraph("Data profile", styles['TitleStyle'])  # Apply the custom style to the Paragraph object
+elements.append(subtitle)
+
+# Add a spacer
+elements.append(Spacer(1, 24))
+
+# Add data table
+elements.append(data_table)
+
+# Add spacer
+elements.append(Spacer(1, 32))
+
+
+
+# Add pipeline section subtitle -----------------
+subtitle = Paragraph("Pipeline summary", styles['TitleStyle'])  # Apply the custom style to the Paragraph object
+elements.append(subtitle)
+
+# Add a spacer
+elements.append(Spacer(1, 24))
+
+# Add pipeline table
 elements.append(pipeline_table)
 
 
 # Add page break
 elements.append(PageBreak())
 
+
+
 # -----------------------------------------------------------------------------
 
-# Add genome profiling section subtitle ---------
-subtitle = Paragraph("Genome profiling", subtitle_style)  # Apply the custom style to the Paragraph object
+# Add genome profiling section subtitle
+subtitle = Paragraph("Genome profiling", styles['TitleStyle'])  # Apply the custom style to the Paragraph object
 elements.append(subtitle)
 
 # Add spacer
 elements.append(Spacer(1, 24))
 
-# Get the genome profiling data
-profiling_data = [
-    ["Estimated Haploid Length", "Heterozygosity rate", "Kmer coverage", "Proposed ploidy"],
-    [genome_haploid_length, f"{heterozygous}%", round(kmercov_value, 2), proposed_ploidy]
-]
 
-# Transpose profiling data
-transposed_profiling_data = list(map(list, zip(*profiling_data)))
 
-# Create the summary table
-profiling_table = Table(transposed_profiling_data)
-profiling_table.setStyle(TableStyle([
-    ('BACKGROUND', (0, 0), (-1, -1), colors.white),
-    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-    ('FONTNAME', (0, 0), (-1, -1), 'Courier'),  # Use Courier font
-    ('FONTSIZE', (0, 0), (-1, -1), 12),
-    ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
-    ('GRID', (0, 0), (-1, -1), 0.5, colors.black)
-]))
-
-# Add the summary table
+# Add the profiling table
 elements.append(profiling_table)
 
 # Add a spacer before the summary table
 elements.append(Spacer(1, 12))
+
+
 
 # Add Genomescope images side by side
 lin_plot = Image(lin_plot_file, width=9 * cm, height=9 * cm)
@@ -730,6 +755,8 @@ elements.append(image_table)
 # Add a spacer
 elements.append(Spacer(1, 12))
 
+
+
 # Add Smudgeplot images side by side
 smu_plot = Image(smu_plot_file, width=9 * cm, height=9 * cm)
 smulog_plot = Image(smulog_plot_file, width=9 * cm, height=9 * cm)
@@ -740,18 +767,22 @@ image_table.setStyle(TableStyle([
 
 elements.append(image_table)
 
+
 # Add page break
 elements.append(PageBreak())
 
-######################################
+
+
+# -----------------------------------------------------------------------------
 
 # Add contigging section subtitle
-subtitle = Paragraph("Genome assembly: contigging", subtitle_style)  # Apply the custom style to the Paragraph object
+subtitle = Paragraph("Genome assembly: contigging", styles['TitleStyle'])
 elements.append(subtitle)
 
 # Add a spacer 
 elements.append(Spacer(1, 48))
 
+# Add contigging table
 elements.append(cont_table)
 
 # Add a spacer
@@ -767,39 +798,24 @@ for tool, tool_properties in contigging_data.items():
                 if lineage_info:
                     lineage_info_list.append(lineage_info)
 
-                   
-                
-custom_style = ParagraphStyle(
-    name='CustomStyle',
-    parent=getSampleStyleSheet()['Normal'],
-    fontName='Courier',
-    fontSize=8,
-)
 
 # Check if all elements in the list are identical
 if lineage_info_list.count(lineage_info_list[0]) == len(lineage_info_list):
     lineage_name, num_genomes, num_buscos = lineage_info_list[0]
-    elements.append(Paragraph(f"Lineage: {lineage_name} (genomes:{num_genomes}, BUSCOs:{num_buscos})", custom_style))
+    elements.append(Paragraph(f"Lineage: {lineage_name} (genomes:{num_genomes}, BUSCOs:{num_buscos})", styles['miniStyle']))
 else:
-    elements.append(Paragraph("Warning: BUSCO lineage datasets are not the same across results", custom_style))
+    elements.append(Paragraph("Warning: BUSCO lineage datasets are not the same across results", styles['miniStyle']))
 
 
 # Add page break
 elements.append(PageBreak())
 
-######################################
 
-# Get default style set
-styles = getSampleStyleSheet()
-
-# Create custom styles
-styles.add(ParagraphStyle(name='TitleStyle', parent=styles['Heading1'], fontSize=12, fontName='Courier'))
-styles.add(ParagraphStyle(name='FileNameStyle', parent=styles['BodyText'], fontSize=6, fontName='Courier'))
-
+# -------------------------------------
 # Initialize counter
 counter = 0
 
-# Add title and images for each tool
+# Add title and images for each step
 for idx, (tool, tool_properties) in enumerate(contigging_data.items(), 1):
     # Print tool title
     elements.append(Paragraph(f"K-mer spectra: {tool}", styles["TitleStyle"]))
@@ -840,15 +856,18 @@ for idx, (tool, tool_properties) in enumerate(contigging_data.items(), 1):
 if counter % 8 != 0:
     elements.append(PageBreak())
 
-######################################
+
+
+# -----------------------------------------------------------------------------
 
 # Add scaffolding section subtitle
-subtitle = Paragraph("Genome assembly: scaffolding", subtitle_style)  # Apply the custom style to the Paragraph object
+subtitle = Paragraph("Genome assembly: scaffolding", styles['TitleStyle'])
 elements.append(subtitle)
 
 # Add a spacer 
 elements.append(Spacer(1, 48))
 
+# Add scaffolding table
 elements.append(scaf_table)
 
 # Add a spacer
@@ -876,18 +895,21 @@ custom_style = ParagraphStyle(
 # Check if all elements in the list are identical
 if lineage_info_list.count(lineage_info_list[0]) == len(lineage_info_list):
     lineage_name, num_genomes, num_buscos = lineage_info_list[0]
-    elements.append(Paragraph(f"Lineage: {lineage_name} (genomes:{num_genomes}, BUSCOs:{num_buscos})", custom_style))
+    elements.append(Paragraph(f"Lineage: {lineage_name} (genomes:{num_genomes}, BUSCOs:{num_buscos})", styles['miniStyle']))
 else:
-    elements.append(Paragraph("Warning: BUSCO lineage datasets are not the same across results", custom_style))
+    elements.append(Paragraph("Warning: BUSCO lineage datasets are not the same across results", styles['miniStyle']))
 
 
 # Add page break
 elements.append(PageBreak())
 
-######################################
 
-# Add title and images for each tool
+
+# -------------------------------------
+# Initialize counter
 tool_count = 0
+
+# Add title and images for each step
 for idx, (tool, tool_properties) in enumerate(scaffolding_data.items(), 1):
     # Print tool title
     elements.append(Paragraph(f"Pretext Full Map: {tool}", styles["TitleStyle"]))
@@ -920,7 +942,7 @@ for idx, (tool, tool_properties) in enumerate(scaffolding_data.items(), 1):
         elements.append(table)
     else:
         # If there are no images, print "Data not available"
-        elements.append(Paragraph("Data not available", custom_style))
+        elements.append(Paragraph("Data not available", styles['miniStyle']))
 
     # Add spacer
     elements.append(Spacer(1, 12))
@@ -932,11 +954,7 @@ for idx, (tool, tool_properties) in enumerate(scaffolding_data.items(), 1):
 
 
 
-
-
-
-######################################
-
+# -----------------------------------------------------------------------------
 
 # Add submitter, affiliation
 submitter_paragraph_style = ParagraphStyle(name='SubmitterStyle', fontName='Courier', fontSize=10)
@@ -952,8 +970,5 @@ current_datetime = datetime.now(cet)
 formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S %Z")
 elements.append(Paragraph(f"Date and time (CET): {formatted_datetime}", submitter_paragraph_style))
 
-
 # Build the PDF
 pdf.build(elements)
-
-

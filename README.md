@@ -1,10 +1,10 @@
 # EAR 👂 (ERGA Assembly Report)
 
-Here you will find genome assembly reports approved by the ERGA Sequencing and Assembly Committee and instructions on how to create one for getting your assembly assessed
+Here you will find genome assembly reports approved by the [ERGA Sequencing and Assembly Committee]() and instructions on how to create one for getting your assembly assessed
 
 ### Reviewing your assembly before curation
 
-After completing the [assembly pipeline]() to obtain the final pre-curated assembly of your species of interest, please generate the corresponding ERGA Assembly Report (EAR) to get the go-ahead to continue with the manual curation process.
+After completing the [assembly pipeline]() to obtain the final pre-curated assembly of your species of interest, please generate the corresponding ERGA Assembly Report (EAR) to get the _go-ahead_ to continue with the manual curation process.
 
 The report is a PDF file showing relevant metrics during the stages of the assembly process that reviewers will use to confirm that the assembly meets the EBP quality metrics.
 

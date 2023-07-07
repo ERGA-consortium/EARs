@@ -10,7 +10,7 @@ The report is a PDF file showing relevant metrics during the stages of the assem
 
 Which results do I need for the EAR?
 - Genomescope and Smudgeplot from your WGS accurate reads.
-- gfastats, Merqury and BUSCO results at every assembly step (for both -pseudo-haplotypes, if available)
+- [gfastats](https://github.com/vgl-hub/gfastats), [Merqury](https://github.com/marbl/merqury) and [BUSCO](https://gitlab.com/ezlab/busco) results at every assembly step (for both -pseudo-haplotypes, if available)
 - HiC contact maps for the scaffolding step(s) (for both -pseudo-haplotypes, if available)
 
 
@@ -19,10 +19,10 @@ Which results do I need for the EAR?
 ### 1. Creating your EAR
 
 We provide three ways to produce the EAR:
-1. If you have the required results, you can complete the YAML file and run the `make_EAR.py` script. We recommend installing the provided conda environment to handle the program's requirements easily. Clone this repository to obtain all the required files.
+1. If you have the required results, you can complete the YAML file (take a look at [EAR_basic_template.yaml](EAR_basic_template.yaml) and [[example]rCarCar2_EAR.yaml files]([example]rCarCar2_EAR.yaml) and run the `make_EAR.py` script. We recommend installing the provided conda environment to handle the program's requirements easily. Clone this repository to obtain all the required files.
 
 ```bash
-# Complete the YAML file for your species: take a look at EAR_basic_template.yaml and [example]rCarCar2_EAR.yaml files
+# Complete the YAML file for your species
 
 # Creating the EAR environment to run the script
 conda env create -f EAR_env.yml

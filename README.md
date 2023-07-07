@@ -19,7 +19,7 @@ Which results do I need for the EAR?
 ### 1. Creating your EAR
 
 We provide three ways to produce the EAR:
-a. If you have the required results, you can complete the [YAML file]() and run the `make_EAR.py` script. We recommend installing the provided conda environment to handle the program's requirements easily. Clone this repository to obtain all the required files.
+1. If you have the required results, you can complete the [YAML file]() and run the `make_EAR.py` script. We recommend installing the provided conda environment to handle the program's requirements easily. Clone this repository to obtain all the required files.
 
 ```bash
 # Complete the YAML file for your species: take a look at EAR_basic_template.yaml and [example]rCarCar2_EAR.yaml files
@@ -31,9 +31,9 @@ conda env create -f EAR_env.yml
 python make_EAR.py mySpecies_EAR.yaml
 ```
 
-b. [in preparation] Using the "Galaxy ERGA Assembly Review (EAR) Analysis + Report workflow" to run all the QC analysis on the different stages of the assembly pipeline and get the report at the end.
+2. [in preparation] Using the "Galaxy ERGA Assembly Review (EAR) Analysis + Report workflow" to run all the QC analysis on the different stages of the assembly pipeline and get the report at the end.
 If you are not already using Galaxy to produce your genome assembly, you will need to "create Galaxy account" (with enough space, you can ask) and upload all your assemblies and reads (WGS accurate reads for Kmer database creation and HiC for contact map).
-c. [in preparation] Using the [snakemake-based tool GEP](). By means of this pipeline, you can run all the analysis in one take and obtain the YAML file to immediately run the `make_EAR.py` script (before running the script, you would only need to edit the YAML file to enter information like affiliation, etc.).
+3. [in preparation] Using the [snakemake-based tool GEP](). By means of this pipeline, you can run all the analysis in one take and obtain the YAML file to immediately run the `make_EAR.py` script (before running the script, you would only need to edit the YAML file to enter information like affiliation, etc.).
 
 
 ### 2. Getting your assembly reviewed using the EAR

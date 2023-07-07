@@ -61,12 +61,12 @@ SCAFFOLDING:
       gfastats--nstar-report_txt: /Users/home/rCarCar2/GEP/bionano_hap1/ASSEMBLY_STATISTICS/bion_hap1_gfastats.txt
       busco_short_summary_txt: /Users/home/rCarCar2/GEP/bionano_hap1/BUSCOs/bio_hap1/short_summary.specific.sauropsida_odb10.bio_hap1.txt
       merqury_folder: /Users/home/rCarCar2/GEP/bionano_hap1/QV.KMER-COMPLETENESS.CN-SPECTRA
-      pretext_FullMap_png: 
+      pretext_FullMap_png: # empty because results was not available for this step
     hap2:
       gfastats--nstar-report_txt: /Users/home/rCarCar2/GEP/bionano_hap2/ASSEMBLY_STATISTICS/bion_hap2_gfastats.txt
       busco_short_summary_txt: /Users/home/rCarCar2/GEP/bionano_hap2/BUSCOs/bio_hap2/short_summary.specific.sauropsida_odb10.bio_hap2.txt
       merqury_folder: /Users/home/rCarCar2/GEP/bionano_hap1/QV.KMER-COMPLETENESS.CN-SPECTRA
-      pretext_FullMap_png:
+      pretext_FullMap_png: # empty because results was not available for this step
 
   YaHS:
     version: 1.1

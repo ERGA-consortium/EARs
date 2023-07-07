@@ -1,6 +1,6 @@
 # EAR 👂 (ERGA Assembly Report)
 
-Here you will find assembly reports approved by the [ERGA Sequencing and Assembly Committee](https://www.erga-biodiversity.eu/team-1/sac---sequencing-and-assembly-committee) and instructions on how to create one for getting your assembly assessed
+Here you will find assembly reports approved by the [ERGA Sequencing and Assembly Committee](https://www.erga-biodiversity.eu/team-1/sac---sequencing-and-assembly-committee) and instructions on how to create one for getting your assembly assessed.
 
 ### Reviewing your assembly before curation
 
@@ -10,8 +10,8 @@ The report is a PDF file showing relevant metrics during the stages of the assem
 
 Which results do I need for the EAR?
 - Genomescope and Smudgeplot from your WGS accurate reads.
-- [gfastats](https://github.com/vgl-hub/gfastats), [Merqury](https://github.com/marbl/merqury) and [BUSCO](https://gitlab.com/ezlab/busco) results at every assembly step (for both -pseudo-haplotypes, if available)
-- HiC contact maps for the scaffolding step(s) (for both -pseudo-haplotypes, if available)
+- [gfastats](https://github.com/vgl-hub/gfastats), [Merqury](https://github.com/marbl/merqury) and [BUSCO](https://gitlab.com/ezlab/busco) results at every assembly step (for both -pseudo-haplotypes, if available).
+- HiC contact maps for the scaffolding step(s) (for both -pseudo-haplotypes, if available).
 
 
 ## Getting there is a two-part job:
@@ -38,20 +38,20 @@ If you are not already using Galaxy to produce your genome assembly, you will ne
 
 ### 2. Getting your assembly reviewed using the EAR
 
-Fork this repository and create a folder and subfolder with your species name and ToLID, respectively, and place your EAR pdf inside, e.g., `Caretta_caretta/rCarCar2/rCarCar2_EAR.pdf`
+Fork this repository and create a folder and subfolder with your species name and ToLID, respectively, and place your EAR pdf inside, e.g., `Caretta_caretta/rCarCar2/rCarCar2_EAR.pdf`.
 
 [image]
 
-Create a pull request so the reviewers can assess your assembly using the EAR
+Create a pull request so the reviewers can assess your assembly using the EAR.
 
 [image]
 
-Once the pull request is placed, two independent reviewers will evaluate your report, and a channel of communication will be established based on this
+Once the pull request is placed, two independent reviewers will evaluate your report, and a channel of communication will be established based on this.
 
 [image]
 
-If everything looks good, the assembly will be approved to continue to the manual curation stage, and the EAR will be part of the stable ERGA repository of reports
+If everything looks good, the assembly will be approved to continue to the manual curation stage, and the EAR will be part of the stable ERGA repository of reports.
 
-If the reviewer thinks something should be clarified, addressed or corrected, it will be requested through the communication channel open during the pull request
+If the reviewer thinks something should be clarified, addressed or corrected, it will be requested through the communication channel open during the pull request.
 
 [image]

@@ -1,6 +1,6 @@
 # EAR 👂 (ERGA Assembly Report)
 
-Here you will find assembly reports approved by the [ERGA Sequencing and Assembly Committee](https://www.erga-biodiversity.eu/team-1/sac---sequencing-and-assembly-committee) and instructions on *how to create one for getting your assembly assessed*.
+Here you will find assembly reports approved by the [ERGA Sequencing and Assembly Committee](https://www.erga-biodiversity.eu/team-1/sac---sequencing-and-assembly-committee) and instructions on **how to create one for getting your assembly assessed**.
 
 ### Reviewing your assembly before curation
 

@@ -52,6 +52,6 @@ Once the pull request is placed, two independent reviewers will evaluate your re
 
 If everything looks good, the assembly will be approved to continue to the manual curation stage, and the EAR will be part of the stable ERGA repository of reports
 
-If the reviewer thinks something should be clarified, addressed or corrected, it will be requested through the communication channel open during the pull request.
+If the reviewer thinks something should be clarified, addressed or corrected, it will be requested through the communication channel open during the pull request
 
 [image]

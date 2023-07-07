@@ -1,8 +1,8 @@
 # EAR 👂 (ERGA Assembly Report)
 
-Here you will find assembly reports approved by the [ERGA Sequencing and Assembly Committee](https://www.erga-biodiversity.eu/team-1/sac---sequencing-and-assembly-committee) and instructions on **how to create one for getting your assembly reviewed**.
+Here you will find assembly reports approved by the [ERGA Sequencing and Assembly Committee](https://www.erga-biodiversity.eu/team-1/sac---sequencing-and-assembly-committee) and instructions on **how to create one to get your assembly reviewed and approved**.
 
-### Reviewing your assembly before curation
+### Assessing your assembly before curation
 
 After completing the [assembly pipeline](https://github.com/ERGA-consortium/pipelines) to obtain the final pre-curated assembly of your species of interest, please generate the corresponding ERGA Assembly Report (EAR) to get the _go-ahead_ to continue with the manual curation process.
 

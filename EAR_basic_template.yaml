@@ -13,7 +13,7 @@ Tag: <Insert tag> # valid tags are ERGA-Pilot, ERGA-BGE, ERGA-Satellite
 
 # SEQUENCING DATA
 DATA:
-      - <Insert data type>: <insert data coverage> # coverage is not available, leave it empty
+      - <Insert data type>: <insert data coverage> # if coverage is not available, leave it empty
 
 
 

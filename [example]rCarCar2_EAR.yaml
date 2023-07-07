@@ -80,13 +80,3 @@ SCAFFOLDING:
       busco_short_summary_txt: /Users/home/rCarCar2/GEP/yahs_hap2/BUSCOs/yah_hap2/short_summary.specific.sauropsida_odb10.yah_hap2.txt
       merqury_folder: /Users/home/rCarCar2/GEP/yahs_hap1/QV.KMER-COMPLETENESS.CN-SPECTRA
       pretext_FullMap_png: /Users/home/rCarCar2/GEP/yahs_hap2/PRETEXT/yahs_hap2FullMap.png
-
-
-
-# CONTAMINATION SCREENING:
-#SCREENING:
-#  Blobtools:
-#    version: 
-#    db_version: 
-#    hap1:
-#    hap2:

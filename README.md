@@ -16,7 +16,7 @@ Which results do I need for the EAR?
 
 ## Getting there is a two-part job:
 
-### A. Creating your EAR
+### 1. Creating your EAR
 
 We provide three ways to produce the EAR:
 1. If you have the required results, you can complete the [YAML file]() and run the `make_EAR.py` script. We recommend installing the provided conda environment to handle the program's requirements easily. Clone this repository to obtain all the required files.
@@ -36,7 +36,7 @@ If you are not already using Galaxy to produce your genome assembly, you will ne
 3. [in preparation] Using the [snakemake-based tool GEP](). By means of this pipeline, you can run all the analysis in one take and obtain the YAML file to immediately run the `make_EAR.py` script (before running the script, you would only need to edit the YAML file to enter information like affiliation, etc.).
 
 
-### B. Getting your assembly reviewed using the EAR
+### 2. Getting your assembly reviewed using the EAR
 
 Fork this repository and create a folder and subfolder with your species name and ToLID, respectively, and place your EAR pdf inside, e.g., `Caretta_caretta/rCarCar2/rCarCar2_EAR.pdf`
 

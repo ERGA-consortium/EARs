@@ -6,8 +6,7 @@ Here you will find assembly reports approved by the [ERGA Sequencing and Assembl
 
 After completing the [assembly pipeline](https://github.com/ERGA-consortium/pipelines) to obtain the final pre-curated assembly of your species of interest, please generate the corresponding ERGA Assembly Report (EAR) to get the _go-ahead_ to continue with the manual curation process.
 
-[The report is a PDF file]([EARs/[example]Caretta_caretta/[example]rCarCar2
-/[example]rCarCar2_EAR.pdf](https://github.com/ERGA-consortium/EARs/blob/97200597f85012b252371722b1095db89156c105/%5Bexample%5DCaretta_caretta/%5Bexample%5DrCarCar2/%5Bexample%5DrCarCar2_EAR.pdf)) showing relevant metrics during the stages of the assembly process that reviewers will use to confirm that the assembly meets the [EBP quality metrics]().
+[The report is a PDF file](https://github.com/ERGA-consortium/EARs/blob/97200597f85012b252371722b1095db89156c105/%5Bexample%5DCaretta_caretta/%5Bexample%5DrCarCar2/%5Bexample%5DrCarCar2_EAR.pdf) showing relevant metrics during the stages of the assembly process that reviewers will use to confirm that the assembly meets the [EBP quality metrics]().
 
 Which results do I need for the EAR?
 - [Genomescope](https://github.com/tbenavi1/genomescope2.0) and [Smudgeplot](https://github.com/KamilSJaron/smudgeplot) from your WGS accurate reads.

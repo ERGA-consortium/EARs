@@ -32,7 +32,7 @@ python make_EAR.py mySpecies_EAR.yaml
 ```
 
 2. [in preparation] Using the [Galaxy ERGA Assembly Review (EAR) Analysis + Report workflow]() to run all the QC analysis on the different stages of the assembly pipeline and get the report at the end.
-If you are not already using Galaxy to produce your genome assembly, you will need to "create Galaxy account" (with enough space, you can ask) and upload all your assemblies and reads (WGS accurate reads for Kmer database creation and HiC for contact map).
+If you are not already using Galaxy to produce your genome assembly, you will need to [create Galaxy account](https://usegalaxy.eu/login/start?redirect=None) (with enough space, you can [request the necessary quota for your project](https://docs.google.com/forms/d/e/1FAIpQLSf9w2MOS6KOlu9XdhRSDqWnCDkzoVBqHJ3zH_My4p8D8ZgkIQ/viewform)) and upload all your assemblies and reads (WGS accurate reads for Kmer database creation and HiC for contact map).
 3. [in preparation] Using the [snakemake-based tool GEP](). By means of this pipeline, you can run all the QC analysis in one take and obtain the YAML file to immediately run the `make_EAR.py` script (before running the script, you would only need to edit the YAML file to enter information like affiliation, etc.).
 
 

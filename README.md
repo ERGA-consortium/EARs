@@ -55,3 +55,7 @@ If everything looks good, the assembly will be approved to continue to the manua
 If the reviewer thinks something should be clarified, addressed or corrected, it will be requested through the communication channel open during the pull request.
 
 [image]
+
+---
+
+⚠️ If you have problems creating the EAR or during the pull request, please write an issue to open a communication channel.

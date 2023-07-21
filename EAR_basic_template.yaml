@@ -22,7 +22,7 @@ PROFILING:
   GenomeScope:
     version: <Insert GenomeScope version>
     results_folder: <Insert GenomeScope results folder path>
-  Smudgeplot:
+  Smudgeplot: # if Smudgeplot data is not available, leave it empty or remove the section
     version: <Insert Smudgeplot version>
     results_folder: <Insert Smudgeplot results folder path>
 

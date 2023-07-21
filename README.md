@@ -9,7 +9,7 @@ After completing the [assembly pipeline](https://github.com/ERGA-consortium/pipe
 [The report is a PDF file](https://github.com/ERGA-consortium/EARs/blob/97200597f85012b252371722b1095db89156c105/%5Bexample%5DCaretta_caretta/%5Bexample%5DrCarCar2/%5Bexample%5DrCarCar2_EAR.pdf) showing relevant metrics during the stages of the assembly process that reviewers will use to confirm that the assembly meets the [EBP quality metrics]().
 
 Which results do I need for the EAR?
-- [Genomescope](https://github.com/tbenavi1/genomescope2.0) and [Smudgeplot](https://github.com/KamilSJaron/smudgeplot) from your WGS accurate reads.
+- [Genomescope](https://github.com/tbenavi1/genomescope2.0) (mandatory) and [Smudgeplot](https://github.com/KamilSJaron/smudgeplot) (optional, but recommended) from your WGS accurate reads.
 - [gfastats](https://github.com/vgl-hub/gfastats), [Merqury](https://github.com/marbl/merqury) and [BUSCO](https://gitlab.com/ezlab/busco) results at every assembly step (for both -pseudo-haplotypes, if available).
 - HiC contact maps for the scaffolding step(s) (for both -pseudo-haplotypes, if available).
 

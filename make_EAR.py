@@ -2,7 +2,7 @@
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
 
-EAR_version = "v07.07.23_beta"
+EAR_version = "v21.07.23_beta"
 
 import sys
 import argparse
@@ -195,20 +195,31 @@ def make_report(yaml_file):
     tools = ['GenomeScope', 'Smudgeplot']
     required_fields = ['results_folder']
 
+    smudgeplot_folder = None  # Initialize smudgeplot_folder to None
+
     # Loop through the required tools
     for tool in tools:
         tool_data = profiling_data.get(tool)
 
         # Check if tool data is present
         if not tool_data:
-            logging.error(f"# PROFILING section in the yaml file is missing or empty for {tool} information.")
-            sys.exit(1)
+            if tool == 'Smudgeplot':
+                logging.warning(f"# PROFILING section in the yaml file is missing or empty for {tool} information. Skipping {tool}.")
+                continue
+            else:
+                logging.error(f"# PROFILING section in the yaml file is missing or empty for {tool} information.")
+                sys.exit(1)
 
         # Check for required fields and log an error message if any are missing
         for field in required_fields:
             if not tool_data.get(field):
-                logging.error(f"# {tool} information in the PROFILING section in the yaml file is missing or empty for {field} information.")
-                sys.exit(1)
+                if tool == 'Smudgeplot':
+                    logging.warning(f"# {tool} information in the PROFILING section in the yaml file is missing or empty for {field} information. Skipping {tool}.")
+                    break
+                else:
+                    logging.error(f"# {tool} information in the PROFILING section in the yaml file is missing or empty for {field} information.")
+                    sys.exit(1)
+
 
         # Get version if it's there, otherwise assign 'NA'
         tool_version = tool_data.get('version', 'NA')
@@ -249,23 +260,29 @@ def make_report(yaml_file):
     log_plot_file = glob.glob(log_plot_file_path)[0]
 
     # Read the content of the smudgeplot_verbose_summary.txt file
-    smud_summary_file_path = os.path.join(smudgeplot_folder, '*verbose_summary.txt')
-    smud_summary_file = glob.glob(smud_summary_file_path)[0]
-    with open(smud_summary_file, "r") as f:
-        smud_summary_txt = f.readlines()
+    smu_plot_file = 'NA'
 
-    for line in smud_summary_txt:
-        if line.startswith("* Proposed ploidy"):
-            proposed_ploidy = line.split(":")[1].strip()
+    if smudgeplot_folder is not None:
+        smud_summary_file_path = os.path.join(smudgeplot_folder, '*verbose_summary.txt')
+        smud_summary_file = glob.glob(smud_summary_file_path)[0]
+        with open(smud_summary_file, "r") as f:
+            smud_summary_txt = f.readlines()
 
-    # Get the paths of smudgeplots pngs
-    smu_plot_file_path = os.path.join(smudgeplot_folder, '*smudgeplot.png')
-    smu_plot_file = glob.glob(smu_plot_file_path)[0]
-    smulog_plot_file_path = os.path.join(smudgeplot_folder, '*smudgeplot_log10.png')
-    smulog_plot_file = glob.glob(smulog_plot_file_path)[0]
+        for line in smud_summary_txt:
+            if line.startswith("* Proposed ploidy"):
+                proposed_ploidy = line.split(":")[1].strip()
 
+        # Get the paths of smudgeplots pngs
+        smu_plot_file_path = os.path.join(smudgeplot_folder, '*smudgeplot.png')
+        smu_plot_file = glob.glob(smu_plot_file_path)[0]
+        smulog_plot_file_path = os.path.join(smudgeplot_folder, '*smudgeplot_log10.png')
+        smulog_plot_file = glob.glob(smulog_plot_file_path)[0]
 
-    # Get the genome all profiling data
+    else:
+        proposed_ploidy = 'NA'
+        smu_plot_file = None
+
+        # Get the genome all profiling data
     profiling_data = [
         ["Estimated Haploid Length", "Heterozygosity rate", "Kmer coverage", "Proposed ploidy"],
         [genome_haploid_length, f"{heterozygous}%", round(kmercov_value, 2), proposed_ploidy]
@@ -288,6 +305,20 @@ def make_report(yaml_file):
 
 
     # Functions for Genome assembly sections --------------------------------------
+
+    def format_number(value):
+        try:
+            value_float = float(value)
+            if value_float.is_integer():
+                # format as an integer if no decimal part
+                return f'{int(value_float):,}'
+            else:
+                # format as a float
+                return f'{value_float:,}'
+        except ValueError:
+            # return the original value if it can't be converted to a float
+            return value
+
 
     # extract gfastats values
     def extract_gfastats_values(content, keys):
@@ -325,7 +356,7 @@ def make_report(yaml_file):
     gaps_index = keys.index("# gaps in scaffolds")
     total_length_index = keys.index("Total scaffold length")
 
-
+    
     # extract qv values
     def get_qv_value(dir_path, order, tool, haplotype):
         try:
@@ -436,11 +467,11 @@ def make_report(yaml_file):
     # Fill the table with the gfastats data
     for i in range(len(display_names)):
         metric = display_names[i]
-        cont_table_data.append([metric] + [gfastats_data.get((tool, haplotype), [''])[i] if (tool, haplotype) in gfastats_data else '' for tool in contigging_data for haplotype in haplotypes if haplotype in contigging_data[tool]])
+        cont_table_data.append([metric] + [format_number(gfastats_data.get((tool, haplotype), [''])[i]) if (tool, haplotype) in gfastats_data else '' for tool in contigging_data for haplotype in haplotypes if haplotype in contigging_data[tool]])
 
     # Add the gaps/gbp in between
     gap_length_index = display_names.index("Gaps bp")
-    cont_table_data.insert(gap_length_index + 1, ['Gaps/Gbp'] + [gaps_per_gbp_data.get((tool, haplotype), '') for tool in contigging_data for haplotype in haplotypes if haplotype in contigging_data[tool]])
+    cont_table_data.insert(gap_length_index + 1, ['Gaps/Gbp'] + [format_number(gaps_per_gbp_data.get((tool, haplotype), '')) for tool in contigging_data for haplotype in haplotypes if haplotype in contigging_data[tool]])
 
 
     # get QV, Kmer completeness and BUSCO data   
@@ -525,11 +556,11 @@ def make_report(yaml_file):
     # Fill the table with the gfastats data
     for i in range(len(display_names)):
         metric = display_names[i]
-        scaf_table_data.append([metric] + [gfastats_data.get((tool, haplotype), [''])[i] if (tool, haplotype) in gfastats_data else '' for tool in scaffolding_data for haplotype in haplotypes if haplotype in scaffolding_data[tool]])
+        scaf_table_data.append([metric] + [format_number(gfastats_data.get((tool, haplotype), [''])[i]) if (tool, haplotype) in gfastats_data else '' for tool in scaffolding_data for haplotype in haplotypes if haplotype in scaffolding_data[tool]])
 
     # Add the gaps/gbp in between
     gap_length_index = display_names.index("Gaps bp")
-    scaf_table_data.insert(gap_length_index + 1, ['Gaps/Gbp'] + [gaps_per_gbp_data.get((tool, haplotype), '') for tool in scaffolding_data for haplotype in haplotypes if haplotype in scaffolding_data[tool]])
+    scaf_table_data.insert(gap_length_index + 1, ['Gaps/Gbp'] + [format_number(gaps_per_gbp_data.get((tool, haplotype), '')) for tool in scaffolding_data for haplotype in haplotypes if haplotype in scaffolding_data[tool]])
 
 
     # get QV, Kmer completeness and BUSCO data   
@@ -728,14 +759,17 @@ def make_report(yaml_file):
 
 
     # Add Smudgeplot images side by side
-    smu_plot = Image(smu_plot_file, width=9 * cm, height=9 * cm)
-    smulog_plot = Image(smulog_plot_file, width=9 * cm, height=9 * cm)
-    image_table = Table([[smu_plot, smulog_plot]])
-    image_table.setStyle(TableStyle([
-        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-    ]))
-
-    elements.append(image_table)
+    if smu_plot_file:
+        smu_plot = Image(smu_plot_file, width=9 * cm, height=9 * cm)
+        smulog_plot = Image(smulog_plot_file, width=9 * cm, height=9 * cm)
+        image_table = Table([[smu_plot, smulog_plot]])
+        image_table.setStyle(TableStyle([
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ]))
+        elements.append(image_table)
+    else:
+        smu_plot = None  # Or any other default value you want
+        elements.append(Paragraph("Smudgeplot data not available", styles['miniStyle']))
 
 
     # Add page break

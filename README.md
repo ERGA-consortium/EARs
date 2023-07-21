@@ -38,7 +38,7 @@ If you are not already using Galaxy to produce your genome assembly, you will ne
 
 ### 2. Getting your assembly reviewed using the EAR
 
-Fork this repository and create a folder and subfolder with your species name and ToLID, respectively, and place your EAR pdf inside, e.g., `Caretta_caretta/rCarCar2/rCarCar2_EAR.pdf`.
+Fork this repository and create a folder and subfolder with your species name and ToLID, respectively, inside the Assembly_Reports folder, and place your EAR pdf inside, e.g., `Assembly_Reports/Caretta_caretta/rCarCar2/rCarCar2_EAR.pdf`.
 
 [image]
 

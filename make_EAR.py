@@ -413,7 +413,11 @@ def make_report(yaml_file):
                 if lineage_info:
                     return lineage_info.groups()
                 else:
-                    return None
+                    lineage_info = re.search(r"The lineage dataset is: (.*?) \(Creation date:.*?, number of species: (\d+), number of BUSCOs: (\d+)\)", content)
+                    if lineage_info:
+                        return lineage_info.groups()
+                    else:
+                        return None
         except Exception as e:
             logging.warning(f"Error reading {file_path}: {str(e)}")
             return None

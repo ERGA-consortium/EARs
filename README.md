@@ -44,7 +44,7 @@ If you are not already using Galaxy to produce your genome assembly, you will ne
 
 Fork this repository.
 
-![fork](misc/fork.gif)
+<img src="misc/fork.gif" width="50%"/>
 
 Prepare a folder and subfolder with your species name and ToLID, respectively, to place your EAR pdf. Upload that inside the Assembly_Reports folder (the result will be, e.g.: `Assembly_Reports/Caretta_caretta/rCarCar2/rCarCar2_EAR.pdf`). **Important!** Do the upload to a new branch specific to this EAR (see example below). If you want to submit more than one species, you need to have one branch per each.
 

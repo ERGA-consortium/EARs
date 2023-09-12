@@ -50,15 +50,18 @@ Prepare a folder and subfolder with your species name and ToLID, respectively, t
 
 ![upload](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnR3MnVqZmQ4MjJhdnY0N3NwZGV0cnJwMjRyMnR0MW54NzUyMjAzNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/fHX2krp68vFCrzzKzG/giphy.gif)
 
-Create a pull request so the reviewers can assess your assembly using the EAR.
+Create a pull request so the reviewers can assess your assembly using the EAR. **Important!** Remember to add a description to your pull request message, e.g.:
+```
+Species: Caretta caretta
+Taxa: Testudines
+Project: ERGA-testing
+```
 
-<img src="https://giphy.com/embed/ai7GdyBVwrnou8RFpN" alt="Alt text" title="Optional title">
+![fork](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdjZtajltcXdpZXB0Y2p6cmtodTN1dXMzY3hvODRia2Z3aDhsenJoMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ai7GdyBVwrnou8RFpN/giphy.gif)
 
-If everything looks good, the assembly will be approved to continue to the manual curation stage, and the EAR will be part of the stable ERGA repository of reports.
+- If everything looks good, the assembly will be approved to continue to the manual curation stage, and the EAR will be part of the stable ERGA repository of reports.
 
-If the reviewer thinks something should be clarified, addressed or corrected, it will be requested through the communication channel open during the pull request.
-
-[image]
+- If the reviewer thinks something should be clarified, addressed or corrected, it will be requested through the communication channel open during the pull request.
 
 ---
 

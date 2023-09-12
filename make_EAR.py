@@ -2,7 +2,7 @@
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
 
-EAR_version = "v21.07.23_beta"
+EAR_version = "v12.08.23_beta"
 
 import sys
 import argparse

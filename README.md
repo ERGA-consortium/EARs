@@ -52,7 +52,7 @@ Prepare a folder and subfolder with your species name and ToLID, respectively, t
 
 Create a pull request so the reviewers can assess your assembly using the EAR.
 
-[image]
+<iframe src="https://giphy.com/embed/ai7GdyBVwrnou8RFpN" width="480" height="370" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/ai7GdyBVwrnou8RFpN">via GIPHY</a></p>
 
 If everything looks good, the assembly will be approved to continue to the manual curation stage, and the EAR will be part of the stable ERGA repository of reports.
 

@@ -57,7 +57,7 @@ Taxa: Testudines
 Project: ERGA-testing
 ```
 
-<img src="misc/fork.gif" width="60%"/>
+<img src="misc/pull.gif" width="60%"/>
 
 - If everything looks good, the assembly will be approved to continue to the manual curation stage, and the EAR will be part of the stable ERGA repository of reports.
 

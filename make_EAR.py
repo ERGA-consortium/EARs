@@ -55,6 +55,7 @@ def make_report(yaml_file):
     ## Get data for Header, ToLID table and submitter
     tol_id = yaml_data["ToLID"]
     species = yaml_data["Species"]
+    sex = yaml_data["Sex"]
     submitter = yaml_data["Submitter"]
     affiliation = yaml_data["Affiliation"]
     tags = yaml_data["Tags"] 
@@ -100,8 +101,8 @@ def make_report(yaml_file):
 
     # Make species data table -----------------------
     sp_data = [
-        ["ToLID", "Species", "Class", "Order", "Haploid Number", "Ploidy"],
-        [tol_id, species, class_name, order_name, f"{haploid_number} (source: {haploid_source})", ploidy]
+        ["ToLID", "Species", "Class", "Order", "Haploid Number", "Ploidy", "Sex"],
+        [tol_id, species, class_name, order_name, f"{haploid_number} (source: {haploid_source})", ploidy, sex]
     ]
 
     # Transpose the data

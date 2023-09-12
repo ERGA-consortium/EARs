@@ -5,6 +5,7 @@
 # GENERAL INFORMATION
 ToLID: <Insert ToLID>
 Species: <Insert species name>
+Sex: <Insert species sex> # for example: XX, XY, ZZ, ZW, unknown, NA...
 Submitter: <Insert submitter full name>
 Affiliation: <Insert affiliation>
 Tag: <Insert tag> # valid tags are ERGA-Pilot, ERGA-BGE, ERGA-Satellite

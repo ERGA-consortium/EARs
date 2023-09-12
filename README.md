@@ -42,15 +42,15 @@ If you are not already using Galaxy to produce your genome assembly, you will ne
 
 ### 2. Getting your assembly reviewed using the EAR
 
-Fork this repository and create a folder and subfolder with your species name and ToLID, respectively, inside the Assembly_Reports folder, and place your EAR pdf inside, e.g., `Assembly_Reports/Caretta_caretta/rCarCar2/rCarCar2_EAR.pdf`.
+Fork this repository.
 
-[image]
+![fork](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc3ZrbnZlZ3F5MmEyeWR1cDR2OGl3Y3N5NzBvdG1uazBieGNrNXRtbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/oleywqx5iujp9MFDYx/giphy.gif)
+
+Prepare a folder and subfolder with your species name and ToLID, respectively, to place your EAR pdf. Upload that inside the Assembly_Reports folder (the result will be, e.g.: `Assembly_Reports/Caretta_caretta/rCarCar2/rCarCar2_EAR.pdf`). Do the upload to a new branch specific for this EAR.
+
+![upload](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnR3MnVqZmQ4MjJhdnY0N3NwZGV0cnJwMjRyMnR0MW54NzUyMjAzNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/fHX2krp68vFCrzzKzG/giphy.gif)
 
 Create a pull request so the reviewers can assess your assembly using the EAR.
-
-[image]
-
-Once the pull request is placed, two independent reviewers will evaluate your report, and a channel of communication will be established based on this.
 
 [image]
 

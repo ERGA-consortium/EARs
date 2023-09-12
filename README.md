@@ -44,11 +44,11 @@ If you are not already using Galaxy to produce your genome assembly, you will ne
 
 Fork this repository.
 
-![fork](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc3ZrbnZlZ3F5MmEyeWR1cDR2OGl3Y3N5NzBvdG1uazBieGNrNXRtbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/oleywqx5iujp9MFDYx/giphy.gif)
+![fork](misc/fork.gif)
 
 Prepare a folder and subfolder with your species name and ToLID, respectively, to place your EAR pdf. Upload that inside the Assembly_Reports folder (the result will be, e.g.: `Assembly_Reports/Caretta_caretta/rCarCar2/rCarCar2_EAR.pdf`). **Important!** Do the upload to a new branch specific to this EAR (see example below). If you want to submit more than one species, you need to have one branch per each.
 
-![upload](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnR3MnVqZmQ4MjJhdnY0N3NwZGV0cnJwMjRyMnR0MW54NzUyMjAzNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/fHX2krp68vFCrzzKzG/giphy.gif)
+![upload](misc/upload.gif)
 
 Create a pull request so the reviewers can assess your assembly using the EAR. **Important!** Remember to add a description to your pull request message, e.g.:
 ```
@@ -57,7 +57,7 @@ Taxa: Testudines
 Project: ERGA-testing
 ```
 
-![fork](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMWhja25mbmEwamN1ZGg0b29iZjhla2pyaWIzOWF1bHQwcXBpYXNhciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5Czb67YOlWO8V8Iwtu/giphy.gif)
+![fork](misc/fork.gif)
 
 - If everything looks good, the assembly will be approved to continue to the manual curation stage, and the EAR will be part of the stable ERGA repository of reports.
 

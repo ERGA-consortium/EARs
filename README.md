@@ -57,7 +57,7 @@ Taxa: Testudines
 Project: ERGA-testing
 ```
 
-![fork](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdjZtajltcXdpZXB0Y2p6cmtodTN1dXMzY3hvODRia2Z3aDhsenJoMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ai7GdyBVwrnou8RFpN/giphy.gif)
+![fork](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMWhja25mbmEwamN1ZGg0b29iZjhla2pyaWIzOWF1bHQwcXBpYXNhciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5Czb67YOlWO8V8Iwtu/giphy.gif)
 
 - If everything looks good, the assembly will be approved to continue to the manual curation stage, and the EAR will be part of the stable ERGA repository of reports.
 

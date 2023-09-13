@@ -2,7 +2,7 @@
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
 
-EAR_version = "v12.09.23_beta"
+EAR_version = "v13.09.23_beta"
 
 import sys
 import argparse
@@ -365,7 +365,7 @@ def make_report(yaml_file):
             for file_path in file_paths:
                 with open(file_path, 'r') as file:
                     lines = file.readlines()
-                    if len(lines) > order and lines[2].split('\t')[0].strip() == "Both":
+                    if len(lines) > order and (len(lines) == 1 or lines[2].split('\t')[0].strip() == "Both"):
                         target_line = lines[order]
                         fourth_column_value = target_line.split('\t')[3]
                         return fourth_column_value

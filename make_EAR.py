@@ -2,7 +2,7 @@
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
 
-EAR_version = "v13.09.23_beta"
+EAR_version = "v23.09.27_beta"
 
 import sys
 import argparse
@@ -429,6 +429,9 @@ def make_report(yaml_file):
         png_files = glob.glob(f"{dir_path}/*.st.png")
         if len(png_files) < 4:
             logging.warning(f"Warning: Less than 4 png files found in {dir_path}. If this is diploid, some images may be missing.")
+            # fill missing with None
+            while len(png_files) < 4:
+                png_files.append(None)
         return png_files[:4]    
 
 
@@ -835,14 +838,30 @@ def make_report(yaml_file):
         if haplotype:
             haplotype_properties = tool_properties[haplotype]
             if isinstance(haplotype_properties, dict) and 'merqury_folder' in haplotype_properties:
-                # Get images
+                # Get images with flexibility for missing images
                 png_files = get_png_files(haplotype_properties['merqury_folder'])
 
                 # Create image objects and add filename below each image
-                images = [[Image(png_file, width=5.4 * cm, height=4.5 * cm), Paragraph(os.path.basename(png_file), styles["FileNameStyle"])] for png_file in png_files]
+                images = []
+                for png_file in png_files:
+                    if png_file:
+                        image = Image(png_file, width=5.4 * cm, height=4.5 * cm)
+                        filename = os.path.basename(png_file)
+                        images.append([image, Paragraph(filename, styles["FileNameStyle"])])
 
-                # Arrange images into a 2x2 grid
-                image_table = Table([[images[0], images[1]], [images[2], images[3]]])
+                # Filter None values
+                images = [img for img in images if img[0] is not None]
+
+                # get number of rows and columns for the table
+                num_rows = (len(images) + 1) // 2  # +1 to handle odd numbers of images
+                num_columns = 2
+
+                # Create the table with dynamic size
+                image_table_data = [[images[i * num_columns + j] if i * num_columns + j < len(images) else [] for j in range(num_columns)] for i in range(num_rows)]
+                image_table = Table(image_table_data)
+
+                ## Arrange images into a 2x2 grid
+                #image_table = Table([[images[0], images[1]], [images[2], images[3]]])
 
                 # Center images
                 image_table.setStyle(TableStyle([('VALIGN', (0, 0), (-1, -1), 'MIDDLE')]))

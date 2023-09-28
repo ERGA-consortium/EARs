@@ -53,4 +53,4 @@ SCAFFOLDING:
       gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
       busco_short_summary_txt: <Insert busco_short_summary.txt full path>
       merqury_folder: <Insert Merqury results folder path>
-      pretext_FullMap_png: <Insert pretext FullMap.png full path>
+      pretext_FullMap_png: <Insert pretext FullMap.png full path> # also can be a HiC full contact map PNG from higlass or juicebox

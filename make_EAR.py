@@ -940,7 +940,7 @@ def make_report(yaml_file):
     # Add title and images for each step
     for idx, (tool, tool_properties) in enumerate(scaffolding_data.items(), 1):
         # Print tool title
-        elements.append(Paragraph(f"Pretext Full Map: {tool}", styles["normalStyle"]))
+        elements.append(Paragraph(f"HiC Full-contact Map: {tool}", styles["normalStyle"]))
 
         tool_elements = [element for element in tool_properties.keys() if element != 'version']
 

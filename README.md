@@ -35,7 +35,7 @@ conda env create -f EAR_env.yml
 python make_EAR.py mySpecies_EAR.yaml
 ```
 
-2. Using the [snakemake-based tool GEP](https://git.imp.fu-berlin.de/begendiv/gep). By means of this pipeline, you can run all the QC analysis in one take and obtain the YAML file to immediately run the `make_EAR.py` script (before running the script, you would only need to edit the YAML file to enter information like affiliation, etc. Please check the GEP readme). Remember to run with `--config EAR=True`, for instance:
+2. Using the [snakemake-based tool GEP](https://git.imp.fu-berlin.de/begendiv/gep). By means of this pipeline, you can run all the QC analysis in one take and obtain the YAML file to immediately run the `make_EAR.py` script (before running the script, you would only need to edit the YAML file to enter information like affiliation, etc. Please check the GEP readme). Remember to run with `--config EAR=True`, for instance (in this case using Slurm in a computer cluster):
 ```bash
 nohup snakemake --profile SUBMIT_CONFIG/slurm/ --config EAR=True &
 ```   

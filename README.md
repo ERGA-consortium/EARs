@@ -22,12 +22,15 @@ We provide three options to produce the EAR:
 1. If you have the required results, you can complete the YAML file (take a look at [EAR_basic_template.yaml](EAR_basic_template.yaml) and [[example]rCarCar2_EAR.yaml]([example]rCarCar2_EAR.yaml) files) and run the `make_EAR.py` script. We recommend installing the provided conda environment to handle the program's requirements easily. Clone this repository to obtain all the required files.
 
 ```bash
-# Complete the YAML file for your species
+# Clone this repository to obtain all the required files
+git clone https://github.com/ERGA-consortium/EARs.git
 
-# Creating the EAR environment to run the script
+# Create the EAR environment to run the script
 conda env create -f EAR_env.yml
 
-# Running the script to obtain the EAR pdf
+# Filling the YAML file for your species: Using a text editor, add the values and paths of your species and assembly process in the YAML file. Please use as a guide the example files [example]rCarCar2_EAR.yaml and EAR_basic_template.yaml
+
+# Run the script to obtain the EAR pdf
 python make_EAR.py mySpecies_EAR.yaml
 ```
 

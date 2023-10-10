@@ -54,7 +54,7 @@ Prepare a folder and subfolder with your species name and ToLID, respectively, t
 
 <img src="misc/upload.gif" width="60%"/>
 
-Create a pull request so the reviewers can assess your assembly using the EAR. **Please notice that since we are still testing this EARs-based reviewing proceeding, you should work in the devel branch and create a pull request to the devel branch** **Important!** Remember to add a description to your pull request message, e.g.:
+Create a pull request so the reviewers can assess your assembly using the EAR. **Please notice that since we are still testing this EARs-based reviewing proceeding, you should work in the devel branch and create a pull request to the devel branch.** **Important!** Remember to add a description to your pull request message, e.g.:
 ```
 Species: Caretta caretta
 Taxa: Testudines

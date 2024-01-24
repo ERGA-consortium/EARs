@@ -1,21 +1,19 @@
 # This is the yaml file for generating the ERGA Assembly Report (EAR) using the make_EAR.py script
 # Please complete the required information pointed as <Insert ...>
-# The file [example]rCarCar2_EAR.yaml contains an example of a completed yaml file
+# The file example/mEleMax1_EAR.yaml contains an example of a completed yaml file
 
-# GENERAL INFORMATION
+# SAMPLE INFORMATION
 ToLID: <Insert ToLID>
 Species: <Insert species name>
-Sex: <Insert species sex> # for example: XX, XY, ZZ, ZW, unknown, NA...
+Sex: <Insert species sex> # for example: XX, XY, X0, ZZ, ZW, unknown, NA
 Submitter: <Insert submitter full name>
-Affiliation: <Insert affiliation>
-Tag: <Insert tag> # valid tags are ERGA-Pilot, ERGA-BGE, ERGA-Satellite
-
+Affiliation: <Insert submitter affiliation>
+Tags: <Insert tag> # valid tags are ERGA-BGE, ERGA-Pilot, ERGA-Satellite
 
 
 # SEQUENCING DATA
-DATA:
-      - <Insert data type>: <insert data coverage> # if coverage is not available, leave it empty
-
+DATA: # add below name of available data and coverage (if tag is ERGA-BGE, this section will be ignored and autocompleted)
+  - <Insert data type>: <insert data coverage> # if coverage is not available, leave it empty
 
 
 # GENOME PROFILING DATA
@@ -23,34 +21,47 @@ PROFILING:
   GenomeScope:
     version: <Insert GenomeScope version>
     results_folder: <Insert GenomeScope results folder path>
-  Smudgeplot: # if Smudgeplot data is not available, leave it empty or remove the section
+  Smudgeplot: # Smudgeplot is not mandatory (but preferred for ploidy estimation), if not available, leave it empty
     version: <Insert Smudgeplot version>
     results_folder: <Insert Smudgeplot results folder path>
 
 
-
-# ASSEMBLY PIPELINE
-CONTIGGING:
-  <Insert tool name>: 
-    version: <Insert tool version>
-    <Insert assembly type>: # valid types are hap1 (or hap2 if available), pri (or alt if available), collapsed...
+# ASSEMBLY DATA
+ASSEMBLIES:
+  Pre-curation:
+    pipeline: [<Insert ToolA_v1.2.3>, <Insert ToolB_v2.3.4>] # valid input is empty or between brackets ToolName followed by _v followed by versionNumber
+    <Insert haplotype>: # valid types are hap1, pri, collapsed
+      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
+      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
+      merqury_folder: <Insert Merqury results folder path>
+    <Insert another haplotype>: # Only if hap2 is available. Otherwise remove the <Insert another haplotype> section
       gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
       busco_short_summary_txt: <Insert busco_short_summary.txt full path>
       merqury_folder: <Insert Merqury results folder path>
 
-  <Insert another tool name>: 
-    version: <Insert tool version>
-    <Insert assembly type>: # valid types are hap1 (or hap2 if available), pri (or alt if available), collapsed...
+  Curated:
+    pipeline: [<Insert ToolA_v1.2.3>, <Insert ToolB_v2.3.4>] # valid input is empty or between brackets ToolName followed by _v followed by versionNumber 
+    <Insert haplotype>: # valid types are hap1, pri, collapsed
       gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
       busco_short_summary_txt: <Insert busco_short_summary.txt full path>
       merqury_folder: <Insert Merqury results folder path>
-
-
-SCAFFOLDING:
-  <Insert tool name>: 
-    version: <Insert tool version>
-    <Insert assembly type>: # valid types are hap1 (or hap2 if available), pri (or alt if available), collapsed...
+      hic_FullMap_png: <Insert pretext FullMap.png full path> # also can be a HiC full contact map PNG from higlass
+      hic_FullMap_link: <Insert .pretext file web link> # also can be .mcool from higlass
+      blobplot_cont_png: <Insert blobplot contamination .png file full path>
+    <Insert another haplotype>: # Only if hap2 is available. Otherwise remove the <Insert another haplotype> section  
       gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
       busco_short_summary_txt: <Insert busco_short_summary.txt full path>
       merqury_folder: <Insert Merqury results folder path>
-      pretext_FullMap_png: <Insert pretext FullMap.png full path> # also can be a HiC full contact map PNG from higlass or juicebox
+      hic_FullMap_png: <Insert pretext FullMap.png full path> # also can be a HiC full contact map PNG from higlass
+      hic_FullMap_link: <Insert .pretext file web link> # also can be .mcool from higlass
+      blobplot_cont_png: <Insert blobplot contamination .png file full path>
+
+
+# CURATION NOTES
+NOTES:
+  Obs_Haploid_num: <Insert observed haploid number> # integer
+  Obs_Sex: <Insert observed sex> # for example: XX, XY, X0, ZZ, ZW, unknown, NA
+  Interventions_per_Gb: <Insert manual intervernation during curation> # integer or empty
+  Contamination_notes: <Insert contamination notes> # text in quotes "", related to the decontamination process, or presence of plastids or symbionts
+  Other_notes: <Insert other notes> # text in quotes "", related to sample characteristics and quality, the curation process, etc
+ 

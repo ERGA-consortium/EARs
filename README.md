@@ -11,12 +11,13 @@ After completing the [assembly pipeline](https://github.com/ERGA-consortium/pipe
 
 ![](misc/EBPv5.png)
 
+Please have a look at the [EBP Report on Assembly Standards](https://www.earthbiogenome.org/report-on-assembly-standards) for further details.
 
 Which results do I need for the EAR?
 - [Genomescope](https://github.com/tbenavi1/genomescope2.0) (mandatory) and [Smudgeplot](https://github.com/KamilSJaron/smudgeplot) (optional, but recommended) from your WGS accurate reads.
 - [gfastats](https://github.com/vgl-hub/gfastats), [Merqury](https://github.com/marbl/merqury) and [BUSCO](https://gitlab.com/ezlab/busco) results for **complete** -pseudo-haplotypes (i.e., Hap1, Pri, collapsed, and also Hap2 if avaialble) of the final pre and post-curation steps.
-- HiC contact maps for final post-curation -pseudo-haplotype(s) ([Pretext]() or [HiGlass]()): a PNG snapshot and a link for the .pretext or .mcool files uploaded to the cloud (e.g., Nextcloud, Genomeark, etc).
-- [Blobplot]() PNG snapshot for contamination screening for final post-curation -pseudo-haplotype(s).
+- HiC contact maps for final post-curation -pseudo-haplotype(s) ([Pretext](https://github.com/wtsi-hpag/PretextMap) or [HiGlass](https://github.com/higlass/higlass)): a PNG snapshot and a link for the .pretext or .mcool files uploaded to the cloud (e.g., Nextcloud, Genomeark, etc).
+- [Blobplot](https://github.com/DRL/blobtools) PNG snapshot for contamination screening for final post-curation -pseudo-haplotype(s).
 - Notes (text) you have taken about the decontamination process, presence of plastids or symbionts, sample characteristics and quality, the curation process, observed haploid number, sex, etc.
 
 

@@ -1,7 +1,7 @@
 # make_EAR.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-EAR_version = "v24.01.03_beta"
+EAR_version = "v24.02.03_beta"
 
 import sys
 import argparse
@@ -53,6 +53,7 @@ def make_report(yaml_file):
         "Total scaffold length",
         "GC content %",
         "# gaps in scaffolds",
+        "Total gap length in scaffolds",
         "# scaffolds",
         "Scaffold N50",
         "Scaffold L50",
@@ -65,13 +66,14 @@ def make_report(yaml_file):
 
     display_names = keys.copy()
     display_names[display_names.index("Total scaffold length")] = "Total bp"
+    total_length_index = keys.index("Total scaffold length")
     display_names[display_names.index("GC content %")] = "GC %"
+    display_names[display_names.index("Total gap length in scaffolds")] = "Total gap bp"
     display_names[display_names.index("# scaffolds")] = "Scaffolds"
     display_names[display_names.index("# contigs")] = "Contigs"
-    display_names.remove("# gaps in scaffolds")
 
     gaps_index = keys.index("# gaps in scaffolds")
-    total_length_index = keys.index("Total scaffold length")
+    exclusion_list = ["# gaps in scaffolds"]
 
 
     # extract Total bp from gfastats report
@@ -383,23 +385,37 @@ def make_report(yaml_file):
     assembly_pipeline = yaml_data.get('ASSEMBLIES', {}).get('Pre-curation', {}).get('pipeline', [])
     
     # Prepare headers and rows for the table
-    assembly_pipeline_headers = ['Tool', 'Version']
+    assembly_pipeline_headers = ['Tool', 'Version', 'Parameters']
     tools = ['Tool']
     versions = ['Version']
+    params = ['Parameters']
     
-    # Parse and extract tool names and versions
-    for tool_version in assembly_pipeline:
+    # Parse and extract tool names, versions, and parameters
+    for tool_version_param in assembly_pipeline:
+        parts = tool_version_param.split('|')
+        tool_version = parts[0]
+        
+        # Default values
+        tool = 'NA'
+        version = 'NA'
+        param = 'NA'
+        
         if '_v' in tool_version:
-            tool, version = tool_version.split('_v')
+            tool, version = tool_version.split('_v', 1)
         else:
             tool = tool_version
-            version = 'NA'  # Assign 'NA' if version is not specified
+        
+        if len(parts) > 1:
+            param = ' '.join(parts[1:])
+            if not param:
+                param = 'NA'
         
         tools.append(tool)
         versions.append(version)
+        params.append(param)
     
     # Combine the headers and data into table data
-    assembly_pipeline_table_data = [tools, versions]
+    assembly_pipeline_table_data = [tools, versions, params]
     
 
     # Extract pipeline data from 'Curated' category
@@ -541,7 +557,8 @@ def make_report(yaml_file):
     # Fill the table with the gfastats data
     for i in range(len(display_names)):
         metric = display_names[i]
-        asm_table_data.append([metric] + [format_number(gfastats_data.get((asm_stage, haplotypes), [''])[i]) if (asm_stage, haplotypes) in gfastats_data else '' for asm_stage in asm_data for haplotypes in asm_stages if haplotypes in asm_data[asm_stage]])
+        if metric not in exclusion_list:
+            asm_table_data.append([metric] + [format_number(gfastats_data.get((asm_stage, haplotypes), [''])[i]) if (asm_stage, haplotypes) in gfastats_data else '' for asm_stage in asm_data for haplotypes in asm_stages if haplotypes in asm_data[asm_stage]])
     
     # Add the gaps/gbp in between
     gc_index =  display_names.index("GC %")
@@ -637,6 +654,8 @@ def make_report(yaml_file):
     styles.add(ParagraphStyle(name='midiStyle', fontName='Courier', fontSize=10))
     styles.add(ParagraphStyle(name='miniStyle', fontName='Courier', fontSize=8))
     styles.add(ParagraphStyle(name='FileNameStyle', fontName='Courier', fontSize=6))
+    styles.add(ParagraphStyle(name='LinkStyle', fontName='Courier', fontSize=10, textColor='blue', underline=True))
+
 
 
     # PDF SECTION 1 -------------------------------------------------------------------------------
@@ -866,8 +885,12 @@ def make_report(yaml_file):
                     images_with_names.append([missing_png_paragraph])
                 
                 # Add paragraph for the link
-                link_text = f"<b>{haplotype}</b> {link}" if link else f"<b>{haplotype}</b> File link is missing!"
-                link_paragraph = Paragraph(link_text, styles["midiStyle"])
+                if link:
+                    link_html = f'<b>{haplotype}</b> <link href="{link}" color="blue">[LINK]</link>'
+                else:
+                    link_html = f'<b>{haplotype}</b> File link is missing!'
+
+                link_paragraph = Paragraph(link_html, styles["midiStyle"])
                 images_with_names.append([link_paragraph])
                 
                 # Append a spacer only if the next element is an image
@@ -906,7 +929,7 @@ def make_report(yaml_file):
     # Initialize counter
     counter = 0
     processed_folders = set()
-    # Existing loop starts here
+
     for idx, (asm_stages, stage_properties) in enumerate(asm_data.items(), 1):
         # Check if the stage is 'Curated'
         if asm_stages == 'Curated':
@@ -916,21 +939,24 @@ def make_report(yaml_file):
                 haplotype_properties = stage_properties[haplotype]
                 if isinstance(haplotype_properties, dict) and 'merqury_folder' in haplotype_properties:
                     merqury_folder = haplotype_properties['merqury_folder']
-    
+
                     # Check if folder has already been processed
                     if merqury_folder not in processed_folders:
                         processed_folders.add(merqury_folder)
                         png_files = get_png_files(haplotype_properties['merqury_folder'])
 
-                        # Filter out only .spectra-cn.ln.png files and find the shortest one
-                        spectra_cn_files = [f for f in png_files if f.endswith("spectra-cn.ln.png")]
-                        shortest_spectra_cn_file = min(spectra_cn_files, key=lambda f: len(os.path.basename(f)))
+                        # Filter out only .spectra-cn.ln.png files and find the shortest one, also skip None values
+                        spectra_cn_files = [f for f in png_files if f and f.endswith("spectra-cn.ln.png")]
+                        shortest_spectra_cn_file = min(spectra_cn_files, key=lambda f: len(os.path.basename(f)), default=None)
                         
-                        # Finding unique parts for the similar Spectra CN files (if they exist)
-                        if len(spectra_cn_files) > 1:
+                        # Handle cases based on the number of spectra-cn.ln.png files
+                        if len(spectra_cn_files) == 3:
+                            # For 3 .spectra-cn.ln.png files
                             similar_files = [f for f in spectra_cn_files if f != shortest_spectra_cn_file]
-                            unique_name1, unique_name2 = find_unique_parts(similar_files[0], similar_files[1])
+                            if similar_files:
+                                unique_name1, unique_name2 = find_unique_parts(similar_files[0], similar_files[1])
                         else:
+                            # For 2 .spectra-cn.ln.png files
                             unique_name1 = unique_name2 = None
 
                         # Create image objects and add filename below each image
@@ -943,17 +969,18 @@ def make_report(yaml_file):
                                 if filename.endswith("spectra-asm.ln.png"):
                                     text = "Distribution of k-mer counts coloured by their presence in reads/assemblies"
                                 elif filename.endswith("spectra-cn.ln.png"):
-                                    if png_file == shortest_spectra_cn_file:
-                                        text = "Distribution of k-mer counts per copy numbers found in asm (dipl.)"
+                                    if len(spectra_cn_files) == 3:
+                                        # For 3 spectra-cn files use particular text
+                                        if png_file == shortest_spectra_cn_file:
+                                            text = "Distribution of k-mer counts per copy numbers found in asm (dipl.)"
+                                        else:
+                                            text = f"Distribution of k-mer counts per copy numbers found in <b>{unique_name1 if png_file == similar_files[0] else unique_name2}</b> (hapl.)"
                                     else:
-                                        if png_file == similar_files[0]:
-                                            text = f"Distribution of k-mer counts per copy numbers found in <b>{unique_name1}</b> (hapl.)"
-                                        elif png_file == similar_files[1]:
-                                            text = f"Distribution of k-mer counts per copy numbers found in <b>{unique_name2}</b> (hapl.)"
+                                        # For 2 spectra-cn files use same text
+                                        text = "Distribution of k-mer counts per copy numbers found in asm"
                                 else:
                                     text = filename
-                        
-                     
+                                
                                 images.append([image, Paragraph(text, styles["midiStyle"])])
 
         

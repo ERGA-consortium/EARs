@@ -29,7 +29,7 @@ PROFILING:
 # ASSEMBLY DATA
 ASSEMBLIES:
   Pre-curation:
-    pipeline: [<Insert ToolA_v1.2.3>, <Insert ToolB_v2.3.4>] # valid input is empty or between brackets ToolName followed by _v followed by versionNumber
+    pipeline: [<Insert ToolA_v1.2.3|ParamX|ParamY>, <Insert ToolB_v2.3.4>] # valid input is empty or between brackets ToolName followed by _v followed by versionNumber followed by | followed by toolParameter
     <Insert haplotype>: # valid types are hap1, pri, collapsed
       gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
       busco_short_summary_txt: <Insert busco_short_summary.txt full path>

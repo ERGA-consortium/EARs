@@ -318,8 +318,8 @@ def make_report(yaml_file):
                 tree_lines.append(param_line)
 
         # Join lines with HTML break for paragraph
-        tree_html = "<br/>".join(tree_lines)
-        return tree_html
+        tree_diagram = "<br/>".join(tree_lines)
+        return tree_diagram
 
     
     # Reading SAMPLE INFORMATION section from yaml ################################################

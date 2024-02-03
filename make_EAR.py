@@ -1,7 +1,7 @@
 # make_EAR.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-EAR_version = "v24.02.03_beta"
+EAR_version = "v24.02.02_beta"
 
 import sys
 import argparse
@@ -286,7 +286,40 @@ def make_report(yaml_file):
 
         return warnings
 
+    # Parse pipeline and generate "tree"
+    def generate_pipeline_tree(pipeline_data):
+        tree_lines = []
+        indent = "&nbsp;" * 2  # Adjust indent spacing as needed
 
+        for tool_version_param in pipeline_data:
+            parts = tool_version_param.split('|')
+            tool_version = parts[0]
+            tool, version = tool_version.split('_v') if '_v' in tool_version else (tool_version, "NA")
+            
+            # Handle parameters: join all but the first (which is tool_version) with ', '
+            param_text = ', '.join(parts[1:]) if len(parts) > 1 else "NA"
+
+            # Tool line
+            tool_line = f"- <b>{tool}</b>"
+            tree_lines.append(tool_line)
+
+            # Version line
+            version_line = f"{indent*2}|_ <i>ver:</i> {version}"
+            tree_lines.append(version_line)
+
+            # Param line(s)
+            if param_text != "NA":
+                for param in param_text.split(','):
+                    param = param.strip()
+                    param_line = f"{indent*2}|_ <i>key param:</i> {param if param else 'NA'}"
+                    tree_lines.append(param_line)
+            else:
+                param_line = f"{indent*2}|_ <i>key param:</i> NA"
+                tree_lines.append(param_line)
+
+        # Join lines with HTML break for paragraph
+        tree_html = "<br/>".join(tree_lines)
+        return tree_html
 
     
     # Reading SAMPLE INFORMATION section from yaml ################################################
@@ -382,63 +415,14 @@ def make_report(yaml_file):
 
 
     # Extract pipeline data from 'Pre-curation' category
-    assembly_pipeline = yaml_data.get('ASSEMBLIES', {}).get('Pre-curation', {}).get('pipeline', [])
-    
-    # Prepare headers and rows for the table
-    assembly_pipeline_headers = ['Tool', 'Version', 'Parameters']
-    tools = ['Tool']
-    versions = ['Version']
-    params = ['Parameters']
-    
-    # Parse and extract tool names, versions, and parameters
-    for tool_version_param in assembly_pipeline:
-        parts = tool_version_param.split('|')
-        tool_version = parts[0]
-        
-        # Default values
-        tool = 'NA'
-        version = 'NA'
-        param = 'NA'
-        
-        if '_v' in tool_version:
-            tool, version = tool_version.split('_v', 1)
-        else:
-            tool = tool_version
-        
-        if len(parts) > 1:
-            param = ' '.join(parts[1:])
-            if not param:
-                param = 'NA'
-        
-        tools.append(tool)
-        versions.append(version)
-        params.append(param)
-    
-    # Combine the headers and data into table data
-    assembly_pipeline_table_data = [tools, versions, params]
-    
+    asm_pipeline_data = yaml_data.get('ASSEMBLIES', {}).get('Pre-curation', {}).get('pipeline', [])
+    asm_pipeline_tree = generate_pipeline_tree(asm_pipeline_data)
+
 
     # Extract pipeline data from 'Curated' category
-    curation_pipeline = yaml_data.get('ASSEMBLIES', {}).get('Curated', {}).get('pipeline', [])
-    
-    # Prepare headers and rows for the table
-    curation_pipeline_headers = ['Tool', 'Version']
-    tools = ['Tool']
-    versions = ['Version']
-    
-    # Parse and extract tool names and versions
-    for tool_version in curation_pipeline:
-        if '_v' in tool_version:
-            tool, version = tool_version.split('_v')
-        else:
-            tool = tool_version
-            version = 'NA'  # Assign 'NA' if version is not specified
-        
-        tools.append(tool)
-        versions.append(version)
-    
-    curation_pipeline_table_data = [tools, versions]
-    
+    curation_pipeline_data = yaml_data.get('ASSEMBLIES', {}).get('Curated', {}).get('pipeline', [])
+    curation_pipeline_tree = generate_pipeline_tree(curation_pipeline_data)
+
 
 
 
@@ -652,11 +636,11 @@ def make_report(yaml_file):
     styles.add(ParagraphStyle(name='subTitleStyle', fontName='Courier', fontSize=16))
     styles.add(ParagraphStyle(name='normalStyle', fontName='Courier', fontSize=12))
     styles.add(ParagraphStyle(name='midiStyle', fontName='Courier', fontSize=10))
+    styles.add(ParagraphStyle(name='LinkStyle', fontName='Courier', fontSize=10, textColor='blue', underline=True))
+    styles.add(ParagraphStyle(name='treeStyle', fontName='Courier', fontSize=10, leftIndent=12))
     styles.add(ParagraphStyle(name='miniStyle', fontName='Courier', fontSize=8))
     styles.add(ParagraphStyle(name='FileNameStyle', fontName='Courier', fontSize=6))
-    styles.add(ParagraphStyle(name='LinkStyle', fontName='Courier', fontSize=10, textColor='blue', underline=True))
-
-
+    
 
     # PDF SECTION 1 -------------------------------------------------------------------------------
     
@@ -785,7 +769,7 @@ def make_report(yaml_file):
     elements.append(Spacer(1, 24))
 
     # Add small subtitle for Curator notes    
-    subtitle = Paragraph("Curator notes", styles['normalStyle'])  # Apply the custom style to the Paragraph object
+    subtitle = Paragraph("Curator notes", styles['normalStyle']) 
     elements.append(subtitle)
 
     # Spacer
@@ -1071,7 +1055,7 @@ def make_report(yaml_file):
     # SECTION 6 -----------------------------------------------------------------------------------
 
     # Add data profile section subtitle
-    subtitle = Paragraph("Data profile", styles['TitleStyle'])  # Apply the custom style to the Paragraph object
+    subtitle = Paragraph("Data profile", styles['TitleStyle']) 
     elements.append(subtitle)
 
     # Spacer
@@ -1097,53 +1081,27 @@ def make_report(yaml_file):
     elements.append(Spacer(1, 32))
 
     # Add assembly pipeline section subtitle
-    subtitle = Paragraph("Assembly pipeline", styles['TitleStyle'])  # Apply the custom style to the Paragraph object
+    subtitle = Paragraph("Assembly pipeline", styles['TitleStyle']) 
     elements.append(subtitle)
  
     # Spacer
     elements.append(Spacer(1, 24))
 
-    # Create the ASSEMBLY PIPALINE table
-    assembly_pipeline_table = Table(assembly_pipeline_table_data)
-    
-    # Style the table
-    assembly_pipeline_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (0, -1), '#e7e7e7'),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
-        ('FONTSIZE', (0, 0), (-1, -1), 12),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
-        ("GRID", (0, 0), (-1, -1), 0.5, colors.black)
-    ]))
-
-    # Add ASSEMBLY PIPALINE table
-    elements.append(assembly_pipeline_table)
+    # Add ASM PIPELINE tree
+    elements.append(Paragraph(asm_pipeline_tree, styles['treeStyle']))
 
     # Spacer
     elements.append(Spacer(1, 32))
 
     # Add curation pipeline section subtitle
-    subtitle = Paragraph("Curation pipeline", styles['TitleStyle'])  # Apply the custom style to the Paragraph object
+    subtitle = Paragraph("Curation pipeline", styles['TitleStyle'])  
     elements.append(subtitle)
  
     # Spacer
     elements.append(Spacer(1, 24))
 
-    # Create the CURATION PIPELINE table
-    curation_pipeline_table = Table(curation_pipeline_table_data)
-    
-    # Style the table
-    curation_pipeline_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (0, -1), '#e7e7e7'),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('FONTNAME', (0, 0), (-1, -1), 'Courier'),
-        ('FONTSIZE', (0, 0), (-1, -1), 12),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
-        ("GRID", (0, 0), (-1, -1), 0.5, colors.black)
-    ]))
-
-    # Add CURATION PIPELINE table
-    elements.append(curation_pipeline_table)
+    # Add CURATION PIPELINE tree
+    elements.append(Paragraph(curation_pipeline_tree, styles['treeStyle']))
     
     # Spacer
     elements.append(Spacer(1, 48))

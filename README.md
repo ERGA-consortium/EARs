@@ -1,4 +1,4 @@
-# EAR 👂 (ERGA Assembly Report)
+![](misc/banner.png)
 
 Here you will find assembly reports approved by the [ERGA Sequencing and Assembly Committee](https://www.erga-biodiversity.eu/team-1/sac---sequencing-and-assembly-committee) and instructions on **how to create one to get your assembly reviewed and approved to upload to ENA**.
 

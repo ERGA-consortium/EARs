@@ -19,6 +19,8 @@ Which results do I need for the EAR?
 - HiC contact maps for final post-curation -pseudo-haplotype(s) ([Pretext](https://github.com/wtsi-hpag/PretextMap) or [HiGlass](https://github.com/higlass/higlass)): a PNG snapshot and a link for the .pretext or .mcool files uploaded to the cloud (e.g., Nextcloud, Genomeark, etc).
 - [Blobplot](https://github.com/DRL/blobtools) PNG snapshot for contamination screening for final post-curation -pseudo-haplotype(s).
 - Notes (text) you have taken about the decontamination process, presence of plastids or symbionts, sample characteristics and quality, the curation process, observed haploid number, sex, etc.
+- Data coverage
+- Tools employed for assembly and curation, with version and key parameters used (optional, but recommended)
 
 
 ## Getting there is a two-part job:

@@ -14,7 +14,7 @@ Tags: <Insert tag> # valid tags are ERGA-BGE, ERGA-Pilot, ERGA-Satellite
 # SEQUENCING DATA
 DATA: # add below name of available data and coverage
   - <Insert data type>: <insert data coverage> # if coverage is not available, leave it empty
-i
+
 
 # GENOME PROFILING DATA
 PROFILING:

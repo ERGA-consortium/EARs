@@ -69,7 +69,7 @@ Assembly review request
 
 ToLID: xSomSpe1
 Species: Some species
-Affiliation: someInstitue
+Affiliation: someInstitute
 ```
 
 <img src="misc/pull.gif" width="60%"/>

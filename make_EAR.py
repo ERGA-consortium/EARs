@@ -1,7 +1,7 @@
 # make_EAR.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-EAR_version = "v24.02.02_beta"
+EAR_version = "v24.02.07_beta"
 
 import sys
 import argparse
@@ -344,7 +344,13 @@ def make_report(yaml_file):
     sex = yaml_data["Sex"]
     submitter = yaml_data["Submitter"]
     affiliation = yaml_data["Affiliation"]
-    tags = yaml_data["Tags"] 
+    tags = yaml_data["Tags"]
+
+    # Check if tag is valid
+    valid_tags = ["ERGA-BGE", "ERGA-Pilot", "ERGA-Satellite"]
+    if tags not in valid_tags:
+        tags += "[INVALID TAG]"
+        logging.warning(f"# SAMPLE INFORMATION section in the yaml file contains an invalid tag. Valid tags are ERGA-BGE, ERGA-Pilot and ERGA-Satellite")
 
 
     # Get data from GoaT based on species name

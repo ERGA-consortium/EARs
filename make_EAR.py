@@ -833,6 +833,7 @@ def make_report(yaml_file):
         elements.append(Paragraph(f"BUSCO {busco_version} Lineage: {lineage_name} (genomes:{num_genomes}, BUSCOs:{num_buscos})", styles['miniStyle']))
     else:
         elements.append(Paragraph("Warning: BUSCO versions or lineage datasets are not the same across results", styles['miniStyle']))
+        logging.warning(f"WARNING!!! BUSCO versions or lineage datasets are not the same across results")
    
     # Page break
     elements.append(PageBreak())

@@ -59,15 +59,17 @@ Fork this repository.
 
 <img src="misc/fork.gif" width="60%"/>
 
-Prepare a folder and subfolder with your species name and ToLID, respectively, to place your EAR pdf. Upload that inside the Assembly_Reports folder (the result will be, e.g.: `Assembly_Reports/Caretta_caretta/rCarCar2/rCarCar2_EAR.pdf`). **Important!** Do the upload to a new branch specific to this EAR (see example below). If you want to submit more than one species, you need to have one branch per each.
+Prepare a folder and subfolder with your species name and ToLID, respectively, to place your EAR pdf. Upload that inside the Assembly_Reports folder (the result will be, e.g.: `Assembly_Reports/Caretta_caretta/rCarCar2/rCarCar2_EAR.pdf`). **Important!** Do the upload to a new branch specific to this EAR (e.g.: myToLID_EAR_branch. See example below). If you want to submit more than one species, you need to have one branch per each.
 
 <img src="misc/upload.gif" width="60%"/>
 
-Create a pull request so the reviewers can assess your assembly using the EAR. **Important!** Remember to add a description to your pull request message, e.g.:
+Create a pull request so the reviewers can assess your assembly using the EAR. **Important!** Remember to add a description like te following to your pull request message:
 ```
-Species: Caretta caretta
-Taxa: Testudines
-Project: ERGA-testing
+Assembly review request
+
+ToLID: xSomSpe1
+Species: Some species
+Affiliation: someInstitute
 ```
 
 <img src="misc/pull.gif" width="60%"/>

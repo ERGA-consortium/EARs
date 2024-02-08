@@ -69,8 +69,10 @@ Assembly review request
 
 ToLID: xSomSpe1
 Species: Some species
+Project: someERGAproject
 Affiliation: someInstitute
 ```
+Valid projects are ERGA-BGE, ERGA-Pilot and ERGA-Satellite
 
 <img src="misc/pull.gif" width="60%"/>
 

@@ -1,7 +1,7 @@
 # make_EAR.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-EAR_version = "v24.02.07_beta"
+EAR_version = "v24.02.09_beta"
 
 import sys
 import argparse
@@ -93,10 +93,10 @@ def make_report(yaml_file):
             content = f.read()
 
         values = extract_gfastats_values(content, keys_needed)
-        contig_n50_log = round(math.log10(int(values[0].replace(',', ''))))
-        scaffold_n50_log = round(math.log10(int(values[1].replace(',', ''))))
+        contig_n50_log = math.floor(math.log10(int(values[0].replace(',', ''))))
+        scaffold_n50_log = math.floor(math.log10(int(values[1].replace(',', ''))))
     
-        return f"Obtained EBP quality metric for {haplotype}: {contig_n50_log}.{scaffold_n50_log}.Q{round(float(qv_value))}"
+        return f"Obtained EBP quality metric for {haplotype}: {contig_n50_log}.{scaffold_n50_log}.Q{math.floor(float(qv_value))}"
 
 
     # extract qv values
@@ -387,7 +387,7 @@ def make_report(yaml_file):
             chrom_num = fields['chromosome_number']['value']
 
         if haploid_number != 'NA' and chrom_num != 'NA':
-            ploidy = (round(chrom_num / haploid_number))
+            ploidy = (math.floor(chrom_num / haploid_number))
 
 
     sp_data = [

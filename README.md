@@ -13,7 +13,7 @@ The review takes place inside a Pull Request specific for each assembly, openly 
 
 <Br />
 
-### Please visit the [👂Wiki](https://github.com/ERGA-consortium/EARs/wiki) for detail information
+### Please visit the [👂Wiki](https://github.com/ERGA-consortium/EARs/wiki)  for detailed information
 
 <Br />
 

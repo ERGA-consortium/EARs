@@ -9,11 +9,11 @@ After completing the [assembly pipeline](https://workflowhub.eu/projects/163#wor
 
 [The report is a PDF file](example/Elephas_maximus/mEleMax1.2/mEleMax1.2_EAR.pdf) showing relevant information of the pre/post assembly curation process that reviewers will use to confirm that the assembly meets the desired quality metrics taking into consideration pecualiarities of each case.
 
-The review takes place inside a Pull Request specific for each assembly, openly and interactively. When the report is approved, the assembly will be ready to upload to ENA, and the PDF will be part of the ERGA stable repository of reviewed assemblies, ready to be linked as needed.
+The review takes place inside a Pull Request specific for each assembly, openly and interactively, providing full transparency. When the report is approved, the assembly will be ready to upload to ENA, and the PDF will be part of the ERGA stable repository of reviewed assemblies, ready to be linked as needed.
 
 <Br />
 
-### Please visit the[👂Wiki](https://github.com/ERGA-consortium/EARs/wiki) for detailed information
+### Please visit the[👂Wiki](https://github.com/ERGA-consortium/EARs/wiki) for detailed information on how to produce the report and start the reviewing process
 
 <Br />
 

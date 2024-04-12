@@ -8,7 +8,7 @@ import random
 from datetime import datetime
 import argparse
 
-def download_tsv(url):
+def download_csv(url):
     try:
         response = requests.get(url)
         response.raise_for_status()
@@ -17,8 +17,8 @@ def download_tsv(url):
         print(f"Failed to download data from the repo: {e}")
         return None
 
-def parse_tsv(tsv_str):
-    lines = tsv_str.strip().split('\n')
+def parse_csv(csv_str):
+    lines = csv_str.strip().split('\n')
     headers = lines[0].split(',')
     data = [dict(zip(headers, line.split(','))) for line in lines[1:]]
     return data
@@ -76,13 +76,13 @@ def select_best_reviewer(data, calling_institution):
     return chosen, "Randomly chosen to break a tie among the finalists."
 
 
-def print_tsv(data):
+def print_csv(data):
     if not data:
         print("No data to print.")
         return
     headers = ['Github ID', 'Full Name', 'Institution', 'Total Reviews', 'Last Review', 'Active', 'Busy', 'Calling Score', 'Adjusted Score']
     
-    # Set max width for each column
+    # Set max width for each col
     col_widths = {header: len(header) for header in headers}
     for header in headers:
         if len(str(data[header])) > col_widths[header]:
@@ -91,7 +91,7 @@ def print_tsv(data):
     # set header
     header_row = ' | '.join(header.ljust(col_widths[header]) for header in headers)
     print(header_row)
-    print('-' * len(header_row))  # Print a separator line
+    print('-' * len(header_row))  # separator line
 
     # create data rows
     data_row = ' | '.join(str(data[header]).ljust(col_widths[header]) for header in headers)
@@ -119,15 +119,15 @@ def main():
         parser.print_help()
     else:
         url = "https://raw.githubusercontent.com/ERGA-consortium/EARs/main/rev/reviewers_list.csv"
-        tsv_data = download_tsv(url)
-        if tsv_data:
-            data = parse_tsv(tsv_data)
+        csv_data = download_csv(url)
+        if csv_data:
+            data = parse_csv(csv_data)
             selected_reviewer, reason = select_best_reviewer(data, args.institution)
             print("*****")
             print("EAR Reviewer Selection Process")
             print(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M')}\n")
             if selected_reviewer:
-                print_tsv(selected_reviewer)
+                print_csv(selected_reviewer)
                 print(explain_selection(selected_reviewer, reason))
             else:
                 print("No suitable reviewer found at the moment.")

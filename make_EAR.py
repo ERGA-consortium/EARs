@@ -1,7 +1,7 @@
 # make_EAR.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-EAR_version = "v24.02.09_beta"
+EAR_version = "v24.04.03_beta"
 
 import sys
 import argparse
@@ -360,39 +360,43 @@ def make_report(yaml_file):
     # Get stuff from GoaT
     goat_response = requests.get(f'https://goat.genomehubs.org/api/v2/search?query=tax_name%28{species_name}%29&result=taxon')
     goat_data = goat_response.json() # convert json to dict
+    
+    taxon_number = goat_data['results'][0]['result']['taxon_id']
+    
     goat_results = goat_data['results']
-
+    
     class_name = 'NA'
     order_name = 'NA'
     haploid_number = 'NA'
     haploid_source = 'NA'
-    chrom_num = 'NA'
     ploidy = 'NA'
+    ploidy_source = 'NA'
 
     for result in goat_results:
         lineage = result['result']['lineage']
-        fields = result['result']['fields']
-
         for node in lineage:
             if node['taxon_rank'] == 'class':
                 class_name = node['scientific_name']
             if node['taxon_rank'] == 'order':
                 order_name = node['scientific_name']
 
-        if 'haploid_number' in fields:
-            haploid_number = fields['haploid_number']['value']
-            haploid_source = fields['haploid_number']['aggregation_source']
 
-        if 'chromosome_number' in fields:
-            chrom_num = fields['chromosome_number']['value']
+    goat_second_response = requests.get(f'https://goat.genomehubs.org/api/v2/record?recordId={taxon_number}&result=taxon&taxonomy=ncbi')
+    goat_second_data = goat_second_response.json()
 
-        if haploid_number != 'NA' and chrom_num != 'NA':
-            ploidy = (math.floor(chrom_num / haploid_number))
+    ploidy_info = goat_second_data['records'][0]['record']['attributes']['ploidy']
 
+    ploidy = ploidy_info['value']
+    ploidy_source = ploidy_info['aggregation_source']
+
+    haploid_info = goat_second_data['records'][0]['record']['attributes']['haploid_number']
+
+    haploid_number = haploid_info['value']
+    haploid_source = haploid_info['aggregation_source']
 
     sp_data = [
-        ["ToLID", "Species", "Class", "Order"],
-        [tol_id, species, class_name, order_name]
+        ["TxID", "ToLID", "Species", "Class", "Order"],
+        [taxon_number, tol_id, species, class_name, order_name]
     ]
 
     # Transpose the data
@@ -609,7 +613,7 @@ def make_report(yaml_file):
         ["Genome Traits", "Expected", "Observed"],
         ["Haploid size (bp)", genome_haploid_length, f"{max_total_bp}"],
         ["Haploid Number", f"{haploid_number} (source: {haploid_source})", obs_haploid_num],
-        ["Ploidy", f"{ploidy} (source: {haploid_source})", proposed_ploidy],
+        ["Ploidy", f"{ploidy} (source: {ploidy_source})", proposed_ploidy],
         ["Sample Sex", sex, obs_sex]
     ]
 
@@ -680,7 +684,7 @@ def make_report(yaml_file):
         ("BACKGROUND", (1, 0), (1, -1), colors.white),  # White background for column 2
         ("ALIGN", (0, 0), (-1, -1), "CENTER"),
         ('FONTNAME', (0, 0), (0, 0), 'Courier'),  # Regular font for row1, col1
-        ('FONTNAME', (1, 0), (1, 0), 'Courier-Bold'),  # Bold font for row1, col2
+        ('FONTNAME', (1, 0), (1, 0), 'Courier'),
         ('FONTNAME', (0, 1), (-1, -1), 'Courier'),  # Regular font for the rest of the table
         ('FONTNAME', (1, 1), (1, 1), 'Courier-Bold'),  # Bold font for row1, col2
         ("FONTSIZE", (0, 0), (-1, -1), 14),

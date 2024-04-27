@@ -28,7 +28,7 @@ def adjust_score(reviewer, tags):
     if reviewer['Last Review'] == 'NA':
         score += 50
     if 'BGE' in tags and reviewer['Institution'] in ['CNAG', 'Sanger', 'Genoscope', 'SciLifeLab']:
-        score += 50  # Additional 50 points for reviewers from BGE institutions if 'BGE' tag is used
+        score += 50
     return score
 
 def parse_date(date_str):

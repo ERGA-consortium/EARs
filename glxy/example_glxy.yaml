@@ -59,8 +59,8 @@ ASSEMBLIES:
       merqury_qv: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.qv
       merqury_completeness_stats: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.completeness.stats
       merqury_hap_spectra_cn_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.ele_post.asm2.spectra-cn.ln.png
-      merqury_spectra_cn_png:
-      merqury_spectra_asm_png:
+      merqury_spectra_cn_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.spectra-cn.ln.png
+      merqury_spectra_asm_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.spectra-asm.ln.png
       hic_FullMap_png: /Users/TEST/GEP/post/pretext/pretext_snake2.png
       hic_FullMap_link: https://box.fu-berlin.de/apps/files/something
       blobplot_cont_png: /Users/TEST/GEP/post/blob/test2.png

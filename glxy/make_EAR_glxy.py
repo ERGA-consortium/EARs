@@ -1,7 +1,7 @@
 # make_EAR_glxy.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-EAR_version = "v24.05.20_beta"
+EAR_version = "v24.05.20_glxy_beta"
 
 import sys
 import argparse

@@ -1,4 +1,5 @@
 # make_EAR_glxy.py
+# CAUTION: This is for the Galaxy version!
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
 EAR_version = "v24.05.20_glxy_beta"

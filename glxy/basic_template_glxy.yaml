@@ -1,0 +1,76 @@
+# This is the yaml file for generating the ERGA Assembly Report (EAR) using the make_EAR_glxy.py script
+# CAUTION: This is for the Galaxy version!
+# Please complete the required information pointed as <Insert ...>
+# The file glxy/example_glxy.yaml contains an example of a completed yaml file
+
+# SAMPLE INFORMATION
+ToLID: <Insert ToLID>
+Species: <Insert species name>
+Sex: <Insert species sex> # for example: XX, XY, X0, ZZ, ZW, unknown, NA
+Submitter: <Insert submitter full name>
+Affiliation: <Insert submitter affiliation>
+Tags: <Insert tag> # valid tags are ERGA-BGE, ERGA-Pilot, ERGA-Satellite
+
+
+# SEQUENCING DATA
+DATA: # add below name of available data and coverage
+  - <Insert data type>: <insert data coverage> # if coverage is not available, leave it empty
+
+
+# GENOME PROFILING DATA
+PROFILING:
+  GenomeScope:
+    genomescope_summary_txt: <Insert GenomeScope results summary.txt file path>
+  Smudgeplot: # Smudgeplot is not mandatory (but preferred for ploidy estimation), if not available, leave it empty
+    smudgeplot_verbose_summary_txt: <Insert Smudgeplot results summary.txt file path>
+
+
+# ASSEMBLY DATA
+ASSEMBLIES:
+  Pre-curation:
+    pipeline: [<Insert ToolA_v1.2.3|ParamX|ParamY>, <Insert ToolB_v2.3.4>] # valid input is empty or between brackets ToolName followed by _v followed by versionNumber followed by | followed by keyToolParameter
+    <Insert haplotype>: # valid types are hap1, pri, collapsed
+      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
+      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
+      merqury_qv: <Insert Merqury results .qv file path>
+      merqury_completeness_stats: <Insert Merqury results completeness.stats file path>
+    <Insert another haplotype>: # Only if hap2 is available. Otherwise remove the <Insert another haplotype> section
+      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
+      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
+      merqury_qv: <Insert Merqury results .qv file path>
+      merqury_completeness_stats: <Insert Merqury results completeness.stats file path>
+
+  Curated:
+    pipeline: [<Insert ToolA_v1.2.3>, <Insert ToolB_v2.3.4>|ParamY|ParamZ] # valid input is empty or between brackets ToolName followed by _v followed by versionNumber followed by | followed by keyToolParameter
+    <Insert haplotype>: # valid types are hap1, pri, collapsed
+      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
+      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
+      merqury_qv: <Insert Merqury results .qv file path>
+      merqury_completeness_stats: <Insert Merqury results completeness.stats file path>
+      merqury_hap_spectra_cn_png: <Insert Merqury results HAP1 spectra-cn.ln.png file path>
+      merqury_spectra_cn_png: <Insert Merqury results spectra-cn.ln.png file path>
+      merqury_spectra_asm_png: <Insert Merqury results spectra-asm.ln.png file path>
+      hic_FullMap_png: <Insert pretext FullMap.png full path> # also can be a HiC full contact map PNG from higlass
+      hic_FullMap_link: <Insert .pretext file web link> # also can be .mcool from higlass
+      blobplot_cont_png: <Insert blobplot contamination .png file full path>
+    <Insert another haplotype>: # Only if hap2 is available. Otherwise remove the <Insert another haplotype> section  
+      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
+      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
+      merqury_qv: <Insert Merqury results .qv file path>
+      merqury_completeness_stats: <Insert Merqury results completeness.stats file path>
+      merqury_hap_spectra_cn_png: <Insert Merqury results HAP2 spectra-cn.ln.png file path>
+      merqury_spectra_cn_png: <Insert Merqury results spectra-cn.ln.png file path>
+      merqury_spectra_asm_png: <Insert Merqury results spectra-asm.ln.png file path>
+      hic_FullMap_png: <Insert pretext FullMap.png full path> # also can be a HiC full contact map PNG from higlass
+      hic_FullMap_link: <Insert .pretext file web link> # also can be .mcool from higlass
+      blobplot_cont_png: <Insert blobplot contamination .png file full path>
+
+
+# CURATION NOTES
+NOTES:
+  Obs_Haploid_num: <Insert observed haploid number> # integer
+  Obs_Sex: <Insert observed sex> # for example: XX, XY, X0, ZZ, ZW, unknown, NA
+  Interventions_per_Gb: <Insert manual intervernation during curation> # integer or empty
+  Contamination_notes: <Insert contamination notes> # text in quotes "", related to the decontamination process, or presence of plastids or symbionts
+  Other_notes: <Insert other notes> # text in quotes "", related to sample characteristics and quality, the curation process, etc
+ 

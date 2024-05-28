@@ -1,0 +1,76 @@
+# This is the yaml file for generating the ERGA Assembly Report (EAR) using the make_EAR_glxy.py script
+# CAUTION: This is for the Galaxy version!
+# This file is filled as an example
+
+# SAMPLE INFORMATION
+ToLID: xSomSpe1
+Species: Some species
+Sex: XY # for example: XX, XY, ZZ, ZW, unknown, NA...
+Submitter: Name Lastname
+Affiliation: Myinstitute
+Tags: ERGA-test # valid tags are ERGA-Pilot, ERGA-BGE, ERGA-Satellite
+
+
+# SEQUENCING DATA
+DATA:
+  - HiFi: 40x
+  - Bionano: # empty because coverage was not available
+  - OmniC: 90x
+
+
+# GENOME PROFILING DATA
+PROFILING:
+  GenomeScope:
+    genomescope_summary_txt: /Users/TEST/GEP/genomescope/results_summary.txt
+  Smudgeplot: 
+    smudgeplot_verbose_summary_txt: /Users/TEST/GEP/smudge/smudgeplot_verbose_summary.txt
+
+# ASSEMBLY DATA
+ASSEMBLIES:
+  Pre-curation:
+    pipeline: [Hifiasm_v0.19.4|HiC|l0, Purge_Dups_v1.2.6|, Bionano_vGalaxy_3.7.0, YaHS_v1.1] # valid input is empty or between brackets ToolName followed by _v followed by versionNumber: [ToolA_v1.2.3, ToolB_v2.3.4, ToolC_v3.4.5]
+    hap1:
+      gfastats--nstar-report_txt: /Users/TEST/GEP/pre/ASSEMBLY_STATISTICS/asm1/ele_pre_gfastats.txt
+      busco_short_summary_txt: /Users/TEST/GEP/pre/BUSCOs/asm1/short_summary.specific.mammalia_odb10.asm1.txt
+      merqury_qv: /Users/TEST/GEP/pre/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_pre_merqOutput.qv
+      merqury_completeness_stats: /Users/TEST/GEP/pre/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_pre_merqOutput.completeness.stats
+    hap2:
+      gfastats--nstar-report_txt: /Users/TEST/GEP/pre/ASSEMBLY_STATISTICS/asm2/ele_pre_gfastats.txt
+      busco_short_summary_txt: /Users/TEST/GEP/pre/BUSCOs/asm2/short_summary.specific.mammalia_odb10.asm2.txt
+      merqury_qv: /Users/TEST/GEP/pre/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_pre_merqOutput.qv
+      merqury_completeness_stats: /Users/TEST/GEP/pre/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_pre_merqOutput.completeness.stats
+
+  Curated:
+    pipeline: [GRIT_rapid_v2.0, HiGlass_v1.0] # valid input is empty or between brackets ToolName followed by _v followed by versionNumber: [ToolA_v1.2.3, ToolB_v2.3.4, ToolC_v3.4.5] 
+    hap1:
+      gfastats--nstar-report_txt: /Users/TEST/GEP/post/ASSEMBLY_STATISTICS/asm1/ele_post_gfastats.txt
+      busco_short_summary_txt: /Users/TEST/GEP/post/BUSCOs/asm1/short_summary.specific.mammalia_odb10.asm1.txt
+      merqury_qv: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.qv
+      merqury_completeness_stats: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.completeness.stats
+      merqury_hap_spectra_cn_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.ele_post.asm1.spectra-cn.ln.png
+      merqury_spectra_cn_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.spectra-cn.ln.png
+      merqury_spectra_asm_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.spectra-asm.ln.png
+      hic_FullMap_png: /Users/TEST/GEP/post/pretext/pretext_snake1.png
+      hic_FullMap_link: https://box.fu-berlin.de/apps/files/something
+      blobplot_cont_png: /Users/TEST/GEP/post/blob/test1.png 
+    hap2:  
+      gfastats--nstar-report_txt: /Users/TEST/GEP/post/ASSEMBLY_STATISTICS/asm2/ele_post_gfastats.txt
+      busco_short_summary_txt: /Users/TEST/GEP/post/BUSCOs/asm2/short_summary.specific.mammalia_odb10.asm2.txt
+      merqury_qv: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.qv
+      merqury_completeness_stats: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.completeness.stats
+      merqury_hap_spectra_cn_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.ele_post.asm2.spectra-cn.ln.png
+      merqury_spectra_cn_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.spectra-cn.ln.png
+      merqury_spectra_asm_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.spectra-asm.ln.png
+      hic_FullMap_png: /Users/TEST/GEP/post/pretext/pretext_snake2.png
+      hic_FullMap_link: https://box.fu-berlin.de/apps/files/something
+      blobplot_cont_png: /Users/TEST/GEP/post/blob/test2.png
+
+
+# CURATION NOTES
+NOTES:
+  Obs_Haploid_num: 28
+  Obs_Sex: XY
+  Interventions_per_Gb: 2
+  Contamination_notes: "No presence of contaminants. Mitochondrial genome was removed from the assembly"
+  Other_notes: "Large collapsed repeat in chr5, haplotypic inversion in chr12"
+

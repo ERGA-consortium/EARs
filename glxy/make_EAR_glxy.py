@@ -1,7 +1,8 @@
-# make_EAR.py
+# make_EAR_glxy.py
+# CAUTION: This is for the Galaxy version!
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-EAR_version = "v24.04.03_beta"
+EAR_version = "v24.05.20_glxy_beta"
 
 import sys
 import argparse
@@ -100,32 +101,28 @@ def make_report(yaml_file):
 
 
     # extract qv values
-    def get_qv_value(dir_path, order, tool, haplotype):
+    def get_qv_value(file_path, order, tool, haplotype):
         try:
-            file_paths = glob.glob(f"{dir_path}/*.qv")
-            for file_path in file_paths:
-                with open(file_path, 'r') as file:
-                    lines = file.readlines()
-                    if len(lines) > order and (len(lines) == 1 or lines[2].split('\t')[0].strip() == "Both"):
-                        target_line = lines[order]
-                        fourth_column_value = target_line.split('\t')[3]
-                        return fourth_column_value
+            with open(file_path, 'r') as file:
+                lines = file.readlines()
+                if len(lines) > order and (len(lines) == 1 or lines[2].split('\t')[0].strip() == "Both"):
+                    target_line = lines[order]
+                    fourth_column_value = target_line.split('\t')[3]
+                    return fourth_column_value
         except Exception as e:
-            logging.error(f"Error reading {dir_path}: {str(e)}")
+            logging.error(f"Error reading {file_path} for tool {tool} and haplotype {haplotype}: {str(e)}")
         return ''
 
 
     # extract Kmer completeness values       
-    def get_completeness_value(dir_path, order, tool, haplotype):
+    def get_completeness_value(file_path, order, tool, haplotype):
         try:
-            file_paths = glob.glob(f"{dir_path}/*completeness.stats")
-            for file_path in file_paths:
-                with open(file_path, 'r') as file:
-                    lines = file.readlines()
-                    if len(lines) > order:
-                        target_line = lines[order]
-                        fifth_column_value = target_line.split('\t')[4].strip()
-                        return fifth_column_value
+            with open(file_path, 'r') as file:
+                lines = file.readlines()
+                if len(lines) > order:
+                    target_line = lines[order]
+                    fifth_column_value = target_line.split('\t')[4].strip()
+                    return fifth_column_value
         except Exception as e:
             logging.warning(f"Error reading {dir_path}: {str(e)}")
             return ''
@@ -322,6 +319,7 @@ def make_report(yaml_file):
         return tree_diagram
 
     
+
     # Reading SAMPLE INFORMATION section from yaml ################################################
 
     # Check for required fields
@@ -403,8 +401,6 @@ def make_report(yaml_file):
     transposed_sp_data = list(map(list, zip(*sp_data)))
 
 
-
-
     # Reading SEQUENCING DATA section from yaml ###################################################
 
     # get DATA section from yaml
@@ -434,83 +430,47 @@ def make_report(yaml_file):
     curation_pipeline_tree = generate_pipeline_tree(curation_pipeline_data)
 
 
-
-
     # Reading GENOME PROFILING DATA section from yaml #############################################
 
     profiling_data = yaml_data.get('PROFILING')
-    
+
     # Check if profiling_data is available
     if not profiling_data:
         logging.error('Error: No profiling data found in the YAML file.')
         sys.exit(1)
 
-    tools = ['GenomeScope', 'Smudgeplot']
-    required_fields = ['results_folder']
-
-    smudgeplot_folder = None  # Initialize smudgeplot_folder to None
-
-    # Loop through the required tools
-    for tool in tools:
-        tool_data = profiling_data.get(tool)
-
-        # Check if tool data is present
-        if not tool_data:
-            if tool == 'Smudgeplot':
-                logging.warning(f"# PROFILING section in the yaml file is missing or empty for {tool} information. Skipping {tool}.")
-                continue
-            else:
-                logging.error(f"# PROFILING section in the yaml file is missing or empty for {tool} information.")
-                sys.exit(1)
-
-        # Check for required fields and log an error message if any are missing
-        for field in required_fields:
-            if not tool_data.get(field):
-                if tool == 'Smudgeplot':
-                    logging.warning(f"# {tool} information in the PROFILING section in the yaml file is missing or empty for {field} information. Skipping {tool}.")
-                    break
-                else:
-                    logging.error(f"# {tool} information in the PROFILING section in the yaml file is missing or empty for {field} information.")
-                    sys.exit(1)
-
-
-        # Get version if it's there, otherwise assign 'NA'
-        tool_version = tool_data.get('version', 'NA')
-
-        # Assign data to specific variables
-        if tool == 'GenomeScope':
-            genomescope_folder = tool_data['results_folder']
+    # Handle GenomeScope specific processing
+    genomescope_data = profiling_data.get('GenomeScope')
+    if genomescope_data:
+        summary_file = genomescope_data.get('genomescope_summary_txt')
+        if summary_file and os.path.exists(summary_file):
+            with open(summary_file, "r") as f:
+                summary_txt = f.read()
+            genome_haploid_length = re.search(r"Genome Haploid Length\s+([\d,]+) bp", summary_txt).group(1)
+            proposed_ploidy_match = re.search(r"p = (\d+)", summary_txt)
+            proposed_ploidy = proposed_ploidy_match.group(1) if proposed_ploidy_match else 'NA'
         else:
-            smudgeplot_folder = tool_data['results_folder']
-
-
-    # Read the content of the summary.txt file
-    summary_file_path = os.path.join(genomescope_folder, '*summary.txt')
-    summary_file = glob.glob(summary_file_path)[0]
-    with open(summary_file, "r") as f:
-        summary_txt = f.read()
-
-    # Extract values from summary.txt
-    genome_haploid_length = re.search(r"Genome Haploid Length\s+([\d,]+) bp", summary_txt).group(1)
-    proposed_ploidy = re.search(r"p = (\d+)", summary_txt).group(1)
-
-    # Read the content of the smudgeplot_verbose_summary.txt file
-    smu_plot_file = 'NA'
-
-    if smudgeplot_folder is not None:
-        smud_summary_file_path = os.path.join(smudgeplot_folder, '*verbose_summary.txt')
-        smud_summary_file = glob.glob(smud_summary_file_path)[0]
-        with open(smud_summary_file, "r") as f:
-            smud_summary_txt = f.readlines()
-
-        for line in smud_summary_txt:
-            if line.startswith("* Proposed ploidy"):
-                proposed_ploidy = line.split(":")[1].strip()
-
+            logging.error(f"File {summary_file} not found for GenomeScope.")
+            sys.exit(1)
     else:
-        logging.warning(f"# Getting Proposed ploidy information from GenomeScope because SmudgePlot data is missing.")
+        logging.error("GenomeScope data is missing in the PROFILING section.")
+        sys.exit(1)
 
-
+    # Handle Smudgeplot specific processing
+    smudgeplot_data = profiling_data.get('Smudgeplot')
+    if smudgeplot_data:
+        verbose_summary_file = smudgeplot_data.get('smudgeplot_verbose_summary_txt')
+        if verbose_summary_file and os.path.exists(verbose_summary_file):
+            with open(verbose_summary_file, "r") as f:
+                smud_summary_txt = f.readlines()
+            for line in smud_summary_txt:
+                if line.startswith("* Proposed ploidy"):
+                    proposed_ploidy = line.split(":")[1].strip()
+                    break
+        else:
+            logging.warning(f"Verbose summary file {verbose_summary_file} not found for Smudgeplot; skipping detailed Smudgeplot analysis.")
+    else:
+        logging.warning("Smudgeplot data is missing in the PROFILING section; skipping Smudgeplot analysis.")
 
 
     # Reading ASSEMBLY DATA section from yaml #####################################################
@@ -567,9 +527,10 @@ def make_report(yaml_file):
         for i, haplotypes in enumerate(asm_stage_elements):
             haplotype_properties = stage_properties[haplotypes]
             if isinstance(haplotype_properties, dict):
-                if 'merqury_folder' in haplotype_properties:
-                    qv_data[(asm_stage, haplotypes)] = get_qv_value(haplotype_properties['merqury_folder'], i, asm_stage, haplotypes)
-                    completeness_data[(asm_stage, haplotypes)] = get_completeness_value(haplotype_properties['merqury_folder'], i, asm_stage, haplotypes)
+                if 'merqury_qv' in haplotype_properties:
+                    qv_data[(asm_stage, haplotypes)] = get_qv_value(haplotype_properties['merqury_qv'], i, asm_stage, haplotypes)
+                if 'merqury_completeness_stats' in haplotype_properties:
+                    completeness_data[(asm_stage, haplotypes)] = get_completeness_value(haplotype_properties['merqury_completeness_stats'], i, asm_stage, haplotypes)
                 if 'busco_short_summary_txt' in haplotype_properties:
                     s_value, d_value, f_value, m_value = extract_busco_values(haplotype_properties['busco_short_summary_txt'])
                     busco_data['BUSCO sing.'].update({(asm_stage, haplotypes): s_value})
@@ -587,8 +548,6 @@ def make_report(yaml_file):
     for metric in ['BUSCO sing.', 'BUSCO dupl.', 'BUSCO frag.', 'BUSCO miss.']:
         asm_table_data.append([metric] + [busco_data[metric].get((asm_stage, haplotypes), '') for asm_stage in asm_data for haplotypes in asm_stages if haplotypes in asm_data[asm_stage]])
         
-
-
 
     # Reading CURATION NOTES section from yaml ####################################################
 
@@ -624,9 +583,8 @@ def make_report(yaml_file):
         f". Other observations: &quot;{other_notes}&quot;"
     )
     
-
-
     
+
     # PDF CONSTRUCTION ############################################################################
 
     # Set up the PDF file
@@ -730,10 +688,10 @@ def make_report(yaml_file):
 
     for haplotype in haplotype_names:
         properties = curated_assemblies[haplotype]
-        if 'gfastats--nstar-report_txt' in properties and 'merqury_folder' in properties:
+        if 'gfastats--nstar-report_txt' in properties and 'merqury_qv' in properties:
             gfastats_path = properties['gfastats--nstar-report_txt']
             order = haplotype_names.index(haplotype) # Determine the order based on the position of the haplotype in the list
-            qv_value = get_qv_value(properties['merqury_folder'], order, 'Curated', haplotype)
+            qv_value = get_qv_value(properties['merqury_qv'], order, 'Curated', haplotype)
         
             ebp_quality_metric = compute_ebp_metric(haplotype, gfastats_path, qv_value)
             EBP_metric_paragraph = Paragraph(ebp_quality_metric, styles["midiStyle"])
@@ -763,10 +721,10 @@ def make_report(yaml_file):
     # Iterate over haplotypes in the Curated category and apply checks
     for haplotype in haplotype_names:
         properties = curated_assemblies[haplotype]
-        if isinstance(properties, dict) and 'merqury_folder' in properties and 'busco_short_summary_txt' in properties:
+        if isinstance(properties, dict) and 'merqury_qv' in properties and 'merqury_completeness_stats' in properties and 'busco_short_summary_txt' in properties:
             order = haplotype_names.index(haplotype)
-            qv_value = get_qv_value(properties['merqury_folder'], order, "Curated", haplotype)
-            completeness_value = get_completeness_value(properties['merqury_folder'], order, "Curated", haplotype)
+            qv_value = get_qv_value(properties['merqury_qv'], order, "Curated", haplotype)
+            completeness_value = get_completeness_value(properties['merqury_completeness_stats'], order, "Curated", haplotype)
             busco_scores = extract_busco_values(properties['busco_short_summary_txt'])
 
             warnings = generate_curated_warnings(haplotype, qv_value, completeness_value, busco_scores)
@@ -910,7 +868,7 @@ def make_report(yaml_file):
             tool_count += 1
 
     elements.append(PageBreak())
-    
+
 
     # PDF SECTION 4 -------------------------------------------------------------------------------
 
@@ -920,104 +878,117 @@ def make_report(yaml_file):
 
     # Spacer 
     elements.append(Spacer(1, 48))
-    
+
     # Initialize counter
     counter = 0
-    processed_folders = set()
 
-    for idx, (asm_stages, stage_properties) in enumerate(asm_data.items(), 1):
-        # Check if the stage is 'Curated'
-        if asm_stages == 'Curated':
-            stage_elements = [element for element in stage_properties.keys() if element != 'pipeline']
-            
-            for haplotype in stage_elements:
-                haplotype_properties = stage_properties[haplotype]
-                if isinstance(haplotype_properties, dict) and 'merqury_folder' in haplotype_properties:
-                    merqury_folder = haplotype_properties['merqury_folder']
+    # Iterate over haplotypes in the Curated category to get K-mer spectra images
+    curated_assemblies = yaml_data.get('ASSEMBLIES', {}).get('Curated', {})
+    haplotype_names = [key for key in curated_assemblies.keys() if key != 'pipeline']
 
-                    # Check if folder has already been processed
-                    if merqury_folder not in processed_folders:
-                        processed_folders.add(merqury_folder)
-                        png_files = get_png_files(haplotype_properties['merqury_folder'])
+    # Get paths for spectra files
+    spectra_files = {
+        'hap1': {
+            'spectra_cn_png': curated_assemblies.get('hap1', {}).get('merqury_hap_spectra_cn_png', None),
+        },
+        'hap2': {
+            'spectra_cn_png': curated_assemblies.get('hap2', {}).get('merqury_hap_spectra_cn_png', None),
+        },
+        'common': {
+            'spectra_cn_png': curated_assemblies.get('hap1', {}).get('merqury_spectra_cn_png', None),
+            'spectra_asm_png': curated_assemblies.get('hap1', {}).get('merqury_spectra_asm_png', None),
+        }
+    }
 
-                        # Filter out only .spectra-cn.ln.png files and find the shortest one, also skip None values
-                        spectra_cn_files = [f for f in png_files if f and f.endswith("spectra-cn.ln.png")]
-                        shortest_spectra_cn_file = min(spectra_cn_files, key=lambda f: len(os.path.basename(f)), default=None)
-                        
-                        # Handle cases based on the number of spectra-cn.ln.png files
-                        if len(spectra_cn_files) == 3:
-                            # For 3 .spectra-cn.ln.png files
-                            similar_files = [f for f in spectra_cn_files if f != shortest_spectra_cn_file]
-                            if similar_files:
-                                unique_name1, unique_name2 = find_unique_parts(similar_files[0], similar_files[1])
+    # Filter out None values and empty strings
+    spectra_files = {k: {sk: v for sk, v in sv.items() if v} for k, sv in spectra_files.items()}
+
+    # Determine the number of spectra-cn files and assign unique names if needed
+    spectra_cn_files = [
+        spectra_files['common'].get('spectra_cn_png', None),
+        spectra_files['hap1'].get('spectra_cn_png', None),
+        spectra_files['hap2'].get('spectra_cn_png', None)
+    ]
+    spectra_cn_files = [f for f in spectra_cn_files if f]  # Filter out None values
+
+    if len(spectra_cn_files) == 3:
+        # For 3 spectra-cn files
+        shortest_spectra_cn_file = min(spectra_cn_files, key=lambda f: len(os.path.basename(f)), default=None)
+        similar_files = [f for f in spectra_cn_files if f != shortest_spectra_cn_file]
+        if similar_files:
+            unique_name1, unique_name2 = find_unique_parts(os.path.basename(similar_files[0]), os.path.basename(similar_files[1]))
+    else:
+        shortest_spectra_cn_file = spectra_cn_files[0] if spectra_cn_files else None
+        unique_name1 = unique_name2 = None
+
+    # Create image objects and add filename below each image
+    images = []
+
+    for label, file_dict in spectra_files.items():
+        for key, png_file in file_dict.items():
+            if png_file:
+                image = Image(png_file, width=8.4 * cm, height=7 * cm)
+                filename = os.path.basename(png_file)
+
+                if filename.endswith("spectra-asm.ln.png"):
+                    text = "Distribution of k-mer counts coloured by their presence in reads/assemblies"
+                elif filename.endswith("spectra-cn.ln.png"):
+                    if len(spectra_cn_files) == 3:
+                        # For 3 spectra-cn files use particular text
+                        if png_file == shortest_spectra_cn_file:
+                            text = "Distribution of k-mer counts per copy numbers found in asm (dipl.)"
                         else:
-                            # For 2 .spectra-cn.ln.png files
-                            unique_name1 = unique_name2 = None
+                            if png_file == spectra_files['hap1'].get('spectra_cn_png', None):
+                                text = f"Distribution of k-mer counts per copy numbers found in <b>{unique_name1}</b> (hapl.)"
+                            elif png_file == spectra_files['hap2'].get('spectra_cn_png', None):
+                                text = f"Distribution of k-mer counts per copy numbers found in <b>{unique_name2}</b> (hapl.)"
+                            else:
+                                text = "Distribution of k-mer counts per copy numbers found in asm"
+                    else:
+                        # For 2 spectra-cn files use same text
+                        text = "Distribution of k-mer counts per copy numbers found in asm"
+                else:
+                    text = filename
+                
+                images.append([image, Paragraph(text, styles["midiStyle"])])
 
-                        # Create image objects and add filename below each image
-                        images = []
-                        for png_file in png_files:
-                            if png_file:
-                                image = Image(png_file, width=8.4 * cm, height=7 * cm)
-                                filename = os.path.basename(png_file)
+    # Filter None values
+    images = [img for img in images if img[0] is not None]
 
-                                if filename.endswith("spectra-asm.ln.png"):
-                                    text = "Distribution of k-mer counts coloured by their presence in reads/assemblies"
-                                elif filename.endswith("spectra-cn.ln.png"):
-                                    if len(spectra_cn_files) == 3:
-                                        # For 3 spectra-cn files use particular text
-                                        if png_file == shortest_spectra_cn_file:
-                                            text = "Distribution of k-mer counts per copy numbers found in asm (dipl.)"
-                                        else:
-                                            text = f"Distribution of k-mer counts per copy numbers found in <b>{unique_name1 if png_file == similar_files[0] else unique_name2}</b> (hapl.)"
-                                    else:
-                                        # For 2 spectra-cn files use same text
-                                        text = "Distribution of k-mer counts per copy numbers found in asm"
-                                else:
-                                    text = filename
-                                
-                                images.append([image, Paragraph(text, styles["midiStyle"])])
+    # Get number of rows and columns for the table
+    num_rows = (len(images) + 1) // 2  # +1 to handle odd numbers of images
+    num_columns = 2
 
-        
-                        # Filter None values
-                        images = [img for img in images if img[0] is not None]
-        
-                        # get number of rows and columns for the table
-                        num_rows = (len(images) + 1) // 2  # +1 to handle odd numbers of images
-                        num_columns = 2
-        
-                        # Create the table with dynamic size
-                        image_table_data = [[images[i * num_columns + j] if i * num_columns + j < len(images) else [] for j in range(num_columns)] for i in range(num_rows)]
-                        image_table = Table(image_table_data)
-        
+    # Create the table with dynamic size
+    image_table_data = [[images[i * num_columns + j] if i * num_columns + j < len(images) else [] for j in range(num_columns)] for i in range(num_rows)]
+    image_table = Table(image_table_data)
 
-                        # Style the "table"
-                        table_style = TableStyle([
-                            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-                            ('BOTTOMPADDING', (0, 0), (-1, -1), 20),  #20 here is a spacer between rows
-                        ])
-                        
-                        # Set the style
-                        image_table.setStyle(table_style)
-        
-                        # Add image table to elements
-                        elements.append(image_table)
-        
-                        # Increase counter by the number of PNGs added
-                        counter += len(png_files)
-        
-                        # If counter is a multiple of 4, insert a page break and reset counter
-                        if counter % 4 == 0:
-                            elements.append(PageBreak())
-                            counter = 0
-        
-                # Add spacer
-                elements.append(Spacer(1, 12))
+    # Style the "table"
+    table_style = TableStyle([
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 20),  #20 here is a spacer between rows
+    ])
+
+    # Set the style
+    image_table.setStyle(table_style)
+
+    # Add image table to elements
+    elements.append(image_table)
+
+    # Increase counter by the number of PNGs added
+    counter += len(images)
+
+    # If counter is a multiple of 4, insert a page break and reset counter
+    if counter % 4 == 0:
+        elements.append(PageBreak())
+
+    # Add spacer
+    elements.append(Spacer(1, 12))
 
     # If we have processed all haps and the last page does not contain exactly 4 images, insert a page break
     if counter % 4 != 0:
         elements.append(PageBreak())
-    
+ 
     
     # PDF SECTION 5 -------------------------------------------------------------------------------
 
@@ -1130,6 +1101,7 @@ def make_report(yaml_file):
     current_datetime = datetime.now(cet)
     formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S %Z")
     elements.append(Paragraph(f"Date and time: {formatted_datetime}", submitter_paragraph_style))
+
 
 
     # Build the PDF ###############################################################################

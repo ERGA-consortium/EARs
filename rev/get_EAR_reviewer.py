@@ -1,7 +1,7 @@
 # get_EAR_reviewer.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-version = "v24.04.27_beta"
+version = "v24.05.30_beta"
 
 import requests
 import random
@@ -27,7 +27,7 @@ def adjust_score(reviewer, tags):
     score = int(reviewer['Calling Score'])
     if reviewer['Last Review'] == 'NA':
         score += 50
-    if 'BGE' in tags and reviewer['Institution'] in ['CNAG', 'Sanger', 'Genoscope', 'SciLifeLab']:
+    if 'ERGA-BGE' in tags and reviewer['Institution'] in ['CNAG', 'Sanger', 'WSI', 'Genoscope', 'SciLifeLab']:
         score += 50
     return score
 
@@ -80,10 +80,20 @@ def select_best_reviewer(data, calling_institution, use_bge):
     selected = random.choice(final_candidates)
     return eligible_candidates, [selected], "randomly chosen to break a tie among the finalists"
 
+def select_random_supervisor(data, exclude_id):
+    supervisors = [reviewer for reviewer in data if reviewer['Supervisor'] == 'Y' and reviewer['Github ID'] != exclude_id]
+
+    if not supervisors:
+        return None
+
+    return random.choice(supervisors)
+
 def main():
-    parser = argparse.ArgumentParser(description="Select a candidate for EAR reviewing.")
+    parser = argparse.ArgumentParser(description="Select a candidate for EAR reviewing. Also can select a supervisor.")
     parser.add_argument("-i", "--institution", required=True, help="Institution of the person requesting the review.")
-    parser.add_argument("-t", "--tag", nargs='*', default=[], help="Specify one or more tags to influence selection criteria, such as 'BGE' to favor reviewers from the BGE project.")
+    parser.add_argument("-t", "--tag", nargs='*', default=[], help="Specify one or more tags to influence selection criteria, such as 'ERGA-BGE' to favor reviewers from the BGE project.")
+    parser.add_argument("-u", "--user", help="Github user ID of the person requesting the review. Only required for selecting a supervisor.")
+    parser.add_argument("-s", "--supervisor", action="store_true", help="Flag to select a supervisor randomly.")
     parser.add_argument("-v", "--version", action="version", version=version, help="Show script's version and exit.")
     args = parser.parse_args()
 
@@ -93,6 +103,17 @@ def main():
         data = parse_csv(csv_data)
         if not data:
             print("No data available from the source.")
+            return
+
+        if args.supervisor:
+            if not args.id:
+                print("Github ID must be provided with --id when using --supervisor.")
+                return
+            selected_supervisor = select_random_supervisor(data, args.id)
+            if selected_supervisor:
+                print(f"Selected supervisor: {selected_supervisor['Full Name']} ({selected_supervisor['Github ID']})")
+            else:
+                print("No eligible supervisors found.")
             return
 
         all_eligible_candidates, top_candidates, selection_reason = select_best_reviewer(data, args.institution, args.tag)

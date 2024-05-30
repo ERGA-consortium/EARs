@@ -27,7 +27,7 @@ def adjust_score(reviewer, tags):
     score = int(reviewer['Calling Score'])
     if reviewer['Last Review'] == 'NA':
         score += 50
-    if 'ERGA-BGE' in tags and reviewer['Institution'] in ['CNAG', 'Sanger', 'WSI', 'Genoscope', 'SciLifeLab']:
+    if 'ERGA-BGE' in tags and reviewer['Institution'] in ['CNAG', 'Sanger', 'Genoscope', 'SciLifeLab']:
         score += 50
     return score
 
@@ -106,10 +106,10 @@ def main():
             return
 
         if args.supervisor:
-            if not args.id:
-                print("Github ID must be provided with --id when using --supervisor.")
+            if not args.user:
+                print("Github user ID must be provided with --user when using --supervisor.")
                 return
-            selected_supervisor = select_random_supervisor(data, args.id)
+            selected_supervisor = select_random_supervisor(data, args.user)
             if selected_supervisor:
                 print(f"Selected supervisor: {selected_supervisor['Full Name']} ({selected_supervisor['Github ID']})")
             else:

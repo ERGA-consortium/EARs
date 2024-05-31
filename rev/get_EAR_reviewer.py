@@ -1,7 +1,7 @@
 # get_EAR_reviewer.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-version = "v24.05.30_beta"
+version = "v24.05.31_beta"
 
 import requests
 import random
@@ -36,7 +36,7 @@ def parse_date(date_str):
         return datetime.max
     return datetime.strptime(date_str, '%Y-%m-%d')
 
-def print_csv(data_list):
+def print_csv(data_list, selected_reviewer):
     if not data_list:
         print("No data to print.")
         return
@@ -45,6 +45,10 @@ def print_csv(data_list):
     header_row = ' | '.join(header.ljust(col_widths[header]) for header in headers)
     print(header_row)
     print('-' * len(header_row))
+    
+    if selected_reviewer:
+        data_list = [selected_reviewer] + [d for d in data_list if d != selected_reviewer]
+    
     for data in data_list:
         data_row = ' | '.join(str(data[header]).ljust(col_widths[header]) for header in headers)
         print(data_row)
@@ -123,10 +127,10 @@ def main():
         
         if all_eligible_candidates:
             print("All Eligible Candidates:\n")
-            print_csv(all_eligible_candidates)
+            selected_reviewer = top_candidates[0] if top_candidates else None
+            print_csv(all_eligible_candidates, selected_reviewer)
 
             if top_candidates:
-                selected_reviewer = top_candidates[0]
                 print(f"\nSelected reviewer: {selected_reviewer['Full Name']} ({selected_reviewer['Github ID']})")
                 print("The decision was based on:")
                 print(f"- different institution ('{selected_reviewer['Institution']}')")

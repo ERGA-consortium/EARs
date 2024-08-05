@@ -1,0 +1,38 @@
+name: The EARs Reviewing bot for assigning reviewer
+
+on:
+  workflow_run:
+    workflows: [The EARs Reviewing bot for PRs]
+    types:
+      - completed
+
+  schedule:
+    - cron: "0 */12 * * *"
+
+  workflow_dispatch:
+
+jobs:
+  comment-reviewer:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r ear_bot/requirements.txt
+
+      - name: Run python script to find a reviewer
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python -u ear_bot/ear_bot_reviewer.py --search

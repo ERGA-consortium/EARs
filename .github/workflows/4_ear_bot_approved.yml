@@ -1,0 +1,29 @@
+name: The EARs Reviewing bot on approved changes
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  approved-changes:
+    if: github.event.review.state == 'approved' && contains(github.event.pull_request.labels.*.name, 'ERGA-BGE')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Save event data
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REVIEWER: ${{ github.event.review.user.login }}
+          should_run: ${{ github.event.review.state == 'approved' && contains(github.event.pull_request.labels.*.name, 'ERGA-BGE') }}
+        run: |
+          echo "PR_NUMBER=$PR_NUMBER" > pr_status
+          echo "REVIEWER=$REVIEWER" >> pr_status
+          echo "SHOULD_RUN=$should_run" >> pr_status
+
+      - uses: actions/upload-artifact@v4
+        with:
+          path: pr_status
+          name: pr_status

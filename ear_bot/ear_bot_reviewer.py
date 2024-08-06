@@ -172,6 +172,9 @@ class EARBotReviewer:
                         "Please reply to this message only with **Yes** or **No** by"
                         f" {(current_date + timedelta(days=7)).strftime('%d-%b-%Y at %H:%M CET')}"
                     )
+                    self.EAR_reviewer.update_reviewers_list(
+                        reviewer=new_reviewer, busy=True
+                    )
                 except:
                     supervisor = pr.assignee.login
                     pr.create_issue_comment(
@@ -222,9 +225,9 @@ class EARBotReviewer:
                 f"Contact the PR assignee (@{supervisor}) for any issues."
             )
             pr.add_to_labels("testing")
-            self.EAR_reviewer.update_reviewers_list(reviewer=comment_author, busy=True)
 
         elif "no" in comment_text:
+            self.EAR_reviewer.update_reviewers_list(reviewer=comment_author, busy=False)
             self.find_reviewer([pr], reject=True)
         else:
             print("Invalid comment text.")

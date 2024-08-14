@@ -1,14 +1,17 @@
-name: The EARs Reviewing bot for PRs
+name: The EARs Reviewing bot for assigning reviewer after supervisor approval
 
 on:
-  pull_request_target:
-    types: [opened, reopened, synchronize]
-    paths:
-      - "Assembly_Reports/**/*.pdf"
+  schedule:
+    - cron: "0 */12 * * *"
+
+  workflow_dispatch:
 
 jobs:
-  add-label-and-find-supervisor:
+  find-reviewer:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,5 +30,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: python -u ear_bot/ear_bot_reviewer.py --supervisor
+        run: python -u ear_bot/ear_bot_reviewer.py --search
+
+      - name: Upload csv file
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: "rev/*.csv"
+          branch: main

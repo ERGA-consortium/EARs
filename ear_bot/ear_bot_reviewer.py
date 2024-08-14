@@ -28,22 +28,26 @@ class EAR_get_reviewer:
         self.data = get_EAR_reviewer.parse_csv(csv_data)
 
     def get_supervisor(self, user):
-        selected_supervisor = get_EAR_reviewer.select_random_supervisor(self.data, user)
-        if not selected_supervisor:
-            raise Exception("No eligible supervisors found.")
-        return selected_supervisor.get("Github ID")
+        try:
+            selected_supervisor = get_EAR_reviewer.select_random_supervisor(
+                self.data, user
+            )
+            return selected_supervisor.get("Github ID")
+        except Exception as e:
+            raise Exception(f"No eligible supervisors found.\n{e}")
 
-    def get_reviewer(self, institution):
-        all_eligible_candidates, _, _ = get_EAR_reviewer.select_best_reviewer(
-            self.data, institution, "ERGA-BGE"
-        )
-        if not all_eligible_candidates:
-            raise Exception("No eligible candidates found.")
-        top_candidates = [
-            candidate.get("Github ID", "").lower()
-            for candidate in all_eligible_candidates
-        ]
-        return top_candidates
+    def get_reviewer(self, institution, project):
+        try:
+            all_eligible_candidates, _, _ = get_EAR_reviewer.select_best_reviewer(
+                self.data, institution, project
+            )
+            top_candidates = [
+                candidate.get("Github ID", "").lower()
+                for candidate in all_eligible_candidates
+            ]
+            return top_candidates
+        except Exception as e:
+            raise Exception(f"No eligible candidates found.\n{e}")
 
     def add_pr(self, name, institution, species, pr):
         ear_reviews_csv_file = os.path.join(self.csv_folder, "EAR_reviews.csv")
@@ -51,6 +55,7 @@ class EAR_get_reviewer:
             raise Exception("The EAR reviews CSV file does not exist.")
         with open(ear_reviews_csv_file, "a") as file:
             file.write(f"{name},{institution},{species},{pr}\n")
+        print(f"Added {name} to the EAR reviews CSV file.")
 
     def update_reviewers_list(
         self,
@@ -90,6 +95,7 @@ class EAR_get_reviewer:
             csv_str += ",".join(row.values()) + "\n"
         with open(self.csv_file, "w") as file:
             file.write(csv_str)
+        print(f"Updated the reviewers list for {reviewer}.\n")
 
 
 class EARBotReviewer:
@@ -102,7 +108,74 @@ class EARBotReviewer:
         self.comment_author = os.getenv("COMMENT_AUTHOR")
         self.reviewer = os.getenv("REVIEWER")
 
+    def find_supervisor(self):
+        # Will run when a new PR is opened
+        pr = self.repo.get_pull(int(self.pr_number))
+        if not pr.get_labels() or not pr.assignees:
+            project = self._search_in_body(pr, "Project")
+            pr.add_to_labels(project)
+            researcher = pr.user.login
+            species = self._search_in_body(pr, "Species")
+            pr.create_issue_comment(
+                f"Hi @{researcher}, thanks for sending the EAR of _{species}_.\n"
+                "I added the corresponding tag to the PR and will contact a supervisor and a reviewer ASAP."
+            )
+            supervisor = self.EAR_reviewer.get_supervisor(researcher)
+            pr.create_issue_comment(
+                f"Hi @{supervisor}, do you agree to [supervise](https://github.com/ERGA-consortium/EARs/wiki/Assignees-section) this assembly?\n"
+                "Please reply to this message only with **OK** to give acknowledge."
+            )
+        else:
+            if (
+                pr.get_review_requests()[0].totalCount == 0
+                and pr.get_reviews().totalCount > 0
+            ):
+                review_user = next(
+                    review.user.login.lower() for review in pr.get_reviews()
+                )
+                pr.create_review_request([review_user])
+                pr = self.repo.get_pull(int(self.pr_number))
+            reviewer = next(
+                (
+                    reviewer.login.lower()
+                    for reviewer in pr.requested_reviewers
+                    if reviewer.login.lower() != pr.assignee.login.lower()
+                ),
+                pr.assignee.login.lower(),
+            )
+            pr.create_issue_comment(
+                f"The researcher has updated the EAR PDF. Please review the assembly @{reviewer}."
+            )
+
+    def supervisor_approve(self):
+        # Will run when there is a new comment
+        try:
+            comment_text = self.comment_text.lower()
+            comment_author = self.comment_author.lower()
+            pr = self.repo.get_pull(int(self.pr_number))
+        except Exception as e:
+            print(f"Missing required environment variables.\n{e}")
+            sys.exit(1)
+        if pr.assignees:
+            print("The PR has already been assigned to a supervisor.")
+            sys.exit()
+        supervisors = self._search_comment_user(pr, "do you agree to [supervise]")
+        if not supervisors:
+            print("No called supervisor found in comments.")
+            sys.exit(1)
+        supervisor = supervisors[0]
+        if comment_author != supervisor:
+            print("The supervisor is not the one who was asked to supervise the PR.")
+            sys.exit(1)
+        if "ok" in comment_text:
+            pr.add_to_assignees(supervisor)
+            self.find_reviewer([self.repo.get_pull(int(self.pr_number))])
+        else:
+            pr.create_issue_comment(f"Invalid confirmation!")
+            pr.add_to_labels("ERROR!")
+
     def find_reviewer(self, prs=[], reject=False):
+        # Will run when supervisor approves to be a assignee, or when there is a rejection or a deadline passed for a reviewer
         if not prs:
             prs = list(self.repo.get_pulls(state="open"))
 
@@ -110,57 +183,54 @@ class EARBotReviewer:
 
         for pr in prs:
             if (
-                len(pr.requested_reviewers) > 1
-                or "ERGA-BGE" not in [label.name for label in pr.get_labels()]
+                pr.get_review_requests()[0].totalCount > 0
+                or not pr.get_labels()
                 or pr.get_reviews().totalCount > 0
+                or not pr.assignees
             ):
                 continue
-            old_reviewers = set()
-            deadline_passed = False
-            for comment in pr.get_issue_comments().reversed:
-                text_to_check = "Please reply to this message"
-                if comment.user.type == "Bot" and text_to_check in comment.body:
-                    if not old_reviewers:
-                        last_comment_date = comment.created_at.astimezone(cet)
-                        deadline_passed = (
-                            last_comment_date + timedelta(days=7) < current_date
-                        )
-                    comment_reviewer_re = re.search(r"@(\w+)", comment.body)
-                    if comment_reviewer_re:
-                        old_reviewers.add(comment_reviewer_re.group(1).lower())
-
-            institution_re = re.search(r"Affiliation:\s*(\S+)", pr.body)
-            species_re = re.search(r"Species:\s*(.+)", pr.body)
-            if not institution_re or not species_re:
+            list_of_reviewers = self._search_comment_user(pr, "do you agree to review")
+            old_reviewers = set(list_of_reviewers)
+            last_reviewer = list_of_reviewers[0] if list_of_reviewers else None
+            last_comment_date = self._search_last_comment_time(
+                pr, "do you agree to review"
+            )
+            deadline_passed = (
+                last_comment_date + timedelta(days=7) < current_date
+                if last_comment_date
+                else False
+            )
+            institution = self._search_in_body(pr, "Affiliation")
+            project = self._search_in_body(pr, "Project")
+            try:
+                list_of_reviewers = self.EAR_reviewer.get_reviewer(institution, project)
+                list_of_reviewers = [
+                    reviewer
+                    for reviewer in list_of_reviewers
+                    if reviewer != pr.user.login.lower()
+                    and reviewer != pr.assignee.login.lower()
+                ]
+            except Exception as e:
+                supervisor = pr.assignee.login
                 pr.create_issue_comment(
-                    "Missing affiliation or species in the PR description."
+                    f"Hi @{supervisor}, it looks like there is a problem with this PR that requires your involvement to sort it out."
                 )
+                pr.add_to_labels("ERROR!")
+                print(f"Error finding reviewers.\n{e}")
                 continue
 
-            institution = institution_re.group(1)
-            list_of_reviewers = self.EAR_reviewer.get_reviewer(institution)
-            list_of_reviewers = [
-                reviewer
-                for reviewer in list_of_reviewers
-                if reviewer != pr.user.login.lower()
-                and reviewer != pr.assignee.login.lower()
-            ]
-
-            assign_new_reviewer = False
-            if deadline_passed:
-                assign_new_reviewer = True
-                pr.create_issue_comment(
+            if deadline_passed or reject:
+                self.EAR_reviewer.update_reviewers_list(
+                    reviewer=last_reviewer, busy=False
+                )
+                message = (
                     "Time is out! I will look for the next reviewer on the list :)"
+                    if deadline_passed
+                    else "Ok thank you, I will look for the next reviewer on the list :)"
                 )
-            if reject:
-                assign_new_reviewer = True
-                pr.create_issue_comment(
-                    "Ok thank you, I will look for the next reviewer on the list :)"
-                )
-            if not old_reviewers:
-                assign_new_reviewer = True
+                pr.create_issue_comment(message)
 
-            if assign_new_reviewer:
+            if deadline_passed or reject or not old_reviewers:
                 try:
                     new_reviewer = next(
                         reviewer
@@ -168,7 +238,7 @@ class EARBotReviewer:
                         if reviewer not in old_reviewers
                     )
                     pr.create_issue_comment(
-                        f"👋 Hi @{new_reviewer}, do you agree to review this assembly?\n"
+                        f"Hi @{new_reviewer}, do you agree to review this assembly?\n"
                         "Please reply to this message only with **Yes** or **No** by"
                         f" {(current_date + timedelta(days=7)).strftime('%d-%b-%Y at %H:%M CET')}"
                     )
@@ -178,10 +248,12 @@ class EARBotReviewer:
                 except:
                     supervisor = pr.assignee.login
                     pr.create_issue_comment(
-                        f"No more reviewers available at the moment. @{supervisor} will assign a reviewer."
+                        f"Hi @{supervisor}, it looks like there is a problem with this PR that requires your involvement to sort it out."
                     )
+                    pr.add_to_labels("ERROR!")
 
     def assign_reviewer(self):
+        # Will run when there is a new yes or no comment
         try:
             comment_text = self.comment_text.lower()
             comment_author = self.comment_author.lower()
@@ -189,7 +261,7 @@ class EARBotReviewer:
         except Exception as e:
             print(f"Missing required environment variables.\n{e}")
             sys.exit(1)
-        if len(pr.requested_reviewers) > 1:
+        if pr.get_review_requests()[0].totalCount > 0:
             print("The PR is already assigned to a reviewer.")
             sys.exit()
         if pr.get_reviews().totalCount > 0:
@@ -201,89 +273,68 @@ class EARBotReviewer:
             print("The reviewer has already been assigned.")
             sys.exit()
 
-        comment_reviewer = None
-        for comment in pr.get_issue_comments().reversed:
-            text_to_check = "Please reply to this message"
-            if comment.user.type == "Bot" and text_to_check in comment.body:
-                comment_reviewer = re.search(r"@(\w+)", comment.body).group(1).lower()
-                break
-        if not comment_reviewer:
-            print("Missing reviewer from the comment.")
-            sys.exit(1)
-        if comment_author != comment_reviewer:
+        comment_reviewer = self._search_comment_user(pr, "do you agree to review")
+        if not comment_reviewer or (
+            comment_reviewer and comment_author != comment_reviewer[0]
+        ):
             print("The reviewer is not the one who was asked to review the PR.")
             sys.exit(1)
         if "yes" in comment_text:
-            supervisor = pr.assignee.login
             pr.create_review_request([comment_author])
             pr.create_issue_comment(
-                f"Thank you @{comment_author} for agreeing 👍\n"
+                "Thanks for agreeing!\n"
                 "I appointed you as the EAR reviewer.\n"
+                "I will keep your status as _Busy_ until you finish this review.\n"
                 "Please check the [Wiki](https://github.com/ERGA-consortium/EARs/wiki/Reviewers-section)"
                 " if you need to refresh something. (and remember that you must download the EAR PDF to"
                 " be able to click on the link to the contact map file!)\n"
-                f"Contact the PR assignee (@{supervisor}) for any issues."
+                "Contact the PR assignee for any issues."
             )
-            pr.add_to_labels("testing")
-
         elif "no" in comment_text:
-            self.EAR_reviewer.update_reviewers_list(reviewer=comment_author, busy=False)
             self.find_reviewer([pr], reject=True)
         else:
             print("Invalid comment text.")
             sys.exit(1)
 
     def approve_reviewer(self):
-        pr = self.repo.get_pull(int(self.pr_number))
+        # Will run when there is a new review
         try:
+            pr = self.repo.get_pull(int(self.pr_number))
             reviewer = self.reviewer.lower()
         except Exception as e:
             print(f"Missing required environment variables.\n{e}")
             sys.exit(1)
         supervisor = pr.assignee.login
-        if reviewer == supervisor:
-            print(
-                "The reviewer is the same as the supervisor, don't need to do anything."
-            )
-            sys.exit()
         researcher = pr.user.login
-        comment_reviewer = None
-        for comment in pr.get_issue_comments().reversed:
-            text_to_check = "for agreeing"
-            if comment.user.type == "Bot" and text_to_check in comment.body:
-                comment_reviewer = re.search(r"@(\w+)", comment.body).group(1).lower()
-                break
-        if comment_reviewer and comment_reviewer != reviewer:
+        comment_reviewer = pr.get_reviews()
+        if comment_reviewer.totalCount == 0 or (
+            comment_reviewer.totalCount > 0
+            and comment_reviewer[0].user.login.lower() != reviewer
+        ):
             print("The reviewer is not the one who agreed to review the PR.")
             sys.exit()
         pr.create_issue_comment(
-            f"Thanks @{reviewer} for the review.\nI will add a new reviewed species for you to the table when"
-            f" @{supervisor} approves and merges the PR ;)\n\nCongrats on the assembly @{researcher}!\n"
+            f"Thanks @{reviewer} for the review.\n"
+            f"I will add a new reviewed species for you to the table when @{supervisor} approves and merges the PR ;)\n\n"
+            f"Congrats on the assembly @{researcher}!\n"
             "After merging, you can [upload the assembly to ENA](https://github.com/ERGA-consortium/ERGA-submission)."
         )
 
     def closed_pr(self, merged=False):
+        # Will run when the PR is closed
         pr = self.repo.get_pull(int(self.pr_number))
-        if "testing" in [label.name for label in pr.get_labels()]:
-            pr.remove_from_labels("testing")
 
         reviews = pr.get_reviews().reversed
-        comments = pr.get_issue_comments().reversed
         if reviews.totalCount > 0:
-            for comment in comments:
-                text_to_check = "for the review"
-                if comment.user.type == "Bot" and text_to_check in comment.body:
-                    comment_reviewer = (
-                        re.search(r"@(\w+)", comment.body).group(1).lower()
-                    )
-                    the_review = next(
-                        review
-                        for review in reviews
-                        if review.user.login.lower() == comment_reviewer
-                    )
-                    break
-            else:
+            comment_reviewers = self._search_comment_user(pr, "for the review")
+            if not comment_reviewers:
                 the_review = reviews[0]
+            else:
+                the_review = next(
+                    review
+                    for review in reviews
+                    if review.user.login.lower() == comment_reviewers[0]
+                )
             reviewer = the_review.user.login.lower()
         elif pr.requested_reviewers:
             reviewer = next(
@@ -295,20 +346,14 @@ class EARBotReviewer:
             print("No reviewer found.")
             sys.exit()
 
-        old_reviewers = set()
         submitted_at = None
         institution = None
+        old_reviewers = set()
         if merged == True and reviews.totalCount > 0:
-            for comment in comments:
-                text_to_check = "Please reply to this message"
-                if comment.user.type == "Bot" and text_to_check in comment.body:
-                    comment_reviewer = (
-                        re.search(r"@(\w+)", comment.body).group(1).lower()
-                    )
-                    old_reviewers.add(comment_reviewer)
-            submitted_at = the_review.submitted_at.astimezone(cet).strftime("%Y-%m-%d")
-            institution = re.search(r"Affiliation:\s*(\S+)", pr.body).group(1)
-
+            old_reviewers = set(self._search_comment_user(pr, "do you agree to review"))
+            submitted_at = datetime.now(tz=cet).strftime("%Y-%m-%d")
+            institution = self._search_in_body(pr, "Affiliation")
+            species = self._search_in_body(pr, "Species")
             name = next(
                 (
                     entry["Full Name"]
@@ -317,7 +362,7 @@ class EARBotReviewer:
                 ),
                 the_review.user.name or the_review.user.login,
             )
-            species = re.search(r"Species:\s*(.+)", pr.body).group(1).strip()
+
             self.EAR_reviewer.add_pr(name, institution, species, pr.html_url)
 
         self.EAR_reviewer.update_reviewers_list(
@@ -328,75 +373,54 @@ class EARBotReviewer:
             old_reviewers=old_reviewers,
         )
 
-    def find_supervisor(self):
-        pr = self.repo.get_pull(int(self.pr_number))
-        try:
-            if (
-                "ERGA-BGE" not in [label.name for label in pr.get_labels()]
-                or not pr.assignees
-            ):
-                pr.add_to_labels("ERGA-BGE")
-                researcher = pr.user.login
-                supervisor = self.EAR_reviewer.get_supervisor(researcher)
-                pr.add_to_assignees(supervisor)
-                pr.create_review_request([supervisor])
-                message = (
-                    f"👋 Hi @{researcher}, thanks for sending the EAR.\n"
-                    "I added the corresponding tag to the PR and appointed"
-                    f" @{supervisor} as the [assignee](https://github.com/ERGA-consortium/EARs/wiki/Assignees-section) to supervise."
-                )
-            else:
-                if len(pr.requested_reviewers) < 2 and pr.get_reviews().totalCount > 0:
-                    review_user = next(
-                        review.user.login.lower() for review in pr.get_reviews()
-                    )
-                    pr.create_review_request([review_user])
-                reviewer = next(
-                    (
-                        reviewer.login.lower()
-                        for reviewer in pr.requested_reviewers
-                        if reviewer.login.lower() != pr.assignee.login.lower()
-                    ),
-                    pr.assignee.login.lower(),
-                )
-                message = f"The researcher has updated the EAR PDF. Please review the assembly @{reviewer}."
-            pr.create_issue_comment(message)
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            sys.exit(1)
+    def _search_comment_user(self, pr, text_to_check):
+        comment_user = []
+        for comment in pr.get_issue_comments().reversed:
+            if comment.user.type == "Bot" and text_to_check in comment.body:
+                comment_user_re = re.search(r"@(\w+)", comment.body)
+                if comment_user_re:
+                    comment_user.append(comment_user_re.group(1).lower())
+        return comment_user
+
+    def _search_last_comment_time(self, pr, text_to_check):
+        comment_time = None
+        for comment in pr.get_issue_comments().reversed:
+            if comment.user.type == "Bot" and text_to_check in comment.body:
+                comment_time = comment.created_at.astimezone(cet)
+                break
+        return comment_time
+
+    def _search_in_body(self, pr, text_to_check):
+        item_re = re.search(rf"{text_to_check}:\s*(.+)", pr.body)
+        if item_re:
+            return item_re.group(1).strip()
+        else:
+            pr.create_issue_comment(f"Missing {text_to_check} in the PR description.")
+            pr.add_to_labels("ERROR!")
+            raise Exception(f"Missing {text_to_check} in the PR description.")
 
 
 if __name__ == "__main__":
     parser = ArgumentParser(description="EAR bot!")
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument(
-        "--search", action="store_true", help="Search for a reviewer if needed."
-    )
-    group.add_argument(
-        "--comment",
-        action="store_true",
-        help="Assign the reviewer to the PR when the reviewer agrees.",
-    )
-    group.add_argument("--approve", action="store_true", help="Thanks the reviewer.")
-    group.add_argument(
-        "--supervisor",
-        action="store_true",
-        help="Find the supervisor and assign the ERGA-BGE label.",
-    )
-    group.add_argument(
-        "--merged",
-        help="Remove the testing label and update the reviewer status.",
-    )
+    group.add_argument("--supervisor", action="store_true")
+    group.add_argument("--supervisor_approve", action="store_true")
+    group.add_argument("--search", action="store_true")
+    group.add_argument("--comment", action="store_true")
+    group.add_argument("--approve", action="store_true")
+    group.add_argument("--merged")
     args = parser.parse_args()
     EARBot = EARBotReviewer()
-    if args.search:
+    if args.supervisor:
+        EARBot.find_supervisor()
+    elif args.supervisor_approve:
+        EARBot.supervisor_approve()
+    elif args.search:
         EARBot.find_reviewer()
     elif args.comment:
         EARBot.assign_reviewer()
     elif args.approve:
         EARBot.approve_reviewer()
-    elif args.supervisor:
-        EARBot.find_supervisor()
     elif args.merged is not None:
         EARBot.closed_pr(merged=True if args.merged == "true" else False)
     else:

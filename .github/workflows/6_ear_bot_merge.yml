@@ -5,8 +5,7 @@ on:
     types: [closed]
 
 jobs:
-  update-csv:
-    if: contains(github.event.pull_request.labels.*.name, 'ERGA-BGE')
+  closed-pr:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -29,7 +28,7 @@ jobs:
           python -m pip install -r ear_bot/requirements.txt
           python -u ear_bot/ear_bot_reviewer.py --merge ${{ github.event.pull_request.merged }}
 
-      - name: Uplaod csv file
+      - name: Upload csv file
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           file_pattern: "rev/*.csv"

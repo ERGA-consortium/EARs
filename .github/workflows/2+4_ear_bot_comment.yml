@@ -29,12 +29,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r ear_bot/requirements.txt
-          comment_body=$(echo "${{ github.event.comment.body }}" | tr '[:upper:]' '[:lower:]')
-          if [[ "${comment_body}" =~ (yes|no) ]]; then
-            python -u ear_bot/ear_bot_reviewer.py --comment
-          else
-            python -u ear_bot/ear_bot_reviewer.py --supervisor_approve
-          fi
+          python -u ear_bot/ear_bot_reviewer.py --comment
 
       - name: Upload csv file
         uses: stefanzweifel/git-auto-commit-action@v5

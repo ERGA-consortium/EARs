@@ -395,11 +395,12 @@ class EARBotReviewer:
     def _search_in_body(self, pr, text_to_check):
         item_re = re.search(rf"{text_to_check}:\s*(.+)", pr.body)
         if item_re:
-            return item_re.group(1).strip()
-        else:
-            pr.create_issue_comment(f"Missing {text_to_check} in the PR description.")
-            pr.add_to_labels("ERROR!")
-            raise Exception(f"Missing {text_to_check} in the PR description.")
+            item_value = item_re.group(1).strip()
+            if item_value:
+                return item_value
+        pr.create_issue_comment(f"Missing {text_to_check} in the PR description.")
+        pr.add_to_labels("ERROR!")
+        raise Exception(f"Missing {text_to_check} in the PR description.")
 
 
 if __name__ == "__main__":

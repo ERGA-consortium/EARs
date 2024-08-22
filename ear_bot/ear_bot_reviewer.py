@@ -116,6 +116,7 @@ class EARBotReviewer:
             pr.add_to_labels(project)
             researcher = pr.user.login
             species = self._search_in_body(pr, "Species")
+            self._search_in_body(pr, "Affiliation")
             pr.create_issue_comment(
                 f"Hi @{researcher}, thanks for sending the EAR of _{species}_.\n"
                 "I added the corresponding tag to the PR and will contact a supervisor and a reviewer ASAP."

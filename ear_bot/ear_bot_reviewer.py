@@ -407,7 +407,7 @@ class EARBotReviewer:
             if item_value:
                 return item_value
         pr.create_issue_comment(
-            f"Attention @user, the field ${text_to_check} is missing or empty!\n"
+            f"Attention @user, the field {text_to_check} is missing or empty!\n"
             "Please fix the issue by editing the message"
         )
         pr.add_to_labels("ERROR!")

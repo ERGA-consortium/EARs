@@ -107,18 +107,21 @@ class EARBotReviewer:
         self.comment_text = os.getenv("COMMENT_TEXT")
         self.comment_author = os.getenv("COMMENT_AUTHOR")
         self.reviewer = os.getenv("REVIEWER")
+        self.valid_projects = ["ERGA-BGE", "ERGA-Pilot", "ERGA-Community"]
 
     def find_supervisor(self):
         # Will run when a new PR is opened
         pr = self.repo.get_pull(int(self.pr_number))
-        if not pr.get_labels() or not pr.assignees:
+        if (
+            not any(label.name in self.valid_projects for label in pr.get_labels())
+            or not pr.assignees
+        ):
             researcher = pr.user.login
             project = self._search_in_body(pr, "Project")
-            valid_projects = ["ERGA-BGE", "ERGA-Pilot", "ERGA-Community"]
-            if project not in valid_projects:
+            if project not in self.valid_projects:
                 pr.create_issue_comment(
                     f"Attention @{researcher}, you have entered an invalid `Project:` field!\n"
-                    f"Please use one of the following project names: {', '.join(valid_projects)}"
+                    f"Please use one of the following project names: {', '.join(self.valid_projects)}"
                 )
                 pr.add_to_labels("ERROR!")
                 raise Exception(f"Invalid project name: {project}")
@@ -166,7 +169,9 @@ class EARBotReviewer:
         for pr in prs:
             if (
                 pr.get_review_requests()[0].totalCount > 0
-                or not pr.get_labels()
+                or not any(
+                    label.name in self.valid_projects for label in pr.get_labels()
+                )
                 or pr.get_reviews().totalCount > 0
                 or not pr.assignees
             ):
@@ -404,7 +409,7 @@ class EARBotReviewer:
         lines = pr.body.strip().split("\n")
         for line in lines:
             if line.strip().startswith(f"- {text_to_check}:"):
-                parts = line.split(':', 1)
+                parts = line.split(":", 1)
                 if len(parts) > 1:
                     item_value = parts[1].strip()
                     if item_value:

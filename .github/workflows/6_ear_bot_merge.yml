@@ -6,6 +6,7 @@ on:
 
 jobs:
   closed-pr:
+    if: contains(github.event.pull_request.labels.*.name, 'ERGA-BGE') || contains(github.event.pull_request.labels.*.name, 'ERGA-Pilot') || contains(github.event.pull_request.labels.*.name, 'ERGA-Community')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

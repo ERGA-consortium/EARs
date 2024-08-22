@@ -117,8 +117,8 @@ class EARBotReviewer:
             valid_projects = ["ERGA-BGE", "ERGA-Pilot", "ERGA-Community"]
             if project not in valid_projects:
                 pr.create_issue_comment(
-                    f"Attention @{researcher}, you have entered an invalid project name!\n"
-                    f"Please use one of the following projects: {', '.join(valid_projects)}"
+                    f"Attention @{researcher}, you have entered an invalid `Project:` field!\n"
+                    f"Please use one of the following project names: {', '.join(valid_projects)}"
                 )
                 pr.add_to_labels("ERROR!")
                 raise Exception(f"Invalid project name: {project}")

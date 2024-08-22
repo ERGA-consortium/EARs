@@ -401,11 +401,14 @@ class EARBotReviewer:
         return comment_time
 
     def _search_in_body(self, pr, text_to_check):
-        item_re = re.search(rf"{text_to_check}:\s*(.+)", pr.body)
-        if item_re:
-            item_value = item_re.group(1).strip()
-            if item_value:
-                return item_value
+        lines = pr.body.strip().split("\n")
+        for line in lines:
+            if line.strip().startswith(f"- {text_to_check}:"):
+                parts = line.split(':', 1)
+                if len(parts) > 1:
+                    item_value = parts[1].strip()
+                    if item_value:
+                        return item_value
         pr.create_issue_comment(
             f"Attention @{pr.user.login}, the field `{text_to_check}:` is missing or empty!\n"
             f"Please fix the issue by editing your first message (click on the three dots '…' in the top right corner of it)"

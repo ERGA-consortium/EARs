@@ -112,9 +112,17 @@ class EARBotReviewer:
         # Will run when a new PR is opened
         pr = self.repo.get_pull(int(self.pr_number))
         if not pr.get_labels() or not pr.assignees:
-            project = self._search_in_body(pr, "Project")
-            pr.add_to_labels(project)
             researcher = pr.user.login
+            project = self._search_in_body(pr, "Project")
+            valid_projects = ["ERGA-BGE", "ERGA-Pilot", "ERGA-Community"]
+            if project not in valid_projects:
+                pr.create_issue_comment(
+                    f"Attention {researcher}, you have entered an invalid project name!\n"
+                    f"Please use one of the following projects: {', '.join(valid_projects)}"
+                )
+                pr.add_to_labels("ERROR!")
+                raise Exception(f"Invalid project name: {project}")
+            pr.add_to_labels(project)
             species = self._search_in_body(pr, "Species")
             self._search_in_body(pr, "Affiliation")
             pr.create_issue_comment(
@@ -398,7 +406,10 @@ class EARBotReviewer:
             item_value = item_re.group(1).strip()
             if item_value:
                 return item_value
-        pr.create_issue_comment(f"Missing {text_to_check} in the PR description.")
+        pr.create_issue_comment(
+            f"Attention @user, the field ${text_to_check} is missing or empty!\n"
+            "Please fix the issue by editing the message"
+        )
         pr.add_to_labels("ERROR!")
         raise Exception(f"Missing {text_to_check} in the PR description.")
 

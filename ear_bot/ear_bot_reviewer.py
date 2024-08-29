@@ -176,9 +176,9 @@ class EARBotReviewer:
                 or not pr.assignees
             ):
                 continue
-            list_of_reviewers = self._search_comment_user(pr, "do you agree to review")
-            old_reviewers = set(list_of_reviewers)
-            last_reviewer = list_of_reviewers[0] if list_of_reviewers else None
+            old_reviewers_list = self._search_comment_user(pr, "do you agree to review")
+            old_reviewers = set(old_reviewers_list)
+            last_reviewer = old_reviewers_list[0] if old_reviewers_list else None
             last_comment_date = self._search_last_comment_time(
                 pr, "do you agree to review"
             )
@@ -197,28 +197,19 @@ class EARBotReviewer:
                     if reviewer != pr.user.login.lower()
                     and reviewer != pr.assignee.login.lower()
                 ]
-            except Exception as e:
-                supervisor = pr.assignee.login
-                pr.create_issue_comment(
-                    f"Hi @{supervisor}, it looks like there is a problem with this PR that requires your involvement to sort it out."
-                )
-                pr.add_to_labels("ERROR!")
-                print(f"Error finding reviewers.\n{e}")
-                continue
 
-            if deadline_passed or reject:
-                self.EAR_reviewer.update_reviewers_list(
-                    reviewer=last_reviewer, busy=False
-                )
-                message = (
-                    f"@{last_reviewer} Time is out! I will look for the next reviewer on the list :)"
-                    if deadline_passed
-                    else f"@{last_reviewer} Ok thank you, I will look for the next reviewer on the list :)"
-                )
-                pr.create_issue_comment(message)
+                if deadline_passed or reject:
+                    self.EAR_reviewer.update_reviewers_list(
+                        reviewer=last_reviewer, busy=False
+                    )
+                    message = (
+                        f"@{last_reviewer} Time is out! I will look for the next reviewer on the list :)"
+                        if deadline_passed
+                        else f"@{last_reviewer} Ok thank you, I will look for the next reviewer on the list :)"
+                    )
+                    pr.create_issue_comment(message)
 
-            if deadline_passed or reject or not old_reviewers:
-                try:
+                if deadline_passed or reject or not old_reviewers:
                     new_reviewer = next(
                         reviewer
                         for reviewer in list_of_reviewers
@@ -232,12 +223,12 @@ class EARBotReviewer:
                     self.EAR_reviewer.update_reviewers_list(
                         reviewer=new_reviewer, busy=True
                     )
-                except:
-                    supervisor = pr.assignee.login
-                    pr.create_issue_comment(
-                        f"Hi @{supervisor}, it looks like there is a problem with this PR that requires your involvement to sort it out."
-                    )
-                    pr.add_to_labels("ERROR!")
+            except:
+                supervisor = pr.assignee.login
+                pr.create_issue_comment(
+                    f"Hi @{supervisor}, it looks like there is a problem with this PR that requires your involvement to sort it out."
+                )
+                pr.add_to_labels("ERROR!")
 
     def comment(self):
         # Will run when there is a new comment

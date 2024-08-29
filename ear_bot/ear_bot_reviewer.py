@@ -223,12 +223,13 @@ class EARBotReviewer:
                     self.EAR_reviewer.update_reviewers_list(
                         reviewer=new_reviewer, busy=True
                     )
-            except:
+            except Exception as e:
                 supervisor = pr.assignee.login
                 pr.create_issue_comment(
                     f"Hi @{supervisor}, it looks like there is a problem with this PR that requires your involvement to sort it out."
                 )
                 pr.add_to_labels("ERROR!")
+                print(e)
 
     def comment(self):
         # Will run when there is a new comment

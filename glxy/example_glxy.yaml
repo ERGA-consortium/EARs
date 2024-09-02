@@ -1,20 +1,20 @@
-# This is the yaml file for generating the ERGA Assembly Report (EAR) using the make_EAR_glxy.py script
+# This is the yaml (v24.08.26) file for generating the ERGA Assembly Report (EAR) using the make_EAR_glxy.py (v24.08.26) script
 # CAUTION: This is for the Galaxy version!
 # This file is filled as an example
 
 # SAMPLE INFORMATION
-ToLID: xSomSpe1
-Species: Some species
-Sex: XY # for example: XX, XY, ZZ, ZW, unknown, NA...
-Submitter: Name Lastname
-Affiliation: Myinstitute
-Tags: ERGA-test # valid tags are ERGA-Pilot, ERGA-BGE, ERGA-Satellite
+ToLID: mEleMax1
+Species: Elephas maximus
+Sex: XY  # for example: XX, XY, X0, ZZ, ZW, unknown, NA
+Submitter: Diego De Panis
+Affiliation: BeGenDiv
+Tags: ERGA-Community  # valid tags are ERGA-BGE, ERGA-Pilot, ERGA-Community 
 
 
 # SEQUENCING DATA
-DATA:
+DATA:  # add below name of available data and coverage
   - HiFi: 40x
-  - Bionano: # empty because coverage was not available
+  - Bionano:  # if coverage is not available, leave it empty
   - OmniC: 90x
 
 
@@ -22,27 +22,26 @@ DATA:
 PROFILING:
   GenomeScope:
     genomescope_summary_txt: /Users/TEST/GEP/genomescope/results_summary.txt
-  Smudgeplot: 
+  Smudgeplot:  # Smudgeplot is not mandatory (but preferred for ploidy estimation), if not available, leave it empty
     smudgeplot_verbose_summary_txt: /Users/TEST/GEP/smudge/smudgeplot_verbose_summary.txt
+
 
 # ASSEMBLY DATA
 ASSEMBLIES:
   Pre-curation:
-    pipeline: [Hifiasm_v0.19.4|HiC|l0, Purge_Dups_v1.2.6|, Bionano_vGalaxy_3.7.0, YaHS_v1.1] # valid input is empty or between brackets ToolName followed by _v followed by versionNumber: [ToolA_v1.2.3, ToolB_v2.3.4, ToolC_v3.4.5]
-    hap1:
+    hap1:  # valid types are hap1, pri, collapsed
       gfastats--nstar-report_txt: /Users/TEST/GEP/pre/ASSEMBLY_STATISTICS/asm1/ele_pre_gfastats.txt
       busco_short_summary_txt: /Users/TEST/GEP/pre/BUSCOs/asm1/short_summary.specific.mammalia_odb10.asm1.txt
       merqury_qv: /Users/TEST/GEP/pre/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_pre_merqOutput.qv
       merqury_completeness_stats: /Users/TEST/GEP/pre/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_pre_merqOutput.completeness.stats
-    hap2:
+    hap2:  # Only if hap2 is available. Otherwise remove the <Insert another haplotype> section
       gfastats--nstar-report_txt: /Users/TEST/GEP/pre/ASSEMBLY_STATISTICS/asm2/ele_pre_gfastats.txt
       busco_short_summary_txt: /Users/TEST/GEP/pre/BUSCOs/asm2/short_summary.specific.mammalia_odb10.asm2.txt
       merqury_qv: /Users/TEST/GEP/pre/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_pre_merqOutput.qv
       merqury_completeness_stats: /Users/TEST/GEP/pre/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_pre_merqOutput.completeness.stats
 
   Curated:
-    pipeline: [GRIT_rapid_v2.0, HiGlass_v1.0] # valid input is empty or between brackets ToolName followed by _v followed by versionNumber: [ToolA_v1.2.3, ToolB_v2.3.4, ToolC_v3.4.5] 
-    hap1:
+    hap1:  # valid types are hap1, pri, collapsed
       gfastats--nstar-report_txt: /Users/TEST/GEP/post/ASSEMBLY_STATISTICS/asm1/ele_post_gfastats.txt
       busco_short_summary_txt: /Users/TEST/GEP/post/BUSCOs/asm1/short_summary.specific.mammalia_odb10.asm1.txt
       merqury_qv: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.qv
@@ -50,10 +49,10 @@ ASSEMBLIES:
       merqury_hap_spectra_cn_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.ele_post.asm1.spectra-cn.ln.png
       merqury_spectra_cn_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.spectra-cn.ln.png
       merqury_spectra_asm_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.spectra-asm.ln.png
-      hic_FullMap_png: /Users/TEST/GEP/post/pretext/pretext_snake1.png
-      hic_FullMap_link: https://box.fu-berlin.de/apps/files/something
-      blobplot_cont_png: /Users/TEST/GEP/post/blob/test1.png 
-    hap2:  
+      hic_FullMap_png: /Users/TEST/GEP/post/pretext/pretext_snake1.png  # also can be a HiC full contact map PNG from higlass
+      hic_FullMap_link: https://box.fu-berlin.de/apps/files/something  # also can be a web folder with .mcool from higlass
+      blobplot_cont_png: /Users/TEST/GEP/post/blob/test1.png
+    hap2:  # Only if hap2 is available. Otherwise remove the <Insert another haplotype> section  
       gfastats--nstar-report_txt: /Users/TEST/GEP/post/ASSEMBLY_STATISTICS/asm2/ele_post_gfastats.txt
       busco_short_summary_txt: /Users/TEST/GEP/post/BUSCOs/asm2/short_summary.specific.mammalia_odb10.asm2.txt
       merqury_qv: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.qv
@@ -61,16 +60,28 @@ ASSEMBLIES:
       merqury_hap_spectra_cn_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.ele_post.asm2.spectra-cn.ln.png
       merqury_spectra_cn_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.spectra-cn.ln.png
       merqury_spectra_asm_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.spectra-asm.ln.png
-      hic_FullMap_png: /Users/TEST/GEP/post/pretext/pretext_snake2.png
-      hic_FullMap_link: https://box.fu-berlin.de/apps/files/something
+      hic_FullMap_png: /Users/TEST/GEP/post/pretext/pretext_snake2.png  # also can be a HiC full contact map PNG from higlass
+      hic_FullMap_link: https://box.fu-berlin.de/apps/files/something  # also can be a web folder with .mcool from higlass
       blobplot_cont_png: /Users/TEST/GEP/post/blob/test2.png
+
+
+# METHODS DATA
+PIPELINES:  # add below name of the tools used for the assembly and curation steps, with versions and key parameters selected
+  Assembly:
+    Hifiasm: 0.19.4/HiC/l0  # First field correspond to version. Use / after each field to enter the parameters used
+    purge_dups: 1.2.6/
+    Bionano_solve: Galaxy_3.7.0
+    YaHS: 1.1
+
+  Curation:
+    GRIT_Rapid: 2.0  # First field correspond to version. Use / after each field to enter the parameters used
+    HiGlass: 1.0
 
 
 # CURATION NOTES
 NOTES:
-  Obs_Haploid_num: 28
-  Obs_Sex: XY
-  Interventions_per_Gb: 2
-  Contamination_notes: "No presence of contaminants. Mitochondrial genome was removed from the assembly"
-  Other_notes: "Large collapsed repeat in chr5, haplotypic inversion in chr12"
-
+  Obs_Haploid_num: 28  # integer
+  Obs_Sex: XY  # for example: XX, XY, X0, ZZ, ZW, unknown, NA
+  Interventions_per_Gb: 2  # integer or empty
+  Contamination_notes: "No presence of contaminants. Mitochondrial genome was removed from the assembly"  # text in quotes "", related to the decontamination process, or presence of plastids or symbionts
+  Other_notes: "Large collapsed repeat in chr5, haplotypic inversion in chr12"  # text in quotes "", related to sample characteristics and quality, the curation process, etc

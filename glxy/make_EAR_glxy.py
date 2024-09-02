@@ -2,7 +2,7 @@
 # CAUTION: This is for the Galaxy version!
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-EAR_version = "v24.05.20_glxy_beta"
+EAR_version = "v24.08.26"
 
 import sys
 import argparse
@@ -12,10 +12,7 @@ import yaml
 import os
 import pytz
 import requests
-import json
-import glob
 import math
-from math import ceil
 from datetime import datetime
 from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image, PageBreak
@@ -124,19 +121,8 @@ def make_report(yaml_file):
                     fifth_column_value = target_line.split('\t')[4].strip()
                     return fifth_column_value
         except Exception as e:
-            logging.warning(f"Error reading {dir_path}: {str(e)}")
+            logging.error(f"Error reading {file_path} for tool {tool} and haplotype {haplotype}: {str(e)}")
             return ''
-
-
-    # Getting kmer plots for curated asm
-    def get_png_files(dir_path):
-        png_files = glob.glob(f"{dir_path}/*.ln.png")
-        if len(png_files) < 4:
-            logging.warning(f"Warning: Less than 4 png files found in {dir_path}. If this is diploid, some images may be missing.")
-            # fill missing with None
-            while len(png_files) < 4:
-                png_files.append(None)
-        return png_files[:4]
 
 
     # get unique part in file names
@@ -283,43 +269,44 @@ def make_report(yaml_file):
 
         return warnings
 
+
     # Parse pipeline and generate "tree"
     def generate_pipeline_tree(pipeline_data):
         tree_lines = []
-        indent = "&nbsp;" * 2  # Adjust indent spacing as needed
+        indent = "&nbsp;" * 2  # Adjust indent spacing
 
-        for tool_version_param in pipeline_data:
-            parts = tool_version_param.split('|')
-            tool_version = parts[0]
-            tool, version = tool_version.split('_v') if '_v' in tool_version else (tool_version, "NA")
-            
-            # Handle parameters: join all but the first (which is tool_version) with ', '
-            param_text = ', '.join(parts[1:]) if len(parts) > 1 else "NA"
+        if isinstance(pipeline_data, dict):
+            for tool, version_param in pipeline_data.items():
+                # Tool line
+                tool_line = f"- <b>{tool}</b>"
+                tree_lines.append(tool_line)
 
-            # Tool line
-            tool_line = f"- <b>{tool}</b>"
-            tree_lines.append(tool_line)
+                # Convert version_param to string and split
+                version_param_str = str(version_param)
+                parts = version_param_str.split('/')
+                version = parts[0]
+                params = [p for p in parts[1:] if p]  # This will remove empty strings
 
-            # Version line
-            version_line = f"{indent*2}|_ <i>ver:</i> {version}"
-            tree_lines.append(version_line)
+                # Version line
+                version_line = f"{indent*2}|_ <i>ver:</i> {version}"
+                tree_lines.append(version_line)
 
-            # Param line(s)
-            if param_text != "NA":
-                for param in param_text.split(','):
-                    param = param.strip()
-                    param_line = f"{indent*2}|_ <i>key param:</i> {param if param else 'NA'}"
+                # Param line(s)
+                if params:
+                    for param in params:
+                        param_line = f"{indent*2}|_ <i>key param:</i> {param}"
+                        tree_lines.append(param_line)
+                else:
+                    param_line = f"{indent*2}|_ <i>key param:</i> NA"
                     tree_lines.append(param_line)
-            else:
-                param_line = f"{indent*2}|_ <i>key param:</i> NA"
-                tree_lines.append(param_line)
+        else:
+            tree_lines.append("Invalid pipeline data format")
 
         # Join lines with HTML break for paragraph
         tree_diagram = "<br/>".join(tree_lines)
         return tree_diagram
 
     
-
     # Reading SAMPLE INFORMATION section from yaml ################################################
 
     # Check for required fields
@@ -345,10 +332,10 @@ def make_report(yaml_file):
     tags = yaml_data["Tags"]
 
     # Check if tag is valid
-    valid_tags = ["ERGA-BGE", "ERGA-Pilot", "ERGA-Satellite"]
+    valid_tags = ["ERGA-BGE", "ERGA-Pilot", "ERGA-Community", "ERGA-testing"]
     if tags not in valid_tags:
         tags += "[INVALID TAG]"
-        logging.warning(f"# SAMPLE INFORMATION section in the yaml file contains an invalid tag. Valid tags are ERGA-BGE, ERGA-Pilot and ERGA-Satellite")
+        logging.warning(f"# SAMPLE INFORMATION section in the yaml file contains an invalid tag. Valid tags are ERGA-BGE, ERGA-Pilot and ERGA-Community.")
 
 
     # Get data from GoaT based on species name
@@ -401,6 +388,8 @@ def make_report(yaml_file):
     transposed_sp_data = list(map(list, zip(*sp_data)))
 
 
+
+
     # Reading SEQUENCING DATA section from yaml ###################################################
 
     # get DATA section from yaml
@@ -420,18 +409,16 @@ def make_report(yaml_file):
     table_data = [headers, data_values]
 
 
-    # Extract pipeline data from 'Pre-curation' category
-    asm_pipeline_data = yaml_data.get('ASSEMBLIES', {}).get('Pre-curation', {}).get('pipeline', [])
-    asm_pipeline_tree = generate_pipeline_tree(asm_pipeline_data)
-
+    # Extract pipeline data
+    asm_pipeline_data = yaml_data.get('PIPELINES', {}).get('Assembly', {})
+    curation_pipeline_data = yaml_data.get('PIPELINES', {}).get('Curation', {})
 
     # Extract pipeline data from 'Curated' category
-    curation_pipeline_data = yaml_data.get('ASSEMBLIES', {}).get('Curated', {}).get('pipeline', [])
+    asm_pipeline_tree = generate_pipeline_tree(asm_pipeline_data)
     curation_pipeline_tree = generate_pipeline_tree(curation_pipeline_data)
 
 
     # Reading GENOME PROFILING DATA section from yaml #############################################
-
     profiling_data = yaml_data.get('PROFILING')
 
     # Check if profiling_data is available
@@ -439,38 +426,48 @@ def make_report(yaml_file):
         logging.error('Error: No profiling data found in the YAML file.')
         sys.exit(1)
 
-    # Handle GenomeScope specific processing
+    # Check for GenomeScope data (mandatory)
     genomescope_data = profiling_data.get('GenomeScope')
-    if genomescope_data:
-        summary_file = genomescope_data.get('genomescope_summary_txt')
-        if summary_file and os.path.exists(summary_file):
-            with open(summary_file, "r") as f:
-                summary_txt = f.read()
-            genome_haploid_length = re.search(r"Genome Haploid Length\s+([\d,]+) bp", summary_txt).group(1)
-            proposed_ploidy_match = re.search(r"p = (\d+)", summary_txt)
-            proposed_ploidy = proposed_ploidy_match.group(1) if proposed_ploidy_match else 'NA'
-        else:
-            logging.error(f"File {summary_file} not found for GenomeScope.")
-            sys.exit(1)
-    else:
-        logging.error("GenomeScope data is missing in the PROFILING section.")
+    if not genomescope_data:
+        logging.error("Error: GenomeScope data is missing in the YAML file. This is mandatory.")
         sys.exit(1)
 
-    # Handle Smudgeplot specific processing
+    genomescope_summary = genomescope_data.get('genomescope_summary_txt')
+    if not genomescope_summary:
+        logging.error("Error: GenomeScope summary file path is missing in the YAML file.")
+        sys.exit(1)
+
+    # Read the content of the GenomeScope summary file
+    try:
+        with open(genomescope_summary, "r") as f:
+            summary_txt = f.read()
+        # Extract values from summary.txt
+        genome_haploid_length = re.search(r"Genome Haploid Length\s+([\d,]+) bp", summary_txt).group(1)
+        proposed_ploidy = re.search(r"p = (\d+)", summary_txt).group(1)
+    except Exception as e:
+        logging.error(f"Error reading GenomeScope summary file: {str(e)}")
+        sys.exit(1)
+
+    # Check for Smudgeplot data (optional)
     smudgeplot_data = profiling_data.get('Smudgeplot')
     if smudgeplot_data:
-        verbose_summary_file = smudgeplot_data.get('smudgeplot_verbose_summary_txt')
-        if verbose_summary_file and os.path.exists(verbose_summary_file):
-            with open(verbose_summary_file, "r") as f:
-                smud_summary_txt = f.readlines()
-            for line in smud_summary_txt:
-                if line.startswith("* Proposed ploidy"):
-                    proposed_ploidy = line.split(":")[1].strip()
-                    break
+        smudgeplot_summary = smudgeplot_data.get('smudgeplot_verbose_summary_txt')
+        if smudgeplot_summary:
+            try:
+                with open(smudgeplot_summary, "r") as f:
+                    smud_summary_txt = f.readlines()
+                for line in smud_summary_txt:
+                    if line.startswith("* Proposed ploidy"):
+                        proposed_ploidy = line.split(":")[1].strip()
+                        break
+            except Exception as e:
+                logging.warning(f"Error reading Smudgeplot summary file: {str(e)}. Using GenomeScope ploidy.")
         else:
-            logging.warning(f"Verbose summary file {verbose_summary_file} not found for Smudgeplot; skipping detailed Smudgeplot analysis.")
+            logging.warning("Smudgeplot summary file path is missing. Using GenomeScope ploidy.")
     else:
-        logging.warning("Smudgeplot data is missing in the PROFILING section; skipping Smudgeplot analysis.")
+        logging.info("Smudgeplot data not provided. Using GenomeScope ploidy.")
+
+
 
 
     # Reading ASSEMBLY DATA section from yaml #####################################################
@@ -481,7 +478,7 @@ def make_report(yaml_file):
     asm_stages = []
     for asm_stage, stage_properties in asm_data.items():
         for haplotypes in stage_properties.keys():
-            if haplotypes != 'pipeline' and haplotypes not in asm_stages:
+            if haplotypes not in asm_stages:
                 asm_stages.append(haplotypes)
     
     # get gfastats-based data
@@ -505,7 +502,7 @@ def make_report(yaml_file):
         except (ValueError, ZeroDivisionError):
             gaps_per_gbp_data[(asm_stage, haplotypes)] = ''
     
-    # Define the contigging table (column names) DON'T MOVE THIS AGAIN!!!!!!!
+    # Define the contigging table (column names)
     asm_table_data = [["Metrics"] + [f'{asm_stage} \n {haplotypes}' for asm_stage in asm_data for haplotypes in asm_stages if haplotypes in asm_data[asm_stage]]]
     
     # Fill the table with the gfastats data
@@ -515,7 +512,6 @@ def make_report(yaml_file):
             asm_table_data.append([metric] + [format_number(gfastats_data.get((asm_stage, haplotypes), [''])[i]) if (asm_stage, haplotypes) in gfastats_data else '' for asm_stage in asm_data for haplotypes in asm_stages if haplotypes in asm_data[asm_stage]])
     
     # Add the gaps/gbp in between
-    gc_index =  display_names.index("GC %")
     asm_table_data.insert(gaps_index + 1, ['Gaps/Gbp'] + [format_number(gaps_per_gbp_data.get((asm_stage, haplotypes), '')) for asm_stage in asm_data for haplotypes in asm_stages if haplotypes in asm_data[asm_stage]])
     
     # get QV, Kmer completeness and BUSCO data
@@ -523,9 +519,9 @@ def make_report(yaml_file):
     completeness_data = {}
     busco_data = {metric: {} for metric in ['BUSCO sing.', 'BUSCO dupl.', 'BUSCO frag.', 'BUSCO miss.']}
     for asm_stage, stage_properties in asm_data.items():
-        asm_stage_elements = [element for element in stage_properties.keys() if element != 'pipeline']
+        asm_stage_elements = list(stage_properties.keys())
         for i, haplotypes in enumerate(asm_stage_elements):
-            haplotype_properties = stage_properties[haplotypes]
+            haplotype_properties = stage_properties[haplotypes]    
             if isinstance(haplotype_properties, dict):
                 if 'merqury_qv' in haplotype_properties:
                     qv_data[(asm_stage, haplotypes)] = get_qv_value(haplotype_properties['merqury_qv'], i, asm_stage, haplotypes)
@@ -537,7 +533,9 @@ def make_report(yaml_file):
                     busco_data['BUSCO dupl.'].update({(asm_stage, haplotypes): d_value})
                     busco_data['BUSCO frag.'].update({(asm_stage, haplotypes): f_value})
                     busco_data['BUSCO miss.'].update({(asm_stage, haplotypes): m_value})
-    
+
+
+
     # Fill the table with the QV data
     asm_table_data.append(['QV'] + [qv_data.get((asm_stage, haplotypes), '') for asm_stage in asm_data for haplotypes in asm_stages if haplotypes in asm_data[asm_stage]])
     
@@ -548,6 +546,8 @@ def make_report(yaml_file):
     for metric in ['BUSCO sing.', 'BUSCO dupl.', 'BUSCO frag.', 'BUSCO miss.']:
         asm_table_data.append([metric] + [busco_data[metric].get((asm_stage, haplotypes), '') for asm_stage in asm_data for haplotypes in asm_stages if haplotypes in asm_data[asm_stage]])
         
+
+
 
     # Reading CURATION NOTES section from yaml ####################################################
 
@@ -583,8 +583,9 @@ def make_report(yaml_file):
         f". Other observations: &quot;{other_notes}&quot;"
     )
     
-    
 
+
+    
     # PDF CONSTRUCTION ############################################################################
 
     # Set up the PDF file
@@ -604,7 +605,7 @@ def make_report(yaml_file):
     styles.add(ParagraphStyle(name='subTitleStyle', fontName='Courier', fontSize=16))
     styles.add(ParagraphStyle(name='normalStyle', fontName='Courier', fontSize=12))
     styles.add(ParagraphStyle(name='midiStyle', fontName='Courier', fontSize=10))
-    styles.add(ParagraphStyle(name='LinkStyle', fontName='Courier', fontSize=10, textColor='blue', underline=True))
+    #styles.add(ParagraphStyle(name='LinkStyle', fontName='Courier', fontSize=10, textColor='blue', underline=True))
     styles.add(ParagraphStyle(name='treeStyle', fontName='Courier', fontSize=10, leftIndent=12))
     styles.add(ParagraphStyle(name='miniStyle', fontName='Courier', fontSize=8))
     styles.add(ParagraphStyle(name='FileNameStyle', fontName='Courier', fontSize=6))
@@ -684,7 +685,7 @@ def make_report(yaml_file):
 
     # Iterate over haplotypes in the Curated category to get data for EBP metrics
     curated_assemblies = yaml_data.get('ASSEMBLIES', {}).get('Curated', {})
-    haplotype_names = [key for key in curated_assemblies.keys() if key != 'pipeline']
+    haplotype_names = list(curated_assemblies.keys())
 
     for haplotype in haplotype_names:
         properties = curated_assemblies[haplotype]
@@ -782,7 +783,7 @@ def make_report(yaml_file):
     # Store BUSCO version and lineage information from each file in list
     busco_info_list = []
     for asm_stages, stage_properties in asm_data.items():
-        for haplotype_keys, haplotype_properties in stage_properties.items():
+        for i, haplotype_properties in stage_properties.items():
             if isinstance(haplotype_properties, dict):
                 if 'busco_short_summary_txt' in haplotype_properties:
                     busco_version, lineage_info = extract_busco_info(haplotype_properties['busco_short_summary_txt'])
@@ -814,9 +815,9 @@ def make_report(yaml_file):
     tool_count = 0
 
     # Add title and images for each step
-    for idx, (asm_stages, stage_properties) in enumerate(asm_data.items(), 1):
+    for asm_stages, stage_properties in asm_data.items():
         if asm_stages == 'Curated':
-            tool_elements = [element for element in stage_properties.keys() if element != 'pipeline']
+            tool_elements = list(stage_properties.keys())
         
             images_with_names = []
 
@@ -868,7 +869,7 @@ def make_report(yaml_file):
             tool_count += 1
 
     elements.append(PageBreak())
-
+    
 
     # PDF SECTION 4 -------------------------------------------------------------------------------
 
@@ -884,7 +885,6 @@ def make_report(yaml_file):
 
     # Iterate over haplotypes in the Curated category to get K-mer spectra images
     curated_assemblies = yaml_data.get('ASSEMBLIES', {}).get('Curated', {})
-    haplotype_names = [key for key in curated_assemblies.keys() if key != 'pipeline']
 
     # Get paths for spectra files
     spectra_files = {
@@ -988,7 +988,7 @@ def make_report(yaml_file):
     # If we have processed all haps and the last page does not contain exactly 4 images, insert a page break
     if counter % 4 != 0:
         elements.append(PageBreak())
- 
+    
     
     # PDF SECTION 5 -------------------------------------------------------------------------------
 
@@ -1003,9 +1003,9 @@ def make_report(yaml_file):
     tool_count = 0
 
     # Add title and images for each step
-    for idx, (asm_stages, stage_properties) in enumerate(asm_data.items(), 1):
+    for asm_stages, stage_properties in asm_data.items():
         if asm_stages == 'Curated':  # Check if the current stage is 'Curated'
-            tool_elements = [element for element in stage_properties.keys() if element != 'pipeline']
+            tool_elements = list(stage_properties.keys())
 
             for haplotype in tool_elements:
                 haplotype_properties = stage_properties[haplotype]
@@ -1101,7 +1101,6 @@ def make_report(yaml_file):
     current_datetime = datetime.now(cet)
     formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S %Z")
     elements.append(Paragraph(f"Date and time: {formatted_datetime}", submitter_paragraph_style))
-
 
 
     # Build the PDF ###############################################################################

@@ -1,7 +1,7 @@
 # get_EAR_reviewer.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-version = "v24.05.31_beta"
+version = "v24.08.29"
 
 import requests
 import random
@@ -28,7 +28,7 @@ def adjust_score(reviewer, tags):
     if reviewer['Last Review'] == 'NA':
         score += 50
     if 'ERGA-BGE' in tags and reviewer['Institution'] in ['CNAG', 'Sanger', 'Genoscope', 'SciLifeLab']:
-        score += 50
+        score += 50 # Additional 50 points for reviewers from BGE institutions if 'ERGA-BGE' tag is used
     return score
 
 def parse_date(date_str):
@@ -70,7 +70,7 @@ def select_best_reviewer(data, calling_institution, use_bge):
     top_candidates = [c for c in eligible_candidates if c['Adjusted Score'] == top_score] if top_score is not None else []
 
     if len(top_candidates) == 1:
-        return eligible_candidates, top_candidates, "Highest adjusted calling score."
+        return eligible_candidates, top_candidates, "highest adjusted calling score in this particular selection"
 
     # Check if there is a tie on 'Parsed Last Review' and 'Total Reviews'
     oldest_review = top_candidates[0]['Parsed Last Review']
@@ -78,11 +78,11 @@ def select_best_reviewer(data, calling_institution, use_bge):
     final_candidates = [c for c in top_candidates if c['Parsed Last Review'] == oldest_review and c['Total Reviews'] == fewest_reviews]
 
     if len(final_candidates) == 1:
-        return eligible_candidates, final_candidates, "chosen based on oldest review and fewest reviews among the finalists"
+        return eligible_candidates, final_candidates, "oldest review and fewest reviews among the finalists"
 
     # If still tied, randomly select one
     selected = random.choice(final_candidates)
-    return eligible_candidates, [selected], "randomly chosen to break a tie among the finalists"
+    return eligible_candidates, [selected], "random selection to break a tie among the finalists"
 
 def select_random_supervisor(data, exclude_id):
     supervisors = [reviewer for reviewer in data if reviewer['Supervisor'] == 'Y' and reviewer['Github ID'] != exclude_id]
@@ -136,8 +136,7 @@ def main():
                 print(f"- different institution ('{selected_reviewer['Institution']}')")
                 print(f"- active ('{selected_reviewer['Active']}')")
                 print(f"- not busy ('{selected_reviewer['Busy']}')")
-                print(f"- highest adjusted calling score in this particular selection ({selected_reviewer['Adjusted Score']})")
-                print(f"- {selection_reason}")
+                print(f"- {selection_reason} ({selected_reviewer['Adjusted Score']})")
             else:
                 print("No suitable reviewer found at the moment.")
         else:

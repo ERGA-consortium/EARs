@@ -63,14 +63,14 @@ class EAR_get_reviewer:
 
     def update_reviewers_list(
         self,
-        reviewer,
+        reviewers,
         busy,
         institution=None,
         submitted_at=None,
-        old_reviewers=set(),
+        fined_reviewers=set(),
     ):
         for reviewer_data in self.data:
-            if reviewer_data.get("Github ID", "").lower() == reviewer:
+            if reviewer_data.get("Github ID", "").lower() in reviewers:
                 reviewer_data["Busy"] = "Y" if busy else "N"
                 if submitted_at:
                     reviewer_data["Calling Score"] = str(
@@ -82,7 +82,7 @@ class EAR_get_reviewer:
                     reviewer_data["Last Review"] = submitted_at
                 else:
                     break
-            elif reviewer_data.get("Github ID", "").lower() in old_reviewers:
+            elif reviewer_data.get("Github ID", "").lower() in fined_reviewers:
                 reviewer_data["Calling Score"] = str(
                     int(reviewer_data.get("Calling Score", 1000)) + 1
                 )
@@ -99,7 +99,7 @@ class EAR_get_reviewer:
             csv_str += ",".join(row.values()) + "\n"
         with open(self.csv_file, "w") as file:
             file.write(csv_str)
-        print(f"Updated the reviewers list for {reviewer}.\n")
+        print(f"Updated the reviewers list for {', '.join(reviewers)}.\n")
 
 
 class EARBotReviewer:
@@ -211,7 +211,7 @@ class EARBotReviewer:
                         f" {(current_date + timedelta(days=7)).strftime('%d-%b-%Y at %H:%M CET')}"
                     )
                     self.EAR_reviewer.update_reviewers_list(
-                        reviewer=new_reviewer, busy=True
+                        reviewers=[new_reviewer], busy=True
                     )
             except Exception as e:
                 supervisor = pr.assignee.login
@@ -271,11 +271,14 @@ class EARBotReviewer:
                 print("The reviewer is not the one who was asked to review the PR.")
                 sys.exit()
             if "yes" in comment_text:
-                for old_reviewer in set(comment_reviewer):
-                    if old_reviewer != comment_author:
-                        self.EAR_reviewer.update_reviewers_list(
-                            reviewer=old_reviewer, busy=False
-                        )
+                time_wasted_reviewers = set(
+                    self._search_comment_user(pr, "Time is out!")
+                )
+                self.EAR_reviewer.update_reviewers_list(
+                    reviewers=set(comment_reviewer) - set(comment_author),
+                    busy=False,
+                    fined_reviewers=time_wasted_reviewers,
+                )
                 pr.create_review_request([comment_author])
                 pr.create_issue_comment(
                     "Thanks for agreeing!\n"
@@ -348,11 +351,7 @@ class EARBotReviewer:
             print("No reviewer found.")
             sys.exit()
 
-        submitted_at = None
-        institution = None
-        time_wasted_reviewers = set()
         if merged == True and reviews.totalCount > 0:
-            time_wasted_reviewers = set(self._search_comment_user(pr, "Time is out!"))
             submitted_at = datetime.now(tz=cet).strftime("%Y-%m-%d")
             institution = self._search_in_body(pr, "Affiliation")
             species = self._search_in_body(pr, "Species")
@@ -366,21 +365,17 @@ class EARBotReviewer:
             )
 
             self.EAR_reviewer.add_pr(name, institution, species, pr.html_url)
+
+            self.EAR_reviewer.update_reviewers_list(
+                reviewers=[reviewer],
+                busy=False,
+                institution=institution,
+                submitted_at=submitted_at,
+            )
         else:
             comment_reviewer = self._search_comment_user(pr, "do you agree to review")
-            for old_reviewer in set(comment_reviewer):
-                if old_reviewer != reviewer:
-                    self.EAR_reviewer.update_reviewers_list(
-                        reviewer=old_reviewer, busy=False
-                    )
-
-        self.EAR_reviewer.update_reviewers_list(
-            reviewer=reviewer,
-            busy=False,
-            institution=institution,
-            submitted_at=submitted_at,
-            old_reviewers=time_wasted_reviewers,
-        )
+            old_reviewers = set(comment_reviewer) - set(reviewer)
+            self.EAR_reviewer.update_reviewers_list(reviewers=old_reviewers, busy=False)
 
     def _search_comment_user(self, pr, text_to_check):
         comment_user = []

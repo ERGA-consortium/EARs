@@ -267,7 +267,7 @@ class EARBotReviewer:
                     self._search_comment_user(pr, "Time is out!")
                 )
                 self.EAR_reviewer.update_reviewers_list(
-                    reviewers=set(comment_reviewer) - set(comment_author),
+                    reviewers=set(comment_reviewer) - set([comment_author]),
                     busy=False,
                     fined_reviewers=time_wasted_reviewers,
                 )

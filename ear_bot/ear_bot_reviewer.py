@@ -1,5 +1,6 @@
 import os
 import re
+import subprocess
 import sys
 from argparse import ArgumentParser
 from datetime import datetime, timedelta
@@ -38,14 +39,17 @@ class EAR_get_reviewer:
 
     def get_reviewer(self, institution, project):
         try:
-            all_eligible_candidates, _, _ = get_EAR_reviewer.select_best_reviewer(
+            _, top_candidate, _ = get_EAR_reviewer.select_best_reviewer(
                 self.data, institution, project
             )
-            top_candidates = [
-                candidate.get("Github ID", "").lower()
-                for candidate in all_eligible_candidates
-            ]
-            return top_candidates
+            get_EAR_reviewer_path = os.path.join(self.csv_folder, "get_EAR_reviewer.py")
+            reviewer_print = subprocess.run(
+                f"python {get_EAR_reviewer_path} -i {institution} -t {project}",
+                shell=True,
+                capture_output=True,
+                text=True,
+            ).stdout
+            return top_candidate[0].get("Github ID"), reviewer_print
         except Exception as e:
             raise Exception(f"No eligible candidates found.\n{e}")
 
@@ -177,8 +181,6 @@ class EARBotReviewer:
             ):
                 continue
             old_reviewers_list = self._search_comment_user(pr, "do you agree to review")
-            old_reviewers = set(old_reviewers_list)
-            last_reviewer = old_reviewers_list[0] if old_reviewers_list else None
             last_comment_date = self._search_last_comment_time(
                 pr, "do you agree to review"
             )
@@ -190,31 +192,19 @@ class EARBotReviewer:
             institution = self._search_in_body(pr, "Affiliation")
             project = self._search_in_body(pr, "Project")
             try:
-                list_of_reviewers = self.EAR_reviewer.get_reviewer(institution, project)
-                list_of_reviewers = [
-                    reviewer
-                    for reviewer in list_of_reviewers
-                    if reviewer != pr.user.login.lower()
-                    and reviewer != pr.assignee.login.lower()
-                ]
-
                 if deadline_passed or reject:
-                    self.EAR_reviewer.update_reviewers_list(
-                        reviewer=last_reviewer, busy=False
-                    )
                     message = (
-                        f"@{last_reviewer} Time is out! I will look for the next reviewer on the list :)"
+                        f"@{old_reviewers_list[0]} Time is out! I will look for the next reviewer on the list :)"
                         if deadline_passed
-                        else f"@{last_reviewer} Ok thank you, I will look for the next reviewer on the list :)"
+                        else f"@{old_reviewers_list[0]} Ok thank you, I will look for the next reviewer on the list :)"
                     )
                     pr.create_issue_comment(message)
 
-                if deadline_passed or reject or not old_reviewers:
-                    new_reviewer = next(
-                        reviewer
-                        for reviewer in list_of_reviewers
-                        if reviewer not in old_reviewers
+                if deadline_passed or reject or not old_reviewers_list:
+                    new_reviewer, get_EAR_reviewer_print = (
+                        self.EAR_reviewer.get_reviewer(institution, project)
                     )
+                    pr.create_issue_comment(f"```\n{get_EAR_reviewer_print}```")
                     pr.create_issue_comment(
                         f"Hi @{new_reviewer}, do you agree to review this assembly?\n"
                         "Please reply to this message only with **Yes** or **No** by"
@@ -281,6 +271,11 @@ class EARBotReviewer:
                 print("The reviewer is not the one who was asked to review the PR.")
                 sys.exit()
             if "yes" in comment_text:
+                for old_reviewer in set(comment_reviewer):
+                    if old_reviewer != comment_author:
+                        self.EAR_reviewer.update_reviewers_list(
+                            reviewer=old_reviewer, busy=False
+                        )
                 pr.create_review_request([comment_author])
                 pr.create_issue_comment(
                     "Thanks for agreeing!\n"
@@ -371,6 +366,13 @@ class EARBotReviewer:
             )
 
             self.EAR_reviewer.add_pr(name, institution, species, pr.html_url)
+        else:
+            comment_reviewer = self._search_comment_user(pr, "do you agree to review")
+            for old_reviewer in set(comment_reviewer):
+                if old_reviewer != reviewer:
+                    self.EAR_reviewer.update_reviewers_list(
+                        reviewer=old_reviewer, busy=False
+                    )
 
         self.EAR_reviewer.update_reviewers_list(
             reviewer=reviewer,

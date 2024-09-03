@@ -328,9 +328,8 @@ class EARBotReviewer:
     def closed_pr(self, merged=False):
         # Will run when the PR is closed
         pr = self.repo.get_pull(int(self.pr_number))
-
         reviews = pr.get_reviews().reversed
-        if reviews.totalCount > 0:
+        if merged == True and reviews.totalCount > 0:
             comment_reviewers = self._search_comment_user(pr, "for the review")
             if not comment_reviewers:
                 the_review = reviews[0]
@@ -341,17 +340,6 @@ class EARBotReviewer:
                     if review.user.login.lower() == comment_reviewers[0]
                 )
             reviewer = the_review.user.login.lower()
-        elif pr.requested_reviewers:
-            reviewer = next(
-                req_reviewer.login.lower()
-                for req_reviewer in pr.requested_reviewers
-                if req_reviewer.login.lower() != pr.assignee.login.lower()
-            )
-        else:
-            print("No reviewer found.")
-            sys.exit()
-
-        if merged == True and reviews.totalCount > 0:
             submitted_at = datetime.now(tz=cet).strftime("%Y-%m-%d")
             institution = self._search_in_body(pr, "Affiliation")
             species = self._search_in_body(pr, "Species")
@@ -374,8 +362,9 @@ class EARBotReviewer:
             )
         else:
             comment_reviewer = self._search_comment_user(pr, "do you agree to review")
-            old_reviewers = set(comment_reviewer) - set(reviewer)
-            self.EAR_reviewer.update_reviewers_list(reviewers=old_reviewers, busy=False)
+            self.EAR_reviewer.update_reviewers_list(
+                reviewers=set(comment_reviewer), busy=False
+            )
 
     def _search_comment_user(self, pr, text_to_check):
         comment_user = []

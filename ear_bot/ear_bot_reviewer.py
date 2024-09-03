@@ -65,41 +65,33 @@ class EAR_get_reviewer:
         self,
         reviewers,
         busy,
-        institution=None,
-        submitted_at=None,
+        institution="",
+        submitted_at="",
         fined_reviewers=set(),
     ):
         for reviewer_data in self.data:
-            if reviewer_data.get("Github ID", "").lower() in reviewers:
+            reviewer_data_id = reviewer_data.get("Github ID", "").lower()
+            reviewer_data_score = int(reviewer_data.get("Calling Score", 1000))
+            reviewer_data_total = int(reviewer_data.get("Total Reviews", 0))
+            reviewer_data_institution = reviewer_data.get("Institution", "").lower()
+
+            if reviewer_data_id in reviewers:
                 reviewer_data["Busy"] = "Y" if busy else "N"
                 if submitted_at:
-                    reviewer_data["Calling Score"] = str(
-                        int(reviewer_data.get("Calling Score", 1000)) - 1
-                    )
-                    reviewer_data["Total Reviews"] = str(
-                        int(reviewer_data.get("Total Reviews", 1000)) + 1
-                    )
+                    reviewer_data["Calling Score"] = str(reviewer_data_score - 1)
+                    reviewer_data["Total Reviews"] = str(reviewer_data_total + 1)
                     reviewer_data["Last Review"] = submitted_at
-                else:
-                    break
-            elif reviewer_data.get("Github ID", "").lower() in fined_reviewers:
-                reviewer_data["Calling Score"] = str(
-                    int(reviewer_data.get("Calling Score", 1000)) + 1
-                )
-            if (
-                institution
-                and reviewer_data.get("Institution", "").lower() == institution.lower()
-            ):
-                reviewer_data["Calling Score"] = str(
-                    int(reviewer_data.get("Calling Score", 1000)) + 1
-                )
+            elif reviewer_data_id in fined_reviewers:
+                reviewer_data["Calling Score"] = str(reviewer_data_score + 1)
+            if reviewer_data_institution == institution.lower():
+                reviewer_data["Calling Score"] = str(reviewer_data_score + 1)
 
         csv_str = ",".join(self.data[0].keys()) + "\n"
         for row in self.data:
             csv_str += ",".join(row.values()) + "\n"
         with open(self.csv_file, "w") as file:
             file.write(csv_str)
-        print(f"Updated the reviewers list for {', '.join(reviewers)}.\n")
+        print(f"Updated the reviewers list for {', '.join(reviewers)}.\n{csv_str}")
 
 
 class EARBotReviewer:
@@ -211,7 +203,7 @@ class EARBotReviewer:
                         f" {(current_date + timedelta(days=7)).strftime('%d-%b-%Y at %H:%M CET')}"
                     )
                     self.EAR_reviewer.update_reviewers_list(
-                        reviewers=[new_reviewer], busy=True
+                        reviewers=[new_reviewer.lower()], busy=True
                     )
             except Exception as e:
                 supervisor = pr.assignee.login
@@ -364,6 +356,10 @@ class EARBotReviewer:
             comment_reviewer = self._search_comment_user(pr, "do you agree to review")
             self.EAR_reviewer.update_reviewers_list(
                 reviewers=set(comment_reviewer), busy=False
+            )
+            supervisor = pr.assignee.login
+            pr.create_issue_comment(
+                f"@{supervisor}, The PR was closed. Please check for any issues."
             )
 
     def _search_comment_user(self, pr, text_to_check):

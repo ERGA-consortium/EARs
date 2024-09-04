@@ -96,7 +96,7 @@ class EAR_get_reviewer:
 
 class EARBotReviewer:
     def __init__(self) -> None:
-        g = Github(os.getenv("GITHUB_TOKEN"))
+        g = Github(os.getenv("GITHUB_APP_TOKEN"))
         self.repo = g.get_repo(str(os.getenv("GITHUB_REPOSITORY")))
         self.EAR_reviewer = EAR_get_reviewer()
         self.pr_number = os.getenv("PR_NUMBER")

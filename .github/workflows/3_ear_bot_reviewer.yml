@@ -9,12 +9,21 @@ on:
 jobs:
   find-reviewer:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: 917566
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: "ERGA-consortium"
+          repositories: "EARs"
+
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: "main"
+          token: ${{ steps.generate-token.outputs.token }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -28,7 +37,7 @@ jobs:
 
       - name: Run python script to find a reviewer
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_APP_TOKEN: ${{ steps.generate-token.outputs.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python -u ear_bot/ear_bot_reviewer.py --search
 

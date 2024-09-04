@@ -4,7 +4,7 @@
 ## Overview
 
 This project is a Python-based tool designed to automate the review process for ERGA Assembly Reports. It aims to streamline the review process and improve efficiency by automating repetitive tasks.
-[More information...](https://hackmd.io/f073OVnGQQ-pYy3aJHjalA)
+[More information...]()
 
 ## Workflows
 

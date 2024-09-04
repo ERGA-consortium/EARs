@@ -12,8 +12,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: 917566
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: "ERGA-consortium"
+          repositories: "EARs"
+
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: "main"
+          token: ${{ steps.generate-token.outputs.token }}
 
       - name: Download artifact
         uses: actions/github-script@v6
@@ -64,7 +76,7 @@ jobs:
       - name: Thanks the reviewer for the approval
         if: ${{ env.SHOULD_RUN == 'true' }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_APP_TOKEN: ${{ steps.generate-token.outputs.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           PR_NUMBER: ${{ env.PR_NUMBER }}
           REVIEWER: ${{ env.REVIEWER }}

@@ -4,6 +4,7 @@
 ## Overview
 
 This project is a Python-based tool designed to automate the review process for ERGA Assembly Report. It aims to streamline the review process and improve efficiency by automating repetitive tasks.
+[More information...](https://hackmd.io/f073OVnGQQ-pYy3aJHjalA)
 
 ## Workflows
 
@@ -37,6 +38,5 @@ Once the PR has been approved and merged by the supervisor, the process is compl
 - adds 1 to the total reviews of the reviewer
 - adds date of merging (YYYY-MM-DD) to the last review of the reviewer
 - adds 1 point to all the reviewer IDs with the same institution that @RESEARCHER
-- if a reviewer did not answer the call (time expires after 1 week), adds 1 point to that reviewer
 
 2. Add a new line at the end of the table `EAR_reviews.csv`

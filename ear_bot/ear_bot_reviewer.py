@@ -232,7 +232,7 @@ class EARBotReviewer:
             ]
             if comment_author not in supervisors:
                 print("The comment author is not one of the supervisors.")
-                sys.exit(1)
+                sys.exit()
             if "ok" in comment_text:
                 pr.add_to_assignees(comment_author)
                 self.find_reviewer([self.repo.get_pull(int(self.pr_number))])
@@ -291,7 +291,7 @@ class EARBotReviewer:
                     f" {(current_date + timedelta(days=7)).strftime('%d-%b-%Y at %H:%M CET')}"
                 )
                 print("Invalid comment text.")
-                sys.exit(1)
+                sys.exit()
 
     def approve_reviewer(self):
         # Will run when there is a new review

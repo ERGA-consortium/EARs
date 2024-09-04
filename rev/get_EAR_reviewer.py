@@ -1,7 +1,7 @@
 # get_EAR_reviewer.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-version = "v24.08.29"
+version = "v24.09.04"
 
 import requests
 import random
@@ -29,6 +29,8 @@ def adjust_score(reviewer, tags):
         score += 50
     if 'ERGA-BGE' in tags and reviewer['Institution'] in ['CNAG', 'Sanger', 'Genoscope', 'SciLifeLab']:
         score += 50 # Additional 50 points for reviewers from BGE institutions if 'ERGA-BGE' tag is used
+    if reviewer['Supervisor'] == 'Y':
+        score -= 5 # Substract 5 points if reviewer is also supervisor to decrease the chance of selection
     return score
 
 def parse_date(date_str):

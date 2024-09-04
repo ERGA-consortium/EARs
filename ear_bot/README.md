@@ -27,7 +27,7 @@ If the selected reviewer does not respond within 7 days, the system will proceed
 
 This Workflow will just thank the reviewer and notify the supervisor.
 
-### Workflow 6: Merged PR
+### Workflow 6: Merged or Closed PR
 
 Once the PR has been approved and merged by the supervisor, the process is complete. The bot will then update the relevant tables as follows:
 
@@ -40,7 +40,5 @@ Once the PR has been approved and merged by the supervisor, the process is compl
 - adds 1 point to all the reviewer IDs with the same institution that the person who submitted the EAR
 
 2. Add a new line at the end of the table `EAR_reviews.csv`
-
-### Workflow 7: Closed PR
 
 If the PR is closed (not merged), the bot will reverse the status of any busy reviewer and call the supervisor to double-check for any issues

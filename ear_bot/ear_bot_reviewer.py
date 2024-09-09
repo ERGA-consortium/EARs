@@ -342,11 +342,11 @@ class EARBotReviewer:
             name = reviewer_data.get(
                 "Full Name", the_review.user.name or the_review.user.login
             )
-            institution = reviewer_data.get("Institution", "")
+            reviewer_institution = reviewer_data.get("Institution", "")
             species = self._search_in_body(pr, "Species")
+            self.EAR_reviewer.add_pr(name, reviewer_institution, species, pr.html_url)
 
-            self.EAR_reviewer.add_pr(name, institution, species, pr.html_url)
-
+            institution = self._search_in_body(pr, "Affiliation")
             self.EAR_reviewer.update_reviewers_list(
                 reviewers=[reviewer],
                 busy=False,

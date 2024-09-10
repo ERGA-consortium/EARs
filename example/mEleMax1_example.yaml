@@ -1,5 +1,4 @@
-# This is the yaml (v24.08.26) file for generating the ERGA Assembly Report (EAR) using the make_EAR_glxy.py (v24.08.26) script
-# CAUTION: This is for the Galaxy version!
+# This is the yaml (v24.08.26) file for generating the ERGA Assembly Report (EAR) using the make_EAR.py (v24.08.26) script
 # This file is filled as an example
 
 # SAMPLE INFORMATION
@@ -32,36 +31,26 @@ ASSEMBLIES:
     hap1:  # valid types are hap1, pri, collapsed
       gfastats--nstar-report_txt: /Users/TEST/GEP/pre/ASSEMBLY_STATISTICS/asm1/ele_pre_gfastats.txt
       busco_short_summary_txt: /Users/TEST/GEP/pre/BUSCOs/asm1/short_summary.specific.mammalia_odb10.asm1.txt
-      merqury_qv: /Users/TEST/GEP/pre/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_pre_merqOutput.qv
-      merqury_completeness_stats: /Users/TEST/GEP/pre/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_pre_merqOutput.completeness.stats
-    hap2:  # Only if hap2 is available. Otherwise remove the <Insert another haplotype> section
+      merqury_folder: /Users/TEST/GEP/pre/QV.KMER-COMPLETENESS.CN-SPECTRA
+    hap2:  # Only if hap2 is available. Otherwise remove the section
       gfastats--nstar-report_txt: /Users/TEST/GEP/pre/ASSEMBLY_STATISTICS/asm2/ele_pre_gfastats.txt
       busco_short_summary_txt: /Users/TEST/GEP/pre/BUSCOs/asm2/short_summary.specific.mammalia_odb10.asm2.txt
-      merqury_qv: /Users/TEST/GEP/pre/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_pre_merqOutput.qv
-      merqury_completeness_stats: /Users/TEST/GEP/pre/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_pre_merqOutput.completeness.stats
+      merqury_folder: /Users/TEST/GEP/pre/QV.KMER-COMPLETENESS.CN-SPECTRA
 
   Curated:
     hap1:  # valid types are hap1, pri, collapsed
       gfastats--nstar-report_txt: /Users/TEST/GEP/post/ASSEMBLY_STATISTICS/asm1/ele_post_gfastats.txt
       busco_short_summary_txt: /Users/TEST/GEP/post/BUSCOs/asm1/short_summary.specific.mammalia_odb10.asm1.txt
-      merqury_qv: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.qv
-      merqury_completeness_stats: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.completeness.stats
-      merqury_hap_spectra_cn_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.ele_post.asm1.spectra-cn.ln.png
-      merqury_spectra_cn_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.spectra-cn.ln.png
-      merqury_spectra_asm_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.spectra-asm.ln.png
-      hic_FullMap_png: /Users/TEST/GEP/post/pretext/pretext_snake1.png  # also can be a HiC full contact map PNG from higlass
-      hic_FullMap_link: https://box.fu-berlin.de/apps/files/something  # also can be a web folder with .mcool from higlass
-      blobplot_cont_png: /Users/TEST/GEP/post/blob/test1.png
-    hap2:  # Only if hap2 is available. Otherwise remove the <Insert another haplotype> section  
+      merqury_folder: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA
+      hic_FullMap_png: /Users/TEST/GEP/post/pretext/pretext_1.png  # also can be a HiC full contact map PNG from higlass
+      hic_FullMap_link: https://box.fu-berlin.de/apps/files/?dir=/&openfile=362314416  # also can be a web folder with .mcool from higlass
+      blobplot_cont_png: /Users/TEST/GEP/post/blob/test1.png 
+    hap2:  # Only if hap2 is available. Otherwise remove the section
       gfastats--nstar-report_txt: /Users/TEST/GEP/post/ASSEMBLY_STATISTICS/asm2/ele_post_gfastats.txt
       busco_short_summary_txt: /Users/TEST/GEP/post/BUSCOs/asm2/short_summary.specific.mammalia_odb10.asm2.txt
-      merqury_qv: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.qv
-      merqury_completeness_stats: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.completeness.stats
-      merqury_hap_spectra_cn_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.ele_post.asm2.spectra-cn.ln.png
-      merqury_spectra_cn_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.spectra-cn.ln.png
-      merqury_spectra_asm_png: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA/ele_post_merqOutput.spectra-asm.ln.png
-      hic_FullMap_png: /Users/TEST/GEP/post/pretext/pretext_snake2.png  # also can be a HiC full contact map PNG from higlass
-      hic_FullMap_link: https://box.fu-berlin.de/apps/files/something  # also can be a web folder with .mcool from higlass
+      merqury_folder: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA
+      hic_FullMap_png: /Users/TEST/GEP/post/pretext/pretext_2.png  # also can be a HiC full contact map PNG from higlass
+      hic_FullMap_link: https://box.fu-berlin.de/apps/files/?dir=/&openfile=362314416  # also can be a web folder with .mcool from higlass
       blobplot_cont_png: /Users/TEST/GEP/post/blob/test2.png
 
 

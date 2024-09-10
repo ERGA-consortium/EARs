@@ -1,7 +1,7 @@
 # make_EAR.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-EAR_version = "v24.08.26"
+EAR_version = "v24.09.10"
 
 import sys
 import argparse
@@ -457,8 +457,21 @@ def make_report(yaml_file):
         with open(genomescope_summary, "r") as f:
             summary_txt = f.read()
         # Extract values from summary.txt
-        genome_haploid_length = re.search(r"Genome Haploid Length\s+([\d,]+) bp", summary_txt).group(1)
+        genome_haploid_length_match = re.search(r"Genome Haploid Length\s+([\d,]+|NA)\s*bp", summary_txt)
         proposed_ploidy = re.search(r"p = (\d+)", summary_txt).group(1)
+        if genome_haploid_length_match:
+            genome_haploid_length = genome_haploid_length_match.group(1)
+            if genome_haploid_length == "NA":
+                logging.warning("Genome Haploid Length is NA. Using max value if available.")
+                max_length_match = re.search(r"Genome Haploid Length\s+(?:NA|[\d,]+)\s*bp\s+([\d,]+)\s*bp", summary_txt)
+                if max_length_match:
+                    genome_haploid_length = max_length_match.group(1)
+                else:
+                    logging.error("Unable to find a valid Genome Haploid Length.")
+                    sys.exit(1)
+        else:
+            logging.error("Unable to find Genome Haploid Length in the summary file.")
+            sys.exit(1)
     except Exception as e:
         logging.error(f"Error reading GenomeScope summary file: {str(e)}")
         sys.exit(1)

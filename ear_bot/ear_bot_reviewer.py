@@ -108,32 +108,53 @@ class EARBotReviewer:
     def find_supervisor(self):
         # Will run when a new PR is opened
         pr = self.repo.get_pull(int(self.pr_number))
-        if (
-            not any(label.name in self.valid_projects for label in pr.get_labels())
-            or not pr.assignees
-        ):
-            researcher = pr.user.login
-            project = self._search_in_body(pr, "Project")
-            if project not in self.valid_projects:
-                pr.create_issue_comment(
-                    f"Attention @{researcher}, you have entered an invalid `Project:` field!\n"
-                    f"Please use one of the following project names: {', '.join(self.valid_projects)}"
-                )
-                pr.add_to_labels("ERROR!")
-                raise Exception(f"Invalid project name: {project}")
-            pr.add_to_labels(project)
-            species = self._search_in_body(pr, "Species")
-            self._search_in_body(pr, "Affiliation")
+
+        action_type = os.getenv("ACTION_TYPE")
+        error_label_existed = "ERROR!" in (label.name for label in pr.get_labels())
+        if action_type == "edited" and not error_label_existed:
+            return
+
+        researcher = pr.user.login
+        project = self._search_in_body(pr, "Project")
+        species = self._search_in_body(pr, "Species")
+        self._search_in_body(pr, "Affiliation")
+
+        if project not in self.valid_projects:
+            pr.create_issue_comment(
+                f"Attention @{researcher}, you have entered an invalid `Project:` field!\n"
+                f"Please use one of the following project names: {', '.join(self.valid_projects)}"
+            )
+            pr.add_to_labels("ERROR!")
+            raise Exception(f"Invalid project name: {project}")
+
+        if pr.get_files().totalCount != 1:
+            pr.create_issue_comment(
+                f"Attention @{researcher}, you have changed more than one file!\n"
+                "Please make sure to update only the EAR PDF file."
+            )
+            pr.add_to_labels("ERROR!")
+            raise Exception("More than one file changed.")
+
+        if error_label_existed:
+            pr.remove_from_labels("ERROR!")
+
+        if not self._search_comment_user(pr, "I added the corresponding tag"):
             pr.create_issue_comment(
                 f"Hi @{researcher}, thanks for sending the EAR of _{species}_.\n"
                 "I added the corresponding tag to the PR and will contact a supervisor and a reviewer ASAP."
             )
+
+        if not any(label.name in self.valid_projects for label in pr.get_labels()):
+            pr.add_to_labels(project)
+
+        if not self._search_comment_user(pr, "do you agree to [supervise]"):
             supervisor = self.EAR_reviewer.get_supervisor(researcher)
             pr.create_issue_comment(
                 f"Hi @{supervisor}, do you agree to [supervise](https://github.com/ERGA-consortium/EARs/wiki/Assignees-section) this assembly?\n"
                 "Please reply to this message only with **OK** to give acknowledge."
             )
-        else:
+
+        if action_type == "synchronize" and pr.assignees:
             if (
                 pr.get_review_requests()[0].totalCount == 0
                 and pr.get_reviews().totalCount > 0

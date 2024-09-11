@@ -2,7 +2,7 @@ name: The EARs Reviewing bot for PRs
 
 on:
   pull_request_target:
-    types: [opened, reopened, synchronize]
+    types: [opened, reopened, synchronize, edited]
     paths:
       - "Assembly_Reports/**/*.pdf"
 
@@ -40,4 +40,5 @@ jobs:
           GITHUB_APP_TOKEN: ${{ steps.generate-token.outputs.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          ACTION_TYPE: ${{ github.event.action }}
         run: python -u ear_bot/ear_bot_reviewer.py --supervisor

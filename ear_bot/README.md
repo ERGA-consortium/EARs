@@ -1,3 +1,5 @@
+![](https://github.com/ERGA-consortium/EARs/blob/main/misc/EAR_bot_logo.png)
+
 # EAR bot
 
 

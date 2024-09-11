@@ -6,7 +6,7 @@
 ## Overview
 
 This project is a Python-based tool designed to automate the review process for ERGA Assembly Reports. It aims to streamline the review process and improve efficiency by automating repetitive tasks.
-[More information...]()
+[More information...](https://github.com/ERGA-consortium/EARs/wiki)
 
 ## Workflows
 

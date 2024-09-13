@@ -138,7 +138,10 @@ class EARBotReviewer:
         if error_label_existed:
             pr.remove_from_labels("ERROR!")
 
-        if not self._search_comment_user(pr, "I added the corresponding tag"):
+        if not any(
+            "I added the corresponding tag" in comment.body
+            for comment in pr.get_issue_comments().reversed
+        ):
             pr.create_issue_comment(
                 f"Hi @{researcher}, thanks for sending the EAR of _{species}_.\n"
                 "I added the corresponding tag to the PR and will contact a supervisor and a reviewer ASAP."
@@ -147,7 +150,10 @@ class EARBotReviewer:
         if not any(label.name in self.valid_projects for label in pr.get_labels()):
             pr.add_to_labels(project)
 
-        if not self._search_comment_user(pr, "do you agree to [supervise]"):
+        if not any(
+            "do you agree to [supervise]" in comment.body
+            for comment in pr.get_issue_comments().reversed
+        ):
             supervisor = self.EAR_reviewer.get_supervisor(researcher)
             pr.create_issue_comment(
                 f"Hi @{supervisor}, do you agree to [supervise](https://github.com/ERGA-consortium/EARs/wiki/Assignees-section) this assembly?\n"

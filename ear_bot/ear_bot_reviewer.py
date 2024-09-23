@@ -44,7 +44,7 @@ class EAR_get_reviewer:
             )
             get_EAR_reviewer_path = os.path.join(self.csv_folder, "get_EAR_reviewer.py")
             reviewer_print = subprocess.run(
-                f"python {get_EAR_reviewer_path} -i {institution} -t {project}",
+                f"python {get_EAR_reviewer_path} -i '{institution}' -t '{project}'",
                 shell=True,
                 capture_output=True,
                 text=True,

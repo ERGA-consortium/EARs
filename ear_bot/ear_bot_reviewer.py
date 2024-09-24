@@ -44,7 +44,7 @@ class EAR_get_reviewer:
             )
             get_EAR_reviewer_path = os.path.join(self.csv_folder, "get_EAR_reviewer.py")
             reviewer_print = subprocess.run(
-                f"python {get_EAR_reviewer_path} -i {institution} -t {project}",
+                f"python {get_EAR_reviewer_path} -i '{institution}' -t '{project}'",
                 shell=True,
                 capture_output=True,
                 text=True,
@@ -117,7 +117,7 @@ class EARBotReviewer:
         researcher = pr.user.login
         project = self._search_in_body(pr, "Project")
         species = self._search_in_body(pr, "Species")
-        self._search_in_body(pr, "Affiliation")
+        self._search_for_institution(pr)
 
         if project not in self.valid_projects:
             pr.create_issue_comment(
@@ -208,7 +208,7 @@ class EARBotReviewer:
                 if last_comment_date
                 else False
             )
-            institution = self._search_in_body(pr, "Affiliation")
+            institution = self._search_for_institution(pr)
             project = self._search_in_body(pr, "Project")
             try:
                 if deadline_passed or reject:
@@ -373,7 +373,7 @@ class EARBotReviewer:
             species = self._search_in_body(pr, "Species")
             self.EAR_reviewer.add_pr(name, reviewer_institution, species, pr.html_url)
 
-            institution = self._search_in_body(pr, "Affiliation")
+            institution = self._search_for_institution(pr)
             self.EAR_reviewer.update_reviewers_list(
                 reviewers=[reviewer],
                 busy=False,
@@ -422,6 +422,19 @@ class EARBotReviewer:
         )
         pr.add_to_labels("ERROR!")
         raise Exception(f"Missing {text_to_check} in the PR description.")
+    
+    def _search_for_institution(self, pr):
+        institution = self._search_in_body(pr, "Affiliation").lower()
+        if 'cnag' in institution:
+            return 'CNAG'
+        elif any(name in institution for name in ['sanger', 'welcome sanger institute', 'wsi']):
+            return 'Sanger'
+        elif 'genoscope' in institution:
+            return 'Genoscope'
+        elif 'scilifelab' in institution:
+            return 'SciLifeLab'
+        return institution
+
 
 
 if __name__ == "__main__":

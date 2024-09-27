@@ -1,7 +1,7 @@
 # get_EAR_reviewer.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-version = "v24.09.04"
+version = "v24.09.23"
 
 import requests
 import random
@@ -23,11 +23,24 @@ def parse_csv(csv_str):
     data = [dict(zip(headers, line.split(','))) for line in lines[1:]]
     return data
 
+def normalize_institution(institution):
+    institution = institution.lower()
+    if 'cnag' in institution:
+        return 'CNAG'
+    elif any(name in institution for name in ['sanger', 'welcome sanger institute', 'wsi']):
+        return 'Sanger'
+    elif 'genoscope' in institution:
+        return 'Genoscope'
+    elif 'scilifelab' in institution:
+        return 'SciLifeLab'
+    return institution
+
 def adjust_score(reviewer, tags):
     score = int(reviewer['Calling Score'])
     if reviewer['Last Review'] == 'NA':
         score += 50
-    if 'ERGA-BGE' in tags and reviewer['Institution'] in ['CNAG', 'Sanger', 'Genoscope', 'SciLifeLab']:
+    normalized_institution = normalize_institution(reviewer['Institution'])
+    if 'ERGA-BGE' in tags and normalized_institution in ['CNAG', 'Sanger', 'Genoscope', 'SciLifeLab']:
         score += 50 # Additional 50 points for reviewers from BGE institutions if 'ERGA-BGE' tag is used
     if reviewer['Supervisor'] == 'Y':
         score -= 5 # Substract 5 points if reviewer is also supervisor to decrease the chance of selection
@@ -63,7 +76,7 @@ def select_best_reviewer(data, calling_institution, use_bge):
             'Parsed Last Review': parse_date(reviewer['Last Review']),
             'Total Reviews': int(reviewer['Total Reviews'])
         } for reviewer in data
-        if reviewer['Active'] == 'Y' and reviewer['Busy'] == 'N' and reviewer['Institution'] != calling_institution
+        if reviewer['Active'] == 'Y' and reviewer['Busy'] == 'N' and normalize_institution(reviewer['Institution']) != normalize_institution(calling_institution)
     ]
 
     eligible_candidates.sort(key=lambda x: (-x['Adjusted Score'], x['Parsed Last Review'], x['Total Reviews']))

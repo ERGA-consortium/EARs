@@ -220,7 +220,7 @@ class EARBotReviewer:
                 pr, "do you agree to review"
             )
             deadline_passed = (
-                last_comment_date + timedelta(days=7) < current_date
+                self._deadline(last_comment_date) < current_date
                 if last_comment_date
                 else False
             )
@@ -243,7 +243,7 @@ class EARBotReviewer:
                     pr.create_issue_comment(
                         f"Hi @{new_reviewer}, do you agree to review this assembly?\n"
                         "Please reply to this message only with **Yes** or **No** by"
-                        f" {(current_date + timedelta(days=7)).strftime('%d-%b-%Y at %H:%M CET')}"
+                        f" {self._deadline(current_date).strftime('%d-%b-%Y at %H:%M CET')}"
                     )
                     self.EAR_reviewer.update_reviewers_list(
                         reviewers=[new_reviewer.lower()], busy=True
@@ -331,7 +331,7 @@ class EARBotReviewer:
                 pr.create_issue_comment(
                     f"Invalid confirmation!\nHi @{comment_author}, do you agree to review this assembly?\n"
                     "Please reply to this message only with **Yes** or **No** by"
-                    f" {(current_date + timedelta(days=7)).strftime('%d-%b-%Y at %H:%M CET')}"
+                    f" {self._deadline(current_date).strftime('%d-%b-%Y at %H:%M CET')}"
                 )
                 print("Invalid comment text.")
                 sys.exit()
@@ -453,6 +453,20 @@ class EARBotReviewer:
         elif "scilifelab" in institution:
             return "SciLifeLab"
         return institution
+
+    def _deadline(self, start_date):
+        current_date = start_date
+        added_hours = timedelta(hours=0)
+        total_hours = timedelta(hours=100)
+        while added_hours != total_hours:
+            remaining_hours = total_hours - added_hours
+            time_to_add = min(remaining_hours, timedelta(days=1))
+            if (current_date + time_to_add).weekday() < 5:
+                added_hours += time_to_add
+            else:
+                time_to_add = timedelta(days=1)
+            current_date += time_to_add
+        return current_date
 
 
 if __name__ == "__main__":

@@ -387,12 +387,12 @@ class EARBotReviewer:
                 for entry in self.EAR_reviewer.data
                 if entry.get("Github ID", "").lower() == reviewer
             )
-            name = reviewer_data.get(
+            reviewer_name = reviewer_data.get(
                 "Full Name", the_review.user.name or the_review.user.login
             )
             reviewer_institution = reviewer_data.get("Institution", "")
             species = self._search_in_body(pr, "Species")
-            self.EAR_reviewer.add_pr(name, reviewer_institution, species, pr.html_url)
+            self.EAR_reviewer.add_pr(reviewer_name, reviewer_institution, species, pr.html_url)
 
             institution = self._search_for_institution(pr)
             self.EAR_reviewer.update_reviewers_list(
@@ -401,6 +401,20 @@ class EARBotReviewer:
                 institution=institution,
                 submitted_at=submitted_at,
             )
+            researcher_name = pr.user.name
+            supervisor_name = pr.assignee.name
+            EAR_pdf = next(
+                file.blob_url
+                for file in pr.get_files()
+                if file.filename.lower().endswith(".pdf")
+            )
+            slack_post = (
+                f":tada: *New Assembly Finished!* :tada:\n\n"
+                f"Congratulations to {researcher_name} and the {institution} team for the high-quality assembly of _{species}_\n\n"
+                f"The assembly was reviewed by {reviewer_name}, and the process supervised by {supervisor_name}. The EAR can be found in the following link:\n"
+                f"{EAR_pdf}"
+            )
+            self._create_slack_post(slack_post)
         else:
             comment_reviewer = self._search_comment_user(pr, "do you agree to review")
             self.EAR_reviewer.update_reviewers_list(
@@ -472,6 +486,21 @@ class EARBotReviewer:
                 time_to_add = timedelta(days=1)
             current_date += time_to_add
         return current_date
+
+    def _create_slack_post(self, content):
+        from slack_sdk import WebClient
+
+        client = WebClient(token=os.getenv("SLACK_TOKEN"))
+        channel_id = os.getenv("SLACK_CHANNEL_ID")
+        response = client.chat_postMessage(channel=channel_id, text=content)
+        if not response["ok"]:
+            print("Error creating post in Slack")
+            return False
+        link = client.chat_getPermalink(channel=channel_id, message_ts=response["ts"])[
+            "permalink"
+        ]
+        print(f"Slack post created: {link}")
+        return True
 
 
 if __name__ == "__main__":

@@ -207,7 +207,7 @@ class EARBotReviewer:
 
         for pr in prs:
             if pr.updated_at.astimezone(cet) + timedelta(days=7) < current_date:
-                supervisor = pr.assignee.login
+                supervisor = pr.assignee.login if pr.assignee else pr.user.login
                 pr.create_issue_comment(
                     f"Ping @{supervisor},\nOne week without any movements on this PR!"
                 )

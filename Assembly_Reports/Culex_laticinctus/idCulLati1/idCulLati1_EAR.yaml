@@ -1,0 +1,105 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '1464561'
+ToLID: idCulLati1
+Species: Culex laticinctus
+Class: Insecta
+Order: Diptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 726,182,214
+    Haploid Number: '3 (source: ancestor)'
+    Ploidy: '3 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 833,812,495
+    Haploid Number: '3'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    pri: 5.8.Q55
+
+Curator notes:
+  Interventions/Gb: 430
+  Contamination notes: '"Total length of scaffolds removed: 989,717 (0.1 %) Scaffolds
+    removed: 1 (0.2 %) Largest scaffold removed: (989,717) FCS-GX contaminant species
+    (number of scaffolds; total length of scaffolds): Wolbachia endosymbiont (group
+    B) of Melanostoma mellinum, a-proteobacteria (1; 989,717)"'
+  Other observations: '"Chromosomes named by size"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 835,263,260
+    GC %: '38.73'
+    Gaps/Gbp: 3,382.17
+    Total gap bp: 565,000
+    Scaffolds: '458'
+    Scaffold N50: 287,761,923
+    Scaffold L50: '2'
+    Scaffold L90: '3'
+    Contigs: 3,283
+    Contig N50: 435,834
+    Contig L50: '593'
+    Contig L90: 1,913
+    Kmer compl.: '99.13'
+    BUSCO sing.: 97.7%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 0.8%
+  Curated pri:
+    Total bp: 833,812,495
+    GC %: '38.73'
+    Gaps/Gbp: 3,564.35
+    Total gap bp: 594,400
+    Scaffolds: '311'
+    Scaffold N50: 291,894,813
+    Scaffold L50: '2'
+    Scaffold L90: '3'
+    Contigs: 3,283
+    Contig N50: 433,957
+    Contig L50: '596'
+    Contig L90: 1,919
+    Kmer compl.: '99.00'
+    BUSCO sing.: 97.6%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 0.8%
+
+BUSCO:
+  ver: 5.3.0
+  lineage: insecta_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 51x 152x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+    key param: -e
+  yahs:
+    ver: 1.2a.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+    key param: -e
+  yahs:
+    ver: 1.2a.2
+  TreeVal:
+    ver: '1.1'
+
+Submitter: Michael Paulini
+Affiliation: WSI
+
+Date and time: 2024-05-30 14:09:38 CEST

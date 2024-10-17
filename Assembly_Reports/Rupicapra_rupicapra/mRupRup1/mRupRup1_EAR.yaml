@@ -1,0 +1,104 @@
+ERGA Assembly Report: v24.02.09_beta
+Tags: ERGA-BGE
+
+ToLID: mRupRup1
+Species: Rupicapra rupicapra
+Class: Mammalia
+Order: Artiodactyla
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,693,478,497
+    Haploid Number: '29 (source: direct)'
+    Ploidy: '2 (source: direct)'
+    Sample Sex: XY
+  Observed:
+    Haploid size (bp): 2,622,988,171
+    Haploid Number: '29'
+    Ploidy: '2'
+    Sample Sex: XY
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q55
+
+Curator notes:
+  Interventions/Gb: 2
+  Contamination notes: '"found some possible gut bacteria -Veillonellaceae- fragments
+    in three small size scaffolds (scaffold_52, scaffold_55 and scaffold_58) which
+    were subsequently removed from the assembly"'
+  Other observations: '"Yahs did a good initial job. We found a PAR shared by SUPER_X
+    and SUPER_Y and left it only attached to Chr_X. The HiC map above includes the
+    three contaminated scaffolds."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 2,623,465,591
+    GC %: '41.99'
+    Gaps/Gbp: '17.15'
+    Total gap bp: 9,000
+    Scaffolds: '80'
+    Scaffold N50: 100,920,001
+    Scaffold L50: '10'
+    Scaffold L90: '24'
+    Contigs: '125'
+    Contig N50: 77,662,214
+    Contig L50: '13'
+    Contig L90: '36'
+    QV: '55.4348'
+    Kmer compl.: '97.0448'
+    BUSCO sing.: 93.6%
+    BUSCO dupl.: 4.1%
+    BUSCO frag.: 1.1%
+    BUSCO miss.: 1.2%
+  Curated collapsed:
+    Total bp: 2,622,988,171
+    GC %: '41.98'
+    Gaps/Gbp: '18.3'
+    Total gap bp: 9,600
+    Scaffolds: '75'
+    Scaffold N50: 100,920,001
+    Scaffold L50: '10'
+    Scaffold L90: '24'
+    Contigs: '123'
+    Contig N50: 77,662,214
+    Contig L50: '13'
+    Contig L90: '36'
+    QV: '55.4492'
+    Kmer compl.: '97.0442'
+    BUSCO sing.: 93.6%
+    BUSCO dupl.: 4.1%
+    BUSCO frag.: 1.1%
+    BUSCO miss.: 1.2%
+
+BUSCO:
+  ver: 5.4.0
+  lineage: vertebrata_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 125x 84x 90x
+
+Assembly pipeline:
+  Trim_Galore:
+    ver: 0.6.7
+    key param: '"--retain_unpaired"'
+  Filtlong:
+    ver: 0.2.1
+  nextdenovo:
+    ver: 2.5.0
+  hypo:
+    ver: 1.0.3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-02-19 11:30:50 CET

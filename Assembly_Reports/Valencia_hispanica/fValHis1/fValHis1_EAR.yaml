@@ -1,0 +1,100 @@
+ERGA Assembly Report: v24.02.09_beta
+Tags: ERGA-BGE
+
+ToLID: fValHis1
+Species: Valencia hispanica
+Class: Actinopteri
+Order: Cyprinodontiformes
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,348,231,524
+    Haploid Number: '24 (source: [''ancestor''])'
+    Ploidy: '2 (source: [''ancestor''])'
+    Sample Sex: ZW
+  Observed:
+    Haploid size (bp): 1,291,680,485
+    Haploid Number: '24'
+    Ploidy: '2'
+    Sample Sex: ZW
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q50
+
+Curator notes:
+  Interventions/Gb: 2
+  Contamination notes: '"No contaminants found"'
+  Other observations: '"Yahs did a very good initial job. Manual curation was minimal"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,291,679,885
+    GC %: '40.09'
+    Gaps/Gbp: '52.64'
+    Total gap bp: 13,600
+    Scaffolds: '31'
+    Scaffold N50: 56,937,854
+    Scaffold L50: '11'
+    Scaffold L90: '21'
+    Contigs: '99'
+    Contig N50: 38,296,799
+    Contig L50: '14'
+    Contig L90: '41'
+    QV: '50.5814'
+    Kmer compl.: '98.05'
+    BUSCO sing.: 97.8%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.0%
+  Curated collapsed:
+    Total bp: 1,291,680,485
+    GC %: '40.09'
+    Gaps/Gbp: '54.97'
+    Total gap bp: 14,200
+    Scaffolds: '28'
+    Scaffold N50: 56,937,854
+    Scaffold L50: '11'
+    Scaffold L90: '21'
+    Contigs: '99'
+    Contig N50: 38,296,799
+    Contig L50: '14'
+    Contig L90: '41'
+    QV: '50.5814'
+    Kmer compl.: '98.05'
+    BUSCO sing.: 97.8%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.0%
+
+BUSCO:
+  ver: 5.4.0
+  lineage: actinopterygii_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 74x 83x 70x
+
+Assembly pipeline:
+  Trim_Galore:
+    ver: 0.6.7
+    key param: '"--retain_unpaired"'
+  Filtlong:
+    ver: 0.2.1
+  nextdenovo:
+    ver: 2.5.0
+  hypo:
+    ver: 1.0.3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-02-16 14:21:06 CET

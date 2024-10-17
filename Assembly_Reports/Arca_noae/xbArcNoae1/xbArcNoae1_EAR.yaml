@@ -1,0 +1,99 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '44597'
+ToLID: xbArcNoae1
+Species: Arca noae
+Class: Bivalvia
+Order: Arcoida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,387,861,013
+    Haploid Number: '14 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 1,496,024,100
+    Haploid Number: '19'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q59
+
+Curator notes:
+  Interventions/Gb: 101
+  Contamination notes: '"30 bacterian contigs removed after assembly"'
+  Other observations: '"Numerous haplotypic duplications removed during manual curation.
+    Inversions between haplotypes are seen in the following locations: SUPER_2 from
+    63.89 to 75.1 Mbp, SUPER_6 from 6.87 to 15.0 Mbp, SUPER_9 from 12.28 to 26.61
+    Mbp, SUPER_17 from 5.52 to 13.81 Mbp, SUPER_19 from beginning to 13.30 Mbp"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,540,111,515
+    GC %: '33.57'
+    Gaps/Gbp: '101.94'
+    Total gap bp: 15,700
+    Scaffolds: '135'
+    Scaffold N50: 85,310,971
+    Scaffold L50: '9'
+    Scaffold L90: '17'
+    Contigs: '292'
+    Contig N50: 17,667,724
+    Contig L50: '24'
+    Contig L90: '87'
+    QV: '59.4982'
+    Kmer compl.: '63.2552'
+    BUSCO sing.: 96.9%
+    BUSCO dupl.: 2.4%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 0.1%
+  Curated collapsed:
+    Total bp: 1,496,024,100
+    GC %: '33.57'
+    Gaps/Gbp: '92.24'
+    Total gap bp: 16,000
+    Scaffolds: '119'
+    Scaffold N50: 84,746,044
+    Scaffold L50: '8'
+    Scaffold L90: '17'
+    Contigs: '257'
+    Contig N50: 20,465,118
+    Contig L50: '22'
+    Contig L90: '74'
+    QV: '59.5106'
+    Kmer compl.: '61.9488'
+    BUSCO sing.: 98.4%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 0.0%
+
+BUSCO:
+  ver: 5.4.3
+  lineage: eukaryota_odb10
+
+Data:
+  Profile: PACBIO Hifi Omnic
+  Coverage: 48 24
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+
+Curation pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  yahs:
+    ver: '1.2'
+
+Submitter: Emilie Teodori
+Affiliation: Genoscope
+
+Date and time: 2024-09-02 09:04:39 CEST

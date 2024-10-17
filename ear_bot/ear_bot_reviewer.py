@@ -404,8 +404,16 @@ class EARBotReviewer:
                 institution=institution,
                 submitted_at=submitted_at,
             )
-            researcher_name = pr.user.name
-            supervisor_name = pr.assignee.name
+            researcher_name = next(
+                entry.get("Full Name", pr.user.name or pr.user.login)
+                for entry in self.EAR_reviewer.data
+                if entry.get("Github ID", "").lower() == pr.user.login
+            )
+            supervisor_name = next(
+                entry.get("Full Name", pr.assignee.name or pr.assignee.login)
+                for entry in self.EAR_reviewer.data
+                if entry.get("Github ID", "").lower() == pr.assignee.login
+            )
             EAR_pdf = next(
                 file
                 for file in pr.get_files()

@@ -52,3 +52,4 @@ jobs:
         with:
           file_pattern: "*.yaml"
           branch: main
+          disable_globbing: true

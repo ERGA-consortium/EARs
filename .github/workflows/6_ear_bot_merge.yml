@@ -46,3 +46,9 @@ jobs:
         with:
           file_pattern: "rev/*.csv"
           branch: main
+
+      - name: Upload yaml file
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: "*.yaml"
+          branch: main

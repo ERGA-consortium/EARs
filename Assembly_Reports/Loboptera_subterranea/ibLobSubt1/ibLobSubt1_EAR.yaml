@@ -1,0 +1,122 @@
+ERGA Assembly Report: v24.09.10
+Tags: ERGA-BGE
+
+TxID: '3078426'
+ToLID: ibLobSubt1
+Species: Loboptera subterranea
+Class: Insecta
+Order: Blattodea
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,449,268,478
+    Haploid Number: '17 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 2,671,312,452
+    Haploid Number: '14'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q44
+
+Curator notes:
+  Interventions/Gb: 7
+  Contamination notes: '"Several sequences corresponding to to an intracellular fat
+    body endosymbiont (Blattabacterium) were removed. In a couple of these cases the
+    symbiont sequence were found and remvoved from super scaffolds (SUPER_9 and SUPER_X).
+    In most other cases these sequences span several smaller scaffolds that were fully
+    removed. Moreover, after our internal curation we still found that the following
+    scaffolds, which will be removed from the final version of the assembly also contain
+    symbiont (or other) types of contamination: scaffold_30, scaffold_59, scaffold_96,
+    scaffold_85, scaffold_48,scaffold_39, scaffold_61, scaffold_21, scaffold_55, scaffold_45
+    and scaffold_49. These have already been removed from the blobtools plot included
+    in the report"'
+  Other observations: '"The original pre-curation assembly was already quite good
+    even though our HiC data contained a higher than desirable proportion of Cis read
+    pairs < 1kb. Interestingly contrary to most other CNAG projects, in this case
+    the ONT data derived from the homomorphic sex (female XX) and the HiC data was
+    derived from the heteromorphic sex (XY). We apoloize but our pretext was not run
+    with the -nosort option so that the few unlocs were placed at the end. However
+    after the review we will build a pretext in which the SUPER scaffolds are kept
+    together. This final EAR report includes one modification suggested by the reviewers,
+    which consisted of the inverting the contig at the end of SUPER_8. The report
+    is therefore the same except for the busco and gfastats outputs. The -nosort-
+    pretext was shared with the save state that was shared with the reviewers."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 2,680,084,542
+    GC %: '34.38'
+    Gaps/Gbp: '147.38'
+    Total gap bp: 79,000
+    Scaffolds: '117'
+    Scaffold N50: 202,725,563
+    Scaffold L50: '6'
+    Scaffold L90: '12'
+    Contigs: '512'
+    Contig N50: 13,138,595
+    Contig L50: '60'
+    Contig L90: '205'
+    QV: '44.8731'
+    Kmer compl.: '87.2601'
+    BUSCO sing.: 97.3%
+    BUSCO dupl.: 1.7%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.6%
+  Curated collapsed:
+    Total bp: 2,671,312,452
+    GC %: '34.38'
+    Gaps/Gbp: '148.24'
+    Total gap bp: 79,200
+    Scaffolds: '90'
+    Scaffold N50: 202,725,563
+    Scaffold L50: '6'
+    Scaffold L90: '12'
+    Contigs: '486'
+    Contig N50: 13,138,595
+    Contig L50: '60'
+    Contig L90: '202'
+    QV: '44.8824'
+    Kmer compl.: '87.0387'
+    BUSCO sing.: 97.3%
+    BUSCO dupl.: 1.7%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.6%
+
+BUSCO:
+  ver: 5.4.0
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 46x 38x 41x
+
+Assembly pipeline:
+  Trim_galore:
+    ver: 0.6.7
+    key param: retain_unpaired
+  Filtlong:
+    ver: 0.2.1
+  nextdenovo:
+    ver: 2.5.0
+  hypo:
+    ver: 1.0.3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-10-16 11:49:26 CEST

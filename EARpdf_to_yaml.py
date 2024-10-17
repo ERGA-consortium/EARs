@@ -73,9 +73,14 @@ def extract_genome_traits(text):
 # Only EBP metrics
 def extract_ebp_metrics(text):
     ebp_metrics = OrderedDict()
-    match = re.search(r"Obtained EBP quality metric for (\w+): (.+)", text)
-    if match:
-        ebp_metrics["EBP quality code"] = {match.group(1): match.group(2)}
+    ebp_metrics["EBP quality code"] = OrderedDict()
+    
+    matches = re.findall(r"Obtained EBP quality metric for (\w+): (.+)", text)
+    
+    for match in matches:
+        haplotype, quality_code = match
+        ebp_metrics["EBP quality code"][haplotype] = quality_code
+    
     return ebp_metrics
 
 

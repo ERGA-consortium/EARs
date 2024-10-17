@@ -1,0 +1,97 @@
+ERGA Assembly Report: v24.09.10
+Tags: ERGA-BGE
+
+TxID: '83528'
+ToLID: mAcoMin1
+Species: Acomys minous
+Class: Mammalia
+Order: Rodentia
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,168,472,368
+    Haploid Number: '18 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 2,350,237,540
+    Haploid Number: '20'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q57
+
+Curator notes:
+  Interventions/Gb: 25
+  Contamination notes: '""'
+  Other observations: '"Some areas are ambiguous. They might look like haplotypic
+    duplications, but there\''s not necessarily a drop in coverage to validate it."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 2,355,108,853
+    GC %: '42.87'
+    Gaps/Gbp: '79.83'
+    Total gap bp: 20,400
+    Scaffolds: '112'
+    Scaffold N50: 122,851,966
+    Scaffold L50: '9'
+    Scaffold L90: '18'
+    Contigs: '300'
+    Contig N50: 29,281,624
+    Contig L50: '24'
+    Contig L90: '106'
+    QV: '57.3217'
+    Kmer compl.: '89.6434'
+    BUSCO sing.: 94.9%
+    BUSCO dupl.: 1.3%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 3.3%
+  Curated collapsed:
+    Total bp: 2,350,237,540
+    GC %: '42.87'
+    Gaps/Gbp: '78.29'
+    Total gap bp: 20,100
+    Scaffolds: '113'
+    Scaffold N50: 122,851,966
+    Scaffold L50: '9'
+    Scaffold L90: '18'
+    Contigs: '297'
+    Contig N50: 29,281,624
+    Contig L50: '23'
+    Contig L90: '102'
+    QV: '57.3102'
+    Kmer compl.: '89.5959'
+    BUSCO sing.: 94.9%
+    BUSCO dupl.: 1.3%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 3.3%
+
+BUSCO:
+  ver: 5.4.3
+  lineage: glires_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima (4-enz)
+  Coverage: 33 19
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Sophie Mangenot
+Affiliation: Genoscope
+
+Date and time: 2024-09-26 14:48:21 CEST

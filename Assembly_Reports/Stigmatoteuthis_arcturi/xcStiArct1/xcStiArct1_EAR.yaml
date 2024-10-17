@@ -1,0 +1,118 @@
+ERGA Assembly Report: v24.09.10
+Tags: ERGA-BGE
+
+TxID: '2053936'
+ToLID: xcStiArct1
+Species: Stigmatoteuthis arcturi
+Class: Cephalopoda
+Order: Oegopsida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 3,669,337,499
+    Haploid Number: '6 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 3,249,387,216
+    Haploid Number: '46'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q43
+
+Curator notes:
+  Interventions/Gb: 9
+  Contamination notes: '"No clear contaminants were found. However, we observed that
+    BlobTools produces best hits to species other than molluscs in a small percentage
+    of the assembly. Upon closer scrutiny of some unlocs or unplaced scaffolds matching
+    other taxa, we found that many of these sequences actually either do match mollusca
+    sequence but with lower scores or match several different unrelated taxa. We suspect
+    that the main issue is that the mollusca databases are quite incomplete, and most
+    data represents a limited number of organisms that could be evolutionarily distant
+    from this species"'
+  Other observations: '"The curation process was complicated by the fairly poor quality
+    of the Hi-C data we received, resulting in a sparser pretext map (approximately
+    3.5 million valid pairs, including cis >= 1kb and trans. per Gbase of sequence)
+    compared to most projects with better Hi-C libraries. However, the pre-scaffolded
+    NextDenovo assembly was already quite good, which helped us generate a draft assembly
+    that meets most of the stringent EBP requirements. In this final version of the
+    EAR report we addressed all of the reviewer concerns and produced a new pretext
+    map and assembly based on that. The blobtools plot was not modified as that was
+    deemed not to be necessary."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 3,249,385,616
+    GC %: '34.92'
+    Gaps/Gbp: '234.81'
+    Total gap bp: 152,600
+    Scaffolds: '503'
+    Scaffold N50: 73,833,701
+    Scaffold L50: '19'
+    Scaffold L90: '42'
+    Contigs: 1,266
+    Contig N50: 10,980,000
+    Contig L50: '88'
+    Contig L90: '343'
+    QV: '43.3597'
+    Kmer compl.: '79.2506'
+    BUSCO sing.: 93.8%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 1.9%
+    BUSCO miss.: 3.4%
+  Curated collapsed:
+    Total bp: 3,249,387,216
+    GC %: '34.92'
+    Gaps/Gbp: '237.28'
+    Total gap bp: 154,200
+    Scaffolds: '497'
+    Scaffold N50: 74,550,748
+    Scaffold L50: '19'
+    Scaffold L90: '42'
+    Contigs: 1,268
+    Contig N50: 10,980,000
+    Contig L50: '88'
+    Contig L90: '344'
+    QV: '43.3596'
+    Kmer compl.: '79.2506'
+    BUSCO sing.: 93.8%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 1.9%
+    BUSCO miss.: 3.4%
+
+BUSCO:
+  ver: 5.4.0
+  lineage: metazoa_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 56x 63x 60x
+
+Assembly pipeline:
+  Trim_galore:
+    ver: 0.6.7
+    key param: retain_unpaired
+  Filtlong:
+    ver: 0.2.1
+  nextdenovo:
+    ver: 2.5.0
+  hypo:
+    ver: 1.0.3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-10-16 10:43:32 CEST

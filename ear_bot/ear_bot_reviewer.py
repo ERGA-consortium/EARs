@@ -8,7 +8,8 @@ from datetime import datetime, timedelta
 import pytz
 from github import Github
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "rev")))
+root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(os.path.join(root_folder, "rev"))
 import get_EAR_reviewer  # type: ignore
 
 cet = pytz.timezone("CET")
@@ -392,7 +393,9 @@ class EARBotReviewer:
             )
             reviewer_institution = reviewer_data.get("Institution", "")
             species = self._search_in_body(pr, "Species")
-            self.EAR_reviewer.add_pr(reviewer_name, reviewer_institution, species, pr.html_url)
+            self.EAR_reviewer.add_pr(
+                reviewer_name, reviewer_institution, species, pr.html_url
+            )
 
             institution = self._search_for_institution(pr)
             self.EAR_reviewer.update_reviewers_list(
@@ -404,16 +407,26 @@ class EARBotReviewer:
             researcher_name = pr.user.name
             supervisor_name = pr.assignee.name
             EAR_pdf = next(
-                file.blob_url
+                file
                 for file in pr.get_files()
                 if file.filename.lower().endswith(".pdf")
             )
+            EAR_pdf_url = re.sub(r"/blob/[\w\d]+/", "/blob/main/", EAR_pdf.blob_url)
             slack_post = (
                 f":tada: *New Assembly Finished!* :tada:\n\n"
                 f"Congratulations to {researcher_name} and the {institution} team for the high-quality assembly of _{species}_\n\n"
                 f"The assembly was reviewed by {reviewer_name}, and the process supervised by {supervisor_name}. The EAR can be found in the following link:\n"
-                f"{EAR_pdf}"
+                f"{EAR_pdf_url}"
             )
+            EARpdf_to_yaml_path = os.path.join(root_folder, "EARpdf_to_yaml.py")
+            EAR_pdf_file = os.path.join(root_folder, EAR_pdf.filename)
+            output_pdf_to_yaml = subprocess.run(
+                f"python {EARpdf_to_yaml_path} {EAR_pdf_file}",
+                shell=True,
+                capture_output=True,
+                text=True,
+            )
+            print(output_pdf_to_yaml.stdout, output_pdf_to_yaml.stderr)
             self._create_slack_post(slack_post)
         else:
             comment_reviewer = self._search_comment_user(pr, "do you agree to review")

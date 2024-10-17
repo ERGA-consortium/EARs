@@ -1,0 +1,134 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-Pilot
+
+TxID: '54556'
+ToLID: fAlbAlb1
+Species: Alburnus alburnus
+Class: Actinopteri
+Order: Cypriniformes
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,059,117,179
+    Haploid Number: '25 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 986,562,608
+    Haploid Number: '25'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    hap1: 6.7.Q61
+    hap2: 6.7.Q60
+
+Curator notes:
+  Contamination notes: '"No contaminants detected by FCS-GX. Those highlighted by
+    blobtools are very short, repetitive contigs, which FCS either masked or marked
+    as low-coverage hits to other taxa."'
+  Other observations: '"Curation performed a long time ago (3 years). No information
+    on pre-curation assembly available, so the post-curation statistics have been
+    copied to comply with the EAR."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 1,005,737,902
+    GC %: '38.64'
+    Gaps/Gbp: '218.74'
+    Total gap bp: 87,380
+    Scaffolds: '112'
+    Scaffold N50: 38,752,591
+    Scaffold L50: '11'
+    Scaffold L90: '22'
+    Contigs: '332'
+    Contig N50: 7,667,869
+    Contig L50: '39'
+    Contig L90: '139'
+    QV: '61.895'
+    Kmer compl.: '76.9516'
+    BUSCO sing.: 97.3%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 1.5%
+  Pre-curation hap2:
+    Total bp: 986,562,608
+    GC %: '38.63'
+    Gaps/Gbp: '184.48'
+    Total gap bp: 19,460
+    Scaffolds: '55'
+    Scaffold N50: 38,024,220
+    Scaffold L50: '11'
+    Scaffold L90: '22'
+    Contigs: '237'
+    Contig N50: 8,875,646
+    Contig L50: '34'
+    Contig L90: '112'
+    QV: '60.9924'
+    Kmer compl.: '75.4906'
+    BUSCO sing.: 97.1%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.9%
+  Curated hap1:
+    Total bp: 1,005,737,902
+    GC %: '38.64'
+    Gaps/Gbp: '218.74'
+    Total gap bp: 87,380
+    Scaffolds: '112'
+    Scaffold N50: 38,752,591
+    Scaffold L50: '11'
+    Scaffold L90: '22'
+    Contigs: '332'
+    Contig N50: 7,667,869
+    Contig L50: '39'
+    Contig L90: '139'
+    QV: '61.895'
+    Kmer compl.: '76.9516'
+    BUSCO sing.: 97.3%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 1.5%
+  Curated hap2:
+    Total bp: 986,562,608
+    GC %: '38.63'
+    Gaps/Gbp: '184.48'
+    Total gap bp: 19,460
+    Scaffolds: '55'
+    Scaffold N50: 38,024,220
+    Scaffold L50: '11'
+    Scaffold L90: '22'
+    Contigs: '237'
+    Contig N50: 8,875,646
+    Contig L50: '34'
+    Contig L90: '112'
+    QV: '60.9924'
+    Kmer compl.: '75.4906'
+    BUSCO sing.: 97.1%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.9%
+
+BUSCO:
+  ver: 5.7.1
+  lineage: actinopterygii_odb10
+
+Data:
+  Profile: Pacbio Hifi Arima HiC
+  Coverage: 50 50
+
+Assembly pipeline: {}
+
+Curation pipeline:
+  hifiasm:
+    ver: ''
+  salsa2:
+    ver: ''
+  higlass:
+    ver: ''
+
+Submitter: Tom Brown
+Affiliation: Max Planck Institute for Molecular Cell Biology and Genetics
+
+Date and time: 2024-05-31 16:30:21 CEST

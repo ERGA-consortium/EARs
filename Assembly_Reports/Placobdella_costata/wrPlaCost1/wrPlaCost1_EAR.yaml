@@ -1,0 +1,111 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '60953'
+ToLID: wrPlaCost1
+Species: Placobdella costata
+Class: Clitellata
+Order: Rhynchobdellida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 486,921,211
+    Haploid Number: '9 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: H
+  Observed:
+    Haploid size (bp): 488,180,838
+    Haploid Number: '18'
+    Ploidy: '2'
+    Sample Sex: H
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q49
+
+Curator notes:
+  Interventions/Gb: 159
+  Contamination notes: '"Total length of scaffolds removed: 7,620,786 (1.5 %);Scaffolds
+    removed: 12 (12.1 %);Largest scaffold removed: (3,924,856);FCS-GX contaminant
+    species (number of scaffolds; total length of scaffolds):Yokenella regensburgei,
+    g-proteobacteria (4; 4,053,046);Myxococcus qinghaiensis, d-proteobacteria (1;
+    3,257,129);Chryseotalea sanaruensis, CFB group bacteria (1; 56,177);Polyangium
+    spumosum, d-proteobacteria (1; 44,272);Citrobacter youngae, g-proteobacteria (1;
+    43,784);Chryseolinea soli, CFB group bacteria (1; 43,047);Chryseolinea sp., CFB
+    group bacteria (1; 32,751);Chryseotalea sp. WA131a, CFB group bacteria (1; 28,284)"'
+  Other observations: '"Hi-C from a different individual (wrPlaCost2), so assembly
+    is not Hi-C phased; Expected haploid number from GoaT is an ancestral estimate,
+    likely incorrect in this case"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 504,255,463
+    GC %: '32.14'
+    Gaps/Gbp: 1,253.33
+    Total gap bp: 126,400
+    Scaffolds: '99'
+    Scaffold N50: 32,061,669
+    Scaffold L50: '6'
+    Scaffold L90: '15'
+    Contigs: '731'
+    Contig N50: 1,889,692
+    Contig L50: '64'
+    Contig L90: '337'
+    Kmer compl.: '98.85'
+    BUSCO sing.: 89.0%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 4.8%
+    BUSCO miss.: 5.2%
+  Curated pri:
+    Total bp: 488,180,838
+    GC %: '31.77'
+    Gaps/Gbp: 1,349.91
+    Total gap bp: 131,800
+    Scaffolds: '28'
+    Scaffold N50: 31,539,400
+    Scaffold L50: '6'
+    Scaffold L90: '15'
+    Contigs: '687'
+    Contig N50: 1,764,884
+    Contig L50: '64'
+    Contig L90: '339'
+    Kmer compl.: '97.56'
+    BUSCO sing.: 89.7%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 4.3%
+    BUSCO miss.: 5.3%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 54x 204x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+    key param: -e
+  yahs:
+    ver: 1.2a.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+    key param: -e
+  yahs:
+    ver: 1.2a.2
+  TreeVal:
+    ver: 1.1.1
+
+Submitter: Thomas Mathers
+Affiliation: WSI
+
+Date and time: 2024-09-26 11:59:31 CEST

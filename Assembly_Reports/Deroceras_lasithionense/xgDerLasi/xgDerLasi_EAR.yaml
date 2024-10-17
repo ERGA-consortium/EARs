@@ -1,0 +1,96 @@
+ERGA Assembly Report: v24.09.10
+Tags: ERGA-BGE
+
+TxID: '3034287'
+ToLID: xgDerLasi
+Species: Deroceras lasithionense
+Class: Gastropoda
+Order: Stylommatophora
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,014,304,119
+    Haploid Number: '16 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 1,318,418,884
+    Haploid Number: '31'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q55
+
+Curator notes:
+  Interventions/Gb: 73
+  Contamination notes: '"3 bacterial contigs were removed"'
+  Other observations: '""'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,330,276,266
+    GC %: '41.44'
+    Gaps/Gbp: '798.33'
+    Total gap bp: 106,200
+    Scaffolds: '90'
+    Scaffold N50: 45,757,421
+    Scaffold L50: '12'
+    Scaffold L90: '26'
+    Contigs: 1,152
+    Contig N50: 2,037,934
+    Contig L50: '190'
+    Contig L90: '630'
+    QV: '55.0595'
+    Kmer compl.: '77.1708'
+    BUSCO sing.: 98.0%
+    BUSCO dupl.: 1.6%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.4%
+  Curated collapsed:
+    Total bp: 1,318,418,884
+    GC %: '41.45'
+    Gaps/Gbp: '811.58'
+    Total gap bp: 109,500
+    Scaffolds: '66'
+    Scaffold N50: 45,757,421
+    Scaffold L50: '12'
+    Scaffold L90: '26'
+    Contigs: 1,136
+    Contig N50: 2,037,218
+    Contig L50: '188'
+    Contig L90: '628'
+    QV: '55.0543'
+    Kmer compl.: '76.6606'
+    BUSCO sing.: 98.0%
+    BUSCO dupl.: 1.6%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.4%
+
+BUSCO:
+  ver: 5.4.3
+  lineage: eukaryota_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima (4-enz)
+  Coverage: 45 42
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Caroline Belser
+Affiliation: Genoscope
+
+Date and time: 2024-09-17 16:46:39 CEST

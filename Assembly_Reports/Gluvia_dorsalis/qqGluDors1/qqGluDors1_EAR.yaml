@@ -1,0 +1,120 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '62148'
+ToLID: qqGluDors1
+Species: Gluvia dorsalis
+Class: Arachnida
+Order: Solifugae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 790,185,518
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 787,019,465
+    Haploid Number: '5'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q48
+
+Curator notes:
+  Interventions/Gb: 7
+  Contamination notes: '"BTK detected 3 contaminant scaffolds matching bacteria (nt
+    database) and they were discarded. Scaffold_12 was considered a false positive
+    contaminant and retained (has no matches in nt and a short hit to Rotifera in
+    uniprot). All other sequences were assigned to phylum Arthropoda by BTK. The complete
+    mitochondrial genome was assembled into a single circular contig of 14,734 base
+    pairs with excellent base accuracy using the FOAM pipeline (https://github.com/cnag-aat/FOAM).
+    Following current SAC decission the MT is not included in this assembly version
+    but it will be uploaded to ENA."'
+  Other observations: '"Assemby Name: qqGluDors1.3. Comments: Genome Assembly obtained
+    with CLAWS v2.1 pipeline (https://workflowhub.eu/workflows/567). Input assembly
+    (nextdenovo.hypo1.purged) for HiC scaffolding was already highly contiguous (N50=47.35Mb),
+    YaHS placed all contigs into 14 scaffolds. Manual curation involved localizing
+    two scaffolds into SUPER_5 and SUPER_6 (made 2 cuts in contigs, 0 breaks at gaps
+    and 4 joins). After EAR review, two SUPER (qqGluDors1.2) of approximately 7Mb
+    were placed at SUPER_1 and SUPER_2 and tagged as Unloc. We could not tag the sex
+    chromosome(s) as all SUPER show diploid coverage. Two scaffolds remain unplaced,
+    they are repetitive and show multiple contacts to several SUPER. The hic_FullMap_link
+    points to a folder containing two pretext maps with default and high resolution,
+    respectively."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 788,347,192
+    GC %: '39.71'
+    Gaps/Gbp: '46.93'
+    Total gap bp: 7,400
+    Scaffolds: '14'
+    Scaffold N50: 198,509,873
+    Scaffold L50: '2'
+    Scaffold L90: '5'
+    Contigs: '51'
+    Contig N50: 37,604,012
+    Contig L50: '8'
+    Contig L90: '26'
+    QV: '48.0932'
+    Kmer compl.: '95.6018'
+    BUSCO sing.: 97.3%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 1.4%
+    BUSCO miss.: 0.5%
+  Curated collapsed:
+    Total bp: 787,019,465
+    GC %: '39.73'
+    Gaps/Gbp: '52.1'
+    Total gap bp: 8,200
+    Scaffolds: '9'
+    Scaffold N50: 198,509,873
+    Scaffold L50: '2'
+    Scaffold L90: '5'
+    Contigs: '50'
+    Contig N50: 37,604,012
+    Contig L50: '8'
+    Contig L90: '26'
+    QV: '48.093'
+    Kmer compl.: '95.3951'
+    BUSCO sing.: 97.3%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 1.4%
+    BUSCO miss.: 0.5%
+
+BUSCO:
+  ver: 5.4.0
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 116x 102x 97x
+
+Assembly pipeline:
+  Trim_Galore:
+    ver: 0.6.7
+    key param: '"--max_n 0"'
+  Filtlong:
+    ver: 0.2.1
+    key param: '"--target_bases 70000000000"'
+  nextdenovo:
+    ver: 2.5.0
+  hypo:
+    ver: 1.0.3
+    key param: '"1 round polishing"'
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Fernando Cruz
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-04-18 10:09:02 CEST

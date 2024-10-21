@@ -1,0 +1,111 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '2934182'
+ToLID: xgPhyFlav1
+Species: Phyllidia flava
+Class: Gastropoda
+Order: Nudibranchia
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,244,081,371
+    Haploid Number: '12 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 1,900,507,057
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.8.Q40
+
+Curator notes:
+  Interventions/Gb: 15
+  Contamination notes: '"We found a large bacterial sequence (+5Mb) corresponding
+    to a species of proteobacter (pseudomonadota) which was removed (scaffold_15).
+    Furthermore several other scaffolds (75) were removed when they were deemed to
+    be largely made up of contaminants ascribed to different phyla (i.e. arthropoda,
+    chordata, echinodermata , cnidaria, mucoromycota and rotifera)"'
+  Other observations: '"Curation was a bit difficult due to a fairly low contiguity
+    (2.8 Mb contig N50). We had to break one of the large yahs-assembled scaffolds
+    (scaffold_4) as there was no support for it being a single scaffold but rather
+    two. Some larger unplaced scaffolds/unlocs were not removed even if containing
+    some contaminanting sequences since their removal would have resulted in a reduction
+    in the number of busco mollusca & metazoa complete genes. Implemented all changes
+    suggested by the EAR reviewer. The HiRes version of the pretext map was shared"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,918,628,656
+    GC %: '36.22'
+    Gaps/Gbp: 1,027.82
+    Total gap bp: 394,400
+    Scaffolds: '141'
+    Scaffold N50: 242,559,295
+    Scaffold L50: '4'
+    Scaffold L90: '10'
+    Contigs: 2,113
+    Contig N50: 2,386,647
+    Contig L50: '215'
+    Contig L90: 1,111
+    QV: '40.4358'
+    Kmer compl.: '74.9697'
+    BUSCO sing.: 94.7%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 2.0%
+    BUSCO miss.: 2.6%
+  Curated collapsed:
+    Total bp: 1,900,507,057
+    GC %: '36.18'
+    Gaps/Gbp: 1,036.57
+    Total gap bp: 394,000
+    Scaffolds: '62'
+    Scaffold N50: 169,704,197
+    Scaffold L50: '4'
+    Scaffold L90: '11'
+    Contigs: 2,032
+    Contig N50: 2,379,035
+    Contig L50: '214'
+    Contig L90: 1,084
+    QV: '40.4285'
+    Kmer compl.: '74.4559'
+    BUSCO sing.: 95.0%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 2.0%
+    BUSCO miss.: 2.6%
+
+BUSCO:
+  ver: 5.4.0
+  lineage: metazoa_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 72x 74x 64x
+
+Assembly pipeline:
+  Trim_Galore:
+    ver: 0.6.7
+    key param: '"--retain_unpaired"'
+  Filtlong:
+    ver: 0.2.1
+  nextdenovo:
+    ver: 2.5.0
+  nextpolish:
+    ver: 1.4.1
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-04-15 15:07:36 CEST

@@ -8,7 +8,8 @@ from datetime import datetime, timedelta
 import pytz
 from github import Github
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "rev")))
+root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(os.path.join(root_folder, "rev"))
 import get_EAR_reviewer  # type: ignore
 
 cet = pytz.timezone("CET")
@@ -115,6 +116,30 @@ class EARBotReviewer:
             return
 
         researcher = pr.user.login
+        files_changed = pr.get_files()
+
+        if files_changed.totalCount != 1:
+            pr.create_issue_comment(
+                f"Attention @{researcher}, you have changed more than one file!\n"
+                "Please make sure to update only the EAR PDF file."
+            )
+            pr.add_to_labels("ERROR!")
+            raise Exception("More than one file changed.")
+        elif files_changed[0].status == "modified":
+            pr.create_issue_comment(
+                f"Hi @{researcher} this looks like an update of an approved EAR. I will flag the PR to call the attention of a supervisor to handle this :)"
+            )
+            pr.add_to_labels("ERROR!")
+            raise Exception("Modified file.")
+
+        if not pr.body:
+            pr.create_issue_comment(
+                f"Attention @{researcher}, it seems you want to start the reviewing process of an EAR, but the PR has an empty body.\n"
+                "Please check the [Wiki](https://github.com/ERGA-consortium/EARs/wiki/Reviewers-section) if you need to refresh something."
+            )
+            pr.add_to_labels("ERROR!")
+            raise Exception("Empty PR description.")
+
         project = self._search_in_body(pr, "Project")
         species = self._search_in_body(pr, "Species")
         self._search_for_institution(pr)
@@ -126,14 +151,6 @@ class EARBotReviewer:
             )
             pr.add_to_labels("ERROR!")
             raise Exception(f"Invalid project name: {project}")
-
-        if pr.get_files().totalCount != 1:
-            pr.create_issue_comment(
-                f"Attention @{researcher}, you have changed more than one file!\n"
-                "Please make sure to update only the EAR PDF file."
-            )
-            pr.add_to_labels("ERROR!")
-            raise Exception("More than one file changed.")
 
         if error_label_existed:
             pr.remove_from_labels("ERROR!")
@@ -190,6 +207,11 @@ class EARBotReviewer:
         current_date = datetime.now(tz=cet)
 
         for pr in prs:
+            if pr.updated_at.astimezone(cet) + timedelta(days=7) < current_date:
+                supervisor = pr.assignee.login if pr.assignee else pr.user.login
+                pr.create_issue_comment(
+                    f"Ping @{supervisor},\nOne week without any movements on this PR!"
+                )
             if (
                 pr.get_review_requests()[0].totalCount > 0
                 or not any(
@@ -204,7 +226,7 @@ class EARBotReviewer:
                 pr, "do you agree to review"
             )
             deadline_passed = (
-                last_comment_date + timedelta(days=7) < current_date
+                self._deadline(last_comment_date) < current_date
                 if last_comment_date
                 else False
             )
@@ -227,7 +249,7 @@ class EARBotReviewer:
                     pr.create_issue_comment(
                         f"Hi @{new_reviewer}, do you agree to review this assembly?\n"
                         "Please reply to this message only with **Yes** or **No** by"
-                        f" {(current_date + timedelta(days=7)).strftime('%d-%b-%Y at %H:%M CET')}"
+                        f" {self._deadline(current_date).strftime('%d-%b-%Y at %H:%M CET')}"
                     )
                     self.EAR_reviewer.update_reviewers_list(
                         reviewers=[new_reviewer.lower()], busy=True
@@ -315,7 +337,7 @@ class EARBotReviewer:
                 pr.create_issue_comment(
                     f"Invalid confirmation!\nHi @{comment_author}, do you agree to review this assembly?\n"
                     "Please reply to this message only with **Yes** or **No** by"
-                    f" {(current_date + timedelta(days=7)).strftime('%d-%b-%Y at %H:%M CET')}"
+                    f" {self._deadline(current_date).strftime('%d-%b-%Y at %H:%M CET')}"
                 )
                 print("Invalid comment text.")
                 sys.exit()
@@ -366,12 +388,14 @@ class EARBotReviewer:
                 for entry in self.EAR_reviewer.data
                 if entry.get("Github ID", "").lower() == reviewer
             )
-            name = reviewer_data.get(
+            reviewer_name = reviewer_data.get(
                 "Full Name", the_review.user.name or the_review.user.login
             )
             reviewer_institution = reviewer_data.get("Institution", "")
             species = self._search_in_body(pr, "Species")
-            self.EAR_reviewer.add_pr(name, reviewer_institution, species, pr.html_url)
+            self.EAR_reviewer.add_pr(
+                reviewer_name, reviewer_institution, species, pr.html_url
+            )
 
             institution = self._search_for_institution(pr)
             self.EAR_reviewer.update_reviewers_list(
@@ -380,6 +404,38 @@ class EARBotReviewer:
                 institution=institution,
                 submitted_at=submitted_at,
             )
+            researcher_name = next(
+                entry.get("Full Name", pr.user.name or pr.user.login)
+                for entry in self.EAR_reviewer.data
+                if entry.get("Github ID", "").lower() == pr.user.login
+            )
+            supervisor_name = next(
+                entry.get("Full Name", pr.assignee.name or pr.assignee.login)
+                for entry in self.EAR_reviewer.data
+                if entry.get("Github ID", "").lower() == pr.assignee.login
+            )
+            EAR_pdf = next(
+                file
+                for file in pr.get_files()
+                if file.filename.lower().endswith(".pdf")
+            )
+            EAR_pdf_url = re.sub(r"/blob/[\w\d]+/", "/blob/main/", EAR_pdf.blob_url)
+            slack_post = (
+                f":tada: *New Assembly Finished!* :tada:\n\n"
+                f"Congratulations to {researcher_name} and the {institution} team for the high-quality assembly of _{species}_\n\n"
+                f"The assembly was reviewed by {reviewer_name}, and the process supervised by {supervisor_name}. The EAR can be found in the following link:\n"
+                f"{EAR_pdf_url}"
+            )
+            EARpdf_to_yaml_path = os.path.join(root_folder, "EARpdf_to_yaml.py")
+            EAR_pdf_file = os.path.join(root_folder, EAR_pdf.filename)
+            output_pdf_to_yaml = subprocess.run(
+                f"python {EARpdf_to_yaml_path} {EAR_pdf_file}",
+                shell=True,
+                capture_output=True,
+                text=True,
+            )
+            print(output_pdf_to_yaml.stdout, output_pdf_to_yaml.stderr)
+            self._create_slack_post(slack_post)
         else:
             comment_reviewer = self._search_comment_user(pr, "do you agree to review")
             self.EAR_reviewer.update_reviewers_list(
@@ -422,19 +478,50 @@ class EARBotReviewer:
         )
         pr.add_to_labels("ERROR!")
         raise Exception(f"Missing {text_to_check} in the PR description.")
-    
+
     def _search_for_institution(self, pr):
         institution = self._search_in_body(pr, "Affiliation").lower()
-        if 'cnag' in institution:
-            return 'CNAG'
-        elif any(name in institution for name in ['sanger', 'welcome sanger institute', 'wsi']):
-            return 'Sanger'
-        elif 'genoscope' in institution:
-            return 'Genoscope'
-        elif 'scilifelab' in institution:
-            return 'SciLifeLab'
+        if "cnag" in institution:
+            return "CNAG"
+        elif any(
+            name in institution
+            for name in ["sanger", "welcome sanger institute", "wsi"]
+        ):
+            return "Sanger"
+        elif "genoscope" in institution:
+            return "Genoscope"
+        elif "scilifelab" in institution:
+            return "SciLifeLab"
         return institution
 
+    def _deadline(self, start_date):
+        current_date = start_date
+        added_hours = timedelta(hours=0)
+        total_hours = timedelta(hours=100)
+        while added_hours != total_hours:
+            remaining_hours = total_hours - added_hours
+            time_to_add = min(remaining_hours, timedelta(days=1))
+            if (current_date + time_to_add).weekday() < 5:
+                added_hours += time_to_add
+            else:
+                time_to_add = timedelta(days=1)
+            current_date += time_to_add
+        return current_date
+
+    def _create_slack_post(self, content):
+        from slack_sdk import WebClient
+
+        client = WebClient(token=os.getenv("SLACK_TOKEN"))
+        channel_id = os.getenv("SLACK_CHANNEL_ID")
+        response = client.chat_postMessage(channel=channel_id, text=content)
+        if not response["ok"]:
+            print("Error creating post in Slack")
+            return False
+        link = client.chat_getPermalink(channel=channel_id, message_ts=response["ts"])[
+            "permalink"
+        ]
+        print(f"Slack post created: {link}")
+        return True
 
 
 if __name__ == "__main__":

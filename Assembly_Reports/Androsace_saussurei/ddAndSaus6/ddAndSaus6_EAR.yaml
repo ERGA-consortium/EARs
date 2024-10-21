@@ -1,0 +1,113 @@
+ERGA Assembly Report: v24.09.10
+Tags: ERGA-BGE
+
+TxID: '2890055'
+ToLID: ddAndSaus6
+Species: Androsace saussurei
+Class: Magnoliopsida
+Order: Ericales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 469,524,587
+    Haploid Number: '10 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 788,683,157
+    Haploid Number: '20'
+    Ploidy: '4'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q51
+
+Curator notes:
+  Interventions/Gb: 123
+  Contamination notes: '"Two contigs were identified as bacterial sequences (47,294
+    bp and 54,341 bp), and seven contigs were identified as viral sequences (Max size
+    = 75,569 bp, cumulative size = 387,150 bp). All nine contigs were removed before
+    scaffolding."'
+  Other observations: '"Here we retained the Nextdenovo assembly. Note that Hifiasm
+    generated an assembly of 782Mbp with a high N50 (21Mb) and a low N90 (<50Kb).
+    Several ploidies were observed in the Androsace genus, with 10 chromosomes (Weiss
+    (2021), "Chromosome number and ploidy level of Androsace maxima (Primulaceae)
+    in Austria", https://www.zobodat.at/pdf/NEIL_1_0177-0180.pdf). Here, we reconstructed
+    40 chromosomes (clearly 4 sets of 10 chromosomes based on the Hi-C map), suggesting
+    a tetraploid or an octoploid genome for Androsace saussurei. If the genome is
+    tetraploid, it is unusual as the assembler reconstructed complete maternal and
+    paternal alleles, indicating high heterozygosity. In contrast, if the genome is
+    octoploid, it indicates near homozygosity. We can clearly see regions with higher
+    coverage that may indicate gene conversions between the homologous chromosomes,
+    which would require additional techniques for complete assembly. Tetraploidy was
+    also suggested by Smudgeplot, and SNPs showed few variations, supporting the tetraploid
+    hypothesis. The twenty most complete chromosomes will be submitted as the reference
+    haplotype, and the other twenty as the alternate haplotype."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 792,599,937
+    GC %: '32.99'
+    Gaps/Gbp: '301.54'
+    Total gap bp: 23,900
+    Scaffolds: '197'
+    Scaffold N50: 23,288,581
+    Scaffold L50: '11'
+    Scaffold L90: '28'
+    Contigs: '436'
+    Contig N50: 5,110,328
+    Contig L50: '50'
+    Contig L90: '167'
+    QV: '51.7172'
+    Kmer compl.: '94.9672'
+    BUSCO sing.: 7.2%
+    BUSCO dupl.: 89.2%
+    BUSCO frag.: 1.0%
+    BUSCO miss.: 2.6%
+  Curated collapsed:
+    Total bp: 788,683,157
+    GC %: '32.99'
+    Gaps/Gbp: '360.09'
+    Total gap bp: 37,100
+    Scaffolds: '121'
+    Scaffold N50: 20,531,085
+    Scaffold L50: '19'
+    Scaffold L90: '35'
+    Contigs: '405'
+    Contig N50: 5,004,711
+    Contig L50: '51'
+    Contig L90: '168'
+    QV: '51.7153'
+    Kmer compl.: '94.8263'
+    BUSCO sing.: 7.0%
+    BUSCO dupl.: 89.4%
+    BUSCO frag.: 1.0%
+    BUSCO miss.: 2.6%
+
+BUSCO:
+  ver: 5.4.3
+  lineage: eudicots_odb10
+
+Data:
+  Profile: PACBIO Hifi Omnic
+  Coverage: 97 44
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Jean-Marc Aury
+Affiliation: Genoscope
+
+Date and time: 2024-09-30 08:57:55 CEST

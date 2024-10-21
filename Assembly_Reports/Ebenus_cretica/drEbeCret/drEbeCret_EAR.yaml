@@ -1,0 +1,96 @@
+ERGA Assembly Report: v24.09.10
+Tags: ERGA-BGE
+
+TxID: '754874'
+ToLID: drEbeCret
+Species: Ebenus cretica
+Class: Magnoliopsida
+Order: Fabales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 988,901,153
+    Haploid Number: '7 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 944,538,891
+    Haploid Number: '6'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q59
+
+Curator notes:
+  Interventions/Gb: 3
+  Contamination notes: '"One bacterial sequence of 77kb was detected and removed."'
+  Other observations: '""'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 946,087,149
+    GC %: '34.54'
+    Gaps/Gbp: '27.48'
+    Total gap bp: 2,600
+    Scaffolds: '69'
+    Scaffold N50: 174,068,480
+    Scaffold L50: '2'
+    Scaffold L90: '5'
+    Contigs: '95'
+    Contig N50: 92,227,207
+    Contig L50: '4'
+    Contig L90: '10'
+    QV: '58.9172'
+    Kmer compl.: '89.3262'
+    BUSCO sing.: 64.3%
+    BUSCO dupl.: 34.6%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 1.0%
+  Curated collapsed:
+    Total bp: 944,538,891
+    GC %: '34.54'
+    Gaps/Gbp: '18'
+    Total gap bp: 1,800
+    Scaffolds: '55'
+    Scaffold N50: 161,678,577
+    Scaffold L50: '3'
+    Scaffold L90: '6'
+    Contigs: '72'
+    Contig N50: 92,227,207
+    Contig L50: '4'
+    Contig L90: '10'
+    QV: '59.1885'
+    Kmer compl.: '89.3335'
+    BUSCO sing.: 64.4%
+    BUSCO dupl.: 34.5%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 1.0%
+
+BUSCO:
+  ver: 5.4.3
+  lineage: embryophyta_odb10
+
+Data:
+  Profile: PACBIO Hifi Omnic
+  Coverage: 75 43
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Adama Ndar
+Affiliation: Genoscope
+
+Date and time: 2024-10-19 17:04:07 CEST

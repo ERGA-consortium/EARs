@@ -199,6 +199,13 @@ class EARBotReviewer:
                 f"The researcher has updated the EAR PDF. Please review the assembly @{reviewer}."
             )
 
+        if action_type == "reopened":
+            reviewers = self._search_comment_user(pr, "do you agree to review")
+            if reviewers:
+                self.EAR_reviewer.update_reviewers_list(
+                    reviewers=set(reviewers), busy=True
+                )
+
     def find_reviewer(self, prs=[], reject=False):
         # Will run when supervisor approves to be a assignee, or when there is a rejection or a deadline passed for a reviewer
         if not prs:

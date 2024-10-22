@@ -383,15 +383,21 @@ class EARBotReviewer:
             reviewer = the_review.user.login.lower()
             submitted_at = datetime.now(tz=cet).strftime("%Y-%m-%d")
 
+            researcher_name = pr.user.name or pr.user.login
+            supervisor_name = pr.assignee.name or pr.assignee.login
+            reviewer_name = the_review.user.name or the_review.user.login
+            reviewer_institution = ""
             for entry in self.EAR_reviewer.data:
                 github_id = entry.get("Github ID", "").lower()
                 full_name = entry.get("Full Name")
-                if github_id == pr.user.login.lower():
-                    researcher_name = full_name or pr.user.name or pr.user.login
-                if github_id == pr.assignee.login.lower():
-                    supervisor_name = full_name or pr.assignee.name or pr.assignee.login
+                if full_name:
+                    if github_id == pr.user.login.lower():
+                        researcher_name = full_name
+                    if github_id == pr.assignee.login.lower():
+                        supervisor_name = full_name
+                    if github_id == reviewer:
+                        reviewer_name = full_name
                 if github_id == reviewer:
-                    reviewer_name = full_name or the_review.user.name or reviewer
                     reviewer_institution = entry.get("Institution", "")
 
             species = self._search_in_body(pr, "Species")

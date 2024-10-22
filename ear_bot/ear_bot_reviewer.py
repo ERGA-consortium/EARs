@@ -200,8 +200,15 @@ class EARBotReviewer:
             )
 
         if action_type == "reopened":
-            reviewers = self._search_comment_user(pr, "do you agree to review")
-            self.EAR_reviewer.update_reviewers_list(reviewers=set(reviewers), busy=True)
+            if pr.get_review_requests()[0].totalCount > 0:
+                reviewer = pr.get_review_requests()[0][0].login
+                self.EAR_reviewer.update_reviewers_list(reviewers=[reviewer], busy=True)
+            elif pr.get_reviews().totalCount > 0:
+                reviewer = pr.get_reviews()[0].user.login
+                self.EAR_reviewer.update_reviewers_list(reviewers=[reviewer], busy=True)
+            else:
+                reviewers = self._search_comment_user(pr, "do you agree to review")
+                self.EAR_reviewer.update_reviewers_list(reviewers=set(reviewers), busy=True)
 
     def find_reviewer(self, prs=[], reject=False):
         # Will run when supervisor approves to be a assignee, or when there is a rejection or a deadline passed for a reviewer

@@ -383,15 +383,23 @@ class EARBotReviewer:
             reviewer = the_review.user.login.lower()
             submitted_at = datetime.now(tz=cet).strftime("%Y-%m-%d")
 
-            reviewer_data = next(
-                entry
-                for entry in self.EAR_reviewer.data
-                if entry.get("Github ID", "").lower() == reviewer
-            )
-            reviewer_name = reviewer_data.get(
-                "Full Name", the_review.user.name or the_review.user.login
-            )
-            reviewer_institution = reviewer_data.get("Institution", "")
+            researcher_name = pr.user.name or pr.user.login
+            supervisor_name = pr.assignee.name or pr.assignee.login
+            reviewer_name = the_review.user.name or the_review.user.login
+            reviewer_institution = ""
+            for entry in self.EAR_reviewer.data:
+                github_id = entry.get("Github ID", "").lower()
+                full_name = entry.get("Full Name")
+                if full_name:
+                    if github_id == pr.user.login.lower():
+                        researcher_name = full_name
+                    if github_id == pr.assignee.login.lower():
+                        supervisor_name = full_name
+                    if github_id == reviewer:
+                        reviewer_name = full_name
+                if github_id == reviewer:
+                    reviewer_institution = entry.get("Institution", "")
+
             species = self._search_in_body(pr, "Species")
             self.EAR_reviewer.add_pr(
                 reviewer_name, reviewer_institution, species, pr.html_url
@@ -403,16 +411,6 @@ class EARBotReviewer:
                 busy=False,
                 institution=institution,
                 submitted_at=submitted_at,
-            )
-            researcher_name = next(
-                entry.get("Full Name", pr.user.name or pr.user.login)
-                for entry in self.EAR_reviewer.data
-                if entry.get("Github ID", "").lower() == pr.user.login
-            )
-            supervisor_name = next(
-                entry.get("Full Name", pr.assignee.name or pr.assignee.login)
-                for entry in self.EAR_reviewer.data
-                if entry.get("Github ID", "").lower() == pr.assignee.login
             )
             EAR_pdf = next(
                 file

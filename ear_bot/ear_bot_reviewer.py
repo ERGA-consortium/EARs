@@ -200,15 +200,24 @@ class EARBotReviewer:
             )
 
         if action_type == "reopened":
-            if pr.get_review_requests()[0].totalCount > 0:
-                reviewer = pr.get_review_requests()[0][0].login
-                self.EAR_reviewer.update_reviewers_list(reviewers=[reviewer], busy=True)
-            elif pr.get_reviews().totalCount > 0:
+            if pr.get_reviews().totalCount > 0:
                 reviewer = pr.get_reviews()[0].user.login
-                self.EAR_reviewer.update_reviewers_list(reviewers=[reviewer], busy=True)
+            elif pr.get_review_requests()[0].totalCount > 0:
+                reviewer = pr.get_review_requests()[0][0].login
             else:
-                reviewers = self._search_comment_user(pr, "do you agree to review")
-                self.EAR_reviewer.update_reviewers_list(reviewers=set(reviewers), busy=True)
+                reviewer = self._search_comment_user(pr, "do you agree to review")[0]
+
+            list_of_busy_reviewers = [
+                entry["Github ID"]
+                for entry in self.EAR_reviewer.data
+                if entry["Busy"] == "Y"
+            ]
+            if reviewer in list_of_busy_reviewers and pr.get_reviews().totalCount == 0:
+                print("No reviewer available, Searching for a new one...")
+                self.find_reviewer([self.repo.get_pull(int(self.pr_number))])
+            else:
+                print(f"Changing the status of the reviewer to busy: {reviewer}")
+                self.EAR_reviewer.update_reviewers_list(reviewers=[reviewer], busy=True)
 
     def find_reviewer(self, prs=[], reject=False):
         # Will run when supervisor approves to be a assignee, or when there is a rejection or a deadline passed for a reviewer

@@ -15,6 +15,12 @@ This project includes several workflows to handle different stages of the review
 ### Workflow 1: Find supervisor and add label on new PRs
 
 This workflow is triggered upon the submission of a new EAR, showing a welcome message and applying the project name as label to the PR. Subsequently, it finds a supervisor based on `get_EAR_reviewer.py` and requests a confirmation.
+During this process, it checks that only one file has been changed and ensures that the change is a new EAR, not a modification of an existing one. Additionally, it verifies that the PR body follows the correct format as per the default PR template. If any issues are detected, an `ERROR!` label is applied to the PR.
+
+This workflow also handles updates to the EAR PR, including new commits, edits to the PR body, or the PR being reopened.
+When a new commit is added (updated PDF), it notifies the reviewer or supervisor to review the changes, and also checks whether the ERROR flag can be removed if issues with the file count or PDF modification have been resolved.
+If the PR body is edited while an ERROR flag is present, the workflow rechecks the body to ensure there are no issues, then removes the flag.
+If the PR is reopened, it reinstates the "busy" status for the associated reviewer(s).
 
 ### Workflow 2+4: Check for supervisor or reviewer answer and Assign them (run on new comments)
 
@@ -23,7 +29,9 @@ If the reviewer responds with a `Yes`, the bot will request a review from that r
 
 ### Workflow 3: Find Reviewer on schedule
 
-If the selected reviewer does not respond within 7 days, the system will proceed to the next reviewer on the list. This process will continue until all reviewers have been asked. If no reviewer responds, the system will notify the supervisor to manually assign a reviewer.
+If the selected reviewer does not respond within 100 hours, the system will proceed to the next reviewer on the list. This process will continue until all reviewers have been asked. If no reviewer responds, the system will notify the supervisor to manually assign a reviewer.
+
+This workflow also checks if a PR has not been updated within 7 days and pings the supervisor to check it.
 
 ### Workflow 5: Approved PR
 
@@ -44,3 +52,7 @@ Once the PR has been approved and merged by the supervisor, the process is compl
 2. Add a new line at the end of the table `EAR_reviews.csv`
 
 If the PR is closed (not merged), the bot will reverse the status of any busy reviewer and call the supervisor to double-check for any issues
+
+It will also create a Slack post in the [#wp9-assembly-delivery channel](https://biogeneu.slack.com/archives/C070UHJ80Q3) to inform the team about the new Assembly.
+
+Additionally, it will generate a YAML file next to the PDF file using `EARpdf_to_yaml.py`.

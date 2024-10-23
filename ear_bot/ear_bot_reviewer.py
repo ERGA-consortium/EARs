@@ -8,7 +8,8 @@ from datetime import datetime, timedelta
 import pytz
 from github import Github
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "rev")))
+root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(os.path.join(root_folder, "rev"))
 import get_EAR_reviewer  # type: ignore
 
 cet = pytz.timezone("CET")
@@ -206,6 +207,11 @@ class EARBotReviewer:
         current_date = datetime.now(tz=cet)
 
         for pr in prs:
+            if pr.updated_at.astimezone(cet) + timedelta(days=7) < current_date:
+                supervisor = pr.assignee.login if pr.assignee else pr.user.login
+                pr.create_issue_comment(
+                    f"Ping @{supervisor},\nOne week without any movements on this PR!"
+                )
             if (
                 pr.get_review_requests()[0].totalCount > 0
                 or not any(
@@ -220,7 +226,7 @@ class EARBotReviewer:
                 pr, "do you agree to review"
             )
             deadline_passed = (
-                last_comment_date + timedelta(days=7) < current_date
+                self._deadline(last_comment_date) < current_date
                 if last_comment_date
                 else False
             )
@@ -243,7 +249,7 @@ class EARBotReviewer:
                     pr.create_issue_comment(
                         f"Hi @{new_reviewer}, do you agree to review this assembly?\n"
                         "Please reply to this message only with **Yes** or **No** by"
-                        f" {(current_date + timedelta(days=7)).strftime('%d-%b-%Y at %H:%M CET')}"
+                        f" {self._deadline(current_date).strftime('%d-%b-%Y at %H:%M CET')}"
                     )
                     self.EAR_reviewer.update_reviewers_list(
                         reviewers=[new_reviewer.lower()], busy=True
@@ -331,7 +337,7 @@ class EARBotReviewer:
                 pr.create_issue_comment(
                     f"Invalid confirmation!\nHi @{comment_author}, do you agree to review this assembly?\n"
                     "Please reply to this message only with **Yes** or **No** by"
-                    f" {(current_date + timedelta(days=7)).strftime('%d-%b-%Y at %H:%M CET')}"
+                    f" {self._deadline(current_date).strftime('%d-%b-%Y at %H:%M CET')}"
                 )
                 print("Invalid comment text.")
                 sys.exit()
@@ -377,17 +383,27 @@ class EARBotReviewer:
             reviewer = the_review.user.login.lower()
             submitted_at = datetime.now(tz=cet).strftime("%Y-%m-%d")
 
-            reviewer_data = next(
-                entry
-                for entry in self.EAR_reviewer.data
-                if entry.get("Github ID", "").lower() == reviewer
-            )
-            name = reviewer_data.get(
-                "Full Name", the_review.user.name or the_review.user.login
-            )
-            reviewer_institution = reviewer_data.get("Institution", "")
+            researcher_name = pr.user.name or pr.user.login
+            supervisor_name = pr.assignee.name or pr.assignee.login
+            reviewer_name = the_review.user.name or the_review.user.login
+            reviewer_institution = ""
+            for entry in self.EAR_reviewer.data:
+                github_id = entry.get("Github ID", "").lower()
+                full_name = entry.get("Full Name")
+                if full_name:
+                    if github_id == pr.user.login.lower():
+                        researcher_name = full_name
+                    if github_id == pr.assignee.login.lower():
+                        supervisor_name = full_name
+                    if github_id == reviewer:
+                        reviewer_name = full_name
+                if github_id == reviewer:
+                    reviewer_institution = entry.get("Institution", "")
+
             species = self._search_in_body(pr, "Species")
-            self.EAR_reviewer.add_pr(name, reviewer_institution, species, pr.html_url)
+            self.EAR_reviewer.add_pr(
+                reviewer_name, reviewer_institution, species, pr.html_url
+            )
 
             institution = self._search_for_institution(pr)
             self.EAR_reviewer.update_reviewers_list(
@@ -396,6 +412,28 @@ class EARBotReviewer:
                 institution=institution,
                 submitted_at=submitted_at,
             )
+            EAR_pdf = next(
+                file
+                for file in pr.get_files()
+                if file.filename.lower().endswith(".pdf")
+            )
+            EAR_pdf_url = re.sub(r"/blob/[\w\d]+/", "/blob/main/", EAR_pdf.blob_url)
+            slack_post = (
+                f":tada: *New Assembly Finished!* :tada:\n\n"
+                f"Congratulations to {researcher_name} and the {institution} team for the high-quality assembly of _{species}_\n\n"
+                f"The assembly was reviewed by {reviewer_name}, and the process supervised by {supervisor_name}. The EAR can be found in the following link:\n"
+                f"{EAR_pdf_url}"
+            )
+            EARpdf_to_yaml_path = os.path.join(root_folder, "EARpdf_to_yaml.py")
+            EAR_pdf_file = os.path.join(root_folder, EAR_pdf.filename)
+            output_pdf_to_yaml = subprocess.run(
+                f"python {EARpdf_to_yaml_path} {EAR_pdf_file}",
+                shell=True,
+                capture_output=True,
+                text=True,
+            )
+            print(output_pdf_to_yaml.stdout, output_pdf_to_yaml.stderr)
+            self._create_slack_post(slack_post)
         else:
             comment_reviewer = self._search_comment_user(pr, "do you agree to review")
             self.EAR_reviewer.update_reviewers_list(
@@ -453,6 +491,35 @@ class EARBotReviewer:
         elif "scilifelab" in institution:
             return "SciLifeLab"
         return institution
+
+    def _deadline(self, start_date):
+        current_date = start_date
+        added_hours = timedelta(hours=0)
+        total_hours = timedelta(hours=100)
+        while added_hours != total_hours:
+            remaining_hours = total_hours - added_hours
+            time_to_add = min(remaining_hours, timedelta(days=1))
+            if (current_date + time_to_add).weekday() < 5:
+                added_hours += time_to_add
+            else:
+                time_to_add = timedelta(days=1)
+            current_date += time_to_add
+        return current_date
+
+    def _create_slack_post(self, content):
+        from slack_sdk import WebClient
+
+        client = WebClient(token=os.getenv("SLACK_TOKEN"))
+        channel_id = os.getenv("SLACK_CHANNEL_ID")
+        response = client.chat_postMessage(channel=channel_id, text=content)
+        if not response["ok"]:
+            print("Error creating post in Slack")
+            return False
+        link = client.chat_getPermalink(channel=channel_id, message_ts=response["ts"])[
+            "permalink"
+        ]
+        print(f"Slack post created: {link}")
+        return True
 
 
 if __name__ == "__main__":

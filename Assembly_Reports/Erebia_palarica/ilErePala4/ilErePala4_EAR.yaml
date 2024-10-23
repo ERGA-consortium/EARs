@@ -1,0 +1,105 @@
+ERGA Assembly Report: v24.02.09_beta
+Tags: ERGA-BGE
+
+ToLID: ilErePala4
+Species: Erebia palarica
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 483,621,817
+    Haploid Number: '22 (source: [''ancestor''])'
+    Ploidy: '1 (source: [''ancestor''])'
+    Sample Sex: Z0
+  Observed:
+    Haploid size (bp): 493,162,700
+    Haploid Number: '14'
+    Ploidy: '2'
+    Sample Sex: Z0
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q44
+
+Curator notes:
+  Interventions/Gb: 2
+  Contamination notes: '"what after curation we assumed to be SUPER_14 turned out
+    to be the sequence of the insect endosymbiont Wolbachia & highly similar to Wolbachia
+    pipiens (1.48 Mbases). Our Wolbachia sequence spans 1.55 Mbases"'
+  Other observations: '"Yahs did an excellent initial job. Manual curation was minimal.
+    Stats, merqury file and busco were obtained from the curated assembly -without-
+    the wolbachia sequence. The post-curation contamination screening plot corresponds
+    to the curated assembly before removal of the wolbachia sequence."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 494,716,229
+    GC %: '36.86'
+    Gaps/Gbp: '42.45'
+    Total gap bp: 4,200
+    Scaffolds: '18'
+    Scaffold N50: 38,441,827
+    Scaffold L50: '6'
+    Scaffold L90: '12'
+    Contigs: '39'
+    Contig N50: 34,188,440
+    Contig L50: '6'
+    Contig L90: '16'
+    QV: '44.6729'
+    Kmer compl.: '89.1241'
+    BUSCO sing.: 96.6%
+    BUSCO dupl.: 1.3%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 1.3%
+  Curated collapsed:
+    Total bp: 493,162,700
+    GC %: '36.87'
+    Gaps/Gbp: '42.58'
+    Total gap bp: 4,200
+    Scaffolds: '17'
+    Scaffold N50: 38,441,827
+    Scaffold L50: '6'
+    Scaffold L90: '12'
+    Contigs: '38'
+    Contig N50: 34,188,440
+    Contig L50: '6'
+    Contig L90: '16'
+    QV: '44.6769'
+    Kmer compl.: '88.7451'
+    BUSCO sing.: 96.6%
+    BUSCO dupl.: 1.3%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 1.3%
+
+BUSCO:
+  ver: 5.4.0
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 104x 64x 81x
+
+Assembly pipeline:
+  Trim_Galore:
+    ver: 0.6.7
+    key param: '"--retain_unpaired"'
+  Filtlong:
+    ver: 0.2.1
+  nextdenovo:
+    ver: 2.5.0
+  hypo:
+    ver: 1.0.3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-02-19 11:38:26 CET

@@ -1,0 +1,97 @@
+ERGA Assembly Report: v24.09.10
+Tags: ERGA-BGE
+
+TxID: '1518524'
+ToLID: qqMacCret1
+Species: Macrothele cretica
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 3,736,835,300
+    Haploid Number: '23 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 3,972,812,733
+    Haploid Number: '47'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q58
+
+Curator notes:
+  Interventions/Gb: 38
+  Contamination notes: '"2 bacterian contigs removed after assembly"'
+  Other observations: '"11 scaffolds with lower coverage corresponding to X chromosomes
+    renamed X_1 to X_11 according to length"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 3,977,790,240
+    GC %: '40.57'
+    Gaps/Gbp: '562.88'
+    Total gap bp: 223,900
+    Scaffolds: '733'
+    Scaffold N50: 90,425,106
+    Scaffold L50: '19'
+    Scaffold L90: '44'
+    Contigs: 2,972
+    Contig N50: 3,118,366
+    Contig L50: '368'
+    Contig L90: 1,354
+    QV: '58.205'
+    Kmer compl.: '96.3213'
+    BUSCO sing.: 96.1%
+    BUSCO dupl.: 2.7%
+    BUSCO frag.: 1.2%
+    BUSCO miss.: 0.0%
+  Curated collapsed:
+    Total bp: 3,972,812,733
+    GC %: '40.57'
+    Gaps/Gbp: '569.62'
+    Total gap bp: 232,900
+    Scaffolds: '561'
+    Scaffold N50: 94,972,223
+    Scaffold L50: '19'
+    Scaffold L90: '41'
+    Contigs: 2,824
+    Contig N50: 3,123,923
+    Contig L50: '367'
+    Contig L90: 1,353
+    QV: '58.2097'
+    Kmer compl.: '96.3082'
+    BUSCO sing.: 96.1%
+    BUSCO dupl.: 2.7%
+    BUSCO frag.: 1.2%
+    BUSCO miss.: 0.0%
+
+BUSCO:
+  ver: 5.4.3
+  lineage: eukaryota_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima (4-enz)
+  Coverage: 62 15
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Emilie Teodori
+Affiliation: Genoscope
+
+Date and time: 2024-10-23 15:01:34 CEST

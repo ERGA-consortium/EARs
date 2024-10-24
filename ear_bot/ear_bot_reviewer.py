@@ -364,7 +364,7 @@ class EARBotReviewer:
             f"I will add a new reviewed species for you to the table when @{supervisor} merges the PR ;)\n\n"
             f"Congrats on the assembly @{researcher}!\n"
             "Please make sure that the fasta file to [upload to ENA](https://github.com/ERGA-consortium/ERGA-submission) is generated based on the final reviewed version of the assembly.\n\n"
-            "After @{supervisor} confirmation, you can start with the assembly submission to save time.\n"
+            f"After @{supervisor} confirmation, you can start with the assembly submission to save time.\n"
             "The PR will be merged only when the final version of the EAR pdf is available."
         )
 

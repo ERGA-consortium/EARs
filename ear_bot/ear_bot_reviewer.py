@@ -199,7 +199,7 @@ class EARBotReviewer:
                 f"The researcher has updated the EAR PDF. Please review the assembly @{reviewer}."
             )
 
-        if action_type == "reopened":
+        if action_type == "reopened" and pr.assignees:
             comment_reviewers = self._search_comment_user(pr, "do you agree to review")
             reviewer = None
             if pr.get_reviews().totalCount > 0:

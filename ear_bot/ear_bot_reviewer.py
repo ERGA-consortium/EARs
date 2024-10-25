@@ -152,7 +152,7 @@ class EARBotReviewer:
             pr.add_to_labels("ERROR!")
             raise Exception(f"Invalid project name: {project}")
 
-        if error_label_existed:
+        if error_label_existed and action_type != "reopened":
             pr.remove_from_labels("ERROR!")
 
         if not any(
@@ -200,34 +200,11 @@ class EARBotReviewer:
             )
 
         if action_type == "reopened" and pr.assignees:
-            comment_reviewers = self._search_comment_user(pr, "do you agree to review")
-            reviewer = None
-            if pr.get_reviews().totalCount > 0:
-                reviewer = pr.get_reviews()[0].user.login
-            elif pr.get_review_requests()[0].totalCount > 0:
-                reviewer = pr.get_review_requests()[0][0].login
-            elif len(comment_reviewers) > 0:
-                reviewer = comment_reviewers[0]
-
-            if reviewer:
-                list_of_busy_reviewers = [
-                    entry["Github ID"]
-                    for entry in self.EAR_reviewer.data
-                    if entry["Busy"] == "Y"
-                ]
-                if (
-                    reviewer in list_of_busy_reviewers
-                    and pr.get_reviews().totalCount == 0
-                ):
-                    if pr.get_review_requests()[0].totalCount > 0:
-                        pr.delete_review_request([reviewer])
-                    print("No reviewer available, Searching for a new one...")
-                    self.find_reviewer([self.repo.get_pull(int(self.pr_number))])
-                else:
-                    print(f"Changing the status of the reviewer to busy: {reviewer}")
-                    self.EAR_reviewer.update_reviewers_list(
-                        reviewers=[reviewer], busy=True
-                    )
+            supervisor = pr.assignee.login
+            pr.create_issue_comment(
+                f"Attention @{supervisor}!\n"
+                "The PR has been re-opened. Please check that everything looks OK."
+            )
 
     def find_reviewer(self, prs=[], reject=False):
         # Will run when supervisor approves to be a assignee, or when there is a rejection or a deadline passed for a reviewer
@@ -302,13 +279,24 @@ class EARBotReviewer:
             print(f"Missing required environment variables.\n{e}")
             sys.exit(1)
 
+        supervisors = [
+            reviewer["Github ID"]
+            for reviewer in self.EAR_reviewer.data
+            if reviewer["Supervisor"] == "Y" and reviewer["Github ID"] != pr.user.login
+        ]
+
+        if (
+            comment_author in supervisors
+            and "@erga-ear-bot clear" in comment_text
+            and pr.state == "closed"
+        ):
+            comment_reviewer = self._search_comment_user(pr, "do you agree to review")
+            self.EAR_reviewer.update_reviewers_list(
+                reviewers=set(comment_reviewer), busy=False
+            )
+            pr.remove_from_labels(*pr.get_labels())
+
         if not pr.assignees:
-            supervisors = [
-                reviewer["Github ID"]
-                for reviewer in self.EAR_reviewer.data
-                if reviewer["Supervisor"] == "Y"
-                and reviewer["Github ID"] != pr.user.login
-            ]
             if comment_author not in supervisors:
                 print("The comment author is not one of the supervisors.")
                 sys.exit()
@@ -467,14 +455,13 @@ class EARBotReviewer:
             print(output_pdf_to_yaml.stdout, output_pdf_to_yaml.stderr)
             self._create_slack_post(slack_post)
         else:
-            comment_reviewer = self._search_comment_user(pr, "do you agree to review")
-            self.EAR_reviewer.update_reviewers_list(
-                reviewers=set(comment_reviewer), busy=False
-            )
             supervisor = pr.assignee.login
             pr.create_issue_comment(
-                f"@{supervisor}, The PR was closed. Please check for any issues."
+                f"Attention @{supervisor}!\n"
+                "The PR has been closed, but the reviewers will retain their busy status in case it is re-opened.\n"
+                "If the PR is going to remain closed, please instruct me to clear the active tasks."
             )
+            pr.add_to_labels("ERROR!")
 
     def _search_comment_user(self, pr, text_to_check):
         comment_user = []

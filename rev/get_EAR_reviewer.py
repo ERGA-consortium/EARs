@@ -79,7 +79,7 @@ def select_best_reviewer(data, calling_institution, use_bge):
         if reviewer['Active'] == 'Y' and reviewer['Busy'] == 'N' and normalize_institution(reviewer['Institution']) != normalize_institution(calling_institution)
     ]
 
-    eligible_candidates.sort(key=lambda x: (-x['Adjusted Score'], x['Parsed Last Review'], x['Total Reviews']))
+    eligible_candidates.sort(key=lambda x: (-x['Adjusted Score'], x['Total Reviews'], x['Parsed Last Review']))
     
     top_score = eligible_candidates[0]['Adjusted Score'] if eligible_candidates else None
     top_candidates = [c for c in eligible_candidates if c['Adjusted Score'] == top_score] if top_score is not None else []

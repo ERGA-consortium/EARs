@@ -26,6 +26,7 @@ jobs:
         with:
           ref: "main"
           token: ${{ steps.generate-token.outputs.token }}
+          persist-credentials: false
 
       - name: Download artifact
         uses: actions/github-script@v6

@@ -386,11 +386,11 @@ class EARBotReviewer:
             "The PR will be merged only when the final version of the EAR pdf is available."
         )
 
-    def closed_pr(self, merged=False):
+    def closed_pr(self):
         # Will run when the PR is closed
         pr = self.repo.get_pull(int(self.pr_number))
         reviews = pr.get_reviews().reversed
-        if merged == True and reviews.totalCount > 0:
+        if os.getenv("MERGED_STATUS") == "true" and reviews.totalCount > 0:
             comment_reviewers = self._search_comment_user(pr, "for the review")
             if not comment_reviewers:
                 the_review = reviews[0]
@@ -548,7 +548,7 @@ if __name__ == "__main__":
     group.add_argument("--comment", action="store_true")
     group.add_argument("--search", action="store_true")
     group.add_argument("--approve", action="store_true")
-    group.add_argument("--merged")
+    group.add_argument("--merged", action="store_true")
     args = parser.parse_args()
     EARBot = EARBotReviewer()
     if args.supervisor:
@@ -559,8 +559,8 @@ if __name__ == "__main__":
         EARBot.find_reviewer()
     elif args.approve:
         EARBot.approve_reviewer()
-    elif args.merged is not None:
-        EARBot.closed_pr(merged=True if args.merged == "true" else False)
+    elif args.merged:
+        EARBot.closed_pr()
     else:
         parser.print_help()
         sys.exit(1)

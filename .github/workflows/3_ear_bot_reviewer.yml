@@ -2,7 +2,7 @@ name: The EARs Reviewing bot for assigning reviewer after supervisor approval
 
 on:
   schedule:
-    - cron: "0 */12 * * *"
+    - cron: "0 9,21 * * *"
 
   workflow_dispatch:
 

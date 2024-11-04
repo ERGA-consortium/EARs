@@ -1,0 +1,98 @@
+ERGA Assembly Report: v24.09.10
+Tags: ERGA-BGE
+
+TxID: '3023605'
+ToLID: icCarBano7
+Species: Carabus banonii
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 71,013,296
+    Haploid Number: '14 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 207,825,851
+    Haploid Number: '15'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q57
+
+Curator notes:
+  Interventions/Gb: 426
+  Contamination notes: '"None bacterial contamination. But some small scaffolds for
+    which no HiC links was found were removed"'
+  Other observations: '"Presence of larges repeated regions (telomeric or centromeric?)
+    at the ends of the scaffolds,therefore need to invert the arms of chromosomes"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 208,441,780
+    GC %: '35.43'
+    Gaps/Gbp: '62.37'
+    Total gap bp: 1,300
+    Scaffolds: '83'
+    Scaffold N50: 12,327,626
+    Scaffold L50: '8'
+    Scaffold L90: '15'
+    Contigs: '96'
+    Contig N50: 7,793,566
+    Contig L50: '12'
+    Contig L90: '27'
+    QV: '40.112'
+    Kmer compl.: '80.0782'
+    BUSCO sing.: 97.3%
+    BUSCO dupl.: 2.4%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.1%
+  Curated collapsed:
+    Total bp: 207,825,851
+    GC %: '35.39'
+    Gaps/Gbp: '336.82'
+    Total gap bp: 13,800
+    Scaffolds: '19'
+    Scaffold N50: 14,906,334
+    Scaffold L50: '6'
+    Scaffold L90: '13'
+    Contigs: '89'
+    Contig N50: 7,491,500
+    Contig L50: '12'
+    Contig L90: '28'
+    QV: '57.4508'
+    Kmer compl.: '81.1154'
+    BUSCO sing.: 99.2%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.0%
+
+BUSCO:
+  ver: 5.4.3
+  lineage: eukaryota_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima (4-enz)
+  Coverage: 30 50
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Arnaud Couloux
+Affiliation: Genoscope
+
+Date and time: 2024-10-22 09:28:26 CEST

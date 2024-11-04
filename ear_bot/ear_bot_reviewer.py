@@ -9,13 +9,15 @@ import pytz
 from github import Github, UnknownObjectException
 
 root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.append(os.path.join(root_folder, "rev"))
+csv_folder = os.path.join(root_folder, "rev")
+sys.path.append(csv_folder)
 import get_EAR_reviewer  # type: ignore
 
 cet = pytz.timezone("CET")
 
 
 def commit(repo, path, message, content):
+    path = os.path.relpath(path, root_folder)
     try:
         contents = repo.get_contents(path)
         if not isinstance(contents, list):
@@ -23,8 +25,11 @@ def commit(repo, path, message, content):
             print(f"Updated {path} file.")
         print(f"{path} file could not be updated.")
     except UnknownObjectException:
-        repo.create_file(path, message, content)
-        print(f"Created {path} file.")
+        try:
+            repo.create_file(path, message, content)
+            print(f"Created {path} file.")
+        except Exception as e:
+            print(f"Error creating {path} file.\n\n{content}\n\n\n{e}")
     except Exception as e:
         print(f"Error updating {path} file.\n{e}")
 
@@ -32,10 +37,7 @@ def commit(repo, path, message, content):
 class EAR_get_reviewer:
     def __init__(self, repo) -> None:
         self.repo = repo
-        self.csv_folder = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "..", "rev")
-        )
-        self.csv_file = os.path.join(self.csv_folder, "reviewers_list.csv")
+        self.csv_file = os.path.join(csv_folder, "reviewers_list.csv")
         if not os.path.exists(self.csv_file):
             raise Exception("The CSV file does not exist.")
         with open(self.csv_file, "r") as file:
@@ -58,7 +60,7 @@ class EAR_get_reviewer:
             _, top_candidate, _ = get_EAR_reviewer.select_best_reviewer(
                 self.data, institution, project
             )
-            get_EAR_reviewer_path = os.path.join(self.csv_folder, "get_EAR_reviewer.py")
+            get_EAR_reviewer_path = os.path.join(csv_folder, "get_EAR_reviewer.py")
             reviewer_print = subprocess.run(
                 f"python {get_EAR_reviewer_path} -i '{institution}' -t '{project}'",
                 shell=True,
@@ -70,7 +72,7 @@ class EAR_get_reviewer:
             raise Exception(f"No eligible candidates found.\n{e}")
 
     def add_pr(self, name, institution, species, pr):
-        ear_reviews_csv_file = os.path.join(self.csv_folder, "EAR_reviews.csv")
+        ear_reviews_csv_file = os.path.join(csv_folder, "EAR_reviews.csv")
         if not os.path.exists(ear_reviews_csv_file):
             raise Exception("The EAR reviews CSV file does not exist.")
         with open(ear_reviews_csv_file, "r") as file:

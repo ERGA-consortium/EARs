@@ -6,7 +6,7 @@ from argparse import ArgumentParser
 from datetime import datetime, timedelta
 
 import pytz
-from github import Github
+from github import Github, UnknownObjectException
 
 root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(os.path.join(root_folder, "rev"))
@@ -15,8 +15,23 @@ import get_EAR_reviewer  # type: ignore
 cet = pytz.timezone("CET")
 
 
+def commit(repo, path, message, content):
+    try:
+        contents = repo.get_contents(path)
+        if not isinstance(contents, list):
+            repo.update_file(contents.path, message, content, contents.sha)
+            print(f"Updated {path} file.")
+        print(f"{path} file could not be updated.")
+    except UnknownObjectException:
+        repo.create_file(path, message, content)
+        print(f"Created {path} file.")
+    except Exception as e:
+        print(f"Error updating {path} file.\n{e}")
+
+
 class EAR_get_reviewer:
-    def __init__(self) -> None:
+    def __init__(self, repo) -> None:
+        self.repo = repo
         self.csv_folder = os.path.abspath(
             os.path.join(os.path.dirname(__file__), "..", "rev")
         )
@@ -58,8 +73,12 @@ class EAR_get_reviewer:
         ear_reviews_csv_file = os.path.join(self.csv_folder, "EAR_reviews.csv")
         if not os.path.exists(ear_reviews_csv_file):
             raise Exception("The EAR reviews CSV file does not exist.")
-        with open(ear_reviews_csv_file, "a") as file:
-            file.write(f"{name},{institution},{species},{pr}\n")
+        with open(ear_reviews_csv_file, "r") as file:
+            ear_reviews_csv_data = file.read()
+        ear_reviews_csv_data += f"{name},{institution},{species},{pr}\n"
+        commit(
+            self.repo, ear_reviews_csv_file, "Add new EAR review", ear_reviews_csv_data
+        )
         print(f"Added {name} to the EAR reviews CSV file.")
 
     def update_reviewers_list(
@@ -90,8 +109,7 @@ class EAR_get_reviewer:
         csv_str = ",".join(self.data[0].keys()) + "\n"
         for row in self.data:
             csv_str += ",".join(row.values()) + "\n"
-        with open(self.csv_file, "w") as file:
-            file.write(csv_str)
+        commit(self.repo, self.csv_file, "Update reviewers list", csv_str)
         print(f"Updated the reviewers list for {', '.join(reviewers)}.\n{csv_str}")
 
 
@@ -99,7 +117,7 @@ class EARBotReviewer:
     def __init__(self) -> None:
         g = Github(os.getenv("GITHUB_APP_TOKEN"))
         self.repo = g.get_repo(str(os.getenv("GITHUB_REPOSITORY")))
-        self.EAR_reviewer = EAR_get_reviewer()
+        self.EAR_reviewer = EAR_get_reviewer(self.repo)
         self.pr_number = os.getenv("PR_NUMBER")
         self.comment_text = os.getenv("COMMENT_TEXT")
         self.comment_author = os.getenv("COMMENT_AUTHOR")
@@ -452,6 +470,10 @@ class EARBotReviewer:
                 capture_output=True,
                 text=True,
             )
+            yaml_file = EAR_pdf_file.replace(".pdf", ".yaml")
+            with open(yaml_file, "r") as file:
+                yaml_content = file.read()
+            commit(self.repo, yaml_file, "Add YAML file", yaml_content)
             print(output_pdf_to_yaml.stdout, output_pdf_to_yaml.stderr)
             self._create_slack_post(slack_post)
         else:

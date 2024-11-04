@@ -23,6 +23,7 @@ jobs:
         with:
           ref: "main"
           token: ${{ steps.generate-token.outputs.token }}
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -36,10 +37,11 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           SLACK_CHANNEL_ID: "C070UHJ80Q3"
+          MERGED_STATUS: "${{ github.event.pull_request.merged }}"
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r ear_bot/requirements.txt
-          python -u ear_bot/ear_bot_reviewer.py --merge ${{ github.event.pull_request.merged }}
+          python -u ear_bot/ear_bot_reviewer.py --merge
 
       - name: Upload csv file
         uses: stefanzweifel/git-auto-commit-action@v5

@@ -216,7 +216,7 @@ class EARBotReviewer:
                 pr.assignee.login.lower(),
             )
             pr.create_issue_comment(
-                f"The researcher has updated the EAR PDF. Please review the assembly @{reviewer}."
+                f"Attention @{reviewer}, the EAR PDF was updated."
             )
 
         if action_type == "reopened" and pr.assignees:

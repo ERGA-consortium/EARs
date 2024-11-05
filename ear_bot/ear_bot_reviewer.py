@@ -198,15 +198,6 @@ class EARBotReviewer:
             )
 
         if action_type == "synchronize" and pr.assignees:
-            if (
-                pr.get_review_requests()[0].totalCount == 0
-                and pr.get_reviews().totalCount > 0
-            ):
-                review_user = next(
-                    review.user.login.lower() for review in pr.get_reviews()
-                )
-                pr.create_review_request([review_user])
-                pr = self.repo.get_pull(int(self.pr_number))
             reviewer = next(
                 (
                     reviewer.login.lower()
@@ -215,9 +206,7 @@ class EARBotReviewer:
                 ),
                 pr.assignee.login.lower(),
             )
-            pr.create_issue_comment(
-                f"Attention @{reviewer}, the EAR PDF was updated."
-            )
+            pr.create_issue_comment(f"Attention @{reviewer}, the EAR PDF was updated.")
 
         if action_type == "reopened" and pr.assignees:
             supervisor = pr.assignee.login
@@ -410,16 +399,18 @@ class EARBotReviewer:
         # Will run when the PR is closed
         pr = self.repo.get_pull(int(self.pr_number))
         reviews = pr.get_reviews().reversed
-        if os.getenv("MERGED_STATUS") == "true" and reviews.totalCount > 0:
+        merged = os.getenv("MERGED_STATUS") == "true"
+        if merged and reviews.totalCount > 0:
             comment_reviewers = self._search_comment_user(pr, "for the review")
-            if not comment_reviewers:
-                the_review = reviews[0]
-            else:
-                the_review = next(
+            the_review = next(
+                (
                     review
                     for review in reviews
-                    if review.user.login.lower() == comment_reviewers[0]
-                )
+                    if comment_reviewers
+                    and review.user.login.lower() == comment_reviewers[0]
+                ),
+                reviews[0],
+            )
             reviewer = the_review.user.login.lower()
             submitted_at = datetime.now(tz=cet).strftime("%Y-%m-%d")
 
@@ -478,7 +469,7 @@ class EARBotReviewer:
             commit(self.repo, yaml_file, "Add YAML file", yaml_content)
             print(output_pdf_to_yaml.stdout, output_pdf_to_yaml.stderr)
             self._create_slack_post(slack_post)
-        else:
+        elif not merged:
             supervisor = pr.assignee.login
             pr.create_issue_comment(
                 f"Attention @{supervisor}!\n"
@@ -486,14 +477,21 @@ class EARBotReviewer:
                 "If the PR is going to remain closed, please instruct me to clear the active tasks."
             )
             pr.add_to_labels("ERROR!")
+        else:
+            print("No review has been found for this merged PR.")
+            sys.exit(1)
 
     def _search_comment_user(self, pr, text_to_check):
         comment_user = []
         for comment in pr.get_issue_comments().reversed:
             if comment.user.type == "Bot" and text_to_check in comment.body:
-                comment_user_re = re.search(r"@(\w+)", comment.body)
+                comment_user_re = re.findall(
+                    r"\B@([a-z0-9](?:-(?=[a-z0-9])|[a-z0-9]){0,38}(?<=[a-z0-9]))",
+                    comment.body,
+                    re.IGNORECASE,
+                )
                 if comment_user_re:
-                    comment_user.append(comment_user_re.group(1).lower())
+                    comment_user.append(comment_user_re[0].lower())
         return comment_user
 
     def _search_last_comment_time(self, pr, text_to_check):

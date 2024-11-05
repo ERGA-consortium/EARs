@@ -23,7 +23,8 @@ def commit(repo, path, message, content):
         if not isinstance(contents, list):
             repo.update_file(contents.path, message, content, contents.sha)
             print(f"Updated {path} file.")
-        print(f"{path} file could not be updated.")
+        else:
+            print(f"{path} file could not be updated.")
     except UnknownObjectException:
         try:
             repo.create_file(path, message, content)
@@ -91,6 +92,9 @@ class EAR_get_reviewer:
         submitted_at="",
         fined_reviewers=set(),
     ):
+        if not reviewers:
+            print("No reviewers to update.")
+            return
         for reviewer_data in self.data:
             reviewer_data_id = reviewer_data.get("Github ID", "").lower()
             reviewer_data_score = int(reviewer_data.get("Calling Score", 1000))
@@ -100,11 +104,13 @@ class EAR_get_reviewer:
             if reviewer_data_id in reviewers:
                 reviewer_data["Busy"] = "Y" if busy else "N"
                 if submitted_at:
-                    reviewer_data["Calling Score"] = str(reviewer_data_score - 1)
+                    reviewer_data_score -= 1
+                    reviewer_data["Calling Score"] = str(reviewer_data_score)
                     reviewer_data["Total Reviews"] = str(reviewer_data_total + 1)
                     reviewer_data["Last Review"] = submitted_at
             elif reviewer_data_id in fined_reviewers:
-                reviewer_data["Calling Score"] = str(reviewer_data_score + 1)
+                reviewer_data_score += 1
+                reviewer_data["Calling Score"] = str(reviewer_data_score)
             if reviewer_data_institution == institution.lower():
                 reviewer_data["Calling Score"] = str(reviewer_data_score + 1)
 

@@ -1,0 +1,130 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-Community
+
+TxID: '252529'
+ToLID: ddCitColo1
+Species: Citrullus colocynthis
+Class: Magnoliopsida
+Order: Cucurbitales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 346,730,326
+    Haploid Number: '12 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 366,112,299
+    Haploid Number: '11'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q67
+    hap2: 7.7.Q66
+
+Curator notes:
+  Contamination notes: '"Removed a 43kbp contaminant contig from hap1 assembly."'
+  Other observations: '"True haploid number is 11."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 366,111,899
+    GC %: '33.6'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '88'
+    Scaffold N50: 30,853,444
+    Scaffold L50: '6'
+    Scaffold L90: '11'
+    Contigs: '88'
+    Contig N50: 30,853,444
+    Contig L50: '6'
+    Contig L90: '11'
+    QV: '67.0945'
+    Kmer compl.: '99.7458'
+    BUSCO sing.: 95.7%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 2.8%
+  Pre-curation hap2:
+    Total bp: 356,939,597
+    GC %: '33.64'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '95'
+    Scaffold N50: 29,357,918
+    Scaffold L50: '6'
+    Scaffold L90: '14'
+    Contigs: '95'
+    Contig N50: 29,357,918
+    Contig L50: '6'
+    Contig L90: '14'
+    QV: '66.9325'
+    Kmer compl.: '97.7577'
+    BUSCO sing.: 94.5%
+    BUSCO dupl.: 1.2%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 3.7%
+  Curated hap1:
+    Total bp: 366,112,299
+    GC %: '33.6'
+    Gaps/Gbp: '5.46'
+    Total gap bp: '400'
+    Scaffolds: '86'
+    Scaffold N50: 31,341,397
+    Scaffold L50: '6'
+    Scaffold L90: '10'
+    Contigs: '88'
+    Contig N50: 30,853,444
+    Contig L50: '6'
+    Contig L90: '11'
+    QV: '67.0945'
+    Kmer compl.: '99.7458'
+    BUSCO sing.: 95.7%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 2.7%
+  Curated hap2:
+    Total bp: 356,935,950
+    GC %: '33.64'
+    Gaps/Gbp: '25.21'
+    Total gap bp: 1,800
+    Scaffolds: '88'
+    Scaffold N50: 30,674,282
+    Scaffold L50: '6'
+    Scaffold L90: '10'
+    Contigs: '97'
+    Contig N50: 29,345,706
+    Contig L50: '6'
+    Contig L90: '14'
+    QV: '66.9325'
+    Kmer compl.: '97.7577'
+    BUSCO sing.: 94.5%
+    BUSCO dupl.: 1.2%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 3.7%
+
+BUSCO:
+  ver: 3.0.2
+  lineage: eudicotyledons_odb10
+
+Data:
+  Profile: PacBio-HiFi Illumina-HiC DNBSEQ-G400-WGS
+  Coverage: 85x 120x 260x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.18.9-r527
+
+Curation pipeline:
+  YaHS:
+    ver: 1.2a.1
+  JBAT:
+    ver: 2.20.00
+
+Submitter: Anestis Gkanogiannis
+Affiliation: International Center for Biosaline Agriculture (ICBA)
+
+Date and time: 2024-07-04 14:03:42 CEST

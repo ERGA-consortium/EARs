@@ -1,0 +1,97 @@
+ERGA Assembly Report: v24.09.10
+Tags: ERGA-BGE
+
+TxID: '9659'
+ToLID: mMarFoi2
+Species: Martes foina
+Class: Mammalia
+Order: Carnivora
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,439,340,219
+    Haploid Number: '19 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XY
+  Observed:
+    Haploid size (bp): 2,388,581,548
+    Haploid Number: '19'
+    Ploidy: '2'
+    Sample Sex: XY
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q56
+
+Curator notes:
+  Interventions/Gb: 4
+  Contamination notes: '"No contaminants detected in the Nextdenovo assembly selected
+    for curation."'
+  Other observations: '"Curation and review made 0 cuts in contigs, 3 breaks at a
+    gap and 7 joins. SUPER_Y sequence accounts for 5,617,504 bp. The final assembly
+    contains 2 unplaced scaffolds shorter than the HiC map resolution. Link points
+    to a folder cotaining the pretext map and the final savestate for the curated
+    assembly. Mitogenome was successfully assembled into a circular contig of 16,591
+    bp and high sequence accuracy."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 2,388,579,948
+    GC %: '41.74'
+    Gaps/Gbp: '20.93'
+    Total gap bp: 10,000
+    Scaffolds: '27'
+    Scaffold N50: 146,036,623
+    Scaffold L50: '7'
+    Scaffold L90: '16'
+    Contigs: '77'
+    Contig N50: 64,160,893
+    Contig L50: '13'
+    Contig L90: '39'
+    QV: '56.1982'
+    Kmer compl.: '98.0977'
+    BUSCO sing.: 97.0%
+    BUSCO dupl.: 1.1%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 1.1%
+  Curated collapsed:
+    Total bp: 2,388,581,548
+    GC %: '41.74'
+    Gaps/Gbp: '24.28'
+    Total gap bp: 11,600
+    Scaffolds: '22'
+    Scaffold N50: 146,036,623
+    Scaffold L50: '7'
+    Scaffold L90: '15'
+    Contigs: '80'
+    Contig N50: 64,160,893
+    Contig L50: '13'
+    Contig L90: '39'
+    QV: '56.1982'
+    Kmer compl.: '98.0977'
+    BUSCO sing.: 97.0%
+    BUSCO dupl.: 1.2%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 1.0%
+
+BUSCO:
+  ver: 5.4.0
+  lineage: vertebrata_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 114x 80x 102x
+
+Assembly pipeline:
+  CLAWS: {}
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Fernando Cruz
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-10-29 20:44:32 CET

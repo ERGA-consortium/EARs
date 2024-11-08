@@ -1,0 +1,117 @@
+ERGA Assembly Report: v24.02.09_beta
+Tags: ERGA-BGE
+
+ToLID: ilGraIsab1
+Species: Graellsia isabellae
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 553,262,926
+    Haploid Number: '30 (source: [''ancestor''])'
+    Ploidy: '1 (source: [''ancestor''])'
+    Sample Sex: Z0
+  Observed:
+    Haploid size (bp): 560,905,695
+    Haploid Number: '31'
+    Ploidy: '2'
+    Sample Sex: Z0
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q49
+
+Curator notes:
+  Interventions/Gb: 0
+  Contamination notes: '"No contaminants detected. All sequences were assigned to
+    the order Lepidoptera using blobtoolkit. The complete mitochondrial genome was
+    assembled into a single circular contig of 15,247 base pairs with excellent base
+    accuracy using the FOAM pipeline (https://github.com/cnag-aat/FOAM)."'
+  Other observations: '"Genome Assembly obtained with CLAWS v2.1 pipeline (https://workflowhub.eu/workflows/567).
+    Input assembly (nextdenovo.hypo2.purged) for HiC scaffolding was already highly
+    contiguous (N50=18.8Mb), YaHS made 1 break and 6 joins. Manual curation was not
+    required. We tagged the Z SUPER based on its haploid coverage while the autosomal
+    SUPER were numbered by descending scaffold size. SCAFFOLD_32: is 58Kb long and
+    remains unplaced, it shows inespecific but weak contacts with several SUPER. 18.70%
+    of its length is occupied by repeats, of which 12.79% are interspersed repeats.
+    It has low mappability and this explains why diagonal contact are only visible
+    when we allow multimappings (mq=0). The blastn hits of scaffold_32 correspond
+    to autosomes of other Lepidotera genomes reassuring our decission of including
+    it in the assembly. WARNING: The shared contact map (.pretext) of the curated
+    assembly shows all scaffolds sorted by length. Thus most of the unloc are towards
+    the end and separated from their corresponding SUPER. This will be fixed in future
+    versions of CLAWS."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 560,905,695
+    GC %: '35.57'
+    Gaps/Gbp: '10.7'
+    Total gap bp: 1,200
+    Scaffolds: '32'
+    Scaffold N50: 20,417,927
+    Scaffold L50: '13'
+    Scaffold L90: '26'
+    Contigs: '38'
+    Contig N50: 18,864,205
+    Contig L50: '14'
+    Contig L90: '28'
+    QV: '49.1145'
+    Kmer compl.: '92.3242'
+    BUSCO sing.: 98.9%
+    BUSCO dupl.: 0.1%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.8%
+  Curated collapsed:
+    Total bp: 560,905,695
+    GC %: '35.57'
+    Gaps/Gbp: '10.7'
+    Total gap bp: 1,200
+    Scaffolds: '32'
+    Scaffold N50: 20,417,927
+    Scaffold L50: '13'
+    Scaffold L90: '26'
+    Contigs: '38'
+    Contig N50: 18,864,205
+    Contig L50: '14'
+    Contig L90: '28'
+    QV: '49.1145'
+    Kmer compl.: '92.3242'
+    BUSCO sing.: 98.9%
+    BUSCO dupl.: 0.1%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.8%
+
+BUSCO:
+  ver: 5.4.0
+  lineage: insecta_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 265x 78x 63x
+
+Assembly pipeline:
+  Trim_Galore:
+    ver: 0.6.7
+    key param: '"--max_n 0"'
+  Filtlong:
+    ver: 0.2.1
+    key param: '"--target_bases 70000000000"'
+  nextdenovo:
+    ver: 2.5.0
+  hypo:
+    ver: 1.0.3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Fernando Cruz
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-03-22 12:45:25 CET

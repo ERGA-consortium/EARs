@@ -1,0 +1,106 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '65001'
+ToLID: daCheTaga1
+Species: Cheirolophus tagananensis
+Class: Magnoliopsida
+Order: Asterales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 645,759,218
+    Haploid Number: '15 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: H
+  Observed:
+    Haploid size (bp): 623,521,733
+    Haploid Number: '16'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    hap1: 6.7.Q60
+
+Curator notes:
+  Interventions/Gb: 36
+  Contamination notes: '"Total length of scaffolds removed: 58,772,027 (8.7 %);Scaffolds
+    removed: 1165 (82.5 %);Largest scaffold removed: (180,771);FCS-GX contaminant
+    species (number of scaffolds; total length of scaffolds):Mitochondrion (44; 1,788,085);Plastid
+    (1121; 56,983,929);Barcodes (1; 13)"'
+  Other observations: '"The high GC scaffolds on the blobplot are the unplaces repetitive
+    sequence in the bottom right of the Hi-C map."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 678,516,303
+    GC %: '36.66'
+    Gaps/Gbp: '284.44'
+    Total gap bp: 38,600
+    Scaffolds: 1,412
+    Scaffold N50: 35,173,251
+    Scaffold L50: '7'
+    Scaffold L90: '100'
+    Contigs: 1,605
+    Contig N50: 3,718,255
+    Contig L50: '56'
+    Contig L90: '289'
+    Kmer compl.: '99.18'
+    BUSCO sing.: 91.9%
+    BUSCO dupl.: 5.0%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 2.6%
+  Curated hap1:
+    Total bp: 623,521,733
+    GC %: '36.6'
+    Gaps/Gbp: '298.31'
+    Total gap bp: 37,200
+    Scaffolds: '235'
+    Scaffold N50: 36,486,517
+    Scaffold L50: '7'
+    Scaffold L90: '16'
+    Contigs: '421'
+    Contig N50: 3,968,000
+    Contig L50: '50'
+    Contig L90: '151'
+    Kmer compl.: '99.07'
+    BUSCO sing.: 92.8%
+    BUSCO dupl.: 5.0%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 1.7%
+
+BUSCO:
+  ver: 5.3.0
+  lineage: eudicots_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v3
+  Coverage: 94x 154x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+    key param: -e
+  yahs:
+    ver: 1.2a.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+    key param: -e
+  yahs:
+    ver: 1.2a.2
+  TreeVal:
+    ver: 1.1.1
+
+Submitter: Camilla Santos
+Affiliation: WSI
+
+Date and time: 2024-10-22 13:17:33 CEST

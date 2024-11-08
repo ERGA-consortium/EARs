@@ -1,0 +1,97 @@
+ERGA Assembly Report: v24.09.10
+Tags: ERGA-BGE
+
+TxID: '491806'
+ToLID: ehHolSanc2
+Species: Holothuria sanctori
+Class: Holothuroidea
+Order: Aspidochirotida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,028,481,939
+    Haploid Number: '21 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 1,171,681,863
+    Haploid Number: '23'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q61
+
+Curator notes:
+  Interventions/Gb: 226
+  Contamination notes: '"1 bacterial contig was deleted"'
+  Other observations: '"A large number of duplications have been removed and many
+    sequences at the end of the scaffold have been replaced in the chromosomes"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,194,060,647
+    GC %: '39.37'
+    Gaps/Gbp: '35.17'
+    Total gap bp: 4,200
+    Scaffolds: '59'
+    Scaffold N50: 49,855,781
+    Scaffold L50: '10'
+    Scaffold L90: '21'
+    Contigs: '101'
+    Contig N50: 31,981,105
+    Contig L50: '16'
+    Contig L90: '42'
+    QV: '61.1747'
+    Kmer compl.: '70.1165'
+    BUSCO sing.: 97.6%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 1.2%
+    BUSCO miss.: 0.4%
+  Curated collapsed:
+    Total bp: 1,171,681,863
+    GC %: '39.37'
+    Gaps/Gbp: '75.96'
+    Total gap bp: 15,000
+    Scaffolds: '47'
+    Scaffold N50: 50,699,391
+    Scaffold L50: '10'
+    Scaffold L90: '20'
+    Contigs: '136'
+    Contig N50: 19,932,592
+    Contig L50: '21'
+    Contig L90: '63'
+    QV: '61.1746'
+    Kmer compl.: '69.3222'
+    BUSCO sing.: 97.6%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 1.2%
+    BUSCO miss.: 0.4%
+
+BUSCO:
+  ver: 5.4.3
+  lineage: eukaryota_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima (4-enz)
+  Coverage: 90 47
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2024-10-30 11:39:49 CET

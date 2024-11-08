@@ -1,0 +1,96 @@
+ERGA Assembly Report: v24.09.10
+Tags: ERGA-BGE
+
+TxID: '69427'
+ToLID: xgAlbTers5
+Species: Albinaria teres
+Class: Gastropoda
+Order: Stylommatophora
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,601,490,426
+    Haploid Number: '29 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 1,710,602,076
+    Haploid Number: '31'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q56
+
+Curator notes:
+  Interventions/Gb: 1
+  Contamination notes: '""'
+  Other observations: '"A large number of duplications have been removed"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,710,601,376
+    GC %: '38.99'
+    Gaps/Gbp: '218.05'
+    Total gap bp: 43,000
+    Scaffolds: '43'
+    Scaffold N50: 57,558,842
+    Scaffold L50: '11'
+    Scaffold L90: '26'
+    Contigs: '416'
+    Contig N50: 7,880,036
+    Contig L50: '74'
+    Contig L90: '226'
+    QV: '56.8495'
+    Kmer compl.: '77.4389'
+    BUSCO sing.: 96.1%
+    BUSCO dupl.: 3.5%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.4%
+  Curated collapsed:
+    Total bp: 1,710,602,076
+    GC %: '38.99'
+    Gaps/Gbp: '219.22'
+    Total gap bp: 43,700
+    Scaffolds: '42'
+    Scaffold N50: 57,558,842
+    Scaffold L50: '11'
+    Scaffold L90: '26'
+    Contigs: '417'
+    Contig N50: 7,880,036
+    Contig L50: '74'
+    Contig L90: '226'
+    QV: '56.8495'
+    Kmer compl.: '77.4389'
+    BUSCO sing.: 96.1%
+    BUSCO dupl.: 3.5%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.4%
+
+BUSCO:
+  ver: 5.4.3
+  lineage: eukaryota_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima (4-enz)
+  Coverage: 36 33
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2024-09-21 06:42:07 CEST

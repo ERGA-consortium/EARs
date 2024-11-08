@@ -1,0 +1,96 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '1534734'
+ToLID: daXanOrie1
+Species: Xanthium orientale
+Class: Magnoliopsida
+Order: Asterales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,269,223,707
+    Haploid Number: '18 (source: direct)'
+    Ploidy: '4 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 2,258,523,083
+    Haploid Number: '18'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q67
+
+Curator notes:
+  Interventions/Gb: 1
+  Contamination notes: '"One bacterial contig has been removed"'
+  Other observations: '""'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 2,258,077,340
+    GC %: '37.03'
+    Gaps/Gbp: '7.53'
+    Total gap bp: 1,700
+    Scaffolds: '27'
+    Scaffold N50: 134,603,727
+    Scaffold L50: '6'
+    Scaffold L90: '13'
+    Contigs: '44'
+    Contig N50: 98,804,340
+    Contig L50: '9'
+    Contig L90: '21'
+    QV: '67.9927'
+    Kmer compl.: '99.6146'
+    BUSCO sing.: 93.3%
+    BUSCO dupl.: 5.8%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.7%
+  Curated collapsed:
+    Total bp: 2,258,523,083
+    GC %: '37.03'
+    Gaps/Gbp: '6.2'
+    Total gap bp: 1,400
+    Scaffolds: '32'
+    Scaffold N50: 124,155,882
+    Scaffold L50: '8'
+    Scaffold L90: '16'
+    Contigs: '46'
+    Contig N50: 98,804,340
+    Contig L50: '9'
+    Contig L90: '21'
+    QV: '67.9935'
+    Kmer compl.: '99.6151'
+    BUSCO sing.: 93.3%
+    BUSCO dupl.: 5.8%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.7%
+
+BUSCO:
+  ver: 5.4.3
+  lineage: embryophyta_odb10
+
+Data:
+  Profile: PACBIO Hifi Omnic
+  Coverage: 40 10
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+
+Curation pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  yahs:
+    ver: '1.2'
+
+Submitter: Adama Ndar
+Affiliation: Genoscope
+
+Date and time: 2024-09-05 16:34:55 CEST

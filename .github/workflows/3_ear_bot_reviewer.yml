@@ -2,7 +2,7 @@ name: The EARs Reviewing bot for assigning reviewer after supervisor approval
 
 on:
   schedule:
-    - cron: "0 */12 * * *"
+    - cron: "0 9,21 * * *"
 
   workflow_dispatch:
 
@@ -24,6 +24,7 @@ jobs:
         with:
           ref: "main"
           token: ${{ steps.generate-token.outputs.token }}
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -40,9 +41,3 @@ jobs:
           GITHUB_APP_TOKEN: ${{ steps.generate-token.outputs.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python -u ear_bot/ear_bot_reviewer.py --search
-
-      - name: Upload csv file
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          file_pattern: "rev/*.csv"
-          branch: main

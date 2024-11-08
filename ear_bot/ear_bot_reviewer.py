@@ -6,20 +6,39 @@ from argparse import ArgumentParser
 from datetime import datetime, timedelta
 
 import pytz
-from github import Github
+from github import Github, UnknownObjectException
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "rev")))
+root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+csv_folder = os.path.join(root_folder, "rev")
+sys.path.append(csv_folder)
 import get_EAR_reviewer  # type: ignore
 
 cet = pytz.timezone("CET")
 
 
+def commit(repo, path, message, content):
+    path = os.path.relpath(path, root_folder)
+    try:
+        contents = repo.get_contents(path)
+        if not isinstance(contents, list):
+            repo.update_file(contents.path, message, content, contents.sha)
+            print(f"Updated {path} file.")
+        else:
+            print(f"{path} file could not be updated.")
+    except UnknownObjectException:
+        try:
+            repo.create_file(path, message, content)
+            print(f"Created {path} file.")
+        except Exception as e:
+            print(f"Error creating {path} file.\n\n{content}\n\n\n{e}")
+    except Exception as e:
+        print(f"Error updating {path} file.\n{e}")
+
+
 class EAR_get_reviewer:
-    def __init__(self) -> None:
-        self.csv_folder = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "..", "rev")
-        )
-        self.csv_file = os.path.join(self.csv_folder, "reviewers_list.csv")
+    def __init__(self, repo) -> None:
+        self.repo = repo
+        self.csv_file = os.path.join(csv_folder, "reviewers_list.csv")
         if not os.path.exists(self.csv_file):
             raise Exception("The CSV file does not exist.")
         with open(self.csv_file, "r") as file:
@@ -42,7 +61,7 @@ class EAR_get_reviewer:
             _, top_candidate, _ = get_EAR_reviewer.select_best_reviewer(
                 self.data, institution, project
             )
-            get_EAR_reviewer_path = os.path.join(self.csv_folder, "get_EAR_reviewer.py")
+            get_EAR_reviewer_path = os.path.join(csv_folder, "get_EAR_reviewer.py")
             reviewer_print = subprocess.run(
                 f"python {get_EAR_reviewer_path} -i '{institution}' -t '{project}'",
                 shell=True,
@@ -54,11 +73,15 @@ class EAR_get_reviewer:
             raise Exception(f"No eligible candidates found.\n{e}")
 
     def add_pr(self, name, institution, species, pr):
-        ear_reviews_csv_file = os.path.join(self.csv_folder, "EAR_reviews.csv")
+        ear_reviews_csv_file = os.path.join(csv_folder, "EAR_reviews.csv")
         if not os.path.exists(ear_reviews_csv_file):
             raise Exception("The EAR reviews CSV file does not exist.")
-        with open(ear_reviews_csv_file, "a") as file:
-            file.write(f"{name},{institution},{species},{pr}\n")
+        with open(ear_reviews_csv_file, "r") as file:
+            ear_reviews_csv_data = file.read()
+        ear_reviews_csv_data += f"{name},{institution},{species},{pr}\n"
+        commit(
+            self.repo, ear_reviews_csv_file, "Add new EAR review", ear_reviews_csv_data
+        )
         print(f"Added {name} to the EAR reviews CSV file.")
 
     def update_reviewers_list(
@@ -69,6 +92,9 @@ class EAR_get_reviewer:
         submitted_at="",
         fined_reviewers=set(),
     ):
+        if not reviewers:
+            print("No reviewers to update.")
+            return
         for reviewer_data in self.data:
             reviewer_data_id = reviewer_data.get("Github ID", "").lower()
             reviewer_data_score = int(reviewer_data.get("Calling Score", 1000))
@@ -78,19 +104,20 @@ class EAR_get_reviewer:
             if reviewer_data_id in reviewers:
                 reviewer_data["Busy"] = "Y" if busy else "N"
                 if submitted_at:
-                    reviewer_data["Calling Score"] = str(reviewer_data_score - 1)
+                    reviewer_data_score -= 1
+                    reviewer_data["Calling Score"] = str(reviewer_data_score)
                     reviewer_data["Total Reviews"] = str(reviewer_data_total + 1)
                     reviewer_data["Last Review"] = submitted_at
             elif reviewer_data_id in fined_reviewers:
-                reviewer_data["Calling Score"] = str(reviewer_data_score + 1)
+                reviewer_data_score += 1
+                reviewer_data["Calling Score"] = str(reviewer_data_score)
             if reviewer_data_institution == institution.lower():
                 reviewer_data["Calling Score"] = str(reviewer_data_score + 1)
 
         csv_str = ",".join(self.data[0].keys()) + "\n"
         for row in self.data:
             csv_str += ",".join(row.values()) + "\n"
-        with open(self.csv_file, "w") as file:
-            file.write(csv_str)
+        commit(self.repo, self.csv_file, "Update reviewers list", csv_str)
         print(f"Updated the reviewers list for {', '.join(reviewers)}.\n{csv_str}")
 
 
@@ -98,7 +125,7 @@ class EARBotReviewer:
     def __init__(self) -> None:
         g = Github(os.getenv("GITHUB_APP_TOKEN"))
         self.repo = g.get_repo(str(os.getenv("GITHUB_REPOSITORY")))
-        self.EAR_reviewer = EAR_get_reviewer()
+        self.EAR_reviewer = EAR_get_reviewer(self.repo)
         self.pr_number = os.getenv("PR_NUMBER")
         self.comment_text = os.getenv("COMMENT_TEXT")
         self.comment_author = os.getenv("COMMENT_AUTHOR")
@@ -151,7 +178,7 @@ class EARBotReviewer:
             pr.add_to_labels("ERROR!")
             raise Exception(f"Invalid project name: {project}")
 
-        if error_label_existed:
+        if error_label_existed and action_type != "reopened":
             pr.remove_from_labels("ERROR!")
 
         if not any(
@@ -177,15 +204,6 @@ class EARBotReviewer:
             )
 
         if action_type == "synchronize" and pr.assignees:
-            if (
-                pr.get_review_requests()[0].totalCount == 0
-                and pr.get_reviews().totalCount > 0
-            ):
-                review_user = next(
-                    review.user.login.lower() for review in pr.get_reviews()
-                )
-                pr.create_review_request([review_user])
-                pr = self.repo.get_pull(int(self.pr_number))
             reviewer = next(
                 (
                     reviewer.login.lower()
@@ -194,8 +212,13 @@ class EARBotReviewer:
                 ),
                 pr.assignee.login.lower(),
             )
+            pr.create_issue_comment(f"Attention @{reviewer}, the EAR PDF was updated.")
+
+        if action_type == "reopened" and pr.assignees:
+            supervisor = pr.assignee.login
             pr.create_issue_comment(
-                f"The researcher has updated the EAR PDF. Please review the assembly @{reviewer}."
+                f"Attention @{supervisor}!\n"
+                "The PR has been re-opened. Please check that everything looks OK."
             )
 
     def find_reviewer(self, prs=[], reject=False):
@@ -206,6 +229,11 @@ class EARBotReviewer:
         current_date = datetime.now(tz=cet)
 
         for pr in prs:
+            if pr.updated_at.astimezone(cet) + timedelta(days=7) < current_date:
+                supervisor = pr.assignee.login if pr.assignee else pr.user.login
+                pr.create_issue_comment(
+                    f"Ping @{supervisor},\nOne week without any movements on this PR!"
+                )
             if (
                 pr.get_review_requests()[0].totalCount > 0
                 or not any(
@@ -220,7 +248,7 @@ class EARBotReviewer:
                 pr, "do you agree to review"
             )
             deadline_passed = (
-                last_comment_date + timedelta(days=7) < current_date
+                self._deadline(last_comment_date) < current_date
                 if last_comment_date
                 else False
             )
@@ -243,7 +271,7 @@ class EARBotReviewer:
                     pr.create_issue_comment(
                         f"Hi @{new_reviewer}, do you agree to review this assembly?\n"
                         "Please reply to this message only with **Yes** or **No** by"
-                        f" {(current_date + timedelta(days=7)).strftime('%d-%b-%Y at %H:%M CET')}"
+                        f" {self._deadline(current_date).strftime('%d-%b-%Y at %H:%M CET')}"
                     )
                     self.EAR_reviewer.update_reviewers_list(
                         reviewers=[new_reviewer.lower()], busy=True
@@ -266,13 +294,24 @@ class EARBotReviewer:
             print(f"Missing required environment variables.\n{e}")
             sys.exit(1)
 
+        supervisors = [
+            reviewer["Github ID"]
+            for reviewer in self.EAR_reviewer.data
+            if reviewer["Supervisor"] == "Y" and reviewer["Github ID"] != pr.user.login
+        ]
+
+        if (
+            comment_author in supervisors
+            and "@erga-ear-bot clear" in comment_text
+            and pr.state == "closed"
+        ):
+            comment_reviewer = self._search_comment_user(pr, "do you agree to review")
+            self.EAR_reviewer.update_reviewers_list(
+                reviewers=set(comment_reviewer), busy=False
+            )
+            pr.remove_from_labels(*pr.get_labels())
+
         if not pr.assignees:
-            supervisors = [
-                reviewer["Github ID"]
-                for reviewer in self.EAR_reviewer.data
-                if reviewer["Supervisor"] == "Y"
-                and reviewer["Github ID"] != pr.user.login
-            ]
             if comment_author not in supervisors:
                 print("The comment author is not one of the supervisors.")
                 sys.exit()
@@ -331,7 +370,7 @@ class EARBotReviewer:
                 pr.create_issue_comment(
                     f"Invalid confirmation!\nHi @{comment_author}, do you agree to review this assembly?\n"
                     "Please reply to this message only with **Yes** or **No** by"
-                    f" {(current_date + timedelta(days=7)).strftime('%d-%b-%Y at %H:%M CET')}"
+                    f" {self._deadline(current_date).strftime('%d-%b-%Y at %H:%M CET')}"
                 )
                 print("Invalid comment text.")
                 sys.exit()
@@ -355,39 +394,53 @@ class EARBotReviewer:
             sys.exit()
         pr.create_issue_comment(
             f"Thanks @{reviewer} for the review.\n"
-            f"I will add a new reviewed species for you to the table when @{supervisor} approves and merges the PR ;)\n\n"
+            f"I will add a new reviewed species for you to the table when @{supervisor} merges the PR ;)\n\n"
             f"Congrats on the assembly @{researcher}!\n"
-            "After merging, you can [upload the assembly to ENA](https://github.com/ERGA-consortium/ERGA-submission)."
+            "Please make sure that the fasta file to [upload to ENA](https://github.com/ERGA-consortium/ERGA-submission) is generated based on the final reviewed version of the assembly.\n\n"
+            f"After @{supervisor} confirmation, you can start with the assembly submission to save time.\n"
+            "The PR will be merged only when the final version of the EAR pdf is available."
         )
 
-    def closed_pr(self, merged=False):
+    def closed_pr(self):
         # Will run when the PR is closed
         pr = self.repo.get_pull(int(self.pr_number))
         reviews = pr.get_reviews().reversed
-        if merged == True and reviews.totalCount > 0:
+        merged = os.getenv("MERGED_STATUS") == "true"
+        if merged and reviews.totalCount > 0:
             comment_reviewers = self._search_comment_user(pr, "for the review")
-            if not comment_reviewers:
-                the_review = reviews[0]
-            else:
-                the_review = next(
+            the_review = next(
+                (
                     review
                     for review in reviews
-                    if review.user.login.lower() == comment_reviewers[0]
-                )
+                    if comment_reviewers
+                    and review.user.login.lower() == comment_reviewers[0]
+                ),
+                reviews[0],
+            )
             reviewer = the_review.user.login.lower()
             submitted_at = datetime.now(tz=cet).strftime("%Y-%m-%d")
 
-            reviewer_data = next(
-                entry
-                for entry in self.EAR_reviewer.data
-                if entry.get("Github ID", "").lower() == reviewer
-            )
-            name = reviewer_data.get(
-                "Full Name", the_review.user.name or the_review.user.login
-            )
-            reviewer_institution = reviewer_data.get("Institution", "")
+            researcher_name = pr.user.name or pr.user.login
+            supervisor_name = pr.assignee.name or pr.assignee.login
+            reviewer_name = the_review.user.name or the_review.user.login
+            reviewer_institution = ""
+            for entry in self.EAR_reviewer.data:
+                github_id = entry.get("Github ID", "").lower()
+                full_name = entry.get("Full Name")
+                if full_name:
+                    if github_id == pr.user.login.lower():
+                        researcher_name = full_name
+                    if github_id == pr.assignee.login.lower():
+                        supervisor_name = full_name
+                    if github_id == reviewer:
+                        reviewer_name = full_name
+                if github_id == reviewer:
+                    reviewer_institution = entry.get("Institution", "")
+
             species = self._search_in_body(pr, "Species")
-            self.EAR_reviewer.add_pr(name, reviewer_institution, species, pr.html_url)
+            self.EAR_reviewer.add_pr(
+                reviewer_name, reviewer_institution, species, pr.html_url
+            )
 
             institution = self._search_for_institution(pr)
             self.EAR_reviewer.update_reviewers_list(
@@ -396,23 +449,55 @@ class EARBotReviewer:
                 institution=institution,
                 submitted_at=submitted_at,
             )
-        else:
-            comment_reviewer = self._search_comment_user(pr, "do you agree to review")
-            self.EAR_reviewer.update_reviewers_list(
-                reviewers=set(comment_reviewer), busy=False
+            EAR_pdf = next(
+                file
+                for file in pr.get_files()
+                if file.filename.lower().endswith(".pdf")
             )
+            EAR_pdf_url = re.sub(r"/blob/[\w\d]+/", "/blob/main/", EAR_pdf.blob_url)
+            slack_post = (
+                f":tada: *New Assembly Finished!* :tada:\n\n"
+                f"Congratulations to {researcher_name} and the {institution} team for the high-quality assembly of _{species}_\n\n"
+                f"The assembly was reviewed by {reviewer_name}, and the process supervised by {supervisor_name}. The EAR can be found in the following link:\n"
+                f"{EAR_pdf_url}"
+            )
+            EARpdf_to_yaml_path = os.path.join(root_folder, "EARpdf_to_yaml.py")
+            EAR_pdf_file = os.path.join(root_folder, EAR_pdf.filename)
+            output_pdf_to_yaml = subprocess.run(
+                f"python {EARpdf_to_yaml_path} {EAR_pdf_file}",
+                shell=True,
+                capture_output=True,
+                text=True,
+            )
+            yaml_file = EAR_pdf_file.replace(".pdf", ".yaml")
+            with open(yaml_file, "r") as file:
+                yaml_content = file.read()
+            commit(self.repo, yaml_file, "Add YAML file", yaml_content)
+            print(output_pdf_to_yaml.stdout, output_pdf_to_yaml.stderr)
+            self._create_slack_post(slack_post)
+        elif not merged:
             supervisor = pr.assignee.login
             pr.create_issue_comment(
-                f"@{supervisor}, The PR was closed. Please check for any issues."
+                f"Attention @{supervisor}!\n"
+                "The PR has been closed, but the reviewers will retain their busy status in case it is re-opened.\n"
+                "If the PR is going to remain closed, please instruct me to clear the active tasks."
             )
+            pr.add_to_labels("ERROR!")
+        else:
+            print("No review has been found for this merged PR.")
+            sys.exit(1)
 
     def _search_comment_user(self, pr, text_to_check):
         comment_user = []
         for comment in pr.get_issue_comments().reversed:
             if comment.user.type == "Bot" and text_to_check in comment.body:
-                comment_user_re = re.search(r"@(\w+)", comment.body)
+                comment_user_re = re.findall(
+                    r"\B@([a-z0-9](?:-(?=[a-z0-9])|[a-z0-9]){0,38}(?<=[a-z0-9]))",
+                    comment.body,
+                    re.IGNORECASE,
+                )
                 if comment_user_re:
-                    comment_user.append(comment_user_re.group(1).lower())
+                    comment_user.append(comment_user_re[0].lower())
         return comment_user
 
     def _search_last_comment_time(self, pr, text_to_check):
@@ -454,6 +539,35 @@ class EARBotReviewer:
             return "SciLifeLab"
         return institution
 
+    def _deadline(self, start_date):
+        current_date = start_date
+        added_hours = timedelta(hours=0)
+        total_hours = timedelta(hours=100)
+        while added_hours != total_hours:
+            remaining_hours = total_hours - added_hours
+            time_to_add = min(remaining_hours, timedelta(days=1))
+            if (current_date + time_to_add).weekday() < 5:
+                added_hours += time_to_add
+            else:
+                time_to_add = timedelta(days=1)
+            current_date += time_to_add
+        return current_date
+
+    def _create_slack_post(self, content):
+        from slack_sdk import WebClient
+
+        client = WebClient(token=os.getenv("SLACK_TOKEN"))
+        channel_id = os.getenv("SLACK_CHANNEL_ID")
+        response = client.chat_postMessage(channel=channel_id, text=content)
+        if not response["ok"]:
+            print("Error creating post in Slack")
+            return False
+        link = client.chat_getPermalink(channel=channel_id, message_ts=response["ts"])[
+            "permalink"
+        ]
+        print(f"Slack post created: {link}")
+        return True
+
 
 if __name__ == "__main__":
     parser = ArgumentParser(description="EAR bot!")
@@ -462,7 +576,7 @@ if __name__ == "__main__":
     group.add_argument("--comment", action="store_true")
     group.add_argument("--search", action="store_true")
     group.add_argument("--approve", action="store_true")
-    group.add_argument("--merged")
+    group.add_argument("--merged", action="store_true")
     args = parser.parse_args()
     EARBot = EARBotReviewer()
     if args.supervisor:
@@ -473,8 +587,8 @@ if __name__ == "__main__":
         EARBot.find_reviewer()
     elif args.approve:
         EARBot.approve_reviewer()
-    elif args.merged is not None:
-        EARBot.closed_pr(merged=True if args.merged == "true" else False)
+    elif args.merged:
+        EARBot.closed_pr()
     else:
         parser.print_help()
         sys.exit(1)

@@ -26,6 +26,7 @@ jobs:
         with:
           ref: "main"
           token: ${{ steps.generate-token.outputs.token }}
+          persist-credentials: false
 
       - name: Download artifact
         uses: actions/github-script@v6
@@ -84,9 +85,3 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r ear_bot/requirements.txt
           python -u ear_bot/ear_bot_reviewer.py --approve
-
-      - name: Upload csv file
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          file_pattern: "rev/*.csv"
-          branch: main

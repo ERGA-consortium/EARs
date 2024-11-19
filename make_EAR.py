@@ -1,7 +1,7 @@
 # make_EAR.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-EAR_version = "v24.09.10"
+EAR_version = "v24.10.15"
 
 import sys
 import argparse
@@ -172,6 +172,8 @@ def make_report(yaml_file):
     def extract_busco_info(file_path):
         busco_version = None
         lineage_info = None
+        busco_mode = None
+        busco_pred = None
     
         try:
             with open(file_path, 'r') as file:
@@ -179,18 +181,21 @@ def make_report(yaml_file):
                 version_match = re.search(r"# BUSCO version is: ([\d.]+)", content)
                 if version_match:
                     busco_version = version_match.group(1)
-                lineage_match = re.search(r"The lineage dataset is: (.*?) \(Creation date:.*?, number of genomes: (\d+), number of BUSCOs: (\d+)\)", content)
+                lineage_match = re.search(r"The lineage dataset is: (.*?) \(Creation date:.*?, number of (genomes|species): (\d+), number of BUSCOs: (\d+)\)", content)
                 if lineage_match:
-                    lineage_info = lineage_match.groups()
-                if not lineage_info:
-                    lineage_match = re.search(r"The lineage dataset is: (.*?) \(Creation date:.*?, number of species: (\d+), number of BUSCOs: (\d+)\)", content)
-                    if lineage_match:
-                        lineage_info = lineage_match.groups()
+                    lineage_info = (lineage_match.group(1), lineage_match.group(3), lineage_match.group(4))
+                mode_match = re.search(r"# BUSCO was run in mode: (\w+)", content)
+                if mode_match:
+                    busco_mode = mode_match.group(1)
+                pred_match = re.search(r"# Gene predictor used: (\w+)", content)
+                if pred_match:
+                    busco_pred = pred_match.group(1)
     
         except Exception as e:
             logging.warning(f"Error reading {file_path}: {str(e)}")
-    
-        return busco_version, lineage_info
+
+        return busco_version, lineage_info, busco_mode, busco_pred
+
 
 
     # Function to check and generate warning messages
@@ -805,24 +810,32 @@ def make_report(yaml_file):
     # Spacer
     elements.append(Spacer(1, 5))
 
-    # Store BUSCO version and lineage information from each file in list
+    # Store BUSCO information from each file in a list
     busco_info_list = []
     for asm_stages, stage_properties in asm_data.items():
         for i, haplotype_properties in stage_properties.items():
             if isinstance(haplotype_properties, dict):
                 if 'busco_short_summary_txt' in haplotype_properties:
-                    busco_version, lineage_info = extract_busco_info(haplotype_properties['busco_short_summary_txt'])
-                    if busco_version and lineage_info:
-                        busco_info_list.append((busco_version, lineage_info))
-    
+                    busco_info = extract_busco_info(haplotype_properties['busco_short_summary_txt'])
+                    if all(busco_info):
+                        busco_info_list.append(busco_info)
+
+    # Function to format BUSCO information
+    def format_busco_info(info):
+        version, (lineage, genomes, buscos), mode, predictor = info
+        return f"BUSCO: {version} ({mode}, {predictor}) / Lineage: {lineage} (genomes:{genomes}, BUSCOs:{buscos})"
+
     # Checking if all elements in the list are identical
-    if all(info == busco_info_list[0] for info in busco_info_list):
-        busco_version, (lineage_name, num_genomes, num_buscos) = busco_info_list[0]
-        elements.append(Paragraph(f"BUSCO {busco_version} Lineage: {lineage_name} (genomes:{num_genomes}, BUSCOs:{num_buscos})", styles['miniStyle']))
+    if busco_info_list and all(info == busco_info_list[0] for info in busco_info_list):
+        busco_text = format_busco_info(busco_info_list[0])
+        elements.append(Paragraph(busco_text, styles['miniStyle']))
     else:
-        elements.append(Paragraph("Warning: BUSCO versions or lineage datasets are not the same across results", styles['miniStyle']))
-        logging.warning(f"WARNING!!! BUSCO versions or lineage datasets are not the same across results")
-   
+        elements.append(Paragraph("Warning! BUSCO versions or lineage datasets are not the same across results:", styles['miniStyle']))
+        logging.warning("WARNING: BUSCO versions or lineage datasets are not the same across results")
+        for info in busco_info_list:
+            busco_text = format_busco_info(info)
+            elements.append(Paragraph(busco_text, styles['miniStyle']))
+
     # Page break
     elements.append(PageBreak())
 

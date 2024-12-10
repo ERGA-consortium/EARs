@@ -309,7 +309,8 @@ class EARBotReviewer:
             self.EAR_reviewer.update_reviewers_list(
                 reviewers=set(comment_reviewer), busy=False
             )
-            pr.remove_from_labels(*pr.get_labels())
+            for label in pr.get_labels():
+                pr.remove_from_labels(label)
 
         if not pr.assignees:
             if comment_author not in supervisors:

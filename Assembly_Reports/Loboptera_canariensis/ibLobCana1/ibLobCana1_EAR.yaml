@@ -1,0 +1,93 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3054493'
+ToLID: ibLobCana1
+Species: Loboptera canariensis
+Class: Insecta
+Order: Blattodea
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,975,410,362
+    Haploid Number: '17 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 2,217,202,221
+    Haploid Number: '17'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.8.Q40
+
+Curator notes:
+  Interventions/Gb: 11
+  Contamination notes: '"78 scaffolds detected as contaminants with BTK were removed
+    from the curated assembly."'
+  Other observations: '"Curation made 0 cuts in contigs, 3 breaks at gaps and 13 joins.
+    Sex chromosome unknown. Mitogenome was assenbled into a single circular contig
+    of 16,194 bp of high sequence accuracy."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 2,257,139,729
+    GC %: '34.91'
+    Gaps/Gbp: '217.09'
+    Total gap bp: 98,000
+    Scaffolds: '129'
+    Scaffold N50: 151,223,706
+    Scaffold L50: '7'
+    Scaffold L90: '15'
+    Contigs: '619'
+    Contig N50: 8,565,483
+    Contig L50: '81'
+    Contig L90: '291'
+    QV: '40.8518'
+    Kmer compl.: '79.6128'
+    BUSCO sing.: 97.3%
+    BUSCO dupl.: 1.8%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 0.3%
+  Curated collapsed:
+    Total bp: 2,217,202,221
+    GC %: '34.73'
+    Gaps/Gbp: '225.51'
+    Total gap bp: 100,000
+    Scaffolds: '41'
+    Scaffold N50: 151,223,706
+    Scaffold L50: '7'
+    Scaffold L90: '14'
+    Contigs: '541'
+    Contig N50: 8,641,591
+    Contig L50: '79'
+    Contig L90: '277'
+    QV: '40.8397'
+    Kmer compl.: '77.859'
+    BUSCO sing.: 97.4%
+    BUSCO dupl.: 1.7%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 0.2%
+
+BUSCO:
+  ver: 5.4.0 (euk_genome_met, metaeuk)
+  lineage: insecta_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 57 65 42
+
+Assembly pipeline:
+  CLAWS: {}
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  Blobtoolkit nexflow: {}
+
+Submitter: Fernando Cruz
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-12-12 10:02:34 CET

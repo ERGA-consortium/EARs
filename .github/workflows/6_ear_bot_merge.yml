@@ -18,6 +18,10 @@ jobs:
           owner: "ERGA-consortium"
           repositories: "EARs"
 
+      - uses: jsok/serialize-workflow-action@v1
+        with:
+          github-token: ${{ steps.generate-token.outputs.token }}
+
       - name: Checkout
         uses: actions/checkout@v4
         with:

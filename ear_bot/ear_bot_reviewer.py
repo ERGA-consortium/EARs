@@ -455,6 +455,7 @@ class EARBotReviewer:
                 for file in pr.get_files()
                 if file.filename.lower().endswith(".pdf")
             )
+            self._add_yaml_file(EAR_pdf.filename)
             EAR_pdf_url = re.sub(r"/blob/[\w\d]+/", "/blob/main/", EAR_pdf.blob_url)
             slack_post = (
                 f":tada: *New Assembly Finished!* :tada:\n\n"
@@ -462,19 +463,6 @@ class EARBotReviewer:
                 f"The assembly was reviewed by {reviewer_name}, and the process supervised by {supervisor_name}. The EAR can be found in the following link:\n"
                 f"{EAR_pdf_url}"
             )
-            EARpdf_to_yaml_path = os.path.join(root_folder, "EARpdf_to_yaml.py")
-            EAR_pdf_file = os.path.join(root_folder, EAR_pdf.filename)
-            output_pdf_to_yaml = subprocess.run(
-                f"python {EARpdf_to_yaml_path} {EAR_pdf_file}",
-                shell=True,
-                capture_output=True,
-                text=True,
-            )
-            yaml_file = EAR_pdf_file.replace(".pdf", ".yaml")
-            with open(yaml_file, "r") as file:
-                yaml_content = file.read()
-            commit(self.repo, yaml_file, "Add YAML file", yaml_content)
-            print(output_pdf_to_yaml.stdout, output_pdf_to_yaml.stderr)
             self._create_slack_post(slack_post)
         elif not merged:
             supervisor = pr.assignee.login
@@ -485,8 +473,14 @@ class EARBotReviewer:
             )
             pr.add_to_labels("ERROR!")
         else:
+            EAR_pdf_filename = next(
+                file.filename
+                for file in pr.get_files()
+                if file.filename.lower().endswith(".pdf")
+            )
+            self._add_yaml_file(EAR_pdf_filename)
             print("No review has been found for this merged PR.")
-            sys.exit(1)
+            print("The YAML file has been added to the repository.")
 
     def _search_comment_user(self, pr, text_to_check):
         comment_user = []
@@ -568,6 +562,21 @@ class EARBotReviewer:
         ]
         print(f"Slack post created: {link}")
         return True
+
+    def _add_yaml_file(self, EAR_pdf_filename):
+        EARpdf_to_yaml_path = os.path.join(root_folder, "EARpdf_to_yaml.py")
+        EAR_pdf_file = os.path.join(root_folder, EAR_pdf_filename)
+        output_pdf_to_yaml = subprocess.run(
+            f"python {EARpdf_to_yaml_path} {EAR_pdf_file}",
+            shell=True,
+            capture_output=True,
+            text=True,
+        )
+        yaml_file = EAR_pdf_file.replace(".pdf", ".yaml")
+        with open(yaml_file, "r") as file:
+            yaml_content = file.read()
+        commit(self.repo, yaml_file, "Add YAML file", yaml_content)
+        print(output_pdf_to_yaml.stdout, output_pdf_to_yaml.stderr)
 
 
 if __name__ == "__main__":

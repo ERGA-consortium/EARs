@@ -480,7 +480,9 @@ class EARBotReviewer:
             )
             self._add_yaml_file(EAR_pdf_filename)
             print("No review has been found for this merged PR.")
-            print("The YAML file has been added to the repository.")
+            pr.create_issue_comment(
+                "The YAML file has been updated based on the new EAR.pdf"
+            )
 
     def _search_comment_user(self, pr, text_to_check):
         comment_user = []

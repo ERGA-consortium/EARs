@@ -1,4 +1,4 @@
-ERGA Assembly Report: v24.04.03_beta
+ERGA Assembly Report: v24.10.15
 Tags: ERGA-BGE
 
 TxID: '1534734'
@@ -14,19 +14,31 @@ Genome Traits:
     Ploidy: '4 (source: ancestor)'
     Sample Sex: Unknown
   Observed:
-    Haploid size (bp): 2,258,523,083
+    Haploid size (bp): 2,258,156,991
     Haploid Number: '18'
     Ploidy: '2'
     Sample Sex: Unknown
 
 EBP metrics:
   EBP quality code:
-    collapsed: 7.8.Q67
+    collapsed: 7.8.Q68
 
 Curator notes:
   Interventions/Gb: 1
-  Contamination notes: '"One bacterial contig has been removed"'
-  Other observations: '""'
+  Contamination notes: '""'
+  Other observations: '"The assembly of Xanthium orientale (daXanOrie1.2) is based
+    on 40X of PacBio data and Arima Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups, and Hi-C-based scaffolding with YaHS. In total, 7 contigs were identified
+    as contaminants (bacterial, archaeal, or viral), totaling 0.4 Mb (with the largest
+    being 0.15 Mb). Additionally, 276 regions totaling 15.5 Mb (with the largest being
+    0.36 Mb) were identified as haplotypic duplications and removed. Mitochondrial
+    and chloroplast genomes was assembled using OATK. Finally, the primary assembly
+    was analyzed and manually improved using Pretext. Chromosome-scale scaffolds confirmed
+    by Hi-C data were named in order of size."'
 
 Metrics:
   Pre-curation collapsed:
@@ -49,27 +61,27 @@ Metrics:
     BUSCO frag.: 0.2%
     BUSCO miss.: 0.7%
   Curated collapsed:
-    Total bp: 2,258,523,083
+    Total bp: 2,258,156,991
     GC %: '37.03'
     Gaps/Gbp: '6.2'
     Total gap bp: 1,400
-    Scaffolds: '32'
+    Scaffolds: '26'
     Scaffold N50: 124,155,882
     Scaffold L50: '8'
     Scaffold L90: '16'
-    Contigs: '46'
+    Contigs: '40'
     Contig N50: 98,804,340
     Contig L50: '9'
     Contig L90: '21'
-    QV: '67.9935'
-    Kmer compl.: '99.6151'
+    QV: '68.0388'
+    Kmer compl.: '99.6132'
     BUSCO sing.: 93.3%
     BUSCO dupl.: 5.8%
     BUSCO frag.: 0.2%
     BUSCO miss.: 0.7%
 
 BUSCO:
-  ver: 5.4.3
+  ver: 5.4.3 (euk_genome_met, metaeuk)
   lineage: embryophyta_odb10
 
 Data:
@@ -81,16 +93,16 @@ Assembly pipeline:
     ver: 0.19.5-r593
   purge_dups:
     ver: 1.2.5
+  YaHS:
+    ver: '1.2'
 
 Curation pipeline:
-  Hifiasm:
-    ver: 0.19.5-r593
-  purge_dups:
-    ver: 1.2.5
-  yahs:
-    ver: '1.2'
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
 
 Submitter: Adama Ndar
 Affiliation: Genoscope
 
-Date and time: 2024-09-05 16:34:55 CEST
+Date and time: 2025-01-23 05:04:09 CET

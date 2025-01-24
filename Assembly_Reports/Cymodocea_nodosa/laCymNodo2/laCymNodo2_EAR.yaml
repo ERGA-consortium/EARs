@@ -1,4 +1,4 @@
-ERGA Assembly Report: v24.09.10
+ERGA Assembly Report: v24.10.15
 Tags: ERGA-BGE
 
 TxID: '55448'
@@ -14,7 +14,7 @@ Genome Traits:
     Ploidy: '4 (source: direct)'
     Sample Sex: Unknown
   Observed:
-    Haploid size (bp): 359,699,839
+    Haploid size (bp): 359,377,510
     Haploid Number: '18'
     Ploidy: '2'
     Sample Sex: Unknown
@@ -49,31 +49,31 @@ Metrics:
     BUSCO frag.: 0.0%
     BUSCO miss.: 0.8%
   Curated collapsed:
-    Total bp: 359,699,839
-    GC %: '33.22'
-    Gaps/Gbp: '136.22'
-    Total gap bp: 7,200
-    Scaffolds: '30'
+    Total bp: 359,377,510
+    GC %: '33.23'
+    Gaps/Gbp: '133.56'
+    Total gap bp: 7,100
+    Scaffolds: '23'
     Scaffold N50: 24,187,662
     Scaffold L50: '7'
     Scaffold L90: '15'
-    Contigs: '79'
+    Contigs: '71'
     Contig N50: 9,097,069
     Contig L50: '14'
     Contig L90: '34'
-    QV: '52.5354'
-    Kmer compl.: '92.0784'
+    QV: '52.5849'
+    Kmer compl.: '92.0497'
     BUSCO sing.: 95.7%
     BUSCO dupl.: 3.5%
     BUSCO frag.: 0.0%
     BUSCO miss.: 0.8%
 
 BUSCO:
-  ver: 5.4.3
+  ver: 5.4.3 (euk_genome_met, metaeuk)
   lineage: eukaryota_odb10
 
 Data:
-  Profile: PACBIO Hifi Arima (4-enz)
+  Profile: PACBIO Hifi Arima
   Coverage: 40 100
 
 Assembly pipeline:
@@ -93,4 +93,4 @@ Curation pipeline:
 Submitter: Benjamin Istace
 Affiliation: Genoscope
 
-Date and time: 2024-10-03 18:47:08 CEST
+Date and time: 2025-01-23 02:47:46 CET

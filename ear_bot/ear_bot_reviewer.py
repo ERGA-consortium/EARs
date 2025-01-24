@@ -155,7 +155,7 @@ class EARBotReviewer:
             pr.create_issue_comment(
                 f"Hi @{researcher} this looks like an update of an approved EAR. I will flag the PR to call the attention of a supervisor to handle this :)"
             )
-            pr.add_to_labels("ERROR!")
+            pr.add_to_labels("EAR-UPDATE")
             raise Exception("Modified file.")
 
         if not pr.body:

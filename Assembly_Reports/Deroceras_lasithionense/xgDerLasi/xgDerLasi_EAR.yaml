@@ -1,4 +1,4 @@
-ERGA Assembly Report: v24.09.10
+ERGA Assembly Report: v24.10.15
 Tags: ERGA-BGE
 
 TxID: '3034287'
@@ -14,7 +14,7 @@ Genome Traits:
     Ploidy: '2 (source: ancestor)'
     Sample Sex: Unknown
   Observed:
-    Haploid size (bp): 1,318,418,884
+    Haploid size (bp): 1,318,353,577
     Haploid Number: '31'
     Ploidy: '2'
     Sample Sex: Unknown
@@ -25,8 +25,22 @@ EBP metrics:
 
 Curator notes:
   Interventions/Gb: 73
-  Contamination notes: '"3 bacterial contigs were removed"'
-  Other observations: '""'
+  Contamination notes: '""'
+  Other observations: '"The assembly of Deroceras lasithionense (xgDerLasi3) is based
+    on 45X PacBio data and Arima Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups, and Hi-C-based scaffolding with YaHS. In total, 3 contigs were identified
+    as contaminants (bacterial, archaeal, or viral), totaling 1.2 Mb (with the largest
+    being 1.2 Mb). Additionally, 1.208 regions totaling 342 Mb (with the largest being
+    3.1 Mb) were identified as haplotypic duplications and removed. The mitochondrial
+    genome was assembled using OATK. Finally, the primary assembly was analyzed and
+    manually improved using Pretext. During manual curation, 26 haplotypic regions
+    and 1 mitochondrial sequence were removed, totaling 68 Mb and 65 Kb, respectively
+    (with the largest being 47 Mb and 65 Kb). Chromosome-scale scaffolds confirmed
+    by Hi-C data were named in order of size"'
 
 Metrics:
   Pre-curation collapsed:
@@ -49,19 +63,19 @@ Metrics:
     BUSCO frag.: 0.0%
     BUSCO miss.: 0.4%
   Curated collapsed:
-    Total bp: 1,318,418,884
+    Total bp: 1,318,353,577
     GC %: '41.45'
-    Gaps/Gbp: '811.58'
+    Gaps/Gbp: '811.62'
     Total gap bp: 109,500
-    Scaffolds: '66'
+    Scaffolds: '65'
     Scaffold N50: 45,757,421
     Scaffold L50: '12'
     Scaffold L90: '26'
-    Contigs: 1,136
+    Contigs: 1,135
     Contig N50: 2,037,218
     Contig L50: '188'
     Contig L90: '628'
-    QV: '55.0543'
+    QV: '55.055'
     Kmer compl.: '76.6606'
     BUSCO sing.: 98.0%
     BUSCO dupl.: 1.6%
@@ -69,11 +83,11 @@ Metrics:
     BUSCO miss.: 0.4%
 
 BUSCO:
-  ver: 5.4.3
+  ver: 5.4.3 (euk_genome_met, metaeuk)
   lineage: eukaryota_odb10
 
 Data:
-  Profile: PACBIO Hifi Arima (4-enz)
+  Profile: PACBIO Hifi Arima
   Coverage: 45 42
 
 Assembly pipeline:
@@ -93,4 +107,4 @@ Curation pipeline:
 Submitter: Caroline Belser
 Affiliation: Genoscope
 
-Date and time: 2024-09-17 16:46:39 CEST
+Date and time: 2025-01-31 09:45:58 CET

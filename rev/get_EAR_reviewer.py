@@ -1,7 +1,7 @@
 # get_EAR_reviewer.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-version = "v24.09.23"
+version = "v25.02.11"
 
 import requests
 import random
@@ -41,9 +41,9 @@ def adjust_score(reviewer, tags):
         score += 50
     normalized_institution = normalize_institution(reviewer['Institution'])
     if 'ERGA-BGE' in tags and normalized_institution in ['CNAG', 'Sanger', 'Genoscope', 'SciLifeLab']:
-        score += 50 # Additional 50 points for reviewers from BGE institutions if 'ERGA-BGE' tag is used
+        score += 50  # Additional 50 points for reviewers from BGE institutions if 'ERGA-BGE' tag is used
     if reviewer['Supervisor'] == 'Y':
-        score -= 5 # Substract 5 points if reviewer is also supervisor to decrease the chance of selection
+        score -= 5  # Subtract 5 points if reviewer is also supervisor to decrease the chance of selection
     return score
 
 def parse_date(date_str):
@@ -99,8 +99,13 @@ def select_best_reviewer(data, calling_institution, use_bge):
     selected = random.choice(final_candidates)
     return eligible_candidates, [selected], "random selection to break a tie among the finalists"
 
-def select_random_supervisor(data, exclude_id):
-    supervisors = [reviewer for reviewer in data if reviewer['Supervisor'] == 'Y' and reviewer['Github ID'] != exclude_id]
+def select_random_supervisor(data, exclude_id, calling_institution):
+    supervisors = [
+        reviewer for reviewer in data
+        if reviewer['Supervisor'] == 'Y' 
+           and reviewer['Github ID'] != exclude_id 
+           and normalize_institution(reviewer['Institution']) != normalize_institution(calling_institution)
+    ]
 
     if not supervisors:
         return None
@@ -128,7 +133,7 @@ def main():
             if not args.user:
                 print("Github user ID must be provided with --user when using --supervisor.")
                 return
-            selected_supervisor = select_random_supervisor(data, args.user)
+            selected_supervisor = select_random_supervisor(data, args.user, args.institution)
             if selected_supervisor:
                 print(f"Selected supervisor: {selected_supervisor['Full Name']} ({selected_supervisor['Github ID']})")
             else:

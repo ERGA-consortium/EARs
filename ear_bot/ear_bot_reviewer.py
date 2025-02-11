@@ -47,10 +47,10 @@ class EAR_get_reviewer:
             raise Exception("The CSV file is empty.")
         self.data = get_EAR_reviewer.parse_csv(csv_data)
 
-    def get_supervisor(self, user):
+    def get_supervisor(self, user, calling_institution):
         try:
             selected_supervisor = get_EAR_reviewer.select_random_supervisor(
-                self.data, user
+                self.data, user, calling_institution
             )
             return selected_supervisor.get("Github ID")
         except Exception as e:
@@ -169,7 +169,7 @@ class EARBotReviewer:
 
         project = self._search_in_body(pr, "Project")
         species = self._search_in_body(pr, "Species")
-        self._search_for_institution(pr)
+        calling_institution = self._search_for_institution(pr)
 
         if project not in self.valid_projects:
             pr.create_issue_comment(
@@ -198,7 +198,9 @@ class EARBotReviewer:
             "do you agree to [supervise]" in comment.body
             for comment in pr.get_issue_comments().reversed
         ):
-            supervisor = self.EAR_reviewer.get_supervisor(researcher)
+            supervisor = self.EAR_reviewer.get_supervisor(
+                researcher, calling_institution
+            )
             pr.create_issue_comment(
                 f"Hi @{supervisor}, do you agree to [supervise](https://github.com/ERGA-consortium/EARs/wiki/Assignees-section) this assembly?\n"
                 "Please reply to this message only with **OK** to give acknowledge."

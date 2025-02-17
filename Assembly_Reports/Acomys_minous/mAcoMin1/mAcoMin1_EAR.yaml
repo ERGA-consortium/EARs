@@ -1,4 +1,4 @@
-ERGA Assembly Report: v24.09.10
+ERGA Assembly Report: v24.10.15
 Tags: ERGA-BGE
 
 TxID: '83528'
@@ -14,7 +14,7 @@ Genome Traits:
     Ploidy: '2 (source: ancestor)'
     Sample Sex: Unknown
   Observed:
-    Haploid size (bp): 2,350,237,540
+    Haploid size (bp): 2,350,193,447
     Haploid Number: '20'
     Ploidy: '2'
     Sample Sex: Unknown
@@ -27,7 +27,9 @@ Curator notes:
   Interventions/Gb: 25
   Contamination notes: '""'
   Other observations: '"Some areas are ambiguous. They might look like haplotypic
-    duplications, but there\''s not necessarily a drop in coverage to validate it."'
+    duplications, but there\''s not necessarily a drop in coverage to validate it.
+    A misassembled 44 kb scaffold corresponding to mitochondria was deleted as the
+    mitochondrial sequence is already integrated into the assembly"'
 
 Metrics:
   Pre-curation collapsed:
@@ -50,19 +52,19 @@ Metrics:
     BUSCO frag.: 0.5%
     BUSCO miss.: 3.3%
   Curated collapsed:
-    Total bp: 2,350,237,540
+    Total bp: 2,350,193,447
     GC %: '42.87'
     Gaps/Gbp: '78.29'
     Total gap bp: 20,100
-    Scaffolds: '113'
+    Scaffolds: '112'
     Scaffold N50: 122,851,966
     Scaffold L50: '9'
     Scaffold L90: '18'
-    Contigs: '297'
+    Contigs: '296'
     Contig N50: 29,281,624
     Contig L50: '23'
     Contig L90: '102'
-    QV: '57.3102'
+    QV: '57.312'
     Kmer compl.: '89.5959'
     BUSCO sing.: 94.9%
     BUSCO dupl.: 1.3%
@@ -70,11 +72,11 @@ Metrics:
     BUSCO miss.: 3.3%
 
 BUSCO:
-  ver: 5.4.3
+  ver: 5.4.3 (euk_genome_met, metaeuk)
   lineage: glires_odb10
 
 Data:
-  Profile: PACBIO Hifi Arima (4-enz)
+  Profile: PACBIO Hifi Arima
   Coverage: 33 19
 
 Assembly pipeline:
@@ -94,4 +96,4 @@ Curation pipeline:
 Submitter: Sophie Mangenot
 Affiliation: Genoscope
 
-Date and time: 2024-09-26 14:48:21 CEST
+Date and time: 2025-01-30 09:07:05 CET

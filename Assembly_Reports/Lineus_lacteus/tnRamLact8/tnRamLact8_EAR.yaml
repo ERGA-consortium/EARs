@@ -1,0 +1,103 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '947578'
+ToLID: tnRamLact8
+Species: Lineus lacteus
+Class: Pilidiophora
+Order: Heteronemertea
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 370,936,233
+    Haploid Number: '16 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 370,829,418
+    Haploid Number: '19'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q42
+
+Curator notes:
+  Interventions/Gb: 38
+  Contamination notes: '"BTK pipeline detected just false positives with short hits
+    to various metazoan phylum. This is expectable as Nemertea is an undersequenced
+    phylum and the hits found are short and divergent."'
+  Other observations: '"The HiC data was not very good, we ended up having 7.3 million
+    valid pairs for scaffolding and we dropped the mq to 10 with YaHS. However the
+    scaffolding worked pretty well for such as small genome and we ended up with 19
+    super-scaffolds after curation and review. During review, we ran whole genome
+    alignments against tnLinLong1.2 (n=19) to confirm the join of some scaffolds into
+    a single SUPER (same chromosome). Note that SUPER_8 contains a true segmental
+    duplication as confirmed by coverage, ONT and self-alignments. Curation and review
+    involved 4 cuts in contigs, 3 breaks at gaps and 7 joins. The pretext contact
+    map and final savestate (tnRamLact8.curated_primary.no_mt.unscrubbed_mq0.extensions.pretext.savestate_3)
+    are located into the multimapping folder following the shared link. Regarding
+    the plastids, we did not find reads to assemble the mitogenome properly."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 371,087,788
+    GC %: '41.34'
+    Gaps/Gbp: '107.79'
+    Total gap bp: 8,000
+    Scaffolds: '31'
+    Scaffold N50: 20,380,758
+    Scaffold L50: '8'
+    Scaffold L90: '17'
+    Contigs: '71'
+    Contig N50: 8,945,886
+    Contig L50: '15'
+    Contig L90: '39'
+    QV: '42.9662'
+    Kmer compl.: '77.4608'
+    BUSCO sing.: 94.1%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 2.7%
+    BUSCO miss.: 2.8%
+  Curated collapsed:
+    Total bp: 370,829,418
+    GC %: '41.35'
+    Gaps/Gbp: '118.65'
+    Total gap bp: 8,800
+    Scaffolds: '27'
+    Scaffold N50: 20,380,758
+    Scaffold L50: '8'
+    Scaffold L90: '16'
+    Contigs: '71'
+    Contig N50: 8,945,886
+    Contig L50: '14'
+    Contig L90: '38'
+    QV: '42.9629'
+    Kmer compl.: '77.4551'
+    BUSCO sing.: 94.1%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 2.7%
+    BUSCO miss.: 2.8%
+
+BUSCO:
+  ver: 5.4.0 (euk_genome_met, metaeuk)
+  lineage: metazoa_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 339x 274x 64.6x
+
+Assembly pipeline:
+  CLAWS: {}
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Fernando Cruz
+Affiliation: CNAG
+
+Date and time: 2025-02-14 11:17:46 CET

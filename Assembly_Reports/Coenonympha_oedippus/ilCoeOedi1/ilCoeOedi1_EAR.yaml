@@ -1,0 +1,111 @@
+ERGA Assembly Report: v24.09.10
+Tags: ERGA-BGE
+
+TxID: '554486'
+ToLID: ilCoeOedi1
+Species: Coenonympha oedippus
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 400,913,152
+    Haploid Number: '29 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: ZW
+  Observed:
+    Haploid size (bp): 397,581,223
+    Haploid Number: '29'
+    Ploidy: '2'
+    Sample Sex: ZW
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q56
+
+Curator notes:
+  Interventions/Gb: 100
+  Contamination notes: '"1 scaffold matching Wolbachia was removed from the Flye assembly"'
+  Other observations: '"We curated the Flye assembly with exception of the W scaffold
+    that was better reconstructed by Nextdenovo. We replaced the Flye W scaffold for
+    the nextdenovo W scaffold. In addition, 83 small scaffolds with remaining W fragments
+    or just too short were removed from the curated Flye assembly. During the review,
+    we made 2 additional cuts in contigs, 6 breaks at gaps and 12 joins localizing
+    5 contigs into superscaffolds"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 398,249,265
+    GC %: '37.32'
+    Gaps/Gbp: '778.41'
+    Total gap bp: 61,900
+    Scaffolds: '165'
+    Scaffold N50: 14,195,870
+    Scaffold L50: '13'
+    Scaffold L90: '26'
+    Contigs: '475'
+    Contig N50: 2,683,349
+    Contig L50: '46'
+    Contig L90: '156'
+    QV: '55.0646'
+    Kmer compl.: '71.2387'
+    BUSCO sing.: 97.5%
+    BUSCO dupl.: 1.3%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 1.0%
+  Curated collapsed:
+    Total bp: 397,581,223
+    GC %: '37.32'
+    Gaps/Gbp: '827.5'
+    Total gap bp: 65,700
+    Scaffolds: '58'
+    Scaffold N50: 14,242,255
+    Scaffold L50: '13'
+    Scaffold L90: '26'
+    Contigs: '387'
+    Contig N50: 2,771,813
+    Contig L50: '45'
+    Contig L90: '154'
+    QV: '56.0202'
+    Kmer compl.: '70.8353'
+    BUSCO sing.: 97.6%
+    BUSCO dupl.: 1.2%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 1.0%
+
+BUSCO:
+  ver: 5.4.0
+  lineage: insecta_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 226x 75x 183x
+
+Assembly pipeline:
+  Trim_galore:
+    ver: 0.6.7
+    key param: =0
+  Filtlong:
+    ver: 0.2.1
+    key param: =27000000000
+  flye:
+    ver: 2.9.1
+  nextdenovo:
+    ver: 2.5.0
+  hypo:
+    ver: 1.0.3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Fernando Cruz
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-11-04 11:58:04 CET

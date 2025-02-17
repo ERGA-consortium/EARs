@@ -1,0 +1,92 @@
+ERGA Assembly Report: v24.09.10
+Tags: ERGA-BGE
+
+TxID: '31175'
+ToLID: eeDiaSeto1
+Species: Diadema setosum
+Class: Echinoidea
+Order: Diadematoida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 744,053,118
+    Haploid Number: '21 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 912,952,438
+    Haploid Number: '22'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q54
+
+Curator notes:
+  Interventions/Gb: 53
+  Contamination notes: '"None"'
+  Other observations: '"Haplotigs confirmed by a decrease in coverage"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 917,618,006
+    GC %: '38.35'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '701'
+    Scaffold N50: 2,320,055
+    Scaffold L50: '128'
+    Scaffold L90: '394'
+    Contigs: '701'
+    Contig N50: 2,320,055
+    Contig L50: '128'
+    Contig L90: '394'
+    BUSCO sing.: 96.1%
+    BUSCO dupl.: 2.0%
+    BUSCO frag.: 1.2%
+    BUSCO miss.: 0.7%
+  Curated collapsed:
+    Total bp: 912,952,438
+    GC %: '38.35'
+    Gaps/Gbp: '727.31'
+    Total gap bp: 68,300
+    Scaffolds: '98'
+    Scaffold N50: 39,828,711
+    Scaffold L50: '11'
+    Scaffold L90: '20'
+    Contigs: '762'
+    Contig N50: 2,171,880
+    Contig L50: '133'
+    Contig L90: '416'
+    BUSCO sing.: 97.6%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 1.2%
+    BUSCO miss.: 0.8%
+
+BUSCO:
+  ver: 5.4.3
+  lineage: eukaryota_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima (4-enz)
+  Coverage: 30 50
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Arnaud Couloux
+Affiliation: Genoscope
+
+Date and time: 2024-09-17 15:56:51 CEST

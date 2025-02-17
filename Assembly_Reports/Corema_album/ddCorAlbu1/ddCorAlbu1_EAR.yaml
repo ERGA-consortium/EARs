@@ -1,0 +1,107 @@
+ERGA Assembly Report: v24.02.09_beta
+Tags: ERGA-Pilot
+
+ToLID: ddCorAlbu1
+Species: Corema album
+Class: Magnoliopsida
+Order: Ericales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 628,534,562
+    Haploid Number: '13 (source: direct)'
+    Ploidy: '2 (source: direct)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 548,232,794
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.7.Q67
+
+Curator notes:
+  Contamination notes: '"Lots of fungal sequences and one insect detected. These were
+    removed before scaffolding"'
+  Other observations: '"PacBio and HiC data were from different specimens and the
+    HiC was made of a mix of male and female parts of the plant. There were a lot
+    of retained duplicates after the initial contig assembly and purge-dups was found
+    to over-purge, removing quite a few genes. As such, large haplotids were manually
+    identifed during curation and purge-dups was run after curation to remove JUNK,
+    REPEAT and HIGHCOV sequenes. The 500kb mitochria and 100kb chloroplast were also
+    assembled using oatk. There were a lot of fragments from the mito and chloroplast
+    in the genome that were manually removed."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 683,082,712
+    GC %: '39.3'
+    Gaps/Gbp: '414.3'
+    Total gap bp: 28,300
+    Scaffolds: '890'
+    Scaffold N50: 47,309,436
+    Scaffold L50: '5'
+    Scaffold L90: '13'
+    Contigs: 1,173
+    Contig N50: 17,254,601
+    Contig L50: '12'
+    Contig L90: '48'
+    QV: '59.2597'
+    Kmer compl.: '86.8115'
+    BUSCO sing.: 91.4%
+    BUSCO dupl.: 5.2%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 2.8%
+  Curated pri:
+    Total bp: 548,232,794
+    GC %: '38.7'
+    Gaps/Gbp: '51.07'
+    Total gap bp: 2,800
+    Scaffolds: '66'
+    Scaffold N50: 40,943,406
+    Scaffold L50: '6'
+    Scaffold L90: '12'
+    Contigs: '94'
+    Contig N50: 23,686,000
+    Contig L50: '9'
+    Contig L90: '25'
+    QV: '67.0605'
+    Kmer compl.: '84.7354'
+    BUSCO sing.: 93.9%
+    BUSCO dupl.: 2.8%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 2.6%
+
+BUSCO:
+  ver: 5.4.7
+  lineage: eudicots_odb10
+
+Data:
+  Profile: PacBio Hifi Illumina Hic
+  Coverage: 76X 50X
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.8
+    key param: -l 2
+  yahs:
+    ver: '1.2'
+  fcs-gx:
+    ver: 0.5.0
+  purge-dups:
+    ver: 1.2.6
+
+Curation pipeline:
+  higlass:
+    ver: 0.6.1
+  pretext:
+    ver: 0.2.5
+  blobtoolkit:
+    ver: 4.1.0
+
+Submitter: Tom Brown
+Affiliation: IZW
+
+Date and time: 2024-03-14 18:53:12 CET

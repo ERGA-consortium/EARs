@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '754874'
+ToLID: drEbeCret1
+Species: Ebenus cretica
+Class: Magnoliopsida
+Order: Fabales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 988,901,153
+    Haploid Number: '7 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 942,902,264
+    Haploid Number: '6'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q59
+
+Curator notes:
+  Interventions/Gb: 3
+  Contamination notes: '""'
+  Other observations: '"The assembly of Ebenus cretica (drEbeCret1.4) is based on
+    75X of PacBio data and Arima Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups, and Hi-C-based scaffolding with YaHS. In total, 34 contigs were identified
+    as contaminants (bacterial, archaeal, or viral), totaling 1.5 Mb (with the largest
+    being 0.167 Mb). Additionally, 811 regions totaling 64 Mb were identified as haplotypic
+    duplications and removed. Mitochondrial and chloroplast genomes was assembled
+    using OATK. Finally, the primary assembly was analyzed and manually improved using
+    Pretext. During manual curation, 16 haplotypic regions were removed, totaling
+    2 Mb, respectively (with the largest being 0.8 Mb). Chromosome-scale scaffolds
+    confirmed by Hi-C data were named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 946,087,149
+    GC %: '34.54'
+    Gaps/Gbp: '27.48'
+    Total gap bp: 2,600
+    Scaffolds: '69'
+    Scaffold N50: 174,068,480
+    Scaffold L50: '2'
+    Scaffold L90: '5'
+    Contigs: '95'
+    Contig N50: 92,227,207
+    Contig L50: '4'
+    Contig L90: '10'
+    QV: '59.0722'
+    Kmer compl.: '89.35'
+    BUSCO sing.: 64.3%
+    BUSCO dupl.: 34.6%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 1.0%
+  Curated collapsed:
+    Total bp: 942,902,264
+    GC %: '34.52'
+    Gaps/Gbp: '12.73'
+    Total gap bp: 1,300
+    Scaffolds: '18'
+    Scaffold N50: 161,678,577
+    Scaffold L50: '3'
+    Scaffold L90: '6'
+    Contigs: '30'
+    Contig N50: 92,227,207
+    Contig L50: '4'
+    Contig L90: '10'
+    QV: '59.3862'
+    Kmer compl.: '89.3305'
+    BUSCO sing.: 64.4%
+    BUSCO dupl.: 34.5%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 1.0%
+
+BUSCO:
+  ver: 5.4.3 (euk_genome_met, metaeuk)
+  lineage: embryophyta_odb10
+
+Data:
+  Profile: PACBIO Hifi Omnic
+  Coverage: 75 43
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Adama Ndar
+Affiliation: Genoscope
+
+Date and time: 2025-01-23 23:16:25 CET

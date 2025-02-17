@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '561267'
+ToLID: idCulThei1
+Species: Culex theileri
+Class: Insecta
+Order: Diptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 735,857,783
+    Haploid Number: '3 (source: ancestor)'
+    Ploidy: '3 (source: ancestor)'
+    Sample Sex: F
+  Observed:
+    Haploid size (bp): 832,043,836
+    Haploid Number: '3'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 5.8.Q56
+
+Curator notes:
+  Interventions/Gb: 440
+  Contamination notes: '"Total length of scaffolds removed: 434,537 (0.1 %);Scaffolds
+    removed: 16 (2.0 %);Largest scaffold removed: (64,299);FCS-GX contaminant species
+    (number of scaffolds; total length of scaffolds):Acinetobacter guillouiae, g-proteobacteria
+    (15; 419,725);Mitochondrion (1; 14,812)"'
+  Other observations: '"Hi-C mapping + YaHS scaffolding was run twice. PacBio is from
+    a ULI library and Hi-C is from a different individual (idCulThei2). We did not
+    identify the sex chromosome(s) as sequence data from the heterogametic sex was
+    not available and homology is unreliable for sex chromosome identification in
+    Diptera due to frequent sex chromosome turnover (https://doi.org/10.1371/journal.pbio.1002078)."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 865,191,608
+    GC %: '39.12'
+    Gaps/Gbp: 2,115.14
+    Total gap bp: 366,000
+    Scaffolds: '816'
+    Scaffold N50: 54,461,784
+    Scaffold L50: '7'
+    Scaffold L90: '20'
+    Contigs: 2,646
+    Contig N50: 788,000
+    Contig L50: '329'
+    Contig L90: 1,145
+    Kmer compl.: '99.24'
+    BUSCO sing.: 95.0%
+    BUSCO dupl.: 4.0%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.6%
+  Curated pri:
+    Total bp: 832,043,836
+    GC %: '39.13'
+    Gaps/Gbp: 2,397.71
+    Total gap bp: 399,200
+    Scaffolds: '708'
+    Scaffold N50: 280,593,608
+    Scaffold L50: '2'
+    Scaffold L90: '3'
+    Contigs: 2,703
+    Contig N50: 770,000
+    Contig L50: '317'
+    Contig L90: 1,115
+    Kmer compl.: '99.38'
+    BUSCO sing.: 95.8%
+    BUSCO dupl.: 2.3%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 1.3%
+
+BUSCO:
+  ver: 5.3.0
+  lineage: insecta_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 78x 140x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+    key param: -e
+  yahs:
+    ver: 1.2a.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+    key param: -e
+  yahs:
+    ver: 1.2a.2
+  TreeVal:
+    ver: 1.1.1
+
+Submitter: Dominic Absolon
+Affiliation: WSI
+
+Date and time: 2024-10-31 15:48:20 CET

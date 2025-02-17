@@ -1,0 +1,105 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '545656'
+ToLID: idCulMode1
+Species: Culex modestus
+Class: Insecta
+Order: Diptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 578,241,120
+    Haploid Number: '3 (source: ancestor)'
+    Ploidy: '3 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 697,666,902
+    Haploid Number: '3'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    pri: 5.8.Q54
+
+Curator notes:
+  Interventions/Gb: 1241
+  Contamination notes: '"No contamination detected or removed"'
+  Other observations: '"PacBio data was from a ULI library, hence a fragmented assembly;
+    Hi-C was also from a difference individual (idCulMode3); Chromosomes named by
+    synteny to GCA_963924435.1; This is a version 2 EAR after feedback from the initial
+    version"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 771,890,934
+    GC %: '36.04'
+    Gaps/Gbp: 4,556.34
+    Total gap bp: 703,400
+    Scaffolds: 1,301
+    Scaffold N50: 515,923,348
+    Scaffold L50: '1'
+    Scaffold L90: '17'
+    Contigs: 4,818
+    Contig N50: 287,270
+    Contig L50: '787'
+    Contig L90: 2,755
+    Kmer compl.: '98.93'
+    BUSCO sing.: 90.1%
+    BUSCO dupl.: 8.8%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.7%
+  Curated pri:
+    Total bp: 697,666,902
+    GC %: '36.15'
+    Gaps/Gbp: 4,645.48
+    Total gap bp: 648,200
+    Scaffolds: '978'
+    Scaffold N50: 246,156,793
+    Scaffold L50: '2'
+    Scaffold L90: '3'
+    Contigs: 4,219
+    Contig N50: 312,882
+    Contig L50: '683'
+    Contig L90: 2,338
+    Kmer compl.: '99.02'
+    BUSCO sing.: 94.3%
+    BUSCO dupl.: 3.7%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.6%
+
+BUSCO:
+  ver: 5.3.0
+  lineage: insecta_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 34x 97x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+    key param: -e
+  yahs:
+    ver: 1.2a.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+    key param: -e
+  yahs:
+    ver: 1.2a.2
+  TreeVal:
+    ver: '1.1'
+
+Submitter: Michael Paulini
+Affiliation: WSI
+
+Date and time: 2024-07-11 11:24:48 CEST

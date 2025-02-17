@@ -1,0 +1,106 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '420550'
+ToLID: idCulPerx1
+Species: Culex perexiguus
+Class: Insecta
+Order: Diptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 353,856,597
+    Haploid Number: '3 (source: ancestor)'
+    Ploidy: '3 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 436,181,468
+    Haploid Number: '3'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    pri: 5.8.Q55
+
+Curator notes:
+  Interventions/Gb: 651
+  Contamination notes: '"Total length of scaffolds removed: 84,166 (0.0 %); Scaffolds
+    removed: 3 (0.4 %); Largest scaffold removed: (42,305); FCS-GX contaminant species
+    (number of scaffolds; total length of scaffolds): None; Mitochondrion (3; 84,166)"'
+  Other observations: '"This is the second version of this assembly after feedback
+    from the initial EAR. Chromosomes named by size; PacBio library was ULI hence
+    lower contig N50; Hi-C from a different individual, so assembly is not Hi-C phased"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 477,427,365
+    GC %: '38.57'
+    Gaps/Gbp: 3,248.66
+    Total gap bp: 310,200
+    Scaffolds: '764'
+    Scaffold N50: 114,754,111
+    Scaffold L50: '2'
+    Scaffold L90: '4'
+    Contigs: 2,315
+    Contig N50: 448,257
+    Contig L50: '325'
+    Contig L90: 1,159
+    Kmer compl.: '99.00'
+    BUSCO sing.: 91.6%
+    BUSCO dupl.: 7.7%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.3%
+  Curated pri:
+    Total bp: 436,181,468
+    GC %: '38.62'
+    Gaps/Gbp: 3,305.96
+    Total gap bp: 288,400
+    Scaffolds: '474'
+    Scaffold N50: 150,416,927
+    Scaffold L50: '2'
+    Scaffold L90: '3'
+    Contigs: 1,916
+    Contig N50: 473,114
+    Contig L50: '289'
+    Contig L90: '931'
+    Kmer compl.: '99.16'
+    BUSCO sing.: 95.7%
+    BUSCO dupl.: 3.0%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.9%
+
+BUSCO:
+  ver: 5.3.0
+  lineage: insecta_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 49x 187x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+    key param: -e
+  yahs:
+    ver: 1.2a.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+    key param: -e
+  yahs:
+    ver: 1.2a.2
+  TreeVal:
+    ver: '1.1'
+
+Submitter: Thomas Mathers
+Affiliation: WSI
+
+Date and time: 2024-08-16 17:44:05 CEST

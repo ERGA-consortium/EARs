@@ -1,0 +1,101 @@
+ERGA Assembly Report: v24.09.10
+Tags: ERGA-BGE
+
+TxID: '166086'
+ToLID: rHemHip1
+Species: Hemorrhois hippocrepis
+Class: Lepidosauria
+Order: Squamata
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,677,182,640
+    Haploid Number: '18 (source: ancestor)'
+    Ploidy: '3 (source: ancestor)'
+    Sample Sex: ZW
+  Observed:
+    Haploid size (bp): 1,806,509,314
+    Haploid Number: '18'
+    Ploidy: '2'
+    Sample Sex: ZW
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q50
+
+Curator notes:
+  Interventions/Gb: 5
+  Contamination notes: '"No contaminants detected with blobtoolkit INSDC pipeline
+    in the precurated assembly."'
+  Other observations: '"Curation made 4 cuts in contigs, 5 breaks at gaps and 0 joins.
+    The W contigs were found in the purge_dups'' hap.fa and placed back into the nextdenovo
+    asseembly before yahs scaffolding. After curation and review, the W was assembled
+    into 1 contig of 11.9 Mb and 37 unlocalized scaffolds totalling 99,702,411 bp.
+    Consistently with the cytogenetic information we identified 10 microchromosomes
+    (SUPER_7-SUPER_16). Although there are 4 scaffolds with clear contcats with them
+    is not possible to place them into a unique SUPER. The link provided for the pretextmap
+    points to a folder where reviewers can add additional save_states if required.
+    Finally, the mitogenome has been assembled independently with FOAM into a 21,416
+    bp circular contig with high accuracy."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,810,545,746
+    GC %: '41.21'
+    Gaps/Gbp: '24.3'
+    Total gap bp: 8,800
+    Scaffolds: '112'
+    Scaffold N50: 153,613,959
+    Scaffold L50: '4'
+    Scaffold L90: '11'
+    Contigs: '156'
+    Contig N50: 47,232,710
+    Contig L50: '12'
+    Contig L90: '40'
+    QV: '50.2312'
+    Kmer compl.: '95.6393'
+    BUSCO sing.: 96.5%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 1.8%
+  Curated collapsed:
+    Total bp: 1,806,509,314
+    GC %: '41.21'
+    Gaps/Gbp: '19.93'
+    Total gap bp: 7,200
+    Scaffolds: '110'
+    Scaffold N50: 153,613,759
+    Scaffold L50: '4'
+    Scaffold L90: '14'
+    Contigs: '146'
+    Contig N50: 54,718,507
+    Contig L50: '11'
+    Contig L90: '35'
+    QV: '50.2958'
+    Kmer compl.: '95.62'
+    BUSCO sing.: 96.5%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 1.8%
+
+BUSCO:
+  ver: 5.4.0
+  lineage: vertebrata_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 84x 60x 53x
+
+Assembly pipeline:
+  CLAWS: {}
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Fernando Cruz
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-11-11 15:09:28 CET

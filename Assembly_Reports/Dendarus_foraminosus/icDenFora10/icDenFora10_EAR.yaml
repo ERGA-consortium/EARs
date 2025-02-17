@@ -1,0 +1,96 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '2712997'
+ToLID: icDenFora10
+Species: Dendarus foraminosus
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 557,593,036
+    Haploid Number: '10 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XY
+  Observed:
+    Haploid size (bp): 593,990,249
+    Haploid Number: '11'
+    Ploidy: '2'
+    Sample Sex: XY
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q62
+
+Curator notes:
+  Interventions/Gb: 11
+  Contamination notes: '"some bacterial contigs have been removed"'
+  Other observations: '"telomeric repeat pattern is TCGGG."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 593,969,168
+    GC %: '35.92'
+    Gaps/Gbp: '16.84'
+    Total gap bp: 1,000
+    Scaffolds: '419'
+    Scaffold N50: 41,134,000
+    Scaffold L50: '6'
+    Scaffold L90: '52'
+    Contigs: '429'
+    Contig N50: 24,404,000
+    Contig L50: '9'
+    Contig L90: '61'
+    QV: '62.2928'
+    Kmer compl.: '66.781'
+    BUSCO sing.: 98.0%
+    BUSCO dupl.: 1.6%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.0%
+  Curated collapsed:
+    Total bp: 593,990,249
+    GC %: '35.92'
+    Gaps/Gbp: '25.25'
+    Total gap bp: 2,000
+    Scaffolds: '417'
+    Scaffold N50: 51,873,200
+    Scaffold L50: '5'
+    Scaffold L90: '49'
+    Contigs: '432'
+    Contig N50: 24,404,000
+    Contig L50: '9'
+    Contig L90: '63'
+    QV: '62.293'
+    Kmer compl.: '66.7811'
+    BUSCO sing.: 98.0%
+    BUSCO dupl.: 1.6%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.0%
+
+BUSCO:
+  ver: 5.4.3
+  lineage: eukaryota_odb10
+
+Data:
+  Profile: PACBIO Hifi Omnic
+  Coverage: 58 82
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+
+Curation pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  yahs:
+    ver: '1.2'
+
+Submitter: S.Duprat
+Affiliation: Genoscope
+
+Date and time: 2024-09-05 14:10:56 CEST

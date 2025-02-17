@@ -1,0 +1,97 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '8585'
+ToLID: rNatMau1
+Species: Natrix maura
+Class: Lepidosauria
+Order: Squamata
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,604,071,484
+    Haploid Number: '18 (source: ancestor)'
+    Ploidy: '3 (source: ancestor)'
+    Sample Sex: ZW
+  Observed:
+    Haploid size (bp): 1,738,090,269
+    Haploid Number: '17'
+    Ploidy: '2'
+    Sample Sex: ZW
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q46
+
+Curator notes:
+  Interventions/Gb: 9
+  Contamination notes: '"No contaminants found in the precurated assembly (blob plot
+    shown under the curated assembly as there is need to redo this after curation)"'
+  Other observations: '"First, nextdenovo assembly with no-haplotig sequences matching
+    W were rescued from hap.fa (purge_dups). Second, it was scaffolded with yahs using
+    439.53 million hic pairs. Third, curation made 0 cuts in contigs, 3 breaks at
+    gaps and 8 joins. Fourth, during review we made 2 additional cuts in contigs and
+    8 joins (thus the W chromosome was assambled into a 16.08 Mb SUPER and 35 unlocs
+    accounting for 36.68 Mb). Finally, the mitogenome was scaffolded into a single
+    circular contig of 21.23 Kb. Regarding the EAR warnigs, they are unjustified:
+    Chromosome number based on direct estimate in goat is 2n=34 thus the assembly
+    is consistent with n=17. Smudgeplot shows this genome is clearly diploid."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,758,748,764
+    GC %: '41.49'
+    Gaps/Gbp: '35.25'
+    Total gap bp: 12,400
+    Scaffolds: '243'
+    Scaffold N50: 173,680,720
+    Scaffold L50: '4'
+    Scaffold L90: '15'
+    Contigs: '305'
+    Contig N50: 35,645,491
+    Contig L50: '14'
+    Contig L90: '57'
+    QV: '46.2921'
+    Kmer compl.: '91.5132'
+    BUSCO sing.: 95.9%
+    BUSCO dupl.: 1.1%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 2.2%
+  Curated collapsed:
+    Total bp: 1,738,090,269
+    GC %: '41.45'
+    Gaps/Gbp: '43.15'
+    Total gap bp: 15,000
+    Scaffolds: '210'
+    Scaffold N50: 174,378,910
+    Scaffold L50: '4'
+    Scaffold L90: '13'
+    Contigs: '285'
+    Contig N50: 36,526,383
+    Contig L50: '13'
+    Contig L90: '53'
+    QV: '46.3432'
+    Kmer compl.: '91.2031'
+    BUSCO sing.: 95.9%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 2.3%
+
+BUSCO:
+  ver: 5.4.0 (euk_genome_met, metaeuk)
+  lineage: vertebrata_odb10
+
+Data:
+  Profile: ONT Illumina Arima-HiC
+  Coverage: 52x 88x 163x
+
+Assembly pipeline:
+  CLAWS: {}
+
+Curation pipeline:
+  Blobtoolkit nexflow: {}
+
+Submitter: Fernando Cruz
+Affiliation: CNAG, Barcelona
+
+Date and time: 2025-01-09 17:15:20 CET

@@ -1,0 +1,5 @@
+PyGithub
+pytz
+slack_sdk
+pdfplumber
+pyyaml

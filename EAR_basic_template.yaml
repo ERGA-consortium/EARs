@@ -1,0 +1,73 @@
+# This is the yaml (v24.09.10) file for generating the ERGA Assembly Report (EAR) using the make_EAR.py (v24.09.10) script
+# Please complete the required information pointed as <Insert ...>
+# The file example/mEleMax1_example.yaml contains an example of a completed yaml file
+
+# SAMPLE INFORMATION
+ToLID: <Insert ToLID>
+Species: <Insert species name>
+Sex: <Insert species sex>  # for example: XX, XY, X0, ZZ, ZW, unknown, NA
+Submitter: <Insert submitter full name>
+Affiliation: <Insert submitter affiliation>
+Tags: <Insert tag>  # valid tags are ERGA-BGE, ERGA-Pilot, ERGA-Community
+
+
+# SEQUENCING DATA
+DATA:  # add below name of available data and coverage
+  - <Insert data type>: <insert data coverage>  # if coverage is not available, leave it empty
+
+
+# GENOME PROFILING DATA
+PROFILING:
+  GenomeScope:
+    genomescope_summary_txt: <Insert GenomeScope results summary.txt file path>
+  Smudgeplot:  # Smudgeplot is not mandatory (but preferred for ploidy estimation), if not available, leave it empty
+    smudgeplot_verbose_summary_txt: <Insert Smudgeplot results summary.txt file path>
+
+
+# ASSEMBLY DATA
+ASSEMBLIES:
+  Pre-curation:
+    <Insert haplotype>:  # valid types are hap1, pri, collapsed
+      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
+      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
+      merqury_folder: <Insert Merqury results folder path>
+    <Insert another haplotype>:  # Only if hap2 is available. Otherwise remove the <Insert another haplotype> section
+      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
+      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
+      merqury_folder: <Insert Merqury results folder path>
+
+  Curated:
+    <Insert haplotype>:  # valid types are hap1, pri, collapsed
+      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
+      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
+      merqury_folder: <Insert Merqury results folder path>
+      hic_FullMap_png: <Insert pretext FullMap.png full path>  # also can be a HiC full contact map PNG from higlass
+      hic_FullMap_link: <Insert .pretext file web link>  # also can be a web folder with .mcool from higlass
+      blobplot_cont_png: <Insert blobplot contamination .png file full path>
+    <Insert haplotype>:  # Only if hap2 is available. Otherwise remove the <Insert another haplotype> section
+      gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
+      busco_short_summary_txt: <Insert busco_short_summary.txt full path>
+      merqury_folder: <Insert Merqury results folder path>
+      hic_FullMap_png: <Insert pretext FullMap.png full path>  # also can be a HiC full contact map PNG from higlass
+      hic_FullMap_link: <Insert .pretext file web link>  # also can be a web folder with .mcool from higlass
+      blobplot_cont_png: <Insert blobplot contamination .png file full path>
+
+
+# METHODS DATA
+PIPELINES:  # add below name of the tools used for the assembly and curation steps, with versions and key parameters selected
+  Assembly:
+    <Insert ToolA>: <Insert ToolA version>/<Insert ToolA parameter>/<Insert ToolA parameter>  # First field correspond to version. Use / after each field to enter the parameters used
+    <Insert ToolB>: <Insert ToolB version>
+
+  Curation:
+    <Insert ToolX>: <Insert ToolX version>  # First field correspond to version. Use / after each field to enter the parameters used
+    <Insert ToolY>: <Insert ToolY version>/<Insert ToolY parameter>
+
+
+# CURATION NOTES
+NOTES:
+  Obs_Haploid_num: <Insert observed haploid number> # integer
+  Obs_Sex: <Insert observed sex>  # for example: XX, XY, X0, ZZ, ZW, unknown, NA
+  Interventions_per_Gb: <Insert manual intervernation during curation>  # integer or empty
+  Contamination_notes: <Insert contamination notes>  # text in quotes "", related to the decontamination process, or presence of plastids or symbionts
+  Other_notes: <Insert other notes>  # text in quotes "", related to sample characteristics and quality, the curation process, etc

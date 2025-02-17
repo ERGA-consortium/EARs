@@ -1,0 +1,9 @@
+name: EAR_env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8.20
+  - pyyaml=6.0.2
+  - pytz=2024.2
+  - requests=2.32.3
+  - reportlab=4.2.2

@@ -1,4 +1,4 @@
-ERGA Assembly Report: v24.04.03_beta
+ERGA Assembly Report: v24.10.15
 Tags: ERGA-BGE
 
 TxID: '2712997'
@@ -12,21 +12,37 @@ Genome Traits:
     Haploid size (bp): 557,593,036
     Haploid Number: '10 (source: ancestor)'
     Ploidy: '2 (source: ancestor)'
-    Sample Sex: XY
+    Sample Sex: Unknown
   Observed:
-    Haploid size (bp): 593,990,249
+    Haploid size (bp): 593,991,149
     Haploid Number: '11'
     Ploidy: '2'
-    Sample Sex: XY
+    Sample Sex: Unknown
 
 EBP metrics:
   EBP quality code:
     collapsed: 7.7.Q62
 
 Curator notes:
-  Interventions/Gb: 11
-  Contamination notes: '"some bacterial contigs have been removed"'
-  Other observations: '"telomeric repeat pattern is TCGGG."'
+  Interventions/Gb: 15
+  Contamination notes: '""'
+  Other observations: '"The assembly of Dendarus foraminosus (icDenFora10.1) is based
+    on 58X PacBio data and 82X OmniC Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups, and Hi-C-based scaffolding with YaHS. In total, 13 contigs were identified
+    as contaminants (bacterial), totaling 840 Kb (with the largest being 358 Kb).
+    Additionally, 255 regions totaling 30.5 Mb (with the largest being 1.6 Mb) were
+    identified as haplotypic duplications and removed. The mitochondrial genome was
+    assembled using OATK ; two circular forms were assembled and named mitochondrion_1,
+    mitochondrion_2. Finally, the primary assembly was analyzed and manually improved
+    using Pretext. During manual curation, no regions were tagged as allelic duplications
+    nor contaminants ; Scaffold_10 and Scaffold_11 with low coverage, and homology
+    with Tenebrio molitor (X,Y) chromosomes, were renamed as X and Y respectively.
+    Telomeric repeat pattern found is TCGGG. Chromosome-scale scaffolds confirmed
+    by Hi-C data were named in order of size."'
 
 Metrics:
   Pre-curation collapsed:
@@ -49,7 +65,7 @@ Metrics:
     BUSCO frag.: 0.4%
     BUSCO miss.: 0.0%
   Curated collapsed:
-    Total bp: 593,990,249
+    Total bp: 593,991,149
     GC %: '35.92'
     Gaps/Gbp: '25.25'
     Total gap bp: 2,000
@@ -69,7 +85,7 @@ Metrics:
     BUSCO miss.: 0.0%
 
 BUSCO:
-  ver: 5.4.3
+  ver: 5.4.3 (euk_genome_met, metaeuk)
   lineage: eukaryota_odb10
 
 Data:
@@ -81,16 +97,16 @@ Assembly pipeline:
     ver: 0.19.5-r593
   purge_dups:
     ver: 1.2.5
+  YaHS:
+    ver: '1.2'
 
 Curation pipeline:
-  Hifiasm:
-    ver: 0.19.5-r593
-  purge_dups:
-    ver: 1.2.5
-  yahs:
-    ver: '1.2'
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
 
 Submitter: S.Duprat
 Affiliation: Genoscope
 
-Date and time: 2024-09-05 14:10:56 CEST
+Date and time: 2025-02-12 18:27:01 CET

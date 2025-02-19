@@ -1,0 +1,113 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '391055'
+ToLID: drPruRamb1
+Species: Prunus ramburei
+Class: Magnoliopsida
+Order: Rosales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 308,913,532
+    Haploid Number: '8 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 288,186,827
+    Haploid Number: '8'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q68
+
+Curator notes:
+  Interventions/Gb: 10
+  Contamination notes: '""'
+  Other observations: '"The assembly of Prunus ramburei (drPruRamb1) is based on 42
+    PacBio data and Omni-C Hi-C data generated as part of the European Reference Genome
+    Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups, and Hi-C-based scaffolding with YaHS. In total, 36 contigs were identified
+    as contaminants (bacterial, archaeal, or viral), totaling 3.46 Mb (with the largest
+    being 0.41 Mb). Additionally, 267 regions totaling 14.15 Mb (with the largest
+    being 0.97 Mb) were identified as haplotypic duplications and removed. The mitochondrial
+    and chloroplastic genomes were assembled using OATK. Finally, the primary assembly
+    was analyzed and manually improved using Pretext. During manual curation, 3 haplotypic
+    regions and 23 contaminant sequences were removed, totaling 5.23 Mb and 0.60 Mb,
+    respectively (with the largest being 3.57 Mb and 0.062 Mb). Chromosome-scale scaffolds
+    confirmed by Hi-C data were named in order of size. Chromosomes 3, 4, 5, 6, 7,
+    and 8 are assembled in a single contig, and chromosomes 1 and 2 are composed of
+    two contigs. Chromosomes 1, 2, 3, 4, and 8 have telomeric repeats at both extremities,
+    and chromosomes 5, 6, and 7 have them only at the beginning."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 293,918,579
+    GC %: '38'
+    Gaps/Gbp: '17.01'
+    Total gap bp: '500'
+    Scaffolds: '43'
+    Scaffold N50: 36,288,618
+    Scaffold L50: '4'
+    Scaffold L90: '8'
+    Contigs: '48'
+    Contig N50: 29,554,979
+    Contig L50: '5'
+    Contig L90: '9'
+    QV: '64.3195'
+    Kmer compl.: '88.2555'
+    BUSCO sing.: 96.7%
+    BUSCO dupl.: 2.5%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.4%
+  Curated collapsed:
+    Total bp: 288,186,827
+    GC %: '37.94'
+    Gaps/Gbp: '3.47'
+    Total gap bp: '100'
+    Scaffolds: '13'
+    Scaffold N50: 36,288,618
+    Scaffold L50: '4'
+    Scaffold L90: '7'
+    Contigs: '14'
+    Contig N50: 33,968,494
+    Contig L50: '4'
+    Contig L90: '8'
+    QV: '68.0336'
+    Kmer compl.: '88.083'
+    BUSCO sing.: 97.2%
+    BUSCO dupl.: 1.9%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.5%
+
+BUSCO:
+  ver: 5.4.3 (euk_genome_met, metaeuk)
+  lineage: embryophyta_odb10
+
+Data:
+  Profile: PACBIO Hifi Omnic
+  Coverage: 42 163
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Jean-Marc Aury
+Affiliation: Genoscope
+
+Date and time: 2025-02-18 01:21:19 CET

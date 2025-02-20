@@ -1,0 +1,116 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '1940801'
+ToLID: daAveFist1
+Species: Avellara fistulosa
+Class: Magnoliopsida
+Order: Asterales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 612,541,738
+    Haploid Number: '7 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: H
+  Observed:
+    Haploid size (bp): 1,210,646,980
+    Haploid Number: '7'
+    Ploidy: '2'
+    Sample Sex: H
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.8.Q60
+
+Curator notes:
+  Interventions/Gb: 77
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 49,238,713 (3.9 %); Scaffolds removed: 1133 (92.3 %); Largest
+    scaffold removed: (263,852); FCS-GX contaminant species (number of scaffolds;
+    total length of scaffolds): Filobasidium floriforme, basidiomycetes (26; 1,144,140);
+    Pseudomonas coleopterorum, g-proteobacteria (14; 737,313); Aureobasidium pullulans,
+    ascomycetes (13; 541,546); Lelliottia amnigena, g-proteobacteria (5; 254,275);
+    Macroventuria anomochaeta, ascomycetes (4; 166,635); Pseudomonas sp. UBA6276,
+    g-proteobacteria (3; 155,854); Brevundimonas sp. UBA6550, a-proteobacteria (3;
+    168,410); Alternaria alternata, ascomycetes (3; 110,610); Aureobasidium vineae,
+    ascomycetes (2; 160,875); Ascochyta lentis, ascomycetes (2; 63,087); Thrips palmi,
+    insects (2; 53,697); Sphingomonas sp. UBA978, a-proteobacteria (1; 59,444); Sclerotiophoma
+    versabilis, ascomycetes (1; 58,308); Ascochyta rabiei, ascomycetes (1; 56,158);
+    Pseudomonas profundi, g-proteobacteria (1; 53,444); Pseudomonas peli, g-proteobacteria
+    (1; 46,132); Ascochyta koolunga, ascomycetes (1; 45,307); Naganishia liquefaciens,
+    basidiomycetes (1; 44,149); Cladosporium phlei, ascomycetes (1; 43,608); Melanodothis
+    sp. VS III C KN 2, ascomycetes (1; 42,524); Rhodotorula babjevae, basidiomycetes
+    (1; 35,239); Corallococcus sicarius, d-proteobacteria (1; 32,100); Sarcomyxa edulis,
+    basidiomycetes (1; 22,244); Brachyptera putata, insects (1; 19,121); Mitochondrion
+    (23; 1,503,637); Plastid (1020; 43,620,856)"'
+  Other observations: '"This genome has been assembled using PacBio and HiC data and
+    phased. The result is two curated haplotypes. The exact order and orientation
+    of the contigs on chromosome 2 (245 - 275 Mbp) are unknown."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,257,861,400
+    GC %: '36.63'
+    Gaps/Gbp: '219.42'
+    Total gap bp: 27,600
+    Scaffolds: 1,228
+    Scaffold N50: 183,878,289
+    Scaffold L50: '3'
+    Scaffold L90: '7'
+    Contigs: 1,504
+    Contig N50: 6,302,318
+    Contig L50: '63'
+    Contig L90: '199'
+    Kmer compl.: '99.17'
+    BUSCO sing.: 92.9%
+    BUSCO dupl.: 4.0%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 2.6%
+  Curated pri:
+    Total bp: 1,210,646,980
+    GC %: '36.54'
+    Gaps/Gbp: '236.24'
+    Total gap bp: 30,100
+    Scaffolds: '75'
+    Scaffold N50: 300,814,356
+    Scaffold L50: '2'
+    Scaffold L90: '6'
+    Contigs: '361'
+    Contig N50: 6,463,909
+    Contig L50: '59'
+    Contig L90: '177'
+    Kmer compl.: '99.48'
+    BUSCO sing.: 92.9%
+    BUSCO dupl.: 4.0%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 2.6%
+
+BUSCO:
+  ver: 5.3.0
+  lineage: eudicots_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 51x 213x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.1.1
+
+Submitter: Danil Zilov
+Affiliation: WSI
+
+Date and time: 2025-02-20 14:03:36 CET

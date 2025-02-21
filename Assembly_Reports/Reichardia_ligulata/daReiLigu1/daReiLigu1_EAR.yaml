@@ -1,0 +1,106 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '43206'
+ToLID: daReiLigu1
+Species: Reichardia ligulata
+Class: Magnoliopsida
+Order: Asterales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,632,064,239
+    Haploid Number: '8 (source: direct)'
+    Ploidy: '2 (source: direct)'
+    Sample Sex: H
+  Observed:
+    Haploid size (bp): 1,480,619,340
+    Haploid Number: '8'
+    Ploidy: '2'
+    Sample Sex: H
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.8.Q60
+
+Curator notes:
+  Interventions/Gb: 130
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 38,332,766 (2.5 %); Scaffolds removed: 861 (80.5 %); Largest
+    scaffold removed: (181,833); FCS-GX contaminant species (number of scaffolds;
+    total length of scaffolds):Pseudomonas coleopterorum, g-proteobacteria (24; 1,352,433);Pseudomonas
+    sp. UBA6276, g-proteobacteria (5; 274,552);Candidatus Portiera aleyrodidarum,
+    g-proteobacteria (2; 60,286);Pseudomonas peli, g-proteobacteria (2; 69,465);Pseudomonas
+    profundi, g-proteobacteria (1; 81,368);Brevundimonas sp. UBA6550, a-proteobacteria
+    (1; 37,834);Pseudomonas cyclaminis, g-proteobacteria (1; 35,464);Hortaea werneckii,
+    ascomycetes (1; 24,606);Mitochondrion (28; 1,705,995);Plastid (796; 34,690,763)"'
+  Other observations: '"This genome has been assembled using PacBio and HiC data and
+    phased. The exact order and orientation of the contigs on chromosome 8 (102 -
+    end Mbp) are unknown."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,516,984,751
+    GC %: '36.84'
+    Gaps/Gbp: '350.04'
+    Total gap bp: 53,100
+    Scaffolds: 1,069
+    Scaffold N50: 167,912,353
+    Scaffold L50: '4'
+    Scaffold L90: '8'
+    Contigs: 1,600
+    Contig N50: 4,145,258
+    Contig L50: '114'
+    Contig L90: '389'
+    Kmer compl.: '99.18'
+    BUSCO sing.: 91.4%
+    BUSCO dupl.: 4.2%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 3.8%
+  Curated pri:
+    Total bp: 1,480,619,340
+    GC %: '36.8'
+    Gaps/Gbp: '398.48'
+    Total gap bp: 66,600
+    Scaffolds: '154'
+    Scaffold N50: 184,624,991
+    Scaffold L50: '4'
+    Scaffold L90: '8'
+    Contigs: '744'
+    Contig N50: 4,249,769
+    Contig L50: '111'
+    Contig L90: '363'
+    Kmer compl.: '99.14'
+    BUSCO sing.: 91.4%
+    BUSCO dupl.: 4.2%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 3.8%
+
+BUSCO:
+  ver: 5.3.0
+  lineage: eudicots_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 28x 120x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --hom-cov 28
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --hom-cov 28
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Michael Paulini
+Affiliation: WSI
+
+Date and time: 2025-02-19 11:58:50 CET

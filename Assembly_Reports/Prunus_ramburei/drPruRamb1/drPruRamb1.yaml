@@ -14,7 +14,7 @@ Genome Traits:
     Ploidy: '2 (source: ancestor)'
     Sample Sex: Unknown
   Observed:
-    Haploid size (bp): 288,186,827
+    Haploid size (bp): 288,187,127
     Haploid Number: '8'
     Ploidy: '2'
     Sample Sex: Unknown
@@ -24,11 +24,11 @@ EBP metrics:
     collapsed: 7.7.Q68
 
 Curator notes:
-  Interventions/Gb: 10
+  Interventions/Gb: 20
   Contamination notes: '""'
-  Other observations: '"The assembly of Prunus ramburei (drPruRamb1) is based on 42
-    PacBio data and Omni-C Hi-C data generated as part of the European Reference Genome
-    Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+  Other observations: '"The assembly of Prunus ramburei (drPruRamb1) is based on 42X
+    PacBio data and 170X Omni-C Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
     Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
     the following steps: initial PacBio assembly generation with Hifiasm, removal
     of contaminant sequences using Context, removal of haplotypic duplications using
@@ -66,11 +66,11 @@ Metrics:
     BUSCO frag.: 0.4%
     BUSCO miss.: 0.4%
   Curated collapsed:
-    Total bp: 288,186,827
+    Total bp: 288,187,127
     GC %: '37.94'
-    Gaps/Gbp: '3.47'
-    Total gap bp: '100'
-    Scaffolds: '13'
+    Gaps/Gbp: '6.94'
+    Total gap bp: '400'
+    Scaffolds: '12'
     Scaffold N50: 36,288,618
     Scaffold L50: '4'
     Scaffold L90: '7'
@@ -110,4 +110,4 @@ Curation pipeline:
 Submitter: Jean-Marc Aury
 Affiliation: Genoscope
 
-Date and time: 2025-02-18 01:21:19 CET
+Date and time: 2025-02-21 02:45:59 CET

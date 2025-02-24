@@ -1,0 +1,108 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1046305'
+ToLID: whAilLact1
+Species: Ailoscolex lacteospumosus
+Class: Clitellata
+Order: Crassiclitellata
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 479,185,312
+    Haploid Number: '18 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 493,041,447
+    Haploid Number: '17'
+    Ploidy: '4'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.7.Q63
+
+Curator notes:
+  Interventions/Gb: 8
+  Contamination notes: '"No true contaminants found. All scaffolds had a mix of annelid,
+    mollusk and brachiopod hits. All were considered to be derived from annelid."'
+  Other observations: '"Assembly with Nextdenovo and Flye did not work very well.
+    Hifiasm assembly with default settings resulted in two assemblies of approximately
+    one Gb each. Purging resulted in four assemblies of 450-480 Mb each. We curated
+    the two purged assemblies and results were satisfacory, but a considerable amount
+    of manual interventions were necessary. We tried again using the --n-hap 4 setting
+    for internal purging in hifiasm resulting in a primary assembly of the appropriate
+    length, few duplicate buscos and best contiguity of any assembly. We curated this
+    assembly directly. We cut two contigs, removing two haplotigs. Two more were tagged
+    in the shrapnel. Two unlocs were placed. Two contigs were inverted."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 497,772,681
+    GC %: '42.52'
+    Gaps/Gbp: '44.2'
+    Total gap bp: 4,400
+    Scaffolds: '27'
+    Scaffold N50: 29,876,410
+    Scaffold L50: '7'
+    Scaffold L90: '15'
+    Contigs: '49'
+    Contig N50: 15,094,000
+    Contig L50: '10'
+    Contig L90: '29'
+    QV: '63.8379'
+    Kmer compl.: '57.7849'
+    BUSCO sing.: 87.9%
+    BUSCO dupl.: 3.9%
+    BUSCO frag.: 4.4%
+    BUSCO miss.: 3.8%
+  Curated pri:
+    Total bp: 493,041,447
+    GC %: '42.48'
+    Gaps/Gbp: '44.62'
+    Total gap bp: 4,400
+    Scaffolds: '24'
+    Scaffold N50: 29,876,410
+    Scaffold L50: '7'
+    Scaffold L90: '15'
+    Contigs: '46'
+    Contig N50: 15,094,000
+    Contig L50: '10'
+    Contig L90: '28'
+    QV: '63.8293'
+    Kmer compl.: '57.6119'
+    BUSCO sing.: 88.5%
+    BUSCO dupl.: 3.4%
+    BUSCO frag.: 4.4%
+    BUSCO miss.: 3.7%
+
+BUSCO:
+  ver: 5.4.0 (euk_genome_met, metaeuk)
+  lineage: metazoa_odb10
+
+Data:
+  Profile: ONT Omni-C
+  Coverage: 124x 160x
+
+Assembly pipeline:
+  Filtlong:
+    ver: 0.2.1
+    key param: --min_length 1000 --min_mean_q 80 -t 61000000000
+  Hifiasm:
+    ver: 0.24.0
+    key param: --n-hap 4 --ont
+  YaHS:
+    ver: 1.2a
+  CLAWS: {}
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Tyler Alioto
+Affiliation: CNAG
+
+Date and time: 2025-02-24 12:06:59 CET

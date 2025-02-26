@@ -1,0 +1,105 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '2546182'
+ToLID: igCheThal5
+Species: Chelidura thaleri
+Class: Insecta
+Order: Dermaptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 632,131,113
+    Haploid Number: '12 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: F
+  Observed:
+    Haploid size (bp): 648,153,886
+    Haploid Number: '24'
+    Ploidy: '2'
+    Sample Sex: F
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q61
+
+Curator notes:
+  Interventions/Gb: 557
+  Contamination notes: '"Contamination report for assembly labelled primary; Total
+    length of scaffolds removed: 1,389,335 (0.2 %); Scaffolds removed: 42 (38.9 %);
+    Largest scaffold removed: (89,911); FCS-GX contaminant species (number of scaffolds;
+    total length of scaffolds): Pseudomonas shirazensis, g-proteobacteria (32; 1,101,785);
+    Pseudomonas reidholzensis, g-proteobacteria (2; 68,525); Rhodococcus fascians,
+    high GC Gram+ (2; 30,104); Pseudomonas brassicae, g-proteobacteria (1; 24,215);
+    Rhodococcus kyotonensis, high GC Gram+ (1; 21,219); Mitochondrion (4; 143,487)"'
+  Other observations: '"Hi-C was from a second individual (igCheThal4), so assembly
+    is not phased. The sex chromosomes were not assigned, as the sample was homogametous
+    and the closest comparators (Labia minor / GCA_963082975.1) sex chromosomes map
+    to multiple ones."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 648,809,072
+    GC %: '30.33'
+    Gaps/Gbp: '299.01'
+    Total gap bp: 19,400
+    Scaffolds: '108'
+    Scaffold N50: 29,721,480
+    Scaffold L50: '10'
+    Scaffold L90: '21'
+    Contigs: '302'
+    Contig N50: 5,209,279
+    Contig L50: '41'
+    Contig L90: '133'
+    Kmer compl.: '99.66'
+    BUSCO sing.: 94.6%
+    BUSCO dupl.: 3.6%
+    BUSCO frag.: 1.1%
+    BUSCO miss.: 0.7%
+  Curated pri:
+    Total bp: 648,153,886
+    GC %: '30.29'
+    Gaps/Gbp: '347.14'
+    Total gap bp: 25,800
+    Scaffolds: '61'
+    Scaffold N50: 29,769,575
+    Scaffold L50: '10'
+    Scaffold L90: '21'
+    Contigs: '286'
+    Contig N50: 4,844,708
+    Contig L50: '44'
+    Contig L90: '144'
+    Kmer compl.: '99.69'
+    BUSCO sing.: 94.7%
+    BUSCO dupl.: 3.5%
+    BUSCO frag.: 1.1%
+    BUSCO miss.: 0.7%
+
+BUSCO:
+  ver: 5.3.0
+  lineage: insecta_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 115x 152x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Michael Paulini
+Affiliation: WSI
+
+Date and time: 2025-02-26 10:20:27 CET

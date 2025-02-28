@@ -1,0 +1,101 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '110205'
+ToLID: rMacScw1
+Species: Macrovipera schweizeri
+Class: Lepidosauria
+Order: Squamata
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,563,548,624
+    Haploid Number: '18 (source: ancestor)'
+    Ploidy: '3 (source: ancestor)'
+    Sample Sex: M
+  Observed:
+    Haploid size (bp): 1,635,265,452
+    Haploid Number: '18'
+    Ploidy: '2'
+    Sample Sex: M
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.8.Q54
+
+Curator notes:
+  Interventions/Gb: 117
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 4,310,242 (0.3 %); Scaffolds removed: 152 (20.4 %); Largest
+    scaffold removed: (60,417); FCS-GX contaminant species (number of scaffolds; total
+    length of scaffolds): Nanorana parkeri, amphibians (1; 4,000); Mitochondrion (151;
+    4,306,242)"'
+  Other observations: '"This genome has been assembled using PacBio and HiC data and
+    phased. 17 autosomes and 1 ZZ sex chromosome identified. Z chromsome assigned
+    based on synteny to Vipera berus (GCA_964194415.1)."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,641,802,861
+    GC %: '40.64'
+    Gaps/Gbp: '797.29'
+    Total gap bp: 130,900
+    Scaffolds: '746'
+    Scaffold N50: 139,972,625
+    Scaffold L50: '5'
+    Scaffold L90: '14'
+    Contigs: 2,055
+    Contig N50: 3,155,423
+    Contig L50: '144'
+    Contig L90: '640'
+    Kmer compl.: '99.48'
+    BUSCO sing.: 92.0%
+    BUSCO dupl.: 1.4%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 5.8%
+  Curated pri:
+    Total bp: 1,635,265,452
+    GC %: '40.63'
+    Gaps/Gbp: '834.12'
+    Total gap bp: 143,600
+    Scaffolds: '534'
+    Scaffold N50: 214,481,692
+    Scaffold L50: '3'
+    Scaffold L90: '11'
+    Contigs: 1,898
+    Contig N50: 3,162,383
+    Contig L50: '143'
+    Contig L90: '629'
+    Kmer compl.: '99.48'
+    BUSCO sing.: 92.0%
+    BUSCO dupl.: 1.4%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 5.8%
+
+BUSCO:
+  ver: 5.3.0
+  lineage: sauropsida_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 50x 100x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm-hic:
+    ver: 0.19.8-r603/--h1/--h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Jo Collins
+Affiliation: WSI
+
+Date and time: 2025-02-26 12:47:05 CET

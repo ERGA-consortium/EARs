@@ -1,0 +1,108 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '928672'
+ToLID: bPyrMur1
+Species: Pyrrhula murina
+Class: Aves
+Order: Passeriformes
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,085,438,021
+    Haploid Number: '39 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: ZW
+  Observed:
+    Haploid size (bp): 1,163,867,538
+    Haploid Number: '41'
+    Ploidy: '2'
+    Sample Sex: ZW
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q71
+
+Curator notes:
+  Interventions/Gb: 4
+  Contamination notes: '"No contaminants found."'
+  Other observations: '"Haploid number within normal range. No reliable signal to
+    join possible chromosome arms. Will produce an MQ0 map if necessary, but we don''t
+    think it is needed. Made three breaks (yahs joined four contigs that were T2T
+    into one scaffold) and two joins (had to invert one contig in SUPER_32 based on
+    contact map of primary assembly, which had no gap in this chromosome). Placed
+    a few unlocs. bPyrMur.hfsm.hic.hap1.yhs_scffs.curated 1,163,866,538 bp sequence
+    (minus gaps) Autosomes: n = 40 154,884,556 RL_1 ... ... 3,442,651 RL_42 1,043,826,223
+    bp total Named: n = 2 31,746,173 W 86,793,513 Z 118,539,686 bp total Unplaced:
+    n = 11 296,000 scaffold_43 ... ... 65,000 scaffold_59 1,500,629 bp total Curation
+    made 0 cuts in contigs, 3 breaks at gaps and 2 joins"'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 1,163,867,738
+    GC %: '43.29'
+    Gaps/Gbp: '5.16'
+    Total gap bp: 1,200
+    Scaffolds: '59'
+    Scaffold N50: 76,036,967
+    Scaffold L50: '6'
+    Scaffold L90: '23'
+    Contigs: '65'
+    Contig N50: 64,819,875
+    Contig L50: '6'
+    Contig L90: '26'
+    QV: '72.9629'
+    Kmer compl.: '98.6215'
+    BUSCO sing.: 96.2%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 2.6%
+  Curated hap1:
+    Total bp: 1,163,867,538
+    GC %: '43.29'
+    Gaps/Gbp: '4.3'
+    Total gap bp: 1,000
+    Scaffolds: '60'
+    Scaffold N50: 76,036,967
+    Scaffold L50: '6'
+    Scaffold L90: '23'
+    Contigs: '65'
+    Contig N50: 64,819,875
+    Contig L50: '6'
+    Contig L90: '26'
+    QV: '71.4214'
+    Kmer compl.: '98.6211'
+    BUSCO sing.: 96.3%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 2.6%
+
+BUSCO:
+  ver: 5.5.0 (euk_genome_met, metaeuk)
+  lineage: aves_odb10
+
+Data:
+  Profile: ONT Omni-C Illumina WGS
+  Coverage: 100x 79x 99x
+
+Assembly pipeline:
+  Filtlong:
+    ver: 0.2.1
+    key param: --min_length 1000 --min_mean_q 97 -t 80000000000
+  Hifiasm:
+    ver: 0.24.0
+    key param: --ont --h1 --h2
+  YaHS:
+    ver: 1.2a
+  CLAWS: {}
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Tyler Alioto
+Affiliation: CNAG
+
+Date and time: 2025-02-27 11:36:59 CET

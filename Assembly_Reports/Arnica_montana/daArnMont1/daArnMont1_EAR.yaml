@@ -1,0 +1,114 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '436195'
+ToLID: daArnMont1
+Species: Arnica montana
+Class: Magnoliopsida
+Order: Asterales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,372,599,626
+    Haploid Number: '30 (source: direct)'
+    Ploidy: '4 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 1,368,732,344
+    Haploid Number: '19'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q64
+
+Curator notes:
+  Interventions/Gb: 54
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 35,391,045 (2.5 %); Scaffolds removed: 732 (72.1 %); Largest
+    scaffold removed: (244,778); FCS-GX contaminant species (number of scaffolds;
+    total length of scaffolds):Pseudomonas coleopterorum, g-proteobacteria (27; 1,969,142);
+    Pseudomonas sp. UBA6276, g-proteobacteria (8; 642,804); Aureobasidium pullulans,
+    ascomycetes (8; 257,660); Acinetobacter guillouiae, g-proteobacteria (5; 191,036);
+    Sphingobium limneticum, a-proteobacteria (3; 226,823); Sphingomonas faeni, a-proteobacteria
+    (2; 115,342); Aureobasidium vineae, ascomycetes (2; 96,738); Sphingomonas aurantiaca,
+    a-proteobacteria (1; 64,657); Pseudomonas peli, g-proteobacteria (1; 64,353);
+    Pseudomonas cyclaminis, g-proteobacteria (1; 57,154); Sphingomonas albertensis,
+    a-proteobacteria (1; 52,857); Margaritispora aquatica, ascomycetes (1; 46,583);
+    Pseudocercospora eumusae, ascomycetes (1; 45,786); Pseudomonas profundi, g-proteobacteria
+    (1; 35,345); Brevundimonas intermedia, a-proteobacteria (1; 35,076); Sphingomonas
+    panacis, a-proteobacteria (1; 3,000); Mitochondrion (10; 1,118,193); Plastid (658;
+    30,368,483); Barcodes (1; 13)"'
+  Other observations: '"This assembly is with a new Hi-C library; assembly was Hi-C
+    phased. Heterozygous structural variation was observed in the following regions:
+    chromosome 1, 34.25 Mb to 62.8 Mb; chromosome 4, 25.6 Mb to 29.7 Mb; chromosome
+    6, 28.8 Mb to 46.3 Mb; chromosome 18; 10.4 Mb to 12.4 Mb and chromosome 19, 14.3
+    Mb to 21.9 Mb."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,407,012,512
+    GC %: '38.26'
+    Gaps/Gbp: '467.66'
+    Total gap bp: 65,800
+    Scaffolds: 1,015
+    Scaffold N50: 63,256,956
+    Scaffold L50: '9'
+    Scaffold L90: '19'
+    Contigs: 1,673
+    Contig N50: 3,498,988
+    Contig L50: '128'
+    Contig L90: '443'
+    Kmer compl.: '98.64'
+    BUSCO sing.: 86.0%
+    BUSCO dupl.: 11.3%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 2.0%
+  Curated pri:
+    Total bp: 1,368,732,344
+    GC %: '38.21'
+    Gaps/Gbp: '485.85'
+    Total gap bp: 68,200
+    Scaffolds: '267'
+    Scaffold N50: 68,753,894
+    Scaffold L50: '8'
+    Scaffold L90: '17'
+    Contigs: '932'
+    Contig N50: 3,642,108
+    Contig L50: '122'
+    Contig L90: '406'
+    Kmer compl.: '98.58'
+    BUSCO sing.: 86.1%
+    BUSCO dupl.: 11.2%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 2.0%
+
+BUSCO:
+  ver: 5.3.0
+  lineage: eudicots_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 65x 46x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --h1/-h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Thomas Mathers
+Affiliation: WSI
+
+Date and time: 2025-03-03 18:00:25 CET

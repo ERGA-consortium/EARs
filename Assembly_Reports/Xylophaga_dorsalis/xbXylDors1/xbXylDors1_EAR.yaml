@@ -1,0 +1,111 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1526741'
+ToLID: xbXylDors1
+Species: Xylophaga dorsalis
+Class: Bivalvia
+Order: Myida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 453,366,001
+    Haploid Number: '19 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 451,794,626
+    Haploid Number: '18'
+    Ploidy: '2'
+    Sample Sex: ubnknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q51
+
+Curator notes:
+  Interventions/Gb: 367
+  Contamination notes: '"We found contaminants in the yahs scaffolded assembly within
+    six small scaffolds which were removed from the curated assembly submitted for
+    review. The contaminants corresponded mostly to bacterial sequences (Pseudomonadota,
+    Bacillota)"'
+  Other observations: '"The reviewing process led to several changes in many of the
+    super scaffolds, with six additional haplotigs found and removed. We found it
+    very difficult to localize a number of these scaffolds (mostly centromeric) which
+    were set as unlocs. The sex of the specimen was set to -unknown- in our lims system.
+    We could find the sex chromosome in the assembly. We found a large haplotig (4
+    Mbases) which was removed before remapping."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 456,718,437
+    GC %: '38.08'
+    Gaps/Gbp: 1,907.08
+    Total gap bp: 174,200
+    Scaffolds: '392'
+    Scaffold N50: 24,961,909
+    Scaffold L50: '8'
+    Scaffold L90: '18'
+    Contigs: 1,263
+    Contig N50: 1,293,548
+    Contig L50: '83'
+    Contig L90: '509'
+    QV: '51.1047'
+    Kmer compl.: '68.8674'
+    BUSCO sing.: 90.5%
+    BUSCO dupl.: 1.5%
+    BUSCO frag.: 4.6%
+    BUSCO miss.: 3.4%
+  Curated collapsed:
+    Total bp: 451,794,626
+    GC %: '38.08'
+    Gaps/Gbp: 2,078.38
+    Total gap bp: 187,800
+    Scaffolds: '320'
+    Scaffold N50: 25,438,142
+    Scaffold L50: '8'
+    Scaffold L90: '16'
+    Contigs: 1,259
+    Contig N50: 1,253,263
+    Contig L50: '85'
+    Contig L90: '510'
+    QV: '51.104'
+    Kmer compl.: '68.4412'
+    BUSCO sing.: 91.2%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 4.6%
+    BUSCO miss.: 3.5%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 93x 230x 178x
+
+Assembly pipeline:
+  Trim_galore:
+    ver: 0.6.7
+    key param: retain_unpaired
+  Filtlong:
+    ver: 0.2.1
+  Flye:
+    ver: 2.9.1-b1780
+  hypo:
+    ver: 1.0.3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2025-03-21 16:17:25 CET

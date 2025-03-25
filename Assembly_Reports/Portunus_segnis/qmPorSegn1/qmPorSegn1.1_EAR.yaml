@@ -1,0 +1,110 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '470445'
+ToLID: qmPorSegn1
+Species: Portunus segnis
+Class: Malacostraca
+Order: Decapoda
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,245,950,572
+    Haploid Number: '52 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 984,116,969
+    Haploid Number: '52'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 5.7.Q40
+
+Curator notes:
+  Interventions/Gb: 300
+  Contamination notes: '""'
+  Other observations: '"The assembly of PORTUNUS SEGNIS (qmPorSegn1) is based on 35X
+    ONT data and 133X Arima Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Flye, removal of
+    contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups, and Hi-C-based scaffolding with YaHS. In total, 30 contigs were identified
+    as viral, totaling 605,419 pb (with the largest being 245,493 pb) and 108 contigs
+    were identified as bacterial, totaling 2,163,401 pb (with the largest being 537,362
+    pb). Additionally, 8 622 regions totaling 44 Mb were identified as haplotypic
+    duplications and removed. The mitochondrial genome was assembled using OATK. Finally,
+    the primary assembly was analyzed and manually improved using Pretext. During
+    manual curation, 79 contaminant sequences were removed, totaling 5.3 Mb (with
+    the largest being 178,570 pb). Chromosome-scale scaffolds confirmed by Hi-C data
+    were named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,001,363,491
+    GC %: '41.21'
+    Gaps/Gbp: 2,345.8
+    Total gap bp: 234,900
+    Scaffolds: 6,558
+    Scaffold N50: 19,830,070
+    Scaffold L50: '18'
+    Scaffold L90: '48'
+    Contigs: 8,907
+    Contig N50: 925,711
+    Contig L50: '276'
+    Contig L90: 1,450
+    QV: '33.304'
+    Kmer compl.: '89.3201'
+    BUSCO sing.: 93.3%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 3.6%
+    BUSCO miss.: 2.4%
+  Curated collapsed:
+    Total bp: 984,116,969
+    GC %: '41.23'
+    Gaps/Gbp: 2,511.9
+    Total gap bp: 267,300
+    Scaffolds: 1,182
+    Scaffold N50: 21,026,853
+    Scaffold L50: '17'
+    Scaffold L90: '41'
+    Contigs: 3,654
+    Contig N50: 938,765
+    Contig L50: '267'
+    Contig L90: 1,323
+    QV: '40.169'
+    Kmer compl.: '88.5077'
+    BUSCO sing.: 93.3%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 3.4%
+    BUSCO miss.: 2.6%
+
+BUSCO:
+  ver: 5.4.3 (euk_genome_met, metaeuk)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima
+  Coverage: 35 133
+
+Assembly pipeline:
+  Flye:
+    ver: 2.9.2-b1786
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2025-03-25 00:04:58 CET

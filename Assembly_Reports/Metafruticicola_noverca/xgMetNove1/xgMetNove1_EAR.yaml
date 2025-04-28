@@ -1,4 +1,4 @@
-ERGA Assembly Report: v24.09.10
+ERGA Assembly Report: v24.10.15
 Tags: ERGA-BGE
 
 TxID: '1980904'
@@ -9,12 +9,12 @@ Order: Stylommatophora
 
 Genome Traits:
   Expected:
-    Haploid size (bp): 1,632,108,444
+    Haploid size (bp): 1,632,108,443
     Haploid Number: '21 (source: ancestor)'
     Ploidy: '2 (source: ancestor)'
     Sample Sex: Unknown
   Observed:
-    Haploid size (bp): 1,732,642,223
+    Haploid size (bp): 1,752,039,481
     Haploid Number: '26'
     Ploidy: '2'
     Sample Sex: Unknown
@@ -24,10 +24,23 @@ EBP metrics:
     collapsed: 6.7.Q51
 
 Curator notes:
-  Interventions/Gb: 537
-  Contamination notes: '"21 bacterial contigs have been removed before scaffolding"'
-  Other observations: '"lots of haplotypic duplications have been removed during the
-    manual review."'
+  Interventions/Gb: 587
+  Contamination notes: '""'
+  Other observations: '"The assembly of Metafruticicola noverca (xgMetNove1.1) is
+    based on 63X PacBio data and 29X Arima Hi-C data generated as part of the European
+    Reference Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity
+    Genomics Europe project (BGE, https://biodiversitygenomics.eu/). The assembly
+    process included the following steps: initial PacBio assembly generation with
+    Hifiasm, removal of contaminant sequences using Context, removal of haplotypic
+    duplications using purge_dups, and Hi-C-based scaffolding with YaHS. In total,
+    35 contigs were identified as contaminants (bacterial), totaling 1.8 Mb (with
+    the largest being 647 Kb). Additionally, 11,422 regions totaling 2.14 Gb (with
+    the largest being 5.1 Mb) were identified as haplotypic duplications and removed.
+    The mitochondrial genome was assembled using OATK. Finally, the primary assembly
+    was analyzed and manually improved using Pretext. During manual curation, 659
+    haplotypic regions were removed, totaling 355.2 Mb (with the largest being 38.3
+    Mb). Chromosome-scale scaffolds confirmed by Hi-C data were named in order of
+    size."'
 
 Metrics:
   Pre-curation collapsed:
@@ -45,36 +58,36 @@ Metrics:
     Contig L90: 2,068
     QV: '52.1751'
     Kmer compl.: '91.1952'
-    BUSCO sing.: 81.2%
-    BUSCO dupl.: 16.1%
-    BUSCO frag.: 0.8%
-    BUSCO miss.: 1.9%
+    BUSCO sing.: 84.5%
+    BUSCO dupl.: 8.5%
+    BUSCO frag.: 5.4%
+    BUSCO miss.: 1.6%
   Curated collapsed:
-    Total bp: 1,732,642,223
-    GC %: '41.35'
-    Gaps/Gbp: 1,275.51
-    Total gap bp: 224,100
-    Scaffolds: '956'
-    Scaffold N50: 61,362,293
+    Total bp: 1,752,039,481
+    GC %: '41.34'
+    Gaps/Gbp: 1,270.52
+    Total gap bp: 229,200
+    Scaffolds: 1,198
+    Scaffold N50: 62,101,932
     Scaffold L50: '11'
     Scaffold L90: '24'
-    Contigs: 3,166
-    Contig N50: 1,295,557
-    Contig L50: '394'
-    Contig L90: 1,412
-    QV: '51.8527'
-    Kmer compl.: '85.4274'
-    BUSCO sing.: 88.6%
-    BUSCO dupl.: 5.5%
-    BUSCO frag.: 0.8%
-    BUSCO miss.: 5.1%
+    Contigs: 3,424
+    Contig N50: 1,270,493
+    Contig L50: '406'
+    Contig L90: 1,480
+    QV: '51.857'
+    Kmer compl.: '85.5639'
+    BUSCO sing.: 85.3%
+    BUSCO dupl.: 3.1%
+    BUSCO frag.: 5.4%
+    BUSCO miss.: 6.2%
 
 BUSCO:
-  ver: 5.4.3
-  lineage: eukaryota_odb10
+  ver: 5.8.2 (euk_genome_met, metaeuk)
+  lineage: eukaryota_odb12
 
 Data:
-  Profile: PACBIO Hifi Arima (4-enz)
+  Profile: PACBIO Hifi Arima
   Coverage: 63 29
 
 Assembly pipeline:
@@ -94,4 +107,4 @@ Curation pipeline:
 Submitter: S.Duprat
 Affiliation: Genoscope
 
-Date and time: 2024-11-08 11:41:36 CET
+Date and time: 2025-04-25 13:52:46 CEST

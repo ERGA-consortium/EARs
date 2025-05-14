@@ -1,0 +1,107 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '160988'
+ToLID: drZelAbel2
+Species: Zelkova abelicea
+Class: Magnoliopsida
+Order: Rosales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,591,124,144
+    Haploid Number: '14 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 1,582,971,690
+    Haploid Number: '14'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q67
+
+Curator notes:
+  Interventions/Gb: 140
+  Contamination notes: '""'
+  Other observations: '"The assembly of ZELKOVA ABELICEA (drZelAbel2) is based on
+    27X PacBio data and 90X Omni-C Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, and Hi-C-based scaffolding with YaHS.
+    In total, 2 contigs were identified as contaminants (bacterial), totaling 23 Kb
+    (with the largest being 15 Kb). We did not use purge_dups to remove haplotype
+    duplications, as it did not work properly on this genome. The mitochondrial genome
+    was assembled using OATK. Finally, the primary assembly was analyzed and manually
+    improved using Pretext. During manual curation, 47 haplotypic regions and 22 contaminant
+    sequences were removed, totaling 29 Mb and 4 Mb, respectively (with the largest
+    being 1.6 Mb and 1 Mb). Chromosome-scale scaffolds confirmed by Hi-C data were
+    named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,620,983,775
+    GC %: '34.62'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '421'
+    Scaffold N50: 71,364,374
+    Scaffold L50: '9'
+    Scaffold L90: '30'
+    Contigs: '421'
+    Contig N50: 71,364,374
+    Contig L50: '9'
+    Contig L90: '30'
+    QV: '65.5392'
+    Kmer compl.: '74.3166'
+    BUSCO sing.: 95.3%
+    BUSCO dupl.: 3.3%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 0.9%
+  Curated collapsed:
+    Total bp: 1,582,971,690
+    GC %: '34.6'
+    Gaps/Gbp: '38.54'
+    Total gap bp: 9,100
+    Scaffolds: '165'
+    Scaffold N50: 109,271,146
+    Scaffold L50: '7'
+    Scaffold L90: '13'
+    Contigs: '226'
+    Contig N50: 59,119,457
+    Contig L50: '10'
+    Contig L90: '34'
+    QV: '67.1577'
+    Kmer compl.: '73.6274'
+    BUSCO sing.: 97.0%
+    BUSCO dupl.: 1.6%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 0.5%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: PACBIO Hifi Omnic
+  Coverage: 27 90
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2025-05-06 13:25:58 CEST

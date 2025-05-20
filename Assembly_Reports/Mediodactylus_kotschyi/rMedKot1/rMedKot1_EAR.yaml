@@ -1,0 +1,101 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '1303476'
+ToLID: rMedKot1
+Species: Mediodactylus kotschyi
+Class: Lepidosauria
+Order: Squamata
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,742,031,630
+    Haploid Number: '21 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: M
+  Observed:
+    Haploid size (bp): 1,798,513,081
+    Haploid Number: '21'
+    Ploidy: '2'
+    Sample Sex: M
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.8.Q68
+
+Curator notes:
+  Interventions/Gb: 36
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 314,784 (0.0 %); Scaffolds removed: 11 (9.6 %); Largest
+    scaffold removed: (49,542); FCS-GX contaminant species (number of scaffolds; total
+    length of scaffolds): Mitochondrion (11; 314,784)"'
+  Other observations: '"Assembly was Hi-C phased; This is an assembly from homogametic
+    specimen. No close relative could be identified to reliably assign the Z chromosome
+    by synteny."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,798,822,665
+    GC %: '44.05'
+    Gaps/Gbp: '38.91'
+    Total gap bp: 14,000
+    Scaffolds: '114'
+    Scaffold N50: 99,608,558
+    Scaffold L50: '8'
+    Scaffold L90: '17'
+    Contigs: '184'
+    Contig N50: 47,144,669
+    Contig L50: '14'
+    Contig L90: '50'
+    Kmer compl.: '99.62'
+    BUSCO sing.: 93.3%
+    BUSCO dupl.: 1.5%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 4.3%
+  Curated pri:
+    Total bp: 1,798,513,081
+    GC %: '44.05'
+    Gaps/Gbp: '53.38'
+    Total gap bp: 19,200
+    Scaffolds: '77'
+    Scaffold N50: 101,151,094
+    Scaffold L50: '7'
+    Scaffold L90: '17'
+    Contigs: '173'
+    Contig N50: 47,144,669
+    Contig L50: '14'
+    Contig L90: '50'
+    Kmer compl.: '99.62'
+    BUSCO sing.: 93.3%
+    BUSCO dupl.: 1.5%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 4.3%
+
+BUSCO:
+  ver: 5.3.0
+  lineage: sauropsida_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 42x 306x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm-hic:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Dominic Absolon
+Affiliation: WSI
+
+Date and time: 2025-05-09 12:24:29 CEST

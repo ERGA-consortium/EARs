@@ -1,0 +1,98 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-Pilot
+
+TxID: '1091357'
+ToLID: icCryBari
+Species: Cryptocephalus barii
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 631,517,076
+    Haploid Number: '15 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XY
+  Observed:
+    Haploid size (bp): 539,065,588
+    Haploid Number: '15'
+    Ploidy: '2'
+    Sample Sex: XY
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q40
+
+Curator notes:
+  Interventions/Gb: 58
+  Contamination notes: '"No presence of contaminants. The sequence of a known endosymbiont
+    was identified and excluded from the final assembly before the contact map generation
+    and curation."'
+  Other observations: '"Updated report after the second review."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 541,810,164
+    GC %: '35.53'
+    Gaps/Gbp: '326.68'
+    Total gap bp: 35,400
+    Scaffolds: '281'
+    Scaffold N50: 36,393,358
+    Scaffold L50: '7'
+    Scaffold L90: '15'
+    Contigs: '458'
+    Contig N50: 5,575,892
+    Contig L50: '28'
+    Contig L90: '109'
+    QV: '40.4262'
+    Kmer compl.: '85.4392'
+    BUSCO sing.: 97.1%
+    BUSCO dupl.: 1.2%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.4%
+  Curated pri:
+    Total bp: 539,065,588
+    GC %: '35.53'
+    Gaps/Gbp: '374.72'
+    Total gap bp: 40,400
+    Scaffolds: '254'
+    Scaffold N50: 37,896,997
+    Scaffold L50: '7'
+    Scaffold L90: '13'
+    Contigs: '456'
+    Contig N50: 5,575,892
+    Contig L50: '28'
+    Contig L90: '108'
+    QV: '40.4107'
+    Kmer compl.: '85.3064'
+    BUSCO sing.: 97.3%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.4%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_aug, augustus)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: ONT Bionano OmniC
+  Coverage: 189x NA 170x
+
+Assembly pipeline:
+  Necat:
+    ver: 0.0.1
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.1'
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.4.1
+  PretextView:
+    ver: 1.0.3
+
+Submitter: Carmela Gissi
+Affiliation: UNIBA
+
+Date and time: 2025-07-31 10:47:11 CEST

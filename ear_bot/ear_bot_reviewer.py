@@ -459,14 +459,16 @@ class EARBotReviewer:
                 if file.filename.lower().endswith(".pdf")
             )
             self._add_yaml_file(EAR_pdf.filename)
-            EAR_pdf_url = re.sub(r"/blob/[\w\d]+/", "/blob/main/", EAR_pdf.blob_url)
-            slack_post = (
-                f":tada: *New Assembly Finished!* :tada:\n\n"
-                f"Congratulations to {researcher_name} and the {institution} team for the high-quality assembly of _{species}_\n\n"
-                f"The assembly was reviewed by {reviewer_name}, and the process supervised by {supervisor_name}. The EAR can be found in the following link:\n"
-                f"{EAR_pdf_url}"
-            )
-            self._create_slack_post(slack_post)
+
+            if self._search_in_body(pr, "Project") == "ERGA-BGE":
+                EAR_pdf_url = re.sub(r"/blob/[\w\d]+/", "/blob/main/", EAR_pdf.blob_url)
+                slack_post = (
+                    f":tada: *New Assembly Finished!* :tada:\n\n"
+                    f"Congratulations to {researcher_name} and the {institution} team for the high-quality assembly of _{species}_\n\n"
+                    f"The assembly was reviewed by {reviewer_name}, and the process supervised by {supervisor_name}. The EAR can be found in the following link:\n"
+                    f"{EAR_pdf_url}"
+                )
+                self._create_slack_post(slack_post)
         elif not merged:
             supervisor = pr.assignee.login
             pr.create_issue_comment(

@@ -1,0 +1,107 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2750798'
+ToLID: qcLitStyg1
+Species: Lithobius stygius
+Class: Chilopoda
+Order: Lithobiomorpha
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,782,836,479
+    Haploid Number: '20 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 2,898,232,415
+    Haploid Number: '21'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.8.Q66
+
+Curator notes:
+  Contamination notes: '"No presence of contaminants."'
+  Other observations: '"many interventions on the contig level were necessary. Three
+    manual curation rounds were done with the following interventions round 1: (Curation
+    made 31 cuts in contigs, 15 breaks at gaps and 47 joins), round 2: (Curation made
+    50 cuts in contigs, 41 breaks at gaps and 49 joins) and round 3: (Curation made
+    16 cuts in contigs, 18 breaks at gaps and 17 joins). The final blobtools plot
+    is misleading in my point of view. FCS reported nothing on contig assembly and
+    the blobtools classfification is only based on the diamond hits. Blast reported
+    not a single alignment. A manual web-blast for some of the putative contaminations
+    did not report anything either. Super_5 has an odd HiC signal and a 20Mb region
+    where the coverage drops to half. But there is not any haplotig off-diagonal signal
+    visible. In a previous curation round I had SUPER_5 split into two chromosomes
+    separated at the 32Mb gap, but that did not look good either."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 2,938,307,048
+    GC %: '40.82'
+    Gaps/Gbp: '77.6'
+    Total gap bp: 22,800
+    Scaffolds: '166'
+    Scaffold N50: 138,650,401
+    Scaffold L50: '6'
+    Scaffold L90: '17'
+    Contigs: '394'
+    Contig N50: 17,735,187
+    Contig L50: '48'
+    Contig L90: '157'
+    QV: '66.7765'
+    Kmer compl.: '86.5003'
+    BUSCO sing.: 94.2%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 2.8%
+    BUSCO miss.: 2.0%
+  Curated pri:
+    Total bp: 2,898,232,415
+    GC %: '40.87'
+    Gaps/Gbp: '94.89'
+    Total gap bp: 37,800
+    Scaffolds: '129'
+    Scaffold N50: 145,659,984
+    Scaffold L50: '8'
+    Scaffold L90: '18'
+    Contigs: '404'
+    Contig N50: 16,382,918
+    Contig L50: '54'
+    Contig L90: '170'
+    QV: '66.9574'
+    Kmer compl.: '86.1871'
+    BUSCO sing.: 94.2%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 2.8%
+    BUSCO miss.: 2.1%
+
+BUSCO:
+  ver: 5.8.3 (euk_genome_min, miniprot)
+  lineage: arthropoda_odb12
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 28x 76x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2.2
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: 1a3d79a8
+  HiGlass:
+    ver: 0.10.4
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2025-08-27 15:06:20 CEST

@@ -490,10 +490,8 @@ class EARBotReviewer:
             )
 
     def _is_bot_user(self, comment):
-        user_type = getattr(comment.user, "type", None)
-        if user_type is None and "user" in comment.raw_data:
-            user_type = comment.raw_data["user"].get("type")
-        return user_type == "Bot"
+        user_type = comment.raw_data.get("user", {}).get("type", None)
+        return str(user_type).lower() == "bot"
 
     def _search_comment_user(self, pr, text_to_check):
         comment_user = []

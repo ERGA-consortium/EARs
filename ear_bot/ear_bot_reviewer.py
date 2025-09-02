@@ -489,10 +489,14 @@ class EARBotReviewer:
                 "The YAML file has been updated based on the new EAR.pdf"
             )
 
+    def _is_bot_user(self, comment):
+        user_type = comment.raw_data.get("user", {}).get("type", None)
+        return str(user_type).lower() == "bot"
+
     def _search_comment_user(self, pr, text_to_check):
         comment_user = []
         for comment in pr.get_issue_comments().reversed:
-            if comment.user.type == "Bot" and text_to_check in comment.body:
+            if self._is_bot_user(comment) and text_to_check in comment.body:
                 comment_user_re = re.findall(
                     r"\B@([a-z0-9](?:-(?=[a-z0-9])|[a-z0-9]){0,38}(?<=[a-z0-9]))",
                     comment.body,
@@ -505,7 +509,7 @@ class EARBotReviewer:
     def _search_last_comment_time(self, pr, text_to_check):
         comment_time = None
         for comment in pr.get_issue_comments().reversed:
-            if comment.user.type == "Bot" and text_to_check in comment.body:
+            if self._is_bot_user(comment) and text_to_check in comment.body:
                 comment_time = comment.created_at.astimezone(cet)
                 break
         return comment_time

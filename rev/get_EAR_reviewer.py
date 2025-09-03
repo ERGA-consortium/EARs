@@ -1,7 +1,7 @@
 # get_EAR_reviewer.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-version = "v25.02.11"
+version = "v25.09.03"
 
 import requests
 import random
@@ -44,6 +44,11 @@ def adjust_score(reviewer, tags):
         score += 50  # Additional 50 points for reviewers from BGE institutions if 'ERGA-BGE' tag is used
     if reviewer['Supervisor'] == 'Y':
         score -= 5  # Subtract 5 points if reviewer is also supervisor to decrease the chance of selection
+    
+    # Subtract 20 points per working PR
+    working_prs = int(reviewer.get('Working PRs', '0'))
+    score -= 20 * working_prs  # Subtract 20 points for each PR they're currently working on
+    
     return score
 
 def parse_date(date_str):
@@ -55,8 +60,8 @@ def print_csv(data_list, selected_reviewer):
     if not data_list:
         print("No data to print.")
         return
-    headers = ['Github ID', 'Full Name', 'Institution', 'Total Reviews', 'Last Review', 'Active', 'Busy', 'Calling Score', 'Adjusted Score']
-    col_widths = {header: max(len(header), max((len(str(row[header])) for row in data_list), default=len(header))) for header in headers}
+    headers = ['Github ID', 'Full Name', 'Institution', 'Total Reviews', 'Last Review', 'Active', 'Working PRs', 'Calling Score', 'Adjusted Score']
+    col_widths = {header: max(len(header), max((len(str(row.get(header, ''))) for row in data_list), default=len(header))) for header in headers}
     header_row = ' | '.join(header.ljust(col_widths[header]) for header in headers)
     print(header_row)
     print('-' * len(header_row))
@@ -65,7 +70,7 @@ def print_csv(data_list, selected_reviewer):
         data_list = [selected_reviewer] + [d for d in data_list if d != selected_reviewer]
     
     for data in data_list:
-        data_row = ' | '.join(str(data[header]).ljust(col_widths[header]) for header in headers)
+        data_row = ' | '.join(str(data.get(header, '')).ljust(col_widths[header]) for header in headers)
         print(data_row)
 
 def select_best_reviewer(data, calling_institution, use_bge):
@@ -74,9 +79,10 @@ def select_best_reviewer(data, calling_institution, use_bge):
             **reviewer,
             'Adjusted Score': adjust_score(reviewer, use_bge),
             'Parsed Last Review': parse_date(reviewer['Last Review']),
-            'Total Reviews': int(reviewer['Total Reviews'])
+            'Total Reviews': int(reviewer['Total Reviews']),
+            'Working PRs': reviewer.get('Working PRs', '0')
         } for reviewer in data
-        if reviewer['Active'] == 'Y' and reviewer['Busy'] == 'N' and normalize_institution(reviewer['Institution']) != normalize_institution(calling_institution)
+        if reviewer['Active'] == 'Y' and normalize_institution(reviewer['Institution']) != normalize_institution(calling_institution)
     ]
 
     eligible_candidates.sort(key=lambda x: (-x['Adjusted Score'], x['Total Reviews'], x['Parsed Last Review']))
@@ -155,8 +161,13 @@ def main():
                 print("The decision was based on:")
                 print(f"- different institution ('{selected_reviewer['Institution']}')")
                 print(f"- active ('{selected_reviewer['Active']}')")
-                print(f"- not busy ('{selected_reviewer['Busy']}')")
+                working_prs = selected_reviewer.get('Working PRs', '0')
+                print(f"- working on {working_prs} PR(s) currently")
                 print(f"- {selection_reason} ({selected_reviewer['Adjusted Score']})")
+                
+                # Additional info about score adjustments if working on PRs
+                if int(working_prs) > 0:
+                    print(f"  (Note: Adjusted score already considering -{20 * int(working_prs)} points due to {working_prs} ongoing PR(s))")
             else:
                 print("No suitable reviewer found at the moment.")
         else:

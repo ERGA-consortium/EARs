@@ -100,9 +100,15 @@ class EAR_get_reviewer:
             reviewer_data_score = int(reviewer_data.get("Calling Score", 1000))
             reviewer_data_total = int(reviewer_data.get("Total Reviews", 0))
             reviewer_data_institution = reviewer_data.get("Institution", "").lower()
+            working_prs = int(reviewer_data.get("Working PRs", 0))
 
             if reviewer_data_id in reviewers:
-                reviewer_data["Busy"] = "Y" if busy else "N"
+                if busy:
+                    working_prs += 1
+                else:
+                    working_prs = max(0, working_prs - 1)
+                reviewer_data["Working PRs"] = str(working_prs)
+
                 if submitted_at:
                     reviewer_data_score -= 1
                     reviewer_data["Calling Score"] = str(reviewer_data_score)
@@ -361,7 +367,7 @@ class EARBotReviewer:
                 pr.create_issue_comment(
                     "Thanks for agreeing!\n"
                     "I appointed you as the EAR reviewer.\n"
-                    "I will keep your status as _Busy_ until you finish this review.\n"
+                    "I will track this as one of your _Working PRs_ until you finish this review.\n"
                     "Please check the [Wiki](https://github.com/ERGA-consortium/EARs/wiki/Reviewers-section)"
                     " if you need to refresh something. (and remember that you must download the EAR PDF to"
                     " be able to click on the link to the contact map file!)\n"
@@ -473,7 +479,7 @@ class EARBotReviewer:
             supervisor = pr.assignee.login
             pr.create_issue_comment(
                 f"Attention @{supervisor}!\n"
-                "The PR has been closed, but the reviewers will retain their busy status in case it is re-opened.\n"
+                "The PR has been closed, but the reviewers will retain their working PR count in case it is re-opened.\n"
                 "If the PR is going to remain closed, please instruct me to clear the active tasks."
             )
             pr.add_to_labels("ERROR!")
@@ -489,10 +495,14 @@ class EARBotReviewer:
                 "The YAML file has been updated based on the new EAR.pdf"
             )
 
+    def _is_bot_user(self, comment):
+        user_type = comment.raw_data.get("user", {}).get("type", None)
+        return str(user_type).lower() == "bot"
+
     def _search_comment_user(self, pr, text_to_check):
         comment_user = []
         for comment in pr.get_issue_comments().reversed:
-            if comment.user.type == "Bot" and text_to_check in comment.body:
+            if self._is_bot_user(comment) and text_to_check in comment.body:
                 comment_user_re = re.findall(
                     r"\B@([a-z0-9](?:-(?=[a-z0-9])|[a-z0-9]){0,38}(?<=[a-z0-9]))",
                     comment.body,
@@ -505,7 +515,7 @@ class EARBotReviewer:
     def _search_last_comment_time(self, pr, text_to_check):
         comment_time = None
         for comment in pr.get_issue_comments().reversed:
-            if comment.user.type == "Bot" and text_to_check in comment.body:
+            if self._is_bot_user(comment) and text_to_check in comment.body:
                 comment_time = comment.created_at.astimezone(cet)
                 break
         return comment_time

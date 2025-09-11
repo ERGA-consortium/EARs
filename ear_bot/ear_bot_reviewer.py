@@ -464,9 +464,12 @@ class EARBotReviewer:
 
             interaction_count = 0
             other_participants = set()
-            for comment in pr.get_issue_comments():
+            for comment in list(pr.get_issue_comments()) + list(reviews):
+                body = comment.body.strip()
+                if not body:
+                    continue
                 if self._is_bot_user(comment):
-                    if "do you agree to " in comment.body:
+                    if "do you agree to" in body:
                         interaction_count -= 1
                 else:
                     interaction_count += 1

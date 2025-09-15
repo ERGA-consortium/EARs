@@ -1,0 +1,96 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1917237'
+ToLID: kaDisBerm
+Species: Distaplia bermudensis
+Class: Ascidiacea
+Order: Aplousobranchia
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 467,817,527
+    Haploid Number: '9 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 446,060,772
+    Haploid Number: '11'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q41
+
+Curator notes:
+  Interventions/Gb: 250
+  Contamination notes: '"No presence of contaminants."'
+  Other observations: '"Contact map generated after second EAR report review."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 473,035,248
+    GC %: '34.11'
+    Gaps/Gbp: '600.38'
+    Total gap bp: 28,400
+    Scaffolds: '159'
+    Scaffold N50: 38,939,299
+    Scaffold L50: '5'
+    Scaffold L90: '11'
+    Contigs: '443'
+    Contig N50: 2,465,347
+    Contig L50: '58'
+    Contig L90: '195'
+    QV: '41.2374'
+    Kmer compl.: '85.5584'
+    BUSCO sing.: 87.4%
+    BUSCO dupl.: 3.1%
+    BUSCO frag.: 1.7%
+    BUSCO miss.: 7.8%
+  Curated pri:
+    Total bp: 446,060,772
+    GC %: '33.93'
+    Gaps/Gbp: '710.67'
+    Total gap bp: 40,600
+    Scaffolds: '80'
+    Scaffold N50: 40,291,008
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '397'
+    Contig N50: 2,561,150
+    Contig L50: '54'
+    Contig L90: '175'
+    QV: '41.0654'
+    Kmer compl.: '82.6955'
+    BUSCO sing.: 89.4%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 1.4%
+    BUSCO miss.: 8.3%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_aug, augustus)
+  lineage: metazoa_odb10
+
+Data:
+  Profile: ONT Bionano HiC
+  Coverage: 247x NA 105x
+
+Assembly pipeline:
+  Necat:
+    ver: 0.0.1
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.1'
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.4.1
+  PretextView:
+    ver: 1.0.3
+
+Submitter: Carmela Gissi
+Affiliation: UNIBA
+
+Date and time: 2025-09-10 16:33:54 CEST

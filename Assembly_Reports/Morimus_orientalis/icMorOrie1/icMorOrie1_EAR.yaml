@@ -1,0 +1,111 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2974020'
+ToLID: icMorOrie1
+Species: Morimus orientalis
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 889,376,030
+    Haploid Number: '12 (source: direct)'
+    Ploidy: '2 (source: direct)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 901,553,323
+    Haploid Number: '12'
+    Ploidy: '2'
+    Sample Sex: male
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q67
+
+Curator notes:
+  Interventions/Gb: 31
+  Contamination notes: '""'
+  Other observations: '"The assembly of Morimus orientalis (icMorOrie1) is based on
+    55X PacBio data and Arima Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/).The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups, and Hi-C-based scaffolding with YaHS. In total, 24 contigs were identified
+    as contaminants (bacterial, archaeal, or viral), totaling 3.6 Mb (with the largest
+    being 1.5Mb). Additionally, 358 regions totaling 36 Mb (with the largest being
+    3.5 Mb) were identified as haplotypic duplications and removed. The mitochondrial
+    genome was assembled using OATK. Finally, the primary assembly was analyzed and
+    manually improved using Pretext. During manual curation, no haplotypic regions
+    were removed. Chromosome-scale scaffolds confirmed by Hi-C data were named in
+    order of size. The X chromosome has been identified thanks to comparison with
+    another insect genome assembly and the lower coverage in HiC data. But the Y chromosome
+    has not been identified in the assembly even if the sepcimen collected was a male."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 901,550,623
+    GC %: '34.54'
+    Gaps/Gbp: '137.54'
+    Total gap bp: 15,000
+    Scaffolds: '138'
+    Scaffold N50: 67,096,688
+    Scaffold L50: '5'
+    Scaffold L90: '11'
+    Contigs: '259'
+    Contig N50: 14,206,665
+    Contig L50: '21'
+    Contig L90: '70'
+    QV: '67.7369'
+    Kmer compl.: '88.1455'
+    BUSCO sing.: 96.7%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 2.3%
+  Curated collapsed:
+    Total bp: 901,553,323
+    GC %: '34.54'
+    Gaps/Gbp: '148.63'
+    Total gap bp: 17,700
+    Scaffolds: '128'
+    Scaffold N50: 67,096,688
+    Scaffold L50: '5'
+    Scaffold L90: '11'
+    Contigs: '262'
+    Contig N50: 14,040,000
+    Contig L50: '21'
+    Contig L90: '71'
+    QV: '67.7369'
+    Kmer compl.: '88.1455'
+    BUSCO sing.: 96.7%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 2.3%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_met, metaeuk)
+  lineage: polyphaga_odb12
+
+Data:
+  Profile: PACBIO Hifi Arima
+  Coverage: 55 84
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Caroline Menguy
+Affiliation: Genoscope
+
+Date and time: 2025-09-06 01:06:21 CEST

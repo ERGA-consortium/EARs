@@ -99,7 +99,7 @@ class EAR_get_reviewer:
             f"{pr_url},{species},{tag},{requester_name},"
             f"{requester_affiliation},{reviewer_name},{reviewer_affiliation},"
             f"{supervisor_name},{supervisor_affiliation},{interaction_count},"
-            f"{open_date},{approval_date},{other_participants},{notes}\n"
+            f'{open_date},{approval_date},"{other_participants}",{notes}\n'
         )
         ear_reviews_csv_data += csv_row
         commit(

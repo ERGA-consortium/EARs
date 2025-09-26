@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1146903'
+ToLID: qcScoCret2
+Species: Scolopendra cretica
+Class: Chilopoda
+Order: Scolopendromorpha
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,610,302,235
+    Haploid Number: '15 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 1,456,208,595
+    Haploid Number: '15'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q51
+
+Curator notes:
+  Interventions/Gb: 70
+  Contamination notes: '""'
+  Other observations: '"The assembly of Scolopendra cretica (qcScoCret2.1) is based
+    on 42X PacBio data and 125X of Arima Hi-C data generated as part of the European
+    Reference Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity
+    Genomics Europe project (BGE, https://biodiversitygenomics.eu/). The assembly
+    process included the following steps: initial PacBio assembly generation with
+    Hifiasm, removal of contaminant sequences using Context, removal of haplotypic
+    duplications using purge_dups, and Hi-C-based scaffolding with YaHS. No contigs
+    were found to be contaminants (bacterial, archaeal, or viral). Additionally, 720
+    regions totaling 112.56 Mb (with the largest being 0.98 Mb) were identified as
+    haplotypic duplications and removed. The mitochondrial genome was assembled using
+    OATK. Finally, the primary assembly was analyzed and manually improved using Pretext.
+    During manual curation, 22 haplotypic regions were removed, totaling 10.73 Mb
+    (with the largest being 2.56 Mb). Chromosome-scale scaffolds confirmed by Hi-C
+    data were named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,468,192,980
+    GC %: '34.34'
+    Gaps/Gbp: '130.77'
+    Total gap bp: 19,200
+    Scaffolds: '568'
+    Scaffold N50: 67,514,300
+    Scaffold L50: '8'
+    Scaffold L90: '60'
+    Contigs: '760'
+    Contig N50: 10,793,000
+    Contig L50: '30'
+    Contig L90: '189'
+    QV: '51.0392'
+    Kmer compl.: '86.5478'
+    BUSCO sing.: 96.7%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 1.5%
+    BUSCO miss.: 0.9%
+  Curated collapsed:
+    Total bp: 1,456,208,595
+    GC %: '34.33'
+    Gaps/Gbp: '135.28'
+    Total gap bp: 23,800
+    Scaffolds: '536'
+    Scaffold N50: 81,956,192
+    Scaffold L50: '8'
+    Scaffold L90: '46'
+    Contigs: '733'
+    Contig N50: 11,007,542
+    Contig L50: '30'
+    Contig L90: '179'
+    QV: '51.0366'
+    Kmer compl.: '86.3077'
+    BUSCO sing.: 97.1%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 1.5%
+    BUSCO miss.: 0.9%
+
+BUSCO:
+  ver: 5.4.3 (euk_genome_met, metaeuk)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima
+  Coverage: 41 122
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Adama Ndar
+Affiliation: Genoscope
+
+Date and time: 2025-08-06 18:45:42 CEST

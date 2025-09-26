@@ -1,0 +1,106 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3229215'
+ToLID: icSteAust9
+Species: Stenosis austini
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 244,271,591
+    Haploid Number: '10 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 238,605,915
+    Haploid Number: '10'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q74
+
+Curator notes:
+  Contamination notes: '"FCS-GX found no contaminants. Tiara found a single bacterial
+    fragment that was removed."'
+  Other observations: '"Sample is recorded as female, and the X chromosome was identified
+    from synteny with Dailognatha quadricolis (icDaiQuad1.1). Assembly was performed
+    with hifiasm using HiC data with the --h1/--h2 parameters. The collapsed p_ctg
+    was selected based on N50/N90 and L50/L90 stats."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 240,587,923
+    GC %: '34.47'
+    Gaps/Gbp: '29.1'
+    Total gap bp: 1,400
+    Scaffolds: '46'
+    Scaffold N50: 21,101,840
+    Scaffold L50: '6'
+    Scaffold L90: '12'
+    Contigs: '53'
+    Contig N50: 16,021,784
+    Contig L50: '6'
+    Contig L90: '14'
+    QV: '72.2782'
+    Kmer compl.: '79.2986'
+    BUSCO sing.: 97.8%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.2%
+  Curated collapsed:
+    Total bp: 238,605,915
+    GC %: '34.48'
+    Gaps/Gbp: '88.01'
+    Total gap bp: 4,200
+    Scaffolds: '30'
+    Scaffold N50: 21,101,840
+    Scaffold L50: '4'
+    Scaffold L90: '9'
+    Contigs: '51'
+    Contig N50: 16,021,784
+    Contig L50: '6'
+    Contig L90: '14'
+    QV: '74.3038'
+    Kmer compl.: '79.2301'
+    BUSCO sing.: 98.5%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.9%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: PacBio HiFi Arima HiC v2
+  Coverage: 54x 375x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.25.0-r726
+    key param: --h2
+  purge_dups:
+    ver: 1.2.5
+  tiara:
+    ver: 1.0.3
+  sanger-tol/blobtoolkit:
+    ver: 0.8.0
+  YaHS:
+    ver: 1.2a.2
+  NBIS/Earth-Biogenome-Project-pilot:
+    ver: 99c8937
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.4.2
+  sanger-tol/agp-tpf-utils:
+    ver: 35ea45d
+
+Submitter: Guilherme B. Dias
+Affiliation: SciLifeLab
+
+Date and time: 2025-09-15 20:04:18 CEST

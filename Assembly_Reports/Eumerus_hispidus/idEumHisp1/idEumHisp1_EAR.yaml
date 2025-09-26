@@ -1,0 +1,107 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '3163510'
+ToLID: idEumHisp1
+Species: Eumerus hispidus
+Class: Insecta
+Order: Diptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 533,676,914
+    Haploid Number: '6 (source: ancestor)'
+    Ploidy: '3 (source: ancestor)'
+    Sample Sex: M
+  Observed:
+    Haploid size (bp): 672,541,521
+    Haploid Number: '7'
+    Ploidy: '2'
+    Sample Sex: M
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.7.Q65
+
+Curator notes:
+  Interventions/Gb: 59
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 1,008,721 (0.1 %);Scaffolds removed: 23 (6.9 %);Largest
+    scaffold removed: (201,185);FCS-GX contaminant species (number of scaffolds; total
+    length of scaffolds):Manihot esculenta, plants (5; 92,971);Hevea brasiliensis,
+    plants (3; 237,937);Asaia bogorensis, a-proteobacteria (3; 135,041);Asaia krungthepensis,
+    a-proteobacteria (2; 119,779);Kozakia baliensis, a-proteobacteria (2; 86,105);Drosophila
+    suzukii associated hytrosavirus 1, viruses (1; 120,106);Asaia lannensis, a-proteobacteria
+    (1; 68,758);Neoasaia chiangmaiensis, a-proteobacteria (1; 36,138);Swaminathania
+    salitolerans, a-proteobacteria (1; 33,799);Asaia astilbis, a-proteobacteria (1;
+    25,523); Mitochondrion (3; 52,564)"'
+  Other observations: '"Assembly was Hi-C phased; The exact order and orientation
+    of the contigs on chromosome X (75.4 - 79.2 Mbp) are unknown. The X and Y chromosome
+    was identified by read coverage."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 672,552,723
+    GC %: '38.2'
+    Gaps/Gbp: '71.37'
+    Total gap bp: 4,800
+    Scaffolds: '335'
+    Scaffold N50: 79,633,640
+    Scaffold L50: '3'
+    Scaffold L90: '10'
+    Contigs: '383'
+    Contig N50: 12,617,015
+    Contig L50: '15'
+    Contig L90: '48'
+    Kmer compl.: '99.43'
+    BUSCO sing.: 98.8%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 0.4%
+  Curated pri:
+    Total bp: 672,541,521
+    GC %: '38.18'
+    Gaps/Gbp: '160.58'
+    Total gap bp: 17,500
+    Scaffolds: '266'
+    Scaffold N50: 95,008,139
+    Scaffold L50: '3'
+    Scaffold L90: '6'
+    Contigs: '374'
+    Contig N50: 11,498,168
+    Contig L50: '17'
+    Contig L90: '52'
+    Kmer compl.: '99.40'
+    BUSCO sing.: 98.8%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 0.4%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: insecta_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 58x 436x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm-hic:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Daniel Zilov
+Affiliation: WSI
+
+Date and time: 2025-09-16 14:37:44 CEST

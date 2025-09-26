@@ -1,0 +1,106 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '100826'
+ToLID: bScoRus
+Species: Scolopax rusticola
+Class: Aves
+Order: Charadriiformes
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,031,232,411
+    Haploid Number: '44 (source: direct)'
+    Ploidy: '3 (source: ancestor)'
+    Sample Sex: ZW
+  Observed:
+    Haploid size (bp): 1,232,635,287
+    Haploid Number: '44'
+    Ploidy: '2'
+    Sample Sex: ZW
+
+EBP metrics:
+  EBP quality code:
+    hap1: 6.7.Q64
+
+Curator notes:
+  Interventions/Gb: 27
+  Contamination notes: '"No contaminants were found with the pipeline NCBI FCS GX
+    v Galaxy Version 0.5.5+galaxy1. No scaffolds are flagged as contaminants by BlobToolKit."'
+  Other observations: '"Curation was done in two steps. 1)In a double haplotype contact
+    map, the two haplotypes were checked to resolve haplotigs and construct an Hap1
+    as complete as possible. The script MicroFinder.py was also used to help reconstruct
+    the microchromosomes. The HiC contact was low, so to aid in reconstructing microchromosomes,
+    an alignment was performed with the scaffold level genome ASM2856531v1 (GCA_028565315.1)
+    of the same species. Another chromosome-level genome is at the moment available
+    on NCBI (bScoRus3.2, GCA_964304615.2) 2) The Curation was done only on the most
+    complete haplotype, in this case Hap1."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 1,150,284,723
+    GC %: '42.98'
+    Total gap bp: 124,000
+    Scaffolds: '976'
+    Scaffold N50: 29,569,713
+    Scaffold L50: '10'
+    Scaffold L90: '35'
+    Contigs: 1,596
+    Contig N50: 5,908,451
+    Contig L50: '48'
+    Contig L90: '314'
+    QV: '64.2059'
+    Kmer compl.: '82.8495'
+    BUSCO sing.: 92.8%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 5.9%
+  Curated hap1:
+    Total bp: 1,232,635,287
+    GC %: '42.86'
+    Total gap bp: 135,600
+    Scaffolds: '935'
+    Scaffold N50: 34,162,297
+    Scaffold L50: '10'
+    Scaffold L90: '33'
+    Contigs: 1,613
+    Contig N50: 5,888,542
+    Contig L50: '51'
+    Contig L90: '320'
+    QV: '64.5086'
+    Kmer compl.: '88.2735'
+    BUSCO sing.: 98.1%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.1%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 27.90X 66.69X
+
+Assembly pipeline:
+  Hifiasm:
+    ver: Galaxy Version 0.24.0+galaxy0
+    key param: VGP Galaxy workflow VGP3 v 0.2.8
+  purge_dups:
+    ver: Galaxy Version 1.2.6+galaxy0
+    key param: VGP Galaxy workflow VGP6 v 0.5
+  YaHS:
+    ver: Galaxy Version 1.2a.2+galaxy2
+    key param: VGP Galaxy workflow VGP8 v 1.4
+
+Curation pipeline:
+  PretextMap:
+    ver: Galaxy Version 0.1.9+galaxy1
+    key param: VGP workflow VGP PretextMap generation v2
+  PretextView:
+    ver: 1.0.0
+
+Submitter: Marcella Sozzoni
+Affiliation: UNIFI
+
+Date and time: 2025-09-09 10:12:56 CEST

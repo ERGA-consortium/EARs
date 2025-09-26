@@ -1,0 +1,111 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '237119'
+ToLID: odAxiVerr1
+Species: Axinella verrucosa
+Class: Demospongiae
+Order: Axinellida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 219,258,830
+    Haploid Number: '5 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 247,466,917
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q60
+
+Curator notes:
+  Interventions/Gb: 56
+  Contamination notes: '""'
+  Other observations: '"The assembly of AXINELLA VERRUCOSA (odAxiVerr1) is based on
+    97X PacBio data and 161X Arima Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dup and Hi-C-based scaffolding with YaHS. In total, 703 contigs were identified
+    as contaminants (bacterial, archaeal, or viral), totaling 71,633,625 pb (with
+    the largest being 3,087,110 pb). Additionally, 186 regions totaling 15,617,024
+    pb (with the largest being 834,842 pb) were identified as haplotypic duplications
+    and removed. The mitochondrial genome was assembled using OATK. Finally, the primary
+    assembly was analyzed and manually improved using Pretext. During manual curation,
+    42 contigs were identified as contaminants, totaling 917,636 pb (with the largest
+    being 58,401 pb) and 3 haplotypic region was removed, totaling 2,339,198 pb (with
+    the largest being 1,680,985 pb). Chromosome-scale scaffolds confirmed by Hi-C
+    data were named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 251,161,513
+    GC %: '45.4'
+    Gaps/Gbp: '740.56'
+    Total gap bp: 18,600
+    Scaffolds: '69'
+    Scaffold N50: 20,322,608
+    Scaffold L50: '6'
+    Scaffold L90: '12'
+    Contigs: '255'
+    Contig N50: 2,127,225
+    Contig L50: '31'
+    Contig L90: '120'
+    QV: '60.3866'
+    Kmer compl.: '72.9915'
+    BUSCO sing.: 56.2%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 27.2%
+    BUSCO miss.: 15.8%
+  Curated collapsed:
+    Total bp: 247,466,917
+    GC %: '45.43'
+    Gaps/Gbp: '767.78'
+    Total gap bp: 20,200
+    Scaffolds: '23'
+    Scaffold N50: 20,338,932
+    Scaffold L50: '6'
+    Scaffold L90: '12'
+    Contigs: '213'
+    Contig N50: 2,127,225
+    Contig L50: '31'
+    Contig L90: '117'
+    QV: '60.7305'
+    Kmer compl.: '72.4708'
+    BUSCO sing.: 56.2%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 27.2%
+    BUSCO miss.: 15.8%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_met, metaeuk)
+  lineage: metazoa_odb12
+
+Data:
+  Profile: PACBIO Hifi Arima
+  Coverage: 97 161
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2025-09-05 13:14:36 CEST

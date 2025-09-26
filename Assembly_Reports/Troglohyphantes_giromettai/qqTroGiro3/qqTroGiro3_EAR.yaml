@@ -1,0 +1,102 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '3139671'
+ToLID: qqTroGiro3
+Species: Troglohyphantes giromettai
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 943,185,905
+    Haploid Number: '12 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: F
+  Observed:
+    Haploid size (bp): 922,056,680
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: F
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q54
+
+Curator notes:
+  Interventions/Gb: 30
+  Contamination notes: '"Contamination report for assembly labelled primary; Total
+    length of scaffolds removed: 380,319 (0.0 %);Scaffolds removed: 14 (3.1 %);Largest
+    scaffold removed: (64,442);FCS-GX contaminant species (number of scaffolds; total
+    length of scaffolds):Pseudomonas spelaei, g-proteobacteria (11; 296,010);Pseudomonas
+    sp. UBA7456, g-proteobacteria (1; 36,975);Pseudomonas tremae, g-proteobacteria
+    (1; 32,468);Mitochondrion (1; 14,866)"'
+  Other observations: '"Hi-C was from a second individual (qqTroGiro14); X1 and X2
+    chromosomes were assigned based on synteny with GCA_963978545.1"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 922,631,568
+    GC %: '31.63'
+    Gaps/Gbp: '275.3'
+    Total gap bp: 25,400
+    Scaffolds: '449'
+    Scaffold N50: 71,148,236
+    Scaffold L50: '7'
+    Scaffold L90: '12'
+    Contigs: '703'
+    Contig N50: 5,272,703
+    Contig L50: '49'
+    Contig L90: '170'
+    Kmer compl.: '99.62'
+    BUSCO sing.: 94.7%
+    BUSCO dupl.: 4.0%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.0%
+  Curated pri:
+    Total bp: 922,056,680
+    GC %: '31.62'
+    Gaps/Gbp: '280.89'
+    Total gap bp: 27,300
+    Scaffolds: '436'
+    Scaffold N50: 70,533,125
+    Scaffold L50: '7'
+    Scaffold L90: '12'
+    Contigs: '695'
+    Contig N50: 5,272,703
+    Contig L50: '49'
+    Contig L90: '170'
+    Kmer compl.: '99.63'
+    BUSCO sing.: 94.7%
+    BUSCO dupl.: 4.0%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.0%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 42x 297x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Daniel Zilov
+Affiliation: WSI
+
+Date and time: 2025-08-18 16:49:14 CEST

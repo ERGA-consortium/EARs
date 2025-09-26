@@ -1,0 +1,108 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '485107'
+ToLID: iyForGaga1
+Species: Formica gagates
+Class: Insecta
+Order: Hymenoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 282,970,999
+    Haploid Number: '27 (source: direct)'
+    Ploidy: '1 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 289,571,368
+    Haploid Number: '25'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q66
+
+Curator notes:
+  Interventions/Gb: 418
+  Contamination notes: '""'
+  Other observations: '"The assembly of Formica gagates (iyForGaga1) is based on 72X
+    PacBio data and Arima Hi-C data generated as part of the European Reference Genome
+    Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/).The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, and Hi-C-based scaffolding with YaHS.
+    In total, 5 contigs were identified as contaminants (bacterial, archaeal, or viral),
+    totaling 2.8 Mb (with the largest being 1.4 Mb). The mitochondrial genome was
+    assembled using OATK but the sequence obtained is linear. Finally, the primary
+    assembly was analyzed and manually improved using Pretext. During manual curation,
+    5 haplotypic regions were removed,totaling 0.903 Mb (with the largest being 0.539
+    Mb). Chromosome-scale scaffolds confirmed by Hi-C data were named in order of
+    size"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 266,537,386
+    GC %: '35.77'
+    Gaps/Gbp: '97.55'
+    Total gap bp: 2,600
+    Scaffolds: '41'
+    Scaffold N50: 9,320,565
+    Scaffold L50: '11'
+    Scaffold L90: '25'
+    Contigs: '67'
+    Contig N50: 8,221,297
+    Contig L50: '13'
+    Contig L90: '30'
+    QV: '69.9856'
+    Kmer compl.: '90.6517'
+    BUSCO sing.: 95.5%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 3.3%
+  Curated collapsed:
+    Total bp: 289,571,368
+    GC %: '35.99'
+    Gaps/Gbp: '379.87'
+    Total gap bp: 20,100
+    Scaffolds: '56'
+    Scaffold N50: 12,250,416
+    Scaffold L50: '10'
+    Scaffold L90: '22'
+    Contigs: '166'
+    Contig N50: 7,685,475
+    Contig L50: '15'
+    Contig L90: '40'
+    QV: '66.9781'
+    Kmer compl.: '93.6067'
+    BUSCO sing.: 99.1%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.3%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: Long reads Arima
+  Coverage: 72 193
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Caroline Menguy
+Affiliation: Genoscope
+
+Date and time: 2025-09-22 16:44:06 CEST

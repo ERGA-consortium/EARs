@@ -1,0 +1,113 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '248254'
+ToLID: mMonMoa1
+Species: Monachus monachus
+Class: Mammalia
+Order: Carnivora
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,268,833,171
+    Haploid Number: '17 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 2,437,305,367
+    Haploid Number: '17'
+    Ploidy: '1'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q68
+
+Curator notes:
+  Contamination notes: '"FCS-GX and tiara detected no contamination."'
+  Other observations: '"The Hi-C library for this species failed and it was not used
+    in assembly or scaffolding. The hifiasm contigs were ordered and oriented through
+    sequence alignments relative to the closest species available, Neomonachus schauinslandi
+    (Hawaiian Monk Seal), using RagTag in scaffold mode. The contig-level assembly
+    had very good stats already. We are reporting stats for the contig-level assembly
+    (raw hifiasm contigs, pre-curation), and the curated RagTag scaffolds. Curation
+    involved checking telomeres and coverage, RagTag scores for grouping, location
+    and orientation, as well as visualizing synteny through protein alignments with
+    N. schauinslandi. We have also prepared and checked Pretext maps with the Hi-C
+    data but these are not very informative as you can see. In the final M. monachus
+    scaffolds, 16 out of 17 putative chromosomes contain telomeres at both ends in
+    proper orientation, the exception being scaf4. The 5'' telomere for scaf2 is not
+    at the tip but present in window 30-40kb. All other telomeres are at the very
+    end of scaffolds. Mitochondria was assembled with mitohifi. This individual has
+    extremely low heterozygosity and GenomeScope2 with ploidy=2 was giving a genome
+    size estimate of 1.2Gb, I think because of the apparent lack of a heterozygous
+    peak, so we changed ploidy to 1 to get a better estimate."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 2,452,791,602
+    GC %: '41.67'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '457'
+    Scaffold N50: 90,875,510
+    Scaffold L50: '10'
+    Scaffold L90: '28'
+    Contigs: '457'
+    Contig N50: 90,875,510
+    Contig L50: '10'
+    Contig L90: '28'
+    QV: '67.2327'
+    Kmer compl.: '99.4876'
+    BUSCO sing.: 97.7%
+    BUSCO dupl.: 1.6%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.6%
+  Curated collapsed:
+    Total bp: 2,437,305,367
+    GC %: '41.63'
+    Gaps/Gbp: '16.82'
+    Total gap bp: 4,100
+    Scaffolds: '275'
+    Scaffold N50: 157,001,452
+    Scaffold L50: '7'
+    Scaffold L90: '15'
+    Contigs: '316'
+    Contig N50: 90,875,510
+    Contig L50: '10'
+    Contig L90: '27'
+    QV: '68.6446'
+    Kmer compl.: '99.4716'
+    BUSCO sing.: 97.7%
+    BUSCO dupl.: 1.5%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.7%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: carnivora_odb10
+
+Data:
+  Profile: PacBio HiFi Arima HiC v2
+  Coverage: 91x 2x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.25.0-r726
+  tiara:
+    ver: 1.0.3
+  RagTag:
+    ver: 2.1.0
+  NBIS/Earth-Biogenome-Project-pilot:
+    ver: 1d2a1e4
+  sanger-tol/blobtoolkit:
+    ver: 0.8.0
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.4.2
+
+Submitter: Guilherme B. Dias
+Affiliation: SciLifeLab
+
+Date and time: 2025-09-21 15:55:12 CEST

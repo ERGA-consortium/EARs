@@ -1,0 +1,100 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '190562'
+ToLID: tfGorWolt8
+Species: Gordionus wolterstorffii
+Class: Gordioida
+Order: Chordodea
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 142,426,324
+    Haploid Number: '4 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 210,545,467
+    Haploid Number: '4'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.7.Q70
+
+Curator notes:
+  Contamination notes: '"FCS-GX identified 15 bacterial sequences that were removed
+    from the base assembly (3,998,988 bp in total)"'
+  Other observations: '"It was not possible to get a good Hi-C library for this species
+    but still we strongly believe that we have achieved a chromosome level assembly.
+    Hifiasm assembled 4 long sequences that seem to be full chromosomes. Due to the
+    lack of Hi-C data, we have posted below an image of the distribution of telomeres
+    along the 4 chromosomes."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 214,544,449
+    GC %: '29.86'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '23'
+    Scaffold N50: 53,486,554
+    Scaffold L50: '2'
+    Scaffold L90: '4'
+    Contigs: '23'
+    Contig N50: 53,486,554
+    Contig L50: '2'
+    Contig L90: '4'
+    QV: '60.8148'
+    Kmer compl.: '73.9189'
+    BUSCO sing.: 54.8%
+    BUSCO dupl.: 1.9%
+    BUSCO frag.: 11.8%
+    BUSCO miss.: 31.5%
+  Curated pri:
+    Total bp: 210,545,467
+    GC %: '29.51'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '8'
+    Scaffold N50: 53,486,554
+    Scaffold L50: '2'
+    Scaffold L90: '4'
+    Contigs: '8'
+    Contig N50: 53,486,554
+    Contig L50: '2'
+    Contig L90: '4'
+    QV: '70.0004'
+    Kmer compl.: '72.3129'
+    BUSCO sing.: 55.0%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 12.1%
+    BUSCO miss.: 32.0%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: ONT Illumina
+  Coverage: 143 220
+
+Assembly pipeline:
+  CLAWS:
+    ver: v2.3.0
+  Filtlong:
+    ver: v0.2.1
+    key param: -t target_bases 30000000000
+  Hifiasm:
+    ver: 0.24.0
+    key param: --ont
+
+Curation pipeline:
+  FCS-GX:
+    ver: None
+
+Submitter: Jessica Gomez-Garrido
+Affiliation: CNAG
+
+Date and time: 2025-09-23 15:41:18 CEST

@@ -48,8 +48,8 @@ ASSEMBLIES:
       gfastats--nstar-report_txt: <Insert gfastats--nstar-report.txt full path>
       busco_short_summary_txt: <Insert busco_short_summary.txt full path>
       merqury_folder: <Insert Merqury results folder path>
-      hic_FullMap_png: <Insert pretext FullMap.png full path>  # also can be a HiC full contact map PNG from higlass
-      hic_FullMap_link: <Insert .pretext file web link>  # also can be a web folder with .mcool from higlass
+      hic_FullMap_png: <Insert pretext FullMap.png full path>  # also can be a HiC full contact map PNG from higlass. If HiC not available, leave it empty
+      hic_FullMap_link: <Insert .pretext file web link>  # also can be a web folder with .mcool from higlass. If HiC not available, leave it empty
       blobplot_cont_png: <Insert blobplot contamination .png file full path>
 
 
@@ -69,5 +69,5 @@ NOTES:
   Obs_Haploid_num: <Insert observed haploid number> # integer
   Obs_Sex: <Insert observed sex>  # for example: XX, XY, X0, ZZ, ZW, unknown, NA
   Interventions_per_Gb: <Insert manual intervernation during curation>  # integer or empty
-  Contamination_notes: <Insert contamination notes>  # text in quotes "", related to the decontamination process, or presence of plastids or symbionts
+  Contamination_notes: <Insert contamination notes>  # text in quotes "", related to the decontamination process, FCS-GX findings, or presence of plastids or symbionts
   Other_notes: <Insert other notes>  # text in quotes "", related to sample characteristics and quality, the curation process, etc

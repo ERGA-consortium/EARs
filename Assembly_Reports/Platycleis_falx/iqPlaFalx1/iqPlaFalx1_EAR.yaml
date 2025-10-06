@@ -1,0 +1,111 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '470658'
+ToLID: iqPlaFalx1
+Species: Platycleis falx
+Class: Insecta
+Order: Orthoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 4,863,021,292
+    Haploid Number: '15 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: X0
+  Observed:
+    Haploid size (bp): 5,216,350,721
+    Haploid Number: '16'
+    Ploidy: '2'
+    Sample Sex: X0
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q69
+
+Curator notes:
+  Contamination notes: '"FCS-GX found a single bacterial fragment, tiara found a couple
+    of bacteria and one archaea contigs. Additional short contigs removed based on
+    coverage."'
+  Other observations: '"Sample is recorded as male and the observed karyotype (n=16,
+    X0) is consistent with the literature. Assembly was performed with hifiasm using
+    HiC data with the --h1/--h2 parameters. The collapsed p_ctg was selected based
+    on N50/N90 and L50/L90 stats. purge_dups removed too many large contigs despite
+    the cutoffs being very clear, causing 30 loss in complete BUSCOS. So, instead,
+    I used the purge_dups classification together with BUSCO and tiara/FCS-GX reports
+    to manually remove any contigs flagged by purge_dups that did not contain any
+    BUSCOs (eukaryota, metazoa, arthropoda, or insecta from odb10), as well as flagged
+    contaminants."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 5,584,225,582
+    GC %: '39.3'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '846'
+    Scaffold N50: 57,970,750
+    Scaffold L50: '30'
+    Scaffold L90: '104'
+    Contigs: '846'
+    Contig N50: 57,970,750
+    Contig L50: '30'
+    Contig L90: '104'
+    QV: '67.5191'
+    Kmer compl.: '86.9597'
+    BUSCO sing.: 93.5%
+    BUSCO dupl.: 6.1%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.3%
+  Curated collapsed:
+    Total bp: 5,216,350,721
+    GC %: '39.28'
+    Gaps/Gbp: '25.69'
+    Total gap bp: 26,800
+    Scaffolds: '21'
+    Scaffold N50: 399,530,575
+    Scaffold L50: '4'
+    Scaffold L90: '12'
+    Contigs: '155'
+    Contig N50: 62,235,952
+    Contig L50: '29'
+    Contig L90: '88'
+    QV: '69.6433'
+    Kmer compl.: '84.9089'
+    BUSCO sing.: 95.1%
+    BUSCO dupl.: 4.7%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.2%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: PacBio HiFi Arima HiC v2
+  Coverage: 89x 66x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.25.0-r726
+    key param: --h2
+  purge_dups:
+    ver: 1.2.5
+  tiara:
+    ver: 1.0.3
+  YaHS:
+    ver: 1.2a.2
+    key param: --no-contig-ec
+  NBIS/Earth-Biogenome-Project-pilot:
+    ver: 1d2a1e4
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.4.2
+  GRIT_Rapid:
+    ver: 1a3d79a8
+
+Submitter: Guilherme B. Dias
+Affiliation: SciLifeLab
+
+Date and time: 2025-09-03 09:48:22 CEST

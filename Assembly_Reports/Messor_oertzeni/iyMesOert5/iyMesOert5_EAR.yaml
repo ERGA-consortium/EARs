@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '612071'
+ToLID: iyMesOert5
+Species: Messor oertzeni
+Class: Insecta
+Order: Hymenoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 313,803,573
+    Haploid Number: '21 (source: ancestor)'
+    Ploidy: '1 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 321,605,597
+    Haploid Number: '21'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q61
+
+Curator notes:
+  Interventions/Gb: 21
+  Contamination notes: '""'
+  Other observations: '"The assembly of Messor oertzeni (iyMesOert5.1) is based on
+    42X PacBio data and 242X of Arima Hi-C data generated as part of the European
+    Reference Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity
+    Genomics Europe project (BGE, https://biodiversitygenomics.eu/). The assembly
+    process included the following steps: initial PacBio assembly generation with
+    Hifiasm, removal of contaminant sequences using Context, removal of haplotypic
+    duplications using purge_dups, and Hi-C-based scaffolding with YaHS. In total,
+    7 contigs were identified as contaminants (bacterial), totaling 0.410 Mb (with
+    the largest being 0.103 Mb). Additionally, 66 regions totaling 6.311 Mb (with
+    the largest being 0.524 Mb) were identified as haplotypic duplications and removed.
+    The mitochondrial genome was assembled using OATK. Finally, the primary assembly
+    was analyzed and manually improved using Pretext. During manual curation, 7 haplotypic
+    regions were removed, totaling 3 Mb (with the largest being 0.914 Mb). Chromosome-scale
+    scaffolds confirmed by Hi-C data were named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 324,621,205
+    GC %: '36.65'
+    Gaps/Gbp: '877.95'
+    Total gap bp: 28,700
+    Scaffolds: '39'
+    Scaffold N50: 14,872,299
+    Scaffold L50: '9'
+    Scaffold L90: '19'
+    Contigs: '321'
+    Contig N50: 1,630,400
+    Contig L50: '58'
+    Contig L90: '188'
+    QV: '61.6045'
+    Kmer compl.: '98.5159'
+    BUSCO sing.: 96.1%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 3.0%
+  Curated collapsed:
+    Total bp: 321,605,597
+    GC %: '36.63'
+    Gaps/Gbp: '873.74'
+    Total gap bp: 28,900
+    Scaffolds: '32'
+    Scaffold N50: 14,831,354
+    Scaffold L50: '9'
+    Scaffold L90: '19'
+    Contigs: '313'
+    Contig N50: 1,636,165
+    Contig L50: '57'
+    Contig L90: '186'
+    QV: '61.579'
+    Kmer compl.: '98.4277'
+    BUSCO sing.: 96.1%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 3.0%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_met, metaeuk)
+  lineage: formicidae_odb12
+
+Data:
+  Profile: PACBIO Hifi Arima
+  Coverage: 42 242
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Adama Ndar
+Affiliation: Genoscope
+
+Date and time: 2025-09-10 23:49:17 CEST

@@ -1,0 +1,94 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '470614'
+ToLID: iqDecAlbi3
+Species: Decticus albifrons
+Class: Insecta
+Order: Orthoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 5,749,217,804
+    Haploid Number: '16 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: X0
+  Observed:
+    Haploid size (bp): 6,526,031,816
+    Haploid Number: '16'
+    Ploidy: '2'
+    Sample Sex: X0
+
+EBP metrics:
+  EBP quality code:
+    pri: 8.8.Q71
+
+Curator notes:
+  Contamination notes: '"Just one contig determind from fcsgx: ptg000107l_1 1 138374
+    138374 EXCLUDE plnt:plants 100 Lactuca sativa"'
+  Other observations: '"our first bioblitz data set - very high quality. SUPER_1 is
+    the X chromosome. The sample is male but seems be X0."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 6,526,460,112
+    GC %: '40.85'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '85'
+    Scaffold N50: 169,784,744
+    Scaffold L50: '15'
+    Scaffold L90: '39'
+    Contigs: '85'
+    Contig N50: 169,784,744
+    Contig L50: '15'
+    Contig L90: '39'
+    QV: '71.1703'
+    Kmer compl.: '82.2097'
+    BUSCO sing.: 93.5%
+    BUSCO dupl.: 4.2%
+    BUSCO frag.: 1.0%
+    BUSCO miss.: 1.3%
+  Curated pri:
+    Total bp: 6,526,031,816
+    GC %: '40.85'
+    Gaps/Gbp: '7.2'
+    Total gap bp: 9,400
+    Scaffolds: '37'
+    Scaffold N50: 547,912,991
+    Scaffold L50: '4'
+    Scaffold L90: '10'
+    Contigs: '84'
+    Contig N50: 169,784,744
+    Contig L50: '15'
+    Contig L90: '39'
+    QV: '71.17'
+    Kmer compl.: '82.2091'
+    BUSCO sing.: 93.4%
+    BUSCO dupl.: 4.2%
+    BUSCO frag.: 1.0%
+    BUSCO miss.: 1.3%
+
+BUSCO:
+  ver: 5.8.3 (euk_genome_min, miniprot)
+  lineage: insecta_odb12
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 66x 73x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.5
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: 1a3d79a8
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2025-07-10 17:12:11 CEST

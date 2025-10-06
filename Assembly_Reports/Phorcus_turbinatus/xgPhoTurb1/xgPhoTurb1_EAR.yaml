@@ -1,0 +1,112 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '43341'
+ToLID: xgPhoTurb1
+Species: Phorcus turbinatus
+Class: Gastropoda
+Order: Trochida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 947,398,423
+    Haploid Number: '9 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 951,702,898
+    Haploid Number: '18'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.7.Q65
+
+Curator notes:
+  Interventions/Gb: 1
+  Contamination notes: '"BTK detected 817 putative contaminant scaffolds using nt,
+    reference proteomes and 15 BUSCO databases. As the The mitogenome hit to Anopheles
+    gambiae and a hit to Mytilus coruscus were considered false positives, we removed
+    815 scaffolds shorter than 445Kb and accounting for 36 Mb of sequence."'
+  Other observations: '"The hifiasm primary assembly was highly contiguous and complete.
+    However, after performing a whole-genome alignment (WGA) against Phorcus lineatus
+    (xgPhoLine1.1, with 15 MYA divergence) we observed high colinearity between the
+    larger contigs in our assembly and the P. lineatus'' chromosomes, except for chromosome
+    17. Thanks to the WGA, we indentified a 5Mb carrying the telomere end of the chromosome
+    17 homologue and joined the two contigs (i.e. SUPER_17), ending up with 18 super-scaffolds.
+    Given the little amount of sample received for the sequenced specimen, and the
+    fact that a high proportion of snail shell was shattered and mixed with the remaining
+    tissue, the cell lysate was not enough to obtain a HiC library. In absence of
+    HiC data for this species, we mapped the available HiC reads for xgPhoLine1.1
+    using a MQ threshold of 10 and obtaining more than 153.8 million valid pairs.
+    The contact map confirms the chromosome territories and the likely-real chromosome
+    inversions observed in the WGA between both species. Noticeably, 14 out of 18
+    superscaffolds present telomere sequence peaks at both ends while the other 4
+    have a peak at just one chromosome end. The shared folder contains these three
+    evidences: 1. synteny: WGA ,2. telomeres, 3. hic of sister species. These are
+    supporting the chromosome level assembly (xgPhoTurb1.1) presented here, that has
+    identical observed haploid number to Phorcus lineatus. Thanks to the review process
+    we removed 1 haplotig and placed to scaffolds into SUPERs. Regarding the organelles,
+    we assembled the mitogenome using FOAM v0.5 into a single circular contig of 17,345
+    bp staring with the trnF gene."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 987,726,549
+    GC %: '35.71'
+    Gaps/Gbp: '1.01'
+    Total gap bp: '500'
+    Scaffolds: '918'
+    Scaffold N50: 50,589,882
+    Scaffold L50: '8'
+    Scaffold L90: '17'
+    Contigs: '919'
+    Contig N50: 50,589,882
+    Contig L50: '8'
+    Contig L90: '17'
+    QV: '52.9659'
+    Kmer compl.: '80.2551'
+    BUSCO sing.: 97.2%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 1.2%
+    BUSCO miss.: 0.8%
+  Curated pri:
+    Total bp: 951,702,898
+    GC %: '35.48'
+    Gaps/Gbp: '1.05'
+    Total gap bp: '500'
+    Scaffolds: '103'
+    Scaffold N50: 50,589,882
+    Scaffold L50: '8'
+    Scaffold L90: '16'
+    Contigs: '104'
+    Contig N50: 50,589,882
+    Contig L50: '8'
+    Contig L90: '16'
+    QV: '65.5452'
+    Kmer compl.: '79.8947'
+    BUSCO sing.: 97.6%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 1.2%
+    BUSCO miss.: 0.8%
+
+BUSCO:
+  ver: 5.5.0 (euk_genome_met, metaeuk)
+  lineage: metazoa_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 234x 135x 0x
+
+Assembly pipeline:
+  CLAWS: {}
+
+Curation pipeline:
+  PretextViewAI:
+    ver: 1.0.0
+
+Submitter: Fernando Cruz
+Affiliation: CNAG
+
+Date and time: 2025-04-01 17:54:01 CEST

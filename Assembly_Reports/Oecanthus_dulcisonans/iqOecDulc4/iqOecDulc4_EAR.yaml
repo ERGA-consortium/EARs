@@ -1,0 +1,102 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3158904'
+ToLID: iqOecDulc4
+Species: Oecanthus dulcisonans
+Class: Insecta
+Order: Orthoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 960,397,348
+    Haploid Number: '10 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: X0
+  Observed:
+    Haploid size (bp): 1,072,582,059
+    Haploid Number: '9'
+    Ploidy: '2'
+    Sample Sex: X0
+
+EBP metrics:
+  EBP quality code:
+    pri: 8.8.Q68
+
+Curator notes:
+  Interventions/Gb: 0
+  Contamination notes: '"The BTK pipeline detected 530 contaminants, 7 no-hit (coverage
+    and GC) and 523 belonging to the following Phylum: Bacillota (336), Bacterioidota
+    (177), Actinomycetota (3), Chordata (2), Pseudomonadota (1), Streptophyta (1),
+    Uroviricota (1). These contaminants have been removed from the assembly. In addition,
+    5 scaffolds shorter than 68K contain partial or complete mitogenome insertions.
+    They will be removed from the reviewed assembly before ENA upload (I already checked
+    that BUSCO and QV will stay the same)."'
+  Other observations: '"Hifiasm produced a primary assembly with 9 superscaffolds
+    holding telomeres at both sides. HiC belongs to a different individual (iqOecDulc5)
+    but also a male. One of the 9 supper-scaffolds was identified as the X chromosome
+    based on the coverage. Both, the contact map and the telomere locations, strongly
+    support a haploid number of 9. The curation was minimal, we just placed scaffolds
+    larger than 119K into SUPER_1 using the multimaps pretext (mq=0). They seem to
+    be centromeric repeats that can fit nearby a gap but they are impossible to order
+    and orient with confidence. Regarding to the mitochondrial genome, this was assembled
+    with FOAM into a single circular contig of 17,493 bp."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,129,341,404
+    GC %: '41.47'
+    Gaps/Gbp: '1.77'
+    Total gap bp: '400'
+    Scaffolds: '569'
+    Scaffold N50: 193,308,966
+    Scaffold L50: '3'
+    Scaffold L90: '8'
+    Contigs: '571'
+    Contig N50: 193,308,966
+    Contig L50: '3'
+    Contig L90: '9'
+    QV: '56.9282'
+    Kmer compl.: '84.8353'
+    BUSCO sing.: 96.0%
+    BUSCO dupl.: 2.6%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 0.7%
+  Curated pri:
+    Total bp: 1,072,582,059
+    GC %: '41.31'
+    Gaps/Gbp: '1.86'
+    Total gap bp: '400'
+    Scaffolds: '39'
+    Scaffold N50: 204,502,310
+    Scaffold L50: '2'
+    Scaffold L90: '7'
+    Contigs: '41'
+    Contig N50: 193,308,966
+    Contig L50: '3'
+    Contig L90: '8'
+    QV: '68.2709'
+    Kmer compl.: '83.6885'
+    BUSCO sing.: 96.0%
+    BUSCO dupl.: 2.6%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 0.7%
+
+BUSCO:
+  ver: 5.5.0 (euk_genome_met, metaeuk)
+  lineage: insecta_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 107 95 78
+
+Assembly pipeline:
+  CLAWS: {}
+
+Curation pipeline:
+  Blobtoolkit Nextflow: {}
+
+Submitter: Fernando Cruz
+Affiliation: CNAG
+
+Date and time: 2025-09-23 18:45:27 CEST

@@ -1,0 +1,102 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '270691'
+ToLID: wcHelEuro2
+Species: Helobdella europaea
+Class: Clitellata
+Order: Rhynchobdellida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 200,414,275
+    Haploid Number: '9 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: H
+  Observed:
+    Haploid size (bp): 247,075,744
+    Haploid Number: '18'
+    Ploidy: '2'
+    Sample Sex: H
+
+EBP metrics:
+  EBP quality code:
+    pri: 5.7.Q54
+
+Curator notes:
+  Interventions/Gb: 1124
+  Contamination notes: '"Contamination report for assembly labelled primary; Total
+    length of scaffolds removed: 9,839,755 (3.8 %); Scaffolds removed: 62 (9.1 %);
+    Largest scaffold removed: (2,264,000); FCS-GX contaminant species (number of scaffolds;
+    total length of scaffolds):; Aeromonas hydrophila, g-proteobacteria (45; 4,449,244);
+    Flavobacterium collinsii, CFB group bacteria (9; 5,224,684); Brevundimonas sp.
+    UBA6550, a-proteobacteria (7; 150,695); Zootermopsis nevadensis, insects (1; 15,132);
+    FCS-Adaptor (8; 577)"'
+  Other observations: '"Hi-C was from a separate individual (wcHelEuro3);"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 259,830,783
+    GC %: '31.95'
+    Gaps/Gbp: 9,598.55
+    Total gap bp: 249,400
+    Scaffolds: '682'
+    Scaffold N50: 13,616,141
+    Scaffold L50: '8'
+    Scaffold L90: '18'
+    Contigs: 3,176
+    Contig N50: 126,265
+    Contig L50: '589'
+    Contig L90: 1,993
+    Kmer compl.: '99.71'
+    BUSCO sing.: 92.3%
+    BUSCO dupl.: 1.5%
+    BUSCO frag.: 1.8%
+    BUSCO miss.: 4.4%
+  Curated pri:
+    Total bp: 247,075,744
+    GC %: '31.32'
+    Gaps/Gbp: 11,401.36
+    Total gap bp: 342,400
+    Scaffolds: '111'
+    Scaffold N50: 15,826,768
+    Scaffold L50: '7'
+    Scaffold L90: '16'
+    Contigs: 2,928
+    Contig N50: 124,626
+    Contig L50: '587'
+    Contig L90: 1,915
+    Kmer compl.: '99.74'
+    BUSCO sing.: 92.1%
+    BUSCO dupl.: 1.2%
+    BUSCO frag.: 1.8%
+    BUSCO miss.: 4.9%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: metazoa_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 51x 652x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Michael Paulini
+Affiliation: WSI
+
+Date and time: 2025-09-16 13:43:22 CEST

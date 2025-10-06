@@ -1,0 +1,110 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1235830'
+ToLID: ioSomMeri1
+Species: Somatochlora meridionalis
+Class: Insecta
+Order: Odonata
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,238,591,471
+    Haploid Number: '13 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 2,424,650,310
+    Haploid Number: '12'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.8.Q62
+
+Curator notes:
+  Interventions/Gb: 38
+  Contamination notes: '""'
+  Other observations: '"The assembly of Somatochlora meridionalis (ioSomMeri1.1) is
+    based on 29X PacBio data and 169X of Arima Hi-C data generated as part of the
+    European Reference Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via
+    the Biodiversity Genomics Europe project (BGE, https://biodiversitygenomics.eu/).
+    The assembly process included the following steps: initial PacBio assembly generation
+    with Hifiasm, removal of contaminant sequences using Context, removal of haplotypic
+    duplications using purge_dups, and Hi-C-based scaffolding with YaHS. In total,
+    14 contigs were identified as contaminants (bacterial), totaling 3.926 Mb (with
+    the largest being 1.620 Mb). Additionally, 1832 regions totaling 129.562 Mb (with
+    the largest being 1.031 Mb) were identified as haplotypic duplications and removed.
+    The mitochondrial genome was assembled using OATK. Finally, the primary assembly
+    was analyzed and manually improved using Pretext. During manual curation, 3 contaminant
+    sequences and 17 haplotypic regions were removed, totaling 0.292 Mb and 12.431
+    Mb (with the largest being 0.128 Mb and 1.277 Mb). Chromosome-scale scaffolds
+    confirmed by Hi-C data were named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 2,437,390,213
+    GC %: '34.8'
+    Gaps/Gbp: '256.42'
+    Total gap bp: 65,000
+    Scaffolds: 2,653
+    Scaffold N50: 151,448,127
+    Scaffold L50: '7'
+    Scaffold L90: '248'
+    Contigs: 3,252
+    Contig N50: 7,673,000
+    Contig L50: '69'
+    Contig L90: '701'
+    QV: '62.8632'
+    Kmer compl.: '83.7788'
+    BUSCO sing.: 91.7%
+    BUSCO dupl.: 1.4%
+    BUSCO frag.: 3.7%
+    BUSCO miss.: 3.2%
+  Curated collapsed:
+    Total bp: 2,424,650,310
+    GC %: '34.8'
+    Gaps/Gbp: '266.84'
+    Total gap bp: 74,500
+    Scaffolds: 2,577
+    Scaffold N50: 161,429,810
+    Scaffold L50: '7'
+    Scaffold L90: '197'
+    Contigs: 3,224
+    Contig N50: 7,849,553
+    Contig L50: '68'
+    Contig L90: '691'
+    QV: '62.8642'
+    Kmer compl.: '83.7149'
+    BUSCO sing.: 92.1%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 3.7%
+    BUSCO miss.: 3.2%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_met, metaeuk)
+  lineage: insecta_odb12
+
+Data:
+  Profile: PACBIO Hifi Arima
+  Coverage: 29 169
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Adama Ndar
+Affiliation: Genoscope
+
+Date and time: 2025-09-16 12:41:48 CEST

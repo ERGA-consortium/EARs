@@ -1,0 +1,141 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2744210'
+ToLID: ilHipMade1
+Species: Hipparchia maderensis
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 375,997,580
+    Haploid Number: '29 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 380,796,767
+    Haploid Number: '30'
+    Ploidy: '2'
+    Sample Sex: ZZ
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q67
+    hap2: 7.7.Q64
+
+Curator notes:
+  Interventions/Gb: 1
+  Contamination notes: '"After running blobtoolkit in both haplotypes some pseudomonas
+    contamination was found. One contaminant sequence was removed from hap1 and 71
+    sequences from hap2."'
+  Other observations: '"Both haplotypes were curated in this case because none of
+    them required a lot of curation. The mitochondrion has been assembled using FOAM
+    into a single circular contig of 15220 bp."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 379,018,945
+    GC %: '37.23'
+    Gaps/Gbp: '2.64'
+    Total gap bp: '200'
+    Scaffolds: '40'
+    Scaffold N50: 14,000,976
+    Scaffold L50: '13'
+    Scaffold L90: '25'
+    Contigs: '41'
+    Contig N50: 14,000,976
+    Contig L50: '13'
+    Contig L90: '25'
+    QV: '67.5704'
+    Kmer compl.: '79.5217'
+    BUSCO sing.: 98.4%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 1.1%
+  Pre-curation hap2:
+    Total bp: 385,662,067
+    GC %: '37.41'
+    Gaps/Gbp: '5.19'
+    Total gap bp: '400'
+    Scaffolds: '130'
+    Scaffold N50: 14,138,762
+    Scaffold L50: '13'
+    Scaffold L90: '25'
+    Contigs: '132'
+    Contig N50: 14,059,432
+    Contig L50: '13'
+    Contig L90: '26'
+    QV: '62.1845'
+    Kmer compl.: '79.5762'
+    BUSCO sing.: 98.1%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.1%
+  Curated hap1:
+    Total bp: 378,174,314
+    GC %: '37.18'
+    Gaps/Gbp: '2.64'
+    Total gap bp: '200'
+    Scaffolds: '39'
+    Scaffold N50: 14,000,976
+    Scaffold L50: '13'
+    Scaffold L90: '25'
+    Contigs: '40'
+    Contig N50: 14,000,976
+    Contig L50: '13'
+    Contig L90: '25'
+    QV: '67.7944'
+    Kmer compl.: '79.5202'
+    BUSCO sing.: 98.3%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.1%
+  Curated hap2:
+    Total bp: 380,796,767
+    GC %: '37.21'
+    Gaps/Gbp: '5.25'
+    Total gap bp: '400'
+    Scaffolds: '59'
+    Scaffold N50: 14,138,762
+    Scaffold L50: '13'
+    Scaffold L90: '25'
+    Contigs: '61'
+    Contig N50: 14,059,432
+    Contig L50: '13'
+    Contig L90: '26'
+    QV: '64.2122'
+    Kmer compl.: '79.5706'
+    BUSCO sing.: 98.1%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.1%
+
+BUSCO:
+  ver: 5.5.0 (euk_genome_met, metaeuk)
+  lineage: lepidoptera_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 274x 144x 101x
+
+Assembly pipeline:
+  CLAWS:
+    ver: v2.3.0
+  Filtlong:
+    ver: v0.2.1
+    key param: -t target_bases 300000000000
+  Hifiasm:
+    ver: 0.24.0
+    key param: telo-m TAACC
+  Yahs:
+    ver: 1.2a
+    key param: -no-contig-ec
+
+Curation pipeline:
+  Blobtoolkit Nextflow: {}
+
+Submitter: Jessica Gomez-Garrido
+Affiliation: CNAG
+
+Date and time: 2025-06-18 15:52:25 CEST

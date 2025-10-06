@@ -72,17 +72,40 @@ class EAR_get_reviewer:
         except Exception as e:
             raise Exception(f"No eligible candidates found.\n{e}")
 
-    def add_pr(self, name, institution, species, pr):
+    def add_pr(
+        self,
+        pr_url,
+        species,
+        tag,
+        requester_name,
+        requester_affiliation,
+        reviewer_name,
+        reviewer_affiliation,
+        supervisor_name,
+        supervisor_affiliation,
+        interaction_count,
+        open_date,
+        approval_date,
+        other_participants,
+        notes,
+    ):
         ear_reviews_csv_file = os.path.join(csv_folder, "EAR_reviews.csv")
         if not os.path.exists(ear_reviews_csv_file):
             raise Exception("The EAR reviews CSV file does not exist.")
         with open(ear_reviews_csv_file, "r") as file:
             ear_reviews_csv_data = file.read()
-        ear_reviews_csv_data += f"{name},{institution},{species},{pr}\n"
+
+        csv_row = (
+            f"{pr_url},{species},{tag},{requester_name},"
+            f"{requester_affiliation},{reviewer_name},{reviewer_affiliation},"
+            f"{supervisor_name},{supervisor_affiliation},{interaction_count},"
+            f'{open_date},{approval_date},"{other_participants}",{notes}\n'
+        )
+        ear_reviews_csv_data += csv_row
         commit(
             self.repo, ear_reviews_csv_file, "Add new EAR review", ear_reviews_csv_data
         )
-        print(f"Added {name} to the EAR reviews CSV file.")
+        print(f"Added {reviewer_name} to the EAR reviews CSV file.")
 
     def update_reviewers_list(
         self,
@@ -100,9 +123,15 @@ class EAR_get_reviewer:
             reviewer_data_score = int(reviewer_data.get("Calling Score", 1000))
             reviewer_data_total = int(reviewer_data.get("Total Reviews", 0))
             reviewer_data_institution = reviewer_data.get("Institution", "").lower()
+            working_prs = int(reviewer_data.get("Working PRs", 0))
 
             if reviewer_data_id in reviewers:
-                reviewer_data["Busy"] = "Y" if busy else "N"
+                if busy:
+                    working_prs += 1
+                else:
+                    working_prs = max(0, working_prs - 1)
+                reviewer_data["Working PRs"] = str(working_prs)
+
                 if submitted_at:
                     reviewer_data_score -= 1
                     reviewer_data["Calling Score"] = str(reviewer_data_score)
@@ -361,7 +390,7 @@ class EARBotReviewer:
                 pr.create_issue_comment(
                     "Thanks for agreeing!\n"
                     "I appointed you as the EAR reviewer.\n"
-                    "I will keep your status as _Busy_ until you finish this review.\n"
+                    "I will track this as one of your _Working PRs_ until you finish this review.\n"
                     "Please check the [Wiki](https://github.com/ERGA-consortium/EARs/wiki/Reviewers-section)"
                     " if you need to refresh something. (and remember that you must download the EAR PDF to"
                     " be able to click on the link to the contact map file!)\n"
@@ -405,6 +434,11 @@ class EARBotReviewer:
             "The PR will be merged only when the final version of the EAR pdf is available."
         )
 
+    def get_user_info(self, user):
+        user_id = user.login
+        user_name = user.name or user_id
+        return user_id.lower(), user_name
+
     def closed_pr(self):
         # Will run when the PR is closed
         pr = self.repo.get_pull(int(self.pr_number))
@@ -421,34 +455,79 @@ class EARBotReviewer:
                 ),
                 reviews[0],
             )
-            reviewer = the_review.user.login.lower()
+            open_date = pr.created_at.strftime("%Y-%m-%d")
             submitted_at = datetime.now(tz=cet).strftime("%Y-%m-%d")
 
-            researcher_name = pr.user.name or pr.user.login
-            supervisor_name = pr.assignee.name or pr.assignee.login
-            reviewer_name = the_review.user.name or the_review.user.login
+            researcher_id, researcher_name = self.get_user_info(pr.user)
+            supervisor_id, supervisor_name = self.get_user_info(pr.assignee)
+            reviewer_id, reviewer_name = self.get_user_info(the_review.user)
+
+            interaction_count = 0
+            other_participants = set()
+            for comment in list(pr.get_issue_comments()) + list(reviews):
+                body = comment.body.strip()
+                if not body:
+                    continue
+                if self._is_bot_user(comment):
+                    if "do you agree to" in body:
+                        interaction_count -= 1
+                else:
+                    interaction_count += 1
+                    comment_user_id, comment_user_name = self.get_user_info(
+                        comment.user
+                    )
+                    if comment_user_id not in {
+                        researcher_id,
+                        supervisor_id,
+                        reviewer_id,
+                    }:
+                        other_participants.add(comment_user_name)
+
+            supervisor_institution = ""
             reviewer_institution = ""
             for entry in self.EAR_reviewer.data:
                 github_id = entry.get("Github ID", "").lower()
                 full_name = entry.get("Full Name")
                 if full_name:
-                    if github_id == pr.user.login.lower():
+                    if github_id == researcher_id:
                         researcher_name = full_name
-                    if github_id == pr.assignee.login.lower():
+                    if github_id == supervisor_id:
                         supervisor_name = full_name
-                    if github_id == reviewer:
+                    if github_id == reviewer_id:
                         reviewer_name = full_name
-                if github_id == reviewer:
+                    if github_id in other_participants:
+                        other_participants.remove(github_id)
+                        other_participants.add(full_name)
+                if github_id == supervisor_id:
+                    supervisor_institution = entry.get("Institution", "")
+                if github_id == reviewer_id:
                     reviewer_institution = entry.get("Institution", "")
 
             species = self._search_in_body(pr, "Species")
+            tag = self._search_in_body(pr, "Project")
+            researcher_institution = self._search_for_institution(pr)
+            other_participants_str = ", ".join(sorted(other_participants))
+
             self.EAR_reviewer.add_pr(
-                reviewer_name, reviewer_institution, species, pr.html_url
+                pr_url=pr.html_url,
+                species=species,
+                tag=tag,
+                requester_name=researcher_name,
+                requester_affiliation=researcher_institution,
+                reviewer_name=reviewer_name,
+                reviewer_affiliation=reviewer_institution,
+                supervisor_name=supervisor_name,
+                supervisor_affiliation=supervisor_institution,
+                interaction_count=interaction_count,
+                open_date=open_date,
+                approval_date=submitted_at,
+                other_participants=other_participants_str,
+                notes="N/A",
             )
 
             institution = self._search_for_institution(pr)
             self.EAR_reviewer.update_reviewers_list(
-                reviewers=[reviewer],
+                reviewers=[reviewer_id],
                 busy=False,
                 institution=institution,
                 submitted_at=submitted_at,
@@ -459,19 +538,21 @@ class EARBotReviewer:
                 if file.filename.lower().endswith(".pdf")
             )
             self._add_yaml_file(EAR_pdf.filename)
-            EAR_pdf_url = re.sub(r"/blob/[\w\d]+/", "/blob/main/", EAR_pdf.blob_url)
-            slack_post = (
-                f":tada: *New Assembly Finished!* :tada:\n\n"
-                f"Congratulations to {researcher_name} and the {institution} team for the high-quality assembly of _{species}_\n\n"
-                f"The assembly was reviewed by {reviewer_name}, and the process supervised by {supervisor_name}. The EAR can be found in the following link:\n"
-                f"{EAR_pdf_url}"
-            )
-            self._create_slack_post(slack_post)
+
+            if self._search_in_body(pr, "Project") == "ERGA-BGE":
+                EAR_pdf_url = re.sub(r"/blob/[\w\d]+/", "/blob/main/", EAR_pdf.blob_url)
+                slack_post = (
+                    f":tada: *New Assembly Finished!* :tada:\n\n"
+                    f"Congratulations to {researcher_name} and the {institution} team for the high-quality assembly of _{species}_\n\n"
+                    f"The assembly was reviewed by {reviewer_name}, and the process supervised by {supervisor_name}. The EAR can be found in the following link:\n"
+                    f"{EAR_pdf_url}"
+                )
+                self._create_slack_post(slack_post)
         elif not merged:
             supervisor = pr.assignee.login
             pr.create_issue_comment(
                 f"Attention @{supervisor}!\n"
-                "The PR has been closed, but the reviewers will retain their busy status in case it is re-opened.\n"
+                "The PR has been closed, but the reviewers will retain their working PR count in case it is re-opened.\n"
                 "If the PR is going to remain closed, please instruct me to clear the active tasks."
             )
             pr.add_to_labels("ERROR!")
@@ -487,10 +568,14 @@ class EARBotReviewer:
                 "The YAML file has been updated based on the new EAR.pdf"
             )
 
+    def _is_bot_user(self, comment):
+        user_type = comment.raw_data.get("user", {}).get("type", None)
+        return str(user_type).lower() == "bot"
+
     def _search_comment_user(self, pr, text_to_check):
         comment_user = []
         for comment in pr.get_issue_comments().reversed:
-            if comment.user.type == "Bot" and text_to_check in comment.body:
+            if self._is_bot_user(comment) and text_to_check in comment.body:
                 comment_user_re = re.findall(
                     r"\B@([a-z0-9](?:-(?=[a-z0-9])|[a-z0-9]){0,38}(?<=[a-z0-9]))",
                     comment.body,
@@ -503,7 +588,7 @@ class EARBotReviewer:
     def _search_last_comment_time(self, pr, text_to_check):
         comment_time = None
         for comment in pr.get_issue_comments().reversed:
-            if comment.user.type == "Bot" and text_to_check in comment.body:
+            if self._is_bot_user(comment) and text_to_check in comment.body:
                 comment_time = comment.created_at.astimezone(cet)
                 break
         return comment_time

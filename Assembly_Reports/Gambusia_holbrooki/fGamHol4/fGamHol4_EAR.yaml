@@ -1,0 +1,101 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '37273'
+ToLID: fGamHol4
+Species: Gambusia holbrooki
+Class: Actinopteri
+Order: Cyprinodontiformes
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 652,850,389
+    Haploid Number: '18 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: M
+  Observed:
+    Haploid size (bp): 674,605,490
+    Haploid Number: '24'
+    Ploidy: '2'
+    Sample Sex: M
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.7.Q59
+
+Curator notes:
+  Interventions/Gb: 25
+  Contamination notes: '"Contamination report for assembly labelled hap1. Total length
+    of scaffolds removed: 1,576,701 (0.2 %); Scaffolds removed: 23 (6.5 %); Largest
+    scaffold removed: (247,497); FCS-GX contaminant species (number of scaffolds;
+    total length of scaffolds): Candidatus Ichthyocystis hellenicum, b-proteobacteria
+    (20; 1,443,046); Crotalus tigris, reptiles (1; 17,401); Mitochondrion (2; 116,254)"'
+  Other observations: '"Assembly was Hi-C phased; There is a haplotypic inversion
+    on Chromosome 9 at ~8.31-10.04Mb;"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 676,976,343
+    GC %: '39.01'
+    Gaps/Gbp: '147.72'
+    Total gap bp: 10,000
+    Scaffolds: '353'
+    Scaffold N50: 29,628,722
+    Scaffold L50: '11'
+    Scaffold L90: '22'
+    Contigs: '453'
+    Contig N50: 15,918,108
+    Contig L50: '16'
+    Contig L90: '63'
+    Kmer compl.: '99.79'
+    BUSCO sing.: 97.7%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 1.0%
+  Curated pri:
+    Total bp: 674,605,490
+    GC %: '39.01'
+    Gaps/Gbp: '152.68'
+    Total gap bp: 11,100
+    Scaffolds: '318'
+    Scaffold N50: 29,628,722
+    Scaffold L50: '11'
+    Scaffold L90: '22'
+    Contigs: '421'
+    Contig N50: 15,918,108
+    Contig L50: '16'
+    Contig L90: '61'
+    Kmer compl.: '99.78'
+    BUSCO sing.: 97.7%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 1.1%
+
+BUSCO:
+  ver: 5.3.0
+  lineage: actinopterygii_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 56x 147x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm-hic:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Joanna Collins
+Affiliation: WSI
+
+Date and time: 2025-04-23 13:52:07 CEST

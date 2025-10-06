@@ -1,0 +1,130 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1849259'
+ToLID: icGraMeto1
+Species: Graciliella metohijensis
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 234,579,653
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Mix
+  Observed:
+    Haploid size (bp): 243,216,349
+    Haploid Number: '12'
+    Ploidy: '2'
+    Sample Sex: Mix
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q60
+
+Curator notes:
+  Interventions/Gb: 176
+  Contamination notes: '"The PAcBIO HIFI data used in this project was derived from
+    two pooled individuals of this species. Blobtools allowed us to identify several
+    scaffolds, mostly small, that were made up largely of bacterial and fungal sequences.
+    We proceeded to remove 1790 of these scaffolds. In fact 36% of the sequence corresponded
+    to bacterial & fungal contamination. Removing the contaminated scaffolds from
+    the assembly not only did not increase the number missing busco genes but also
+    actually improved not only the busco accuracy but all other assembly quality metrics
+    as well (N50, QV...). The assembly was curated initially prior to filtering out
+    the contaminants. The resulting -scrubbed- assembly was re-analyzed with Blobtools
+    and we were able to find 7 additional short scaffolds made up mostly of bacterial
+    sequence. These will be removed from the assembly submitted for review"'
+  Other observations: '"The mix of individuals we assembled appears to consist of
+    one male and one female specimen, as suggested by the observation that one chromosome
+    exhibits approximately three-quarters HiFi coverage. To assemble the genome of
+    a beetle derived from two pooled individuals, we applied a customized set of Hifiasm
+    parameters aimed at maximizing contiguity while accommodating subtle haplotype
+    variation. Although the sample contained only two individuals, we specified --n-hap
+    4 to allow for the resolution of sub-haplotypes and structural differences that
+    might exist within or between individuals. The manually set --hom-cov 51 corrected
+    for inaccurate peak detection in coverage histograms, ensuring proper classification
+    of homozygous regions. To reduce noise and improve overlap scoring in this low-diversity
+    context, we used --min-hist-cnt 5 and increased overlap sensitivity with -N 150.
+    To further optimize for a more contiguous primary assembly, we introduced controlled
+    randomness in overlap scoring using --n-perturb 30000 and --f-perturb 0.3, which
+    helped resolve ambiguities in highly similar regions and prevented premature fragmentation.
+    These perturbation settings allowed Hifiasm to better distinguish between nearly
+    identical sequences, improving graph resolution and contig extension. Only the
+    primary assembly achieved a contig N50 greater than 1 Mb, making it the most suitable
+    for downstream analysis. Therefore our focus shifted toward curating this mixed
+    primary assembly to produce a high-quality, representative genomic sequence. This
+    is v2 of the EAR after external reviewing. Several sequence re-arrangements were
+    a made and 17 haplotigs were found and removed from the final assembly. The rev2
+    version of this EAR contains only a couple of minor changes from the previous
+    version to address one of the reviewers concerns"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 387,076,371
+    GC %: '35.49'
+    Gaps/Gbp: '382.35'
+    Total gap bp: 29,600
+    Scaffolds: 2,192
+    Scaffold N50: 7,176,294
+    Scaffold L50: '11'
+    Scaffold L90: '922'
+    Contigs: 2,340
+    Contig N50: 2,026,496
+    Contig L50: '34'
+    Contig L90: 1,029
+    QV: '56.8331'
+    Kmer compl.: '97.6147'
+    BUSCO sing.: 97.4%
+    BUSCO dupl.: 2.1%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.3%
+  Curated pri:
+    Total bp: 243,216,349
+    GC %: '32.05'
+    Gaps/Gbp: '226.14'
+    Total gap bp: 11,000
+    Scaffolds: '389'
+    Scaffold N50: 18,044,559
+    Scaffold L50: '6'
+    Scaffold L90: '46'
+    Contigs: '444'
+    Contig N50: 5,769,963
+    Contig L50: '13'
+    Contig L90: '96'
+    QV: '60.2916'
+    Kmer compl.: '93.8925'
+    BUSCO sing.: 97.9%
+    BUSCO dupl.: 1.6%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.3%
+
+BUSCO:
+  ver: 5.5.0 (euk_genome_met, metaeuk)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: PACBIO HIFI OmniC
+  Coverage: 56x 344x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.24.0-r702
+    key param: --f-perturb 0.3
+  YaHS:
+    ver: 1.2a
+    key param: --no-scaffold-ec
+  CLAWS:
+    ver: '2.3'
+
+Curation pipeline:
+  PretextViewAI:
+    ver: 1.0.4
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2025-09-29 15:45:21 CEST

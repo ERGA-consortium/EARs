@@ -1,0 +1,95 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1046855'
+ToLID: qqAmiAura12
+Species: Amilenus aurantiacus
+Class: Arachnida
+Order: Opiliones
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 493,755,031
+    Haploid Number: '12 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 787,386,345
+    Haploid Number: '10'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q62
+
+Curator notes:
+  Interventions/Gb: 66
+  Contamination notes: '"BTK on the primary assembly failed. The run on hap2 is shown.
+    No true contaminants found - some false positives. BTK says Mollusca on a 45M
+    scaffold, but there are more arthropoda hits with higher bitscores than mollusk
+    hits. There are some extreme GC distributions, but related to repeats I think."'
+  Other observations: '"Curation made 6 cuts in contigs, 17 breaks at gaps and 29
+    joins. Curated MQ0 map."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 792,648,794
+    GC %: '32.78'
+    Gaps/Gbp: '108.5'
+    Total gap bp: 17,200
+    Scaffolds: '360'
+    Scaffold N50: 28,513,148
+    Scaffold L50: '9'
+    Scaffold L90: '56'
+    Contigs: '446'
+    Contig N50: 6,101,000
+    Contig L50: '33'
+    Contig L90: '133'
+    QV: '62.3124'
+    Kmer compl.: '96.8274'
+  Curated pri:
+    Total bp: 787,386,345
+    GC %: '32.78'
+    Gaps/Gbp: '152.4'
+    Total gap bp: 24,000
+    Scaffolds: '329'
+    Scaffold N50: 66,555,013
+    Scaffold L50: '6'
+    Scaffold L90: '27'
+    Contigs: '449'
+    Contig N50: 5,622,897
+    Contig L50: '34'
+    Contig L90: '136'
+    QV: '62.2914'
+    Kmer compl.: '96.7164'
+
+BUSCO:
+  ver: 5.5.0 (euk_genome_met, metaeuk)
+  lineage: metazoa_odb10
+
+Data:
+  Profile: ONT Omni-C Illumina WGS
+  Coverage: 112x 131x 54x
+
+Assembly pipeline:
+  Filtlong:
+    ver: 0.2.1
+    key param: --min_length 1000 --min_mean_q 97 -t 42000000000
+  Hifiasm:
+    ver: 0.24.0
+    key param: --ont
+  YaHS:
+    ver: 1.2a
+  CLAWS: {}
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Tyler Alioto
+Affiliation: CNAG
+
+Date and time: 2025-03-27 12:54:35 CET

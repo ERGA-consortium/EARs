@@ -1,0 +1,100 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2883604'
+ToLID: qqEusFeti1
+Species: Euscorpius feti
+Class: Arachnida
+Order: Scorpiones
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 4,312,354,347
+    Haploid Number: '35 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 4,371,788,358
+    Haploid Number: '33'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.8.Q67
+
+Curator notes:
+  Interventions/Gb: 8
+  Contamination notes: '"The BTK pipeline detected 1 contaminant scaffold (scaffold_136)
+    in the pre-curated assembly. However this scaffold was kept, as it is a false
+    positive containing 1 arachnida_odb10 Complete BUSCO and contacts stronly with
+    a chromosome (scaffold_31 or SUPER_32 in curated assembly). For this report, we
+    just show the blob plot of the precurated assembly, actually the only difference
+    with the curated is the number of total scaffolds (184 instead of 187 after curation)."'
+  Other observations: '"Our best genome assembly was obtained running hifiasm with
+    the Hi-C phasing option and then scaffolding the primary assembly with YaHS. Although
+    the sequenced specimen was a female, during curation we could not detect the sex
+    chromosomes. In fact, the lack of distinguishable sex chromosomes is consistent
+    with previous studies in the Euscorpius genus (10.15671/HJBC.2019.269). Regarding
+    to the mitochondrial genome, this was assembled with FOAM into a single circular
+    contig of 15,340 bp."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 4,371,786,958
+    GC %: '36.59'
+    Gaps/Gbp: '16.7'
+    Total gap bp: 14,600
+    Scaffolds: '187'
+    Scaffold N50: 158,507,893
+    Scaffold L50: '12'
+    Scaffold L90: '28'
+    Contigs: '260'
+    Contig N50: 88,203,554
+    Contig L50: '17'
+    Contig L90: '54'
+    QV: '67.4071'
+    Kmer compl.: '97.6951'
+    BUSCO sing.: 88.7%
+    BUSCO dupl.: 8.3%
+    BUSCO frag.: 1.3%
+    BUSCO miss.: 1.7%
+  Curated pri:
+    Total bp: 4,371,788,358
+    GC %: '36.59'
+    Gaps/Gbp: '18.3'
+    Total gap bp: 16,000
+    Scaffolds: '184'
+    Scaffold N50: 151,694,389
+    Scaffold L50: '13'
+    Scaffold L90: '28'
+    Contigs: '264'
+    Contig N50: 81,262,035
+    Contig L50: '18'
+    Contig L90: '55'
+    QV: '67.4071'
+    Kmer compl.: '97.6951'
+    BUSCO sing.: 88.7%
+    BUSCO dupl.: 8.3%
+    BUSCO frag.: 1.3%
+    BUSCO miss.: 1.7%
+
+BUSCO:
+  ver: 5.5.0 (euk_genome_met, metaeuk)
+  lineage: arachnida_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 64x 22x 82x
+
+Assembly pipeline:
+  CLAWS: {}
+
+Curation pipeline:
+  PretextViewAI:
+    ver: 1.0.3
+
+Submitter: Fernando Cruz
+Affiliation: CNAG
+
+Date and time: 2025-09-08 13:07:11 CEST

@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1872043'
+ToLID: qqFroFrut6
+Species: Frontinellina frutetorum
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,245,553,457
+    Haploid Number: '12 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 1,277,728,708
+    Haploid Number: '14'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q59
+
+Curator notes:
+  Interventions/Gb: 46
+  Contamination notes: '""'
+  Other observations: '"The assembly of Frontinellina frutetorum (qqFroFrut6) is based
+    on 35X PacBio data and Omni-C Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/).The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups, and Hi-C-based scaffolding with YaHS. In total, 26 contigs were identified
+    as contaminants (bacterial, archaeal, or viral), totaling 5.8 Mb (with the largest
+    being 2.3Mb). Additionally, 1,178 regions totaling 69 Mb (with the largest being
+    1.1 Mb) were identified as haplotypic duplications and removed. The mitochondrial
+    genome was assembled using OATK. Finally, the primary assembly was analyzed and
+    manually improved using Pretext. During manual curation, 5 haplotypic regions
+    were removed, totaling 2.3 Mb (with the largest being 0.74 Mb). Chromosome-scale
+    scaffolds confirmed by Hi-C data were named in order of size"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,280,409,366
+    GC %: '31.85'
+    Gaps/Gbp: 1,017.64
+    Total gap bp: 143,400
+    Scaffolds: '333'
+    Scaffold N50: 92,665,346
+    Scaffold L50: '7'
+    Scaffold L90: '13'
+    Contigs: 1,603
+    Contig N50: 1,922,386
+    Contig L50: '196'
+    Contig L90: '706'
+    QV: '59.9252'
+    Kmer compl.: '76.2769'
+    BUSCO sing.: 93.7%
+    BUSCO dupl.: 1.1%
+    BUSCO frag.: 3.3%
+    BUSCO miss.: 1.9%
+  Curated collapsed:
+    Total bp: 1,277,728,708
+    GC %: '31.85'
+    Gaps/Gbp: 1,005.69
+    Total gap bp: 144,900
+    Scaffolds: '239'
+    Scaffold N50: 93,533,890
+    Scaffold L50: '7'
+    Scaffold L90: '13'
+    Contigs: 1,524
+    Contig N50: 1,922,386
+    Contig L50: '196'
+    Contig L90: '704'
+    QV: '59.9331'
+    Kmer compl.: '76.2178'
+    BUSCO sing.: 93.9%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 3.2%
+    BUSCO miss.: 1.9%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_met, metaeuk)
+  lineage: araneae_odb12
+
+Data:
+  Profile: Long reads Omnic
+  Coverage: 35 271
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Caroline Belser
+Affiliation: Genoscope
+
+Date and time: 2025-09-20 07:56:34 CEST

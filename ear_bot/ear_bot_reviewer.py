@@ -378,9 +378,12 @@ class EARBotReviewer:
                 print("The reviewer is not the one who was asked to review the PR.")
                 sys.exit()
 
-            first_line = next(
-                (line.strip() for line in comment_text.split("\n") if line.strip()), ""
-            )
+            first_line = ""
+            for line in comment_text.split("\n"):
+                stripped = line.strip()
+                if stripped and not stripped.startswith(">"):
+                    first_line = stripped
+                    break
 
             if bool(re.search(r"\byes\b", first_line)):
                 time_wasted_reviewers = set(

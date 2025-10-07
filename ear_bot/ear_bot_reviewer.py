@@ -377,7 +377,12 @@ class EARBotReviewer:
             ):
                 print("The reviewer is not the one who was asked to review the PR.")
                 sys.exit()
-            if "yes" in comment_text:
+
+            first_line = next(
+                (line.strip() for line in comment_text.split("\n") if line.strip()), ""
+            )
+
+            if bool(re.search(r"\byes\b", first_line)):
                 time_wasted_reviewers = set(
                     self._search_comment_user(pr, "Time is out!")
                 )
@@ -396,7 +401,7 @@ class EARBotReviewer:
                     " be able to click on the link to the contact map file!)\n"
                     "Contact the PR assignee for any issues."
                 )
-            elif "no" in comment_text:
+            elif bool(re.search(r"\bno\b", first_line)):
                 self.find_reviewer([pr], reject=True)
             else:
                 current_date = datetime.now(tz=cet)

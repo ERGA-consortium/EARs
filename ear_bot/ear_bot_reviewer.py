@@ -618,19 +618,8 @@ class EARBotReviewer:
         raise Exception(f"Missing {text_to_check} in the PR description.")
 
     def _search_for_institution(self, pr):
-        institution = self._search_in_body(pr, "Affiliation").lower()
-        if "cnag" in institution:
-            return "CNAG"
-        elif any(
-            name in institution
-            for name in ["sanger", "welcome sanger institute", "wsi"]
-        ):
-            return "Sanger"
-        elif "genoscope" in institution:
-            return "Genoscope"
-        elif "scilifelab" in institution:
-            return "SciLifeLab"
-        return institution
+        institution = self._search_in_body(pr, "Affiliation")
+        return get_EAR_reviewer.normalize_institution(institution)
 
     def _deadline(self, start_date):
         current_date = start_date

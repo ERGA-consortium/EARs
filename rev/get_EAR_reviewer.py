@@ -1,7 +1,7 @@
 # get_EAR_reviewer.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-version = "v25.09.03"
+version = "v25.10.10"
 
 import requests
 import random
@@ -33,6 +33,12 @@ def normalize_institution(institution):
         return 'Genoscope'
     elif 'scilifelab' in institution:
         return 'SciLifeLab'
+    elif 'izw' in institution:
+        return 'IZW'
+    elif 'unifi' in institution:
+        return 'UNIFI'
+    elif 'uniba' in institution:
+        return 'UNIBA'
     return institution
 
 def adjust_score(reviewer, tags):
@@ -40,7 +46,7 @@ def adjust_score(reviewer, tags):
     if reviewer['Last Review'] == 'NA':
         score += 50
     normalized_institution = normalize_institution(reviewer['Institution'])
-    if 'ERGA-BGE' in tags and normalized_institution in ['CNAG', 'Sanger', 'Genoscope', 'SciLifeLab']:
+    if 'ERGA-BGE' in tags and normalized_institution in ['CNAG', 'Sanger', 'Genoscope', 'SciLifeLab', 'IZW', 'UNIFI', 'UNIBA']:
         score += 50  # Additional 50 points for reviewers from BGE institutions if 'ERGA-BGE' tag is used
     if reviewer['Supervisor'] == 'Y':
         score -= 5  # Subtract 5 points if reviewer is also supervisor to decrease the chance of selection

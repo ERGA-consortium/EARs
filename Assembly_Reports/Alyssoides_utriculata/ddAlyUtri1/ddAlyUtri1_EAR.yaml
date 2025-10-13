@@ -1,0 +1,96 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '457762'
+ToLID: ddAlyUtri1
+Species: Alyssoides utriculata
+Class: Magnoliopsida
+Order: Brassicales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,071,941,611
+    Haploid Number: '4 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 1,018,829,908
+    Haploid Number: '8'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    hap1: 8.8.Q64
+
+Curator notes:
+  Interventions/Gb: 6
+  Contamination notes: '"2 mycoplasma sequences removed""'
+  Other observations: '"Not many interventions to make after yahs. Need to reorder
+    the chromosomes based on either size or sytneny, not sure yet"'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 1,028,428,052
+    GC %: '38.96'
+    Gaps/Gbp: '83.62'
+    Total gap bp: 17,200
+    Scaffolds: '726'
+    Scaffold N50: 685,186,311
+    Scaffold L50: '1'
+    Scaffold L90: '4'
+    Contigs: '812'
+    Contig N50: 108,093,000
+    Contig L50: '5'
+    Contig L90: '10'
+    QV: '62.527'
+    Kmer compl.: '98.0999'
+    BUSCO sing.: 92.6%
+    BUSCO dupl.: 4.1%
+    BUSCO frag.: 1.5%
+    BUSCO miss.: 1.8%
+  Curated hap1:
+    Total bp: 1,018,829,908
+    GC %: '38.95'
+    Gaps/Gbp: '83.43'
+    Total gap bp: 17,000
+    Scaffolds: '413'
+    Scaffold N50: 135,958,589
+    Scaffold L50: '4'
+    Scaffold L90: '8'
+    Contigs: '498'
+    Contig N50: 108,093,000
+    Contig L50: '5'
+    Contig L90: '10'
+    QV: '64.0782'
+    Kmer compl.: '98.0773'
+    BUSCO sing.: 92.5%
+    BUSCO dupl.: 4.0%
+    BUSCO frag.: 1.5%
+    BUSCO miss.: 1.9%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_min, miniprot)
+  lineage: eudicotyledons_odb12
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 32 130
+
+Assembly pipeline:
+  HiFiasm:
+    ver: 0.25.0
+    key param: --hom-cov 32
+  purge-dups:
+    ver: 1.2.6
+  yahs:
+    ver: 1.1a
+
+Curation pipeline:
+  PretextViewAI:
+    ver: 1.0.0
+
+Submitter: Tom Brown
+Affiliation: IZW
+
+Date and time: 2025-10-10 10:52:27 CEST

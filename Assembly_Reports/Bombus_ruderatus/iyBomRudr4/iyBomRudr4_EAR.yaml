@@ -1,0 +1,107 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '207645'
+ToLID: iyBomRudr4
+Species: Bombus ruderatus
+Class: Insecta
+Order: Hymenoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 244,749,913
+    Haploid Number: '19 (source: ancestor)'
+    Ploidy: '1 (source: ancestor)'
+    Sample Sex: X
+  Observed:
+    Haploid size (bp): 262,740,167
+    Haploid Number: '19'
+    Ploidy: '1'
+    Sample Sex: X
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q71
+
+Curator notes:
+  Interventions/Gb: 27
+  Contamination notes: '"No contaminations was detected with FCS-GX."'
+  Other observations: '"PacBio reads were subsampled to 60X. Reads were assembled
+    with hifiasm (yield: 306M, N50: 6.4Mb). FCS-GX detected no contaminations. Purge_dups
+    removed 285 contigs (31.3Mb). HiC data is of a decent quality 41.7M UU read pairs
+    with 15% +40Kb length information. Yahs was used to scaffold the contigs (yield:
+    275Mb, sN50: 15.7Mb). The curation revealed many large coverage drops (from 60X
+    to 5-7X) at adjacent contigs within many chromosomes. Therefore all shrapnel contigs
+    with the same repeat motif and coverage drops were marked as haplotiogs (removed
+    contigs: 143). The current map still has coverage drops (from 60X to 10-15X).
+    After discussing this issue in the assembly_curation slack channel, I did not
+    trimm back these motifs. Apparently those satellites/heterochromatin regions can
+    have up 75% lower coverage in Bombus species."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 275,421,291
+    GC %: '37.53'
+    Gaps/Gbp: '130.71'
+    Total gap bp: 7,200
+    Scaffolds: '248'
+    Scaffold N50: 15,784,770
+    Scaffold L50: '8'
+    Scaffold L90: '17'
+    Contigs: '284'
+    Contig N50: 9,300,000
+    Contig L50: '13'
+    Contig L90: '44'
+    QV: '70.5123'
+    Kmer compl.: '99.6941'
+    BUSCO sing.: 98.3%
+    BUSCO dupl.: 0.2%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.0%
+  Curated pri:
+    Total bp: 262,740,167
+    GC %: '37.89'
+    Gaps/Gbp: '152.24'
+    Total gap bp: 5,900
+    Scaffolds: '35'
+    Scaffold N50: 15,784,570
+    Scaffold L50: '8'
+    Scaffold L90: '16'
+    Contigs: '75'
+    Contig N50: 9,401,705
+    Contig L50: '12'
+    Contig L90: '37'
+    QV: '71.8543'
+    Kmer compl.: '99.6683'
+    BUSCO sing.: 98.3%
+    BUSCO dupl.: 0.2%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.0%
+
+BUSCO:
+  ver: 5.8.3 (euk_genome_min, miniprot)
+  lineage: apoidea_odb12
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 389x 133x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2.2
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: 1a3d79a8
+  HiGlass:
+    ver: 0.10.4
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2025-10-10 16:47:42 CEST

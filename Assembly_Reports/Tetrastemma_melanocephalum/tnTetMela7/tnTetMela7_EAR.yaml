@@ -1,0 +1,107 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '307678'
+ToLID: tnTetMela7
+Species: tetrastemma melanocephalum
+Class: Enopla
+Order: Monostilifera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 483,581,228
+    Haploid Number: '2 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 524,234,113
+    Haploid Number: '16'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q60
+
+Curator notes:
+  Contamination notes: '"There were about 170 proteobacteria sequences totalling 3Mb
+    identified by FCS-GX and then a further 21 scaffolds removed by blobtools corresponding
+    to various fungi and bacteria totalling a further 3Mb. The swissprot databases
+    seems to classify a number of scaffolds as arthropod, likely due to the lack of
+    sequences in this lineage."'
+  Other observations: '"There were a lot of retained haplotigs in this assembly, likely
+    due to the high heterozygosity rate of 4%. Hi-C was from another individual, so
+    the hifiasm+hic assembly was not possible. Just over 30Mb of sequence was manually
+    removed as haplotig."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 563,854,870
+    GC %: '44.69'
+    Gaps/Gbp: '858.38'
+    Total gap bp: 96,800
+    Scaffolds: '391'
+    Scaffold N50: 34,110,936
+    Scaffold L50: '7'
+    Scaffold L90: '14'
+    Contigs: '875'
+    Contig N50: 1,676,826
+    Contig L50: '108'
+    Contig L90: '336'
+    QV: '59.6832'
+    Kmer compl.: '64.0939'
+    BUSCO sing.: 90.7%
+    BUSCO dupl.: 5.8%
+    BUSCO frag.: 1.0%
+    BUSCO miss.: 2.6%
+  Curated pri:
+    Total bp: 524,234,113
+    GC %: '44.71'
+    Gaps/Gbp: 1,085.39
+    Total gap bp: 101,100
+    Scaffolds: '141'
+    Scaffold N50: 32,051,925
+    Scaffold L50: '8'
+    Scaffold L90: '15'
+    Contigs: '709'
+    Contig N50: 1,515,124
+    Contig L50: '106'
+    Contig L90: '332'
+    QV: '60.852'
+    Kmer compl.: '61.0453'
+    BUSCO sing.: 93.8%
+    BUSCO dupl.: 2.2%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 3.1%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: lophotrochozoa_odb12
+
+Data:
+  Profile: PacBio HiFi Hi-C
+  Coverage: 49 190
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.25.0-r726
+    key param: --primary
+  purge-dups:
+    ver: 1.2.5
+  yahs:
+    ver: 1.2a.1
+  fcs-gx:
+    ver: 0.5.0
+  blobtools:
+    ver: 4.0.7
+
+Curation pipeline:
+  PretextViewAI:
+    ver: 1.0.0
+  HiGlass:
+    ver: 1.8.0
+
+Submitter: Tom Brown
+Affiliation: IZW
+
+Date and time: 2025-10-10 09:51:51 CEST

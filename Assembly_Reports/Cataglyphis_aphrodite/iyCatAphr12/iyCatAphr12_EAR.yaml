@@ -1,0 +1,103 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3229133'
+ToLID: iyCatAphr12
+Species: Cataglyphis aphrodite
+Class: Insecta
+Order: Hymenoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 206,071,442
+    Haploid Number: '26 (source: ancestor)'
+    Ploidy: '1 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 209,631,510
+    Haploid Number: '26'
+    Ploidy: '1'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.6.Q61
+
+Curator notes:
+  Interventions/Gb: 5
+  Contamination notes: '"FCS-GX detected 2 contigs: Candidatus Nanopelagicus limnes
+    and Tsukamurella tyrosinosolvens"'
+  Other observations: '"Straightforward assembly. PacBio HiFi reads were subsampled
+    to 60x coverage. HiFiasm (yield: 219Mb, N50: 2.5M) + FCS-GX (removed 2 contigs,
+    25Kb) + purge_dups (yield: 210Mb, N50: 2.5M) + yahs + curation. No major issues.
+    I could not identify any sex chromosome. The PacBio coverage is uniformly distributed
+    over all chromosomes and I could not find any other ant assembly with known sex
+    chromosomes. In a second curation round the assembly was mapped to GCF_021464435.1
+    and GCF_021464445.1 which revealed that scaffold_2 and scaffold_9 needed to be
+    split. Therefore the final chromosome number is now 26."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 210,149,118
+    GC %: '34.64'
+    Gaps/Gbp: '590.06'
+    Total gap bp: 24,800
+    Scaffolds: '41'
+    Scaffold N50: 9,432,304
+    Scaffold L50: '9'
+    Scaffold L90: '20'
+    Contigs: '165'
+    Contig N50: 2,598,554
+    Contig L50: '26'
+    Contig L90: '83'
+    QV: '61.394'
+    Kmer compl.: '98.1756'
+    BUSCO sing.: 98.6%
+    BUSCO dupl.: 0.1%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 0.6%
+  Curated pri:
+    Total bp: 209,631,510
+    GC %: '34.64'
+    Gaps/Gbp: '601.05'
+    Total gap bp: 25,200
+    Scaffolds: '28'
+    Scaffold N50: 8,279,055
+    Scaffold L50: '9'
+    Scaffold L90: '22'
+    Contigs: '154'
+    Contig N50: 2,598,554
+    Contig L50: '26'
+    Contig L90: '82'
+    QV: '61.4242'
+    Kmer compl.: '98.1153'
+    BUSCO sing.: 98.6%
+    BUSCO dupl.: 0.1%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 0.6%
+
+BUSCO:
+  ver: 5.8.3 (euk_genome_min, miniprot)
+  lineage: formicidae_odb12
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 276x 816x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.6
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: 1a3d79a8
+  HiGlass:
+    ver: 0.10.4
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2025-10-13 13:56:47 CEST

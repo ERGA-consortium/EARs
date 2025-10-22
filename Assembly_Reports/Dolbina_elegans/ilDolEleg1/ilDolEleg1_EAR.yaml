@@ -1,0 +1,112 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1086284'
+ToLID: ilDolEleg1
+Species: Dolbina elegans
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 443,096,965
+    Haploid Number: '28 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 431,447,688
+    Haploid Number: '27'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q64
+
+Curator notes:
+  Interventions/Gb: 4
+  Contamination notes: '""'
+  Other observations: '"The assembly of DOLBINA ELEGANS (ilDolEleg1) is based on 42X
+    PacBio data and 246X Arima Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups and Hi-C-based scaffolding with YaHS. In total, 270 regions totaling
+    6,430,096 pb (with the largest being 164,404 pb) were identified as haplotypic
+    duplications and removed. The mitochondrial genome was assembled using OATK. Finally,
+    the primary assembly was analyzed and manually improved using Pretext. During
+    manual curation, 2 haplotypic region were removed, totaling 609,538 pb (with the
+    largest being 164,404 pb) and 2 scaffolds were identified as contaminants and
+    removed. Chromosome-scale scaffolds confirmed by Hi-C data were named in order
+    of size. The sex chromosome Z was identified by alignment with ilSphPina1.1. Lepidoptera
+    Z chromosomes are well preserved, allowing their identification by synteny. Furthermore,
+    it can be inferred that the specimen is male, given that all chromosomes are uniformly
+    covered."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 432,271,758
+    GC %: '38.46'
+    Gaps/Gbp: '18.51'
+    Total gap bp: 1,300
+    Scaffolds: '44'
+    Scaffold N50: 16,422,477
+    Scaffold L50: '12'
+    Scaffold L90: '24'
+    Contigs: '50'
+    Contig N50: 16,128,841
+    Contig L50: '12'
+    Contig L90: '25'
+    QV: '64.363'
+    Kmer compl.: '94.1064'
+    BUSCO sing.: 97.4%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 1.3%
+    BUSCO miss.: 1.0%
+  Curated collapsed:
+    Total bp: 431,447,688
+    GC %: '38.47'
+    Gaps/Gbp: '16.22'
+    Total gap bp: 1,300
+    Scaffolds: '32'
+    Scaffold N50: 16,422,477
+    Scaffold L50: '12'
+    Scaffold L90: '24'
+    Contigs: '39'
+    Contig N50: 16,067,718
+    Contig L50: '12'
+    Contig L90: '25'
+    QV: '64.5809'
+    Kmer compl.: '94.0883'
+    BUSCO sing.: 98.8%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.8%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: Long reads Arima
+  Coverage: 42 246
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2025-10-10 02:47:05 CEST

@@ -1,0 +1,111 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3229181'
+ToLID: iyMesBuce7
+Species: Messor bucephalus
+Class: Insecta
+Order: Hymenoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 369,553,906
+    Haploid Number: '21 (source: ancestor)'
+    Ploidy: '1 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 397,571,255
+    Haploid Number: '21'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q66
+
+Curator notes:
+  Contamination notes: '"FCS-GX detected 3 small (< 100kb) contigs matching Tunavirus
+    ISF002, Phage NBSal001, and Mixta mediterraneensis."'
+  Other observations: '"The assembly was produced with hifiasm, decontaminated with
+    FCS-GX, and haplotigs purged with purge_dups. Scaffolding was performed with YaHS
+    and the scaffolds were analysed with blobtools for the presence of residual contaminants.
+    Although no contaminants were found, scaffolds with extreme coverages (<50x and
+    >140x) were filtered out of the assembly. The curated assembly has 21 putative
+    chromosomes likely representing the euchromatic arms of each chromosome. The assembly
+    also contains a large number of scaffolds that could not be assigned to chromosomes,
+    likely representing the heterochromatic and highly repetitive fraction of this
+    genome. Mitochondria was assembled with MitoHiFi."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 587,439,348
+    GC %: '35.82'
+    Gaps/Gbp: '464.73'
+    Total gap bp: 54,600
+    Scaffolds: '468'
+    Scaffold N50: 10,345,731
+    Scaffold L50: '20'
+    Scaffold L90: '156'
+    Contigs: '741'
+    Contig N50: 2,283,000
+    Contig L50: '69'
+    Contig L90: '307'
+    QV: '67.9468'
+    Kmer compl.: '94.9617'
+    BUSCO sing.: 99.3%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.4%
+  Curated collapsed:
+    Total bp: 397,571,255
+    GC %: '36.03'
+    Gaps/Gbp: '447.72'
+    Total gap bp: 35,600
+    Scaffolds: '143'
+    Scaffold N50: 14,167,757
+    Scaffold L50: '11'
+    Scaffold L90: '36'
+    Contigs: '321'
+    Contig N50: 3,175,829
+    Contig L50: '37'
+    Contig L90: '138'
+    QV: '66.8606'
+    Kmer compl.: '94.5173'
+    BUSCO sing.: 99.3%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.4%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: hymenoptera_odb10
+
+Data:
+  Profile: PacBio HiFi Arima HiC v2
+  Coverage: 115x 50x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.25.0-r726
+    key param: --h2
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2a.2
+  NBIS/Earth-Biogenome-Project-pilot:
+    ver: 99c8937
+  sanger-tol/blobtoolkit:
+    ver: 0.8.0
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.4.2
+  sanger-tol/pretextview:
+    ver: 1.0.3
+  sanger-tol/agp-tpf-utils:
+    ver: 1.2.3
+
+Submitter: Guilherme B. Dias
+Affiliation: SciLifeLab
+
+Date and time: 2025-10-15 09:50:47 CEST

@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1968893'
+ToLID: icProCypr1
+Species: Propomacrus cypriacus
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 471,390,309
+    Haploid Number: '10 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 511,276,245
+    Haploid Number: '10'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q73
+
+Curator notes:
+  Interventions/Gb: 0
+  Contamination notes: '"No contamination was detected by FCS-GX or blobtoolkit."'
+  Other observations: '"The assembly was produced with hifiasm in Hi-C mode. The resulting
+    collapsetd *.hic.p_ctg.gfa was selected, screened for contamination with FCS-GX,
+    and purged of haplotigs with purge_dups. Scaffolding was performed with YaHS.
+    The X chromosome was assigned based on MCscan analysis of synteny with another
+    Scarabaeoidea beetle, Melinopterus prodromus (GCA_964023965.1). Mitochondria was
+    assembled with Oatk."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 512,280,640
+    GC %: '33.38'
+    Gaps/Gbp: '17.57'
+    Total gap bp: 1,800
+    Scaffolds: '41'
+    Scaffold N50: 57,489,177
+    Scaffold L50: '4'
+    Scaffold L90: '9'
+    Contigs: '50'
+    Contig N50: 29,712,000
+    Contig L50: '8'
+    Contig L90: '17'
+    QV: '73.1572'
+    Kmer compl.: '91.4389'
+    BUSCO sing.: 98.6%
+    BUSCO dupl.: 1.2%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.1%
+  Curated collapsed:
+    Total bp: 511,276,245
+    GC %: '33.37'
+    Gaps/Gbp: '17.6'
+    Total gap bp: 1,800
+    Scaffolds: '40'
+    Scaffold N50: 57,489,177
+    Scaffold L50: '4'
+    Scaffold L90: '9'
+    Contigs: '49'
+    Contig N50: 29,712,000
+    Contig L50: '8'
+    Contig L90: '16'
+    QV: '73.3452'
+    Kmer compl.: '91.4387'
+    BUSCO sing.: 98.6%
+    BUSCO dupl.: 1.2%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.1%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: endopterygota_odb10
+
+Data:
+  Profile: PacBio HiFi Arima HiC v2
+  Coverage: 61x 27x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.25.0-r726
+    key param: --h2
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2a.2
+  NBIS/Earth-Biogenome-Project-pilot:
+    ver: 99c8937
+  sanger-tol/blobtoolkit:
+    ver: 0.8.0
+  Oatk:
+    ver: '1.0'
+    key param: -c 100
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.4.1
+  sanger-tol/agp-tpf-utils:
+    ver: 1.2.3
+
+Submitter: Guilherme B. Dias
+Affiliation: SciLifeLab
+
+Date and time: 2025-10-27 14:36:37 CET

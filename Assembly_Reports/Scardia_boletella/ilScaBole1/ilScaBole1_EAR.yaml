@@ -1,0 +1,107 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '753226'
+ToLID: ilScaBole1
+Species: Scardia boletella
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 187,880,448
+    Haploid Number: '29 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 404,657,757
+    Haploid Number: '31'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q58
+
+Curator notes:
+  Interventions/Gb: 35
+  Contamination notes: '""'
+  Other observations: '"The assembly of SCARDIA BOLETELLA (ilScaBole1) is based on
+    166X PacBio data and 501X Arima Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups and Hi-C-based scaffolding with YaHS. No contamination was detected.
+    But, 192 regions totaling 6 Mb (with the largest being 996,406 pb) were identified
+    as haplotypic duplications and removed. The mitochondrial genome was assembled
+    using OATK. Finally, the primary assembly was analyzed and manually improved using
+    Pretext. Chromosome-scale scaffolds confirmed by Hi-C data were named in order
+    of size and the telomere pattern found is TTAGG."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 404,714,238
+    GC %: '35.15'
+    Gaps/Gbp: '200.14'
+    Total gap bp: 9,200
+    Scaffolds: '35'
+    Scaffold N50: 14,210,946
+    Scaffold L50: '13'
+    Scaffold L90: '27'
+    Contigs: '115'
+    Contig N50: 6,207,600
+    Contig L50: '23'
+    Contig L90: '68'
+    QV: '58.766'
+    Kmer compl.: '97.5792'
+    BUSCO sing.: 97.0%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.7%
+  Curated collapsed:
+    Total bp: 404,657,757
+    GC %: '35.15'
+    Gaps/Gbp: '217.47'
+    Total gap bp: 11,300
+    Scaffolds: '33'
+    Scaffold N50: 14,210,946
+    Scaffold L50: '13'
+    Scaffold L90: '27'
+    Contigs: '121'
+    Contig N50: 5,201,002
+    Contig L50: '25'
+    Contig L90: '74'
+    QV: '58.7654'
+    Kmer compl.: '97.579'
+    BUSCO sing.: 97.0%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.7%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: lepidoptera_odb12
+
+Data:
+  Profile: Long reads Arima
+  Coverage: 166 501
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2025-11-03 10:58:07 CET

@@ -1,4 +1,4 @@
-ERGA Assembly Report: v24.09.10
+ERGA Assembly Report: v24.10.15
 Tags: ERGA-BGE
 
 TxID: '1518524'
@@ -14,68 +14,80 @@ Genome Traits:
     Ploidy: '2 (source: ancestor)'
     Sample Sex: Unknown
   Observed:
-    Haploid size (bp): 3,972,812,733
+    Haploid size (bp): 3,980,132,586
     Haploid Number: '47'
     Ploidy: '2'
     Sample Sex: Unknown
 
 EBP metrics:
   EBP quality code:
-    collapsed: 6.7.Q58
+    collapsed: 6.7.Q62
 
 Curator notes:
-  Interventions/Gb: 38
-  Contamination notes: '"2 bacterian contigs removed after assembly"'
-  Other observations: '"11 scaffolds with lower coverage corresponding to X chromosomes
-    renamed X_1 to X_11 according to length"'
+  Interventions/Gb: 44
+  Contamination notes: '""'
+  Other observations: '"The assembly of Macrothele cretica (qqMacCret1) is based on
+    19.7X PacBio data and 92X Arima Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups, and Hi-C-based scaffolding with YaHS. In total, 4 contigs were identified
+    as contaminants (bacterial, archaeal, or viral), totaling 1.613 Mb (with the largest
+    being 1.279 Mb). Additionally, 1161 regions totaling 239.165 Mb (with the largest
+    being 8.15 Mb) were identified as haplotypic duplications and removed. The mitochondrial
+    genome was assembled using OATK. Finally, the primary assembly was analyzed and
+    manually improved using Pretext. Chromosome-scale scaffolds confirmed by Hi-C
+    data were named in order of size. Sexual chromosomes renamed X1 to X11 according
+    to length."'
 
 Metrics:
   Pre-curation collapsed:
-    Total bp: 3,977,790,240
-    GC %: '40.57'
-    Gaps/Gbp: '562.88'
-    Total gap bp: 223,900
-    Scaffolds: '733'
-    Scaffold N50: 90,425,106
+    Total bp: 3,981,048,477
+    GC %: '40.58'
+    Gaps/Gbp: '570.96'
+    Total gap bp: 227,300
+    Scaffolds: '961'
+    Scaffold N50: 94,552,240
     Scaffold L50: '19'
-    Scaffold L90: '44'
-    Contigs: 2,972
-    Contig N50: 3,118,366
-    Contig L50: '368'
-    Contig L90: 1,354
-    QV: '58.205'
-    Kmer compl.: '96.3213'
-    BUSCO sing.: 96.1%
-    BUSCO dupl.: 2.7%
-    BUSCO frag.: 1.2%
-    BUSCO miss.: 0.0%
+    Scaffold L90: '43'
+    Contigs: 3,234
+    Contig N50: 3,255,254
+    Contig L50: '358'
+    Contig L90: 1,306
+    QV: '62.8509'
+    Kmer compl.: '96.3119'
+    BUSCO sing.: 89.5%
+    BUSCO dupl.: 6.7%
+    BUSCO frag.: 1.6%
+    BUSCO miss.: 2.2%
   Curated collapsed:
-    Total bp: 3,972,812,733
-    GC %: '40.57'
-    Gaps/Gbp: '569.62'
-    Total gap bp: 232,900
-    Scaffolds: '561'
-    Scaffold N50: 94,972,223
+    Total bp: 3,980,132,586
+    GC %: '40.58'
+    Gaps/Gbp: '585.16'
+    Total gap bp: 244,500
+    Scaffolds: '643'
+    Scaffold N50: 95,622,158
     Scaffold L50: '19'
-    Scaffold L90: '41'
-    Contigs: 2,824
-    Contig N50: 3,123,923
-    Contig L50: '367'
-    Contig L90: 1,353
-    QV: '58.2097'
-    Kmer compl.: '96.3082'
-    BUSCO sing.: 96.1%
-    BUSCO dupl.: 2.7%
-    BUSCO frag.: 1.2%
-    BUSCO miss.: 0.0%
+    Scaffold L90: '40'
+    Contigs: 2,972
+    Contig N50: 3,255,254
+    Contig L50: '358'
+    Contig L90: 1,307
+    QV: '62.8643'
+    Kmer compl.: '96.3003'
+    BUSCO sing.: 89.5%
+    BUSCO dupl.: 6.7%
+    BUSCO frag.: 1.6%
+    BUSCO miss.: 2.2%
 
 BUSCO:
-  ver: 5.4.3
-  lineage: eukaryota_odb10
+  ver: 5.4.3 (euk_genome_met, metaeuk)
+  lineage: arachnida_odb10
 
 Data:
-  Profile: PACBIO Hifi Arima (4-enz)
-  Coverage: 62 15
+  Profile: PACBIO Hifi Arima
+  Coverage: 19 97
 
 Assembly pipeline:
   Hifiasm:
@@ -94,4 +106,4 @@ Curation pipeline:
 Submitter: Emilie Teodori
 Affiliation: Genoscope
 
-Date and time: 2024-10-23 15:01:34 CEST
+Date and time: 2025-02-16 00:42:24 CET

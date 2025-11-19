@@ -1,0 +1,110 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '522324'
+ToLID: cbOrtDiap4
+Species: Orthotrichum diaphanum
+Class: Bryopsida
+Order: Orthotrichales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 378,051,659
+    Haploid Number: '10 (source: direct)'
+    Ploidy: '1 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 300,855,570
+    Haploid Number: '10'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q45
+
+Curator notes:
+  Interventions/Gb: 170
+  Contamination notes: '""'
+  Other observations: '"The assembly of ORTHOTRICHUM DIAPHANUM (cbOrtDiap4) is based
+    on 90X PacBio data and 172X Arima Hi-C data generated as part of the European
+    Reference Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity
+    Genomics Europe project (BGE, https://biodiversitygenomics.eu/). The assembly
+    process included the following steps: initial PacBio assembly generation with
+    Nextdenovo, removal of contaminant sequences using Context, and Hi-C-based scaffolding
+    with YaHS. In total, 312 contigs were identified as contaminants (bacterial and
+    virus), totaling 102,717,377 pb (with the largest being 1,315,266 pb). Additionally,
+    215 regions totaling 16,655,681 pb (with the largest being 6,394,324 pb) were
+    identified as haplotypic duplications and removed. Additionally, 209 regions totaling
+    12,347,622 pb (with the largest being 297,312 pb) were identified as haplotypic
+    duplications and removed. The mitochondrial genome was assembled using OATK. Finally,
+    the primary assembly was analyzed and manually improved using Pretext. During
+    manual curation, 14 scaffolds were identified as contaminants and removed. Chromosome-scale
+    scaffolds confirmed by Hi-C data were named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 301,715,765
+    GC %: '37.25'
+    Gaps/Gbp: 1,000.94
+    Total gap bp: 30,200
+    Scaffolds: '58'
+    Scaffold N50: 29,060,192
+    Scaffold L50: '4'
+    Scaffold L90: '9'
+    Contigs: '360'
+    Contig N50: 1,432,891
+    Contig L50: '60'
+    Contig L90: '200'
+    QV: '45.275'
+    Kmer compl.: '87.2371'
+    BUSCO sing.: 72.0%
+    BUSCO dupl.: 7.3%
+    BUSCO frag.: 4.1%
+    BUSCO miss.: 16.6%
+  Curated collapsed:
+    Total bp: 300,855,570
+    GC %: '37.27'
+    Gaps/Gbp: 1,086.9
+    Total gap bp: 38,700
+    Scaffolds: '27'
+    Scaffold N50: 29,290,605
+    Scaffold L50: '4'
+    Scaffold L90: '9'
+    Contigs: '354'
+    Contig N50: 1,432,891
+    Contig L50: '60'
+    Contig L90: '199'
+    QV: '45.2836'
+    Kmer compl.: '87.1535'
+    BUSCO sing.: 72.0%
+    BUSCO dupl.: 7.3%
+    BUSCO frag.: 4.0%
+    BUSCO miss.: 16.7%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: embryophyta_odb12
+
+Data:
+  Profile: Long reads Arima
+  Coverage: 90 172
+
+Assembly pipeline:
+  Nextdenovo:
+    ver: 2.5.2
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2025-11-18 13:05:39 CET

@@ -1,0 +1,112 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '209733'
+ToLID: icCarStae2
+Species: Carabus staehlini
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 200,308,448
+    Haploid Number: '14 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 203,440,252
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q61
+
+Curator notes:
+  Interventions/Gb: 335
+  Contamination notes: '""'
+  Other observations: '"The assembly of CARABUS STAEHLINI (icCarStae2) is based on
+    45X PacBio data and 210X Arima Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups and Hi-C-based scaffolding with YaHS. In total, 71 contigs were identified
+    as contaminants (bacterial), totaling 3,705,613 pb (with the largest being 1,315,266
+    pb). Additionally, 215 regions totaling 16,655,681 pb (with the largest being
+    1,136,177 pb) were identified as haplotypic duplications and removed. The mitochondrial
+    genome was assembled using OATK. Finally, the primary assembly was analyzed and
+    manually improved using Pretext. During manual curation, 2 haplotypic region was
+    removed, totaling 1,019,594 pb (with the largest being 597,145 pb). On chromosome
+    2, unlocs could be located in the centromere at approximately 8 Mb, but their
+    exact order and orientation remain uncertain. Similarly, on chromosome 11, unlocs
+    could be located at 6.2 Mb. Chromosome-scale scaffolds confirmed by Hi-C data
+    were named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 205,970,907
+    GC %: '34.58'
+    Gaps/Gbp: '150.51'
+    Total gap bp: 3,200
+    Scaffolds: '70'
+    Scaffold N50: 14,277,293
+    Scaffold L50: '6'
+    Scaffold L90: '13'
+    Contigs: '99'
+    Contig N50: 6,325,665
+    Contig L50: '13'
+    Contig L90: '32'
+    QV: '61.138'
+    Kmer compl.: '91.1159'
+    BUSCO sing.: 94.9%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 1.4%
+    BUSCO miss.: 3.2%
+  Curated collapsed:
+    Total bp: 203,440,252
+    GC %: '34.57'
+    Gaps/Gbp: '265.43'
+    Total gap bp: 9,100
+    Scaffolds: '45'
+    Scaffold N50: 14,444,430
+    Scaffold L50: '6'
+    Scaffold L90: '13'
+    Contigs: '99'
+    Contig N50: 6,325,665
+    Contig L50: '13'
+    Contig L90: '32'
+    QV: '61.197'
+    Kmer compl.: '90.955'
+    BUSCO sing.: 97.6%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 1.7%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: Long reads Arima
+  Coverage: 44 210
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2025-10-16 16:15:24 CEST

@@ -1,0 +1,107 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '130055'
+ToLID: jaClaCaes1
+Species: Cladocora caespitosa
+Class: Anthozoa
+Order: Scleractinia
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 555,073,251
+    Haploid Number: '6 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 554,556,895
+    Haploid Number: '14'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q59
+
+Curator notes:
+  Interventions/Gb: 144
+  Contamination notes: '"234 contigs were excluded via FCS-GX. Though 900 more contigs
+    are marked with the REVIEW label."'
+  Other observations: '"The initial PacBio data set shows a very broad range of contamination/cobionts
+    up to 14X. Therefore the PacBio reads were subsampled to 40X, which reduced the
+    "erroneous" kmers to a normal fraction. The hifiasm assembly based on the subsampled
+    reads was quite fragmented (4889 contigs, N50 4.5Mb). FCS-GX decontamination just
+    removed 234 contigs (see contamination notes) and haplotype purging removed 1072
+    (45.5Mb) additional contigs. The HiC data is of suboptimal quality (40M UU-read
+    pairs with just 3% >40Kb resolution). Further contamination were filtered out
+    by running tiara, purge_dups again, investigating the from FCS-GX review-tagged
+    contigs, blobtoolKit, and by applying a GC filtering (>0.45) and PacBio coverage
+    <5."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 704,195,618
+    GC %: '41.01'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 4,889
+    Scaffold N50: 4,579,535
+    Scaffold L50: '45'
+    Scaffold L90: 1,319
+    Contigs: 4,889
+    Contig N50: 4,579,535
+    Contig L50: '45'
+    Contig L90: 1,319
+    QV: '54.9445'
+    Kmer compl.: '85.3463'
+    BUSCO sing.: 94.5%
+    BUSCO dupl.: 2.4%
+    BUSCO frag.: 2.5%
+    BUSCO miss.: 0.6%
+  Curated pri:
+    Total bp: 554,556,895
+    GC %: '38.98'
+    Gaps/Gbp: '290.32'
+    Total gap bp: 21,800
+    Scaffolds: '630'
+    Scaffold N50: 35,719,839
+    Scaffold L50: '6'
+    Scaffold L90: '13'
+    Contigs: '791'
+    Contig N50: 5,274,245
+    Contig L50: '34'
+    Contig L90: '112'
+    QV: '59.368'
+    Kmer compl.: '80.5198'
+    BUSCO sing.: 95.6%
+    BUSCO dupl.: 1.1%
+    BUSCO frag.: 2.5%
+    BUSCO miss.: 0.8%
+
+BUSCO:
+  ver: 5.8.3 (euk_genome_min, miniprot)
+  lineage: anthozoa_odb12
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 87x 91x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2.2
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: 1a3d79a8
+  HiGlass:
+    ver: 0.10.4
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2025-10-09 15:10:19 CEST

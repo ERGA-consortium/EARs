@@ -1,0 +1,110 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '166372'
+ToLID: icSisScha5
+Species: Sisyphus schaefferi
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 383,238,411
+    Haploid Number: '10 (source: direct)'
+    Ploidy: '2 (source: direct)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 398,363,795
+    Haploid Number: '10'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q66
+
+Curator notes:
+  Interventions/Gb: 48
+  Contamination notes: '""'
+  Other observations: '"The assembly of Sisyphus schaefferi (icSisScha5) is based
+    on 115X PacBio data and 580X Arima Hi-C data generated as part of the European
+    Reference Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity
+    Genomics Europe project (BGE, https://biodiversitygenomics.eu/). The assembly
+    process included the following steps: initial PacBio assembly generation with
+    Hifiasm, removal of contaminant sequences using Context, removal of haplotypic
+    duplications using purge_dups, and Hi-C-based scaffolding with YaHS. The mitochondrial
+    genome has not been assembled, and mitochondrial contigs may be present in the
+    assembly. No contigs were found to be contaminants (bacterial, archaeal, or viral).
+    Additionally, 301 regions totaling 15.045 Mb (with the largest being 2.354 Mb)
+    were identified as haplotypic duplications and removed. Finally, the primary assembly
+    was analyzed and manually improved using Pretext. During manual curation, 2 haplotypic
+    regions and 18 contaminant sequences were removed, totaling 0.315 and 0.412 Mb
+    respectively, (with the largest being 0.181Mb and 0.060 Mb). Chromosome-scale
+    scaffolds confirmed by Hi-C data were named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 399,091,625
+    GC %: '34.72'
+    Gaps/Gbp: '40.09'
+    Total gap bp: 1,600
+    Scaffolds: '120'
+    Scaffold N50: 37,205,113
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '136'
+    Contig N50: 19,673,571
+    Contig L50: '7'
+    Contig L90: '20'
+    QV: '66.3288'
+    Kmer compl.: '70.1479'
+    BUSCO sing.: 95.3%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 1.5%
+    BUSCO miss.: 2.5%
+  Curated collapsed:
+    Total bp: 398,363,795
+    GC %: '34.72'
+    Gaps/Gbp: '62.76'
+    Total gap bp: 3,800
+    Scaffolds: '102'
+    Scaffold N50: 37,205,513
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '127'
+    Contig N50: 19,673,571
+    Contig L50: '7'
+    Contig L90: '23'
+    QV: '66.4634'
+    Kmer compl.: '70.1347'
+    BUSCO sing.: 97.1%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.6%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: Long reads Arima
+  Coverage: 115 580
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Sophie Mangenot
+Affiliation: Genoscope
+
+Date and time: 2025-10-22 10:21:55 CEST

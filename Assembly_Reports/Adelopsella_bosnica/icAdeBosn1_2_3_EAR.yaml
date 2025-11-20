@@ -1,0 +1,106 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3073150'
+ToLID: icAdeBosn1
+Species: Adelopsella bosnica
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 768,177,425
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 946,343,750
+    Haploid Number: '14'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code: {}
+
+Curator notes:
+  Interventions/Gb: 186
+  Contamination notes: '"Removed 541 scaffolds identified by Blobtools as contaminants.
+    We are running blobtools again on the decontaminated curated assembly again, especially
+    to correct the axis and figure legends that have the wrong species tolid! It will
+    be included in any updated EAR."'
+  Other observations: '"Curation made 35 cuts in contigs, 48 breaks at gaps and 103
+    joins. Removed 14 haplotigs (3 Mb). Centromeric regions were mostly unlocalized
+    (order and orientation uncertain) using strong contact weith localized centromeric
+    sequence and contacts with non-centromeric flanking sequence."'
+
+Metrics:
+  Pre-curation <pri>:
+    Total bp: 991,324,255
+    GC %: '30.48'
+    Gaps/Gbp: '388.37'
+    Total gap bp: 77,000
+    Scaffolds: 2,271
+    Scaffold N50: 36,347,139
+    Scaffold L50: '10'
+    Scaffold L90: '473'
+    Contigs: 2,656
+    Contig N50: 2,300,463
+    Contig L50: '126'
+    Contig L90: '826'
+    QV: '57.5578'
+    Kmer compl.: '94.0162'
+    BUSCO sing.: 94.4%
+    BUSCO dupl.: 4.8%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.4%
+  Curated <pri>:
+    Total bp: 946,343,750
+    GC %: '30.2'
+    Gaps/Gbp: '456.49'
+    Total gap bp: 86,400
+    Scaffolds: 1,698
+    Scaffold N50: 50,659,766
+    Scaffold L50: '7'
+    Scaffold L90: '259'
+    Contigs: 2,130
+    Contig N50: 2,223,258
+    Contig L50: '126'
+    Contig L90: '659'
+    QV: '57.8464'
+    Kmer compl.: '93.2434'
+    BUSCO sing.: 94.5%
+    BUSCO dupl.: 4.7%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.4%
+
+BUSCO:
+  ver: 5.5.0 (euk_genome_met, metaeuk)
+  lineage: insecta_odb10
+
+Data:
+  Profile: PacBio HiFi Arima
+  Coverage: 24x 106x
+
+Assembly pipeline:
+  Filtlong:
+    ver: 0.2.1
+    key param: --min_length 1000 --min_mean_q 80
+  Hifiasm:
+    ver: 0.24.0
+    key param: --hom-cov 28.4 --n-perturb 30000 --f-perturb 0.3 --min-hist-cnt 5
+  N 80 --n-hap 4 --telo-m AATAAT": {}
+  YaHS:
+    ver: 1.2a
+    key param: --no-contig-ec
+  CLAWS: {}
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: '2.0'
+  PretextViewAI:
+    ver: 1.0.4
+
+Submitter: Tyler Alioto
+Affiliation: CNAG
+
+Date and time: 2025-09-26 16:34:07 CEST

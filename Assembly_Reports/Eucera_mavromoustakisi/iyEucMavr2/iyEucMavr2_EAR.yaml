@@ -1,0 +1,106 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3229266'
+ToLID: iyEucMavr2
+Species: Eucera mavromoustakisi
+Class: Insecta
+Order: Hymenoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 458,179,693
+    Haploid Number: '21 (source: ancestor)'
+    Ploidy: '1 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 620,345,852
+    Haploid Number: '22'
+    Ploidy: '1'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q58
+
+Curator notes:
+  Interventions/Gb: 6
+  Contamination notes: '"No contaminations were detected with FCS-GX."'
+  Other observations: '"PacBio reads were subsampled to 50X. Reads were assembled
+    with hifiasm (yield: 1003M, N50: 209Kb, 12561 contigs). FCS-GX detected no contaminations.
+    Purge_dups removed 7301 contigs (379.4Mb). HiC data is of a decent quality with
+    14M cis-reads pairs above 40Kb. Yahs was NOT used to join contigs into scaffolds
+    as it oversplit many contigs (removed telomere motifs) and overjoined many shrapnel
+    contigs. The current map still contains many shrapnel contigs that I could not
+    unambiguously assign to any of the chromosomes. Super_18 looks still a bit odd
+    also due to the large unlocalized contig. Some of the chromosomes e.g. SUPER_8
+    and SUPER_11 have a weaker signal towards the end. I assigned the contigs based
+    on a map without shrapnels shorter than 100K (4843 contigs) and at that time the
+    signal was much clearer. The final map now has all shrapnels and therefore the
+    signal is much ore diluted."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 624,165,344
+    GC %: '36.83'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 5,346
+    Scaffold N50: 6,484,053
+    Scaffold L50: '19'
+    Scaffold L90: 2,738
+    Contigs: 5,346
+    Contig N50: 6,484,053
+    Contig L50: '19'
+    Contig L90: 2,738
+    QV: '58.9556'
+    Kmer compl.: '91.5536'
+    BUSCO sing.: 95.8%
+    BUSCO dupl.: 2.1%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 1.6%
+  Curated pri:
+    Total bp: 620,345,852
+    GC %: '36.8'
+    Gaps/Gbp: '80.6'
+    Total gap bp: 10,000
+    Scaffolds: 5,297
+    Scaffold N50: 13,027,790
+    Scaffold L50: '16'
+    Scaffold L90: 2,701
+    Contigs: 5,347
+    Contig N50: 5,915,780
+    Contig L50: '20'
+    Contig L90: 2,751
+    QV: '58.9288'
+    Kmer compl.: '91.4924'
+    BUSCO sing.: 97.5%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 1.6%
+
+BUSCO:
+  ver: 5.8.3 (euk_genome_min, miniprot)
+  lineage: endopterygota_odb12
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 123x 231x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.6
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: 1a3d79a8
+  HiGlass:
+    ver: 0.10.4
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2025-10-22 12:49:36 CEST

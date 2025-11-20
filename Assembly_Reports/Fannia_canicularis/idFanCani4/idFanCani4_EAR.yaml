@@ -1,0 +1,106 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '307205'
+ToLID: idFanCani4
+Species: Fannia canicularis
+Class: Insecta
+Order: Diptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,930,715,007
+    Haploid Number: '6 (source: direct)'
+    Ploidy: '3 (source: ancestor)'
+    Sample Sex: M
+  Observed:
+    Haploid size (bp): 1,876,390,951
+    Haploid Number: '6'
+    Ploidy: '2'
+    Sample Sex: M
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.8.Q64
+
+Curator notes:
+  Interventions/Gb: 404
+  Contamination notes: '"Contamination report for assembly labelled primary; Total
+    length of scaffolds removed: 0 (0.0 %); Scaffolds removed: 0 (0.0 %); Largest
+    scaffold removed: (0); FCS-GX contaminant species (number of scaffolds; total
+    length of scaffolds):"'
+  Other observations: '"Hi-C was from a different individual (idFanCani1); We did
+    not identify the sex chromosome(s) as sequence data from the heterogametic sex
+    was not available and homology is unreliable for sex chromosome identification
+    in Diptera due to frequent sex chromosome turnover (https://doi.org/10.1371/journal.pbio.1002078).
+    The collector confirmed the sample as male, but in Musca domestica sex determination
+    is very complex. Maybe something similar occurs in Fannia canicularis with XX
+    males carrying male determinating factor on X or autosome (https://pmc.ncbi.nlm.nih.gov/articles/PMC4524491/pdf/evv128.pdf
+    [pmc.ncbi.nlm.nih.gov)."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,775,741,293
+    GC %: '34.11'
+    Gaps/Gbp: '142.48'
+    Total gap bp: 25,300
+    Scaffolds: '184'
+    Scaffold N50: 271,967,115
+    Scaffold L50: '3'
+    Scaffold L90: '6'
+    Contigs: '437'
+    Contig N50: 13,322,456
+    Contig L50: '37'
+    Contig L90: '138'
+    Kmer compl.: '94.67'
+    BUSCO sing.: 92.8%
+    BUSCO dupl.: 4.9%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 2.3%
+  Curated pri:
+    Total bp: 1,876,390,951
+    GC %: '34.13'
+    Gaps/Gbp: '195.06'
+    Total gap bp: 48,200
+    Scaffolds: '118'
+    Scaffold N50: 303,294,413
+    Scaffold L50: '3'
+    Scaffold L90: '5'
+    Contigs: '484'
+    Contig N50: 13,138,360
+    Contig L50: '41'
+    Contig L90: '165'
+    Kmer compl.: '97.27'
+    BUSCO sing.: 97.5%
+    BUSCO dupl.: 1.5%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.9%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: insecta_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v3
+  Coverage: 36x 70x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Michael Paulini
+Affiliation: WSI
+
+Date and time: 2025-10-13 15:23:13 CEST

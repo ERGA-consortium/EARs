@@ -1,0 +1,112 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '173051'
+ToLID: qcDicCarn1
+Species: Dicellophilus carniolensis
+Class: Chilopoda
+Order: Geophilomorpha
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 324,282,458
+    Haploid Number: '8 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 316,300,198
+    Haploid Number: '17'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q68
+
+Curator notes:
+  Contamination notes: '"FCS-GX detected some bacterial fragments in the hifiasm p_ctgs
+    matching Wolbachia and indicative of a complete genome but without circularized
+    contigs. We collected the fragments and used these as reference for read mapping
+    with minimap2, then extracted mapped reads with samtools (-F 2052) and re-assembled
+    them with hifiasm with default settings. This process yielded a circular contig
+    of 1.3Mb. Allele typing using PubMLST (https://pubmlst.org/bigsdb?db=pubmlst_rmlst_seqdef_kiosk)
+    revealed a close match to Candidatus Mesenet endosymbiont of Agriotes lineatus,
+    which is a proposed new genus in the Anaplasmataceae family."'
+  Other observations: '"The assembly was produced with hifiasm and the *p_ctg.fa was
+    selected. The assembly was decontaminated with FCS-GX, and haplotigs purged with
+    purge_dups. Scaffolding was performed with YaHS. Mitochondria was assembled with
+    Oatk. HiFi and Hi-C data come from distinct individuals."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 320,158,379
+    GC %: '37.32'
+    Gaps/Gbp: '165.54'
+    Total gap bp: 10,600
+    Scaffolds: '47'
+    Scaffold N50: 17,904,240
+    Scaffold L50: '6'
+    Scaffold L90: '15'
+    Contigs: '100'
+    Contig N50: 6,899,197
+    Contig L50: '15'
+    Contig L90: '47'
+    QV: '67.8974'
+    Kmer compl.: '89.278'
+    BUSCO sing.: 92.7%
+    BUSCO dupl.: 4.6%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 2.3%
+  Curated collapsed:
+    Total bp: 316,300,198
+    GC %: '37.34'
+    Gaps/Gbp: '170.72'
+    Total gap bp: 10,800
+    Scaffolds: '38'
+    Scaffold N50: 17,904,240
+    Scaffold L50: '7'
+    Scaffold L90: '15'
+    Contigs: '92'
+    Contig N50: 7,036,659
+    Contig L50: '14'
+    Contig L90: '45'
+    QV: '68.2931'
+    Kmer compl.: '88.5954'
+    BUSCO sing.: 92.9%
+    BUSCO dupl.: 4.4%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 2.3%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: PacBio HiFi Arima HiC v2
+  Coverage: 42x 80x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.25.0-r726
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2a.2
+  NBIS/Earth-Biogenome-Project-pilot:
+    ver: 99c8937
+  sanger-tol/blobtoolkit:
+    ver: 0.8.0
+  Oatk:
+    ver: '1.0'
+    key param: -c 100
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.4.2
+  sanger-tol/agp-tpf-utils:
+    ver: 1.2.3
+
+Submitter: Guilherme B. Dias
+Affiliation: SciLifeLab
+
+Date and time: 2025-11-11 10:49:04 CET

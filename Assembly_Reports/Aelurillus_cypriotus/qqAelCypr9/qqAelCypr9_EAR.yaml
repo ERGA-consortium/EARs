@@ -1,0 +1,101 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3229105'
+ToLID: qqAelCypr9
+Species: Aelurillus cypriotus
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 3,993,831,373
+    Haploid Number: '14 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 3,929,230,577
+    Haploid Number: '11'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    pri: 8.8.Q69
+
+Curator notes:
+  Interventions/Gb: 0
+  Contamination notes: '"No contaminants were detected"'
+  Other observations: '"We have decided to curate the primary assembly for this species
+    as it contained only four gaps and it is about four times as contiguous as each
+    of the haps (hap1 and hap2 have 28 and 36 gaps respectively). The sample that
+    was sequenced corresponded to an XX female while the HiC data came from a male.
+    This helped us identify the X chromosome. We further confirmed the sex chromosome
+    by alignment to other species within the same Dionycha clade."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 3,929,230,377
+    GC %: '29.16'
+    Gaps/Gbp: '0.76'
+    Total gap bp: '600'
+    Scaffolds: '51'
+    Scaffold N50: 335,564,643
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '54'
+    Contig N50: 322,710,697
+    Contig L50: '6'
+    Contig L90: '12'
+    QV: '69.4534'
+    Kmer compl.: '78.8165'
+    BUSCO sing.: 92.9%
+    BUSCO dupl.: 3.8%
+    BUSCO frag.: 1.5%
+    BUSCO miss.: 1.8%
+  Curated pri:
+    Total bp: 3,929,230,577
+    GC %: '29.16'
+    Gaps/Gbp: '1.02'
+    Total gap bp: '800'
+    Scaffolds: '51'
+    Scaffold N50: 333,985,199
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '55'
+    Contig N50: 322,710,697
+    Contig L50: '6'
+    Contig L90: '12'
+    QV: '69.4534'
+    Kmer compl.: '78.8165'
+    BUSCO sing.: 92.9%
+    BUSCO dupl.: 3.8%
+    BUSCO frag.: 1.5%
+    BUSCO miss.: 1.8%
+
+BUSCO:
+  ver: 5.5.0 (euk_genome_met, metaeuk)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: ONT OmniC
+  Coverage: 54x 62x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.24.0-r702
+  YaHS:
+    ver: 1.2a
+  CLAWS:
+    ver: '2.3'
+
+Curation pipeline:
+  PretextViewAI:
+    ver: 1.0.4
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2025-10-10 15:21:50 CEST

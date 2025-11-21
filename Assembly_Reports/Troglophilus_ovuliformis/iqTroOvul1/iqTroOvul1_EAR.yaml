@@ -1,0 +1,111 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2034322'
+ToLID: iqTroOvul1
+Species: Troglophilus ovuliformis
+Class: Insecta
+Order: Orthoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 6,486,622,086
+    Haploid Number: '28 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XY
+  Observed:
+    Haploid size (bp): 7,752,424,174
+    Haploid Number: '9'
+    Ploidy: '2'
+    Sample Sex: XY
+
+EBP metrics:
+  EBP quality code:
+    pri: 8.9.Q71
+
+Curator notes:
+  Interventions/Gb: 4
+  Contamination notes: "\"Repeated attempts to run BlobTools were unsuccessful. While\
+    \ investigating the cause, we utilized an alternative tool, FCS-GX (Foreign Contamination\
+    \ Screen \u2013 Genome eXclusion), which identified several of the smallest chromosomes\
+    \ (all under 3.6 kilobases) as contaminated with human sequence (scaffolds 337,\
+    \ 343, 346, 347, 348, and 351). These scaffolds will be excluded from the final\
+    \ assembly.\""
+  Other observations: '"We selected the primary assembly for this species due to its
+    superior contiguity and fewer gaps compared to either haplotype. The sequenced
+    sample was from an XY male. Our analysis identified a putative pseudoautosomal
+    region (PAR), which we positioned at the beginning of chromosome X. We also detected
+    several haplotigs. In the case of the repeat-rich Scaffold_9 (painted), we tentatively
+    flagged certain sequences as unlocalized sequences, even though these could be
+    haplotigs pending reviewer feedback. The Pretext map we are sharing has not yet
+    been remapped, but all putative chromosomes have been painted and identified haplotigs
+    have been tagged. We have also included the mq0 Pretext map for your reference.
+    The statistics (busco,merqury,gfstats) were obtained on the provisionally curated
+    assembly generated from the mq10 pretext which we shared."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 7,800,738,619
+    GC %: '40.9'
+    Gaps/Gbp: '4.23'
+    Total gap bp: 6,600
+    Scaffolds: '353'
+    Scaffold N50: 1,739,946,135
+    Scaffold L50: '3'
+    Scaffold L90: '11'
+    Contigs: '386'
+    Contig N50: 257,295,000
+    Contig L50: '8'
+    Contig L90: '29'
+    QV: '71.4565'
+    Kmer compl.: '89.9503'
+    BUSCO sing.: 95.4%
+    BUSCO dupl.: 3.8%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 0.3%
+  Curated pri:
+    Total bp: 7,752,424,174
+    GC %: '40.9'
+    Gaps/Gbp: '6.19'
+    Total gap bp: 9,600
+    Scaffolds: '341'
+    Scaffold N50: 1,720,636,234
+    Scaffold L50: '3'
+    Scaffold L90: '9'
+    Contigs: '389'
+    Contig N50: 257,295,000
+    Contig L50: '8'
+    Contig L90: '30'
+    QV: '71.4328'
+    Kmer compl.: '89.8345'
+    BUSCO sing.: 96.2%
+    BUSCO dupl.: 3.0%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 0.3%
+
+BUSCO:
+  ver: 5.5.0 (euk_genome_met, metaeuk)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: ONT OmniC
+  Coverage: 47x NA
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.24.0-r702
+  YaHS:
+    ver: 1.2a
+  CLAWS:
+    ver: '2.3'
+
+Curation pipeline:
+  PretextViewAI:
+    ver: 1.0.4
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2025-10-31 14:34:17 CET

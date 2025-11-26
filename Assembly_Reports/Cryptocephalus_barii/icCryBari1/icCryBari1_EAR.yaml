@@ -25,10 +25,21 @@ EBP metrics:
 
 Curator notes:
   Interventions/Gb: 58
-  Contamination notes: '"No presence of contaminants. The sequence of a known endosymbiont
-    was identified and excluded from the final assembly before the contact map generation
-    and curation."'
-  Other observations: '"Updated report after the second review."'
+  Contamination notes: '"The sequence of a known endosymbiont was identified and excluded
+    from the final assembly."'
+  Other observations: '"The assembly of species Cryptocephalus barii (icCryBari) is
+    based on 189X long read ONT data and 170X Dovetail OmniC data. The assembly process
+    included the following steps: ONT reads shorter than 3 kb were filtered out, thus
+    the remaining reads -for a total of ~102 Gb- were assembled using Necat with polishing
+    performed using NextPolish. Contigs were subsequently filtered with purge_dups
+    to remove haplotigs and obtain a more accurate, non-redundant assembly. Scaffolding
+    was performed by aligning Omni-C reads to the purged contigs using the Omni-C
+    mapping pipeline, followed by YaHS for scaffold construction. Contamination was
+    checked using BlobTools. The scaffolds were processed through sanger_tol/curationpretext
+    pipeline to generate the contact map, which was manually improved using PretextView.
+    The presence of a mitochondrial genome contig/scaffold was not assessed. Chromosome-scale
+    scaffolds confirmed by Omni-C data were named in order of size. Chromosome X was
+    identified."'
 
 Metrics:
   Pre-curation pri:
@@ -75,8 +86,8 @@ BUSCO:
   lineage: arthropoda_odb10
 
 Data:
-  Profile: ONT Bionano OmniC
-  Coverage: 189x NA 170x
+  Profile: ONT OmniC
+  Coverage: 189x 170x
 
 Assembly pipeline:
   Necat:
@@ -92,7 +103,7 @@ Curation pipeline:
   PretextView:
     ver: 1.0.3
 
-Submitter: Carmela Gissi
+Submitter: Ilenia Urso
 Affiliation: UNIBA
 
-Date and time: 2025-07-31 10:47:11 CEST
+Date and time: 2025-11-19 16:55:26 CET

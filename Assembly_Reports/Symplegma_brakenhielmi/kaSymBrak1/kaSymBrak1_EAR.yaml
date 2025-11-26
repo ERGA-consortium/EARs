@@ -25,11 +25,23 @@ EBP metrics:
 
 Curator notes:
   Interventions/Gb: 219
-  Contamination notes: "\"From the BlobTools analysis, chromosomes SUPER_12 and SUPER_16\
-    \ are classified as \u201CArthropoda\u201D instead of \u201CChordata,\u201D thus\
-    \ identifying them as contaminants. Both align to the same sequence, with an alignment\
-    \ length of 6,051 in both cases.\""
-  Other observations: '"Report EAR after revisions."'
+  Contamination notes: '"315 small sequences were removed as contaminants; in addition,
+    2 large scaffolds (SUPER_12, SUPER_16) were classified as Arthropoda. However,
+    they were not removed because their coverage and GC content were consistent with
+    the rest of the genome, and they showed no Hi-C contacts with other scaffolds."'
+  Other observations: '"The assembly of species Symplegma brakenhielmi (kaSymBrak)
+    is based on 169X long read ONT data and 104X Arima HiC data generated as part
+    of the ERGA initiative via the BGE project. The assembly process included the
+    following steps: ONT reads shorter than 3 kb were filtered out, thus the remaining
+    reads -for a total of ~108 Gb- were assembled using Necat with polishing performed
+    using NextPolish. Contigs were subsequently filtered with purge_dups to remove
+    haplotigs. Scaffolding was performed by aligning Hi-C reads to the purged contigs
+    using the Omni-C mapping pipeline, followed by YaHS for scaffold construction.
+    Contamination was checked using BlobTools. The scaffolds were processed through
+    curationpretext pipeline to generate contact map, which was manually improved
+    using PretextView. The presence of a mitochondrial genome contig/scaffold was
+    not assessed. Chromosome-scale scaffolds confirmed by Hi-C data were named in
+    order of size."'
 
 Metrics:
   Pre-curation pri:
@@ -76,8 +88,8 @@ BUSCO:
   lineage: metazoa_odb10
 
 Data:
-  Profile: ONT Bionano HiC
-  Coverage: 169x NA 104x
+  Profile: ONT Arima HiC
+  Coverage: 169x 104x
 
 Assembly pipeline:
   Necat:
@@ -93,7 +105,7 @@ Curation pipeline:
   PretextView:
     ver: 1.0.3
 
-Submitter: Carmela Gissi
+Submitter: Ilenia Urso
 Affiliation: UNIBA
 
-Date and time: 2025-11-11 16:01:40 CET
+Date and time: 2025-11-25 15:11:51 CET

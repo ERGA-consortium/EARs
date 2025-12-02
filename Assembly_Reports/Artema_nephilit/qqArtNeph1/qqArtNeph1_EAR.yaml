@@ -1,0 +1,103 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2068848'
+ToLID: qqArtNeph1
+Species: Artema nephilit
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,485,957,015
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 1,505,308,508
+    Haploid Number: '17'
+    Ploidy: '2'
+    Sample Sex: X1X2
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q69
+
+Curator notes:
+  Interventions/Gb: 83
+  Contamination notes: '"Wolbachia endosymbiont removed by FCS-GX"'
+  Other observations: '"Mitohifi failed to assemble mtDNA. I was unable to assign
+    X1X2 chromosomes through wga or synteny with Parasteatoda_tepidariorum or Dysdera_tilosensis.
+    https://bmcecolevol.biomedcentral.com/articles/10.1186/s12862-021-01750-8 shows
+    X1X2, and 17 chr total."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,527,716,421
+    GC %: '41.58'
+    Gaps/Gbp: '39.27'
+    Total gap bp: 12,000
+    Scaffolds: '101'
+    Scaffold N50: 97,804,034
+    Scaffold L50: '7'
+    Scaffold L90: '16'
+    Contigs: '161'
+    Contig N50: 29,532,000
+    Contig L50: '16'
+    Contig L90: '49'
+    Kmer compl.: '88.47'
+    BUSCO sing.: 92.3%
+    BUSCO dupl.: 5.1%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 2.0%
+  Curated collapsed:
+    Total bp: 1,505,308,508
+    GC %: '41.55'
+    Gaps/Gbp: '60.45'
+    Total gap bp: 18,200
+    Scaffolds: '43'
+    Scaffold N50: 101,994,854
+    Scaffold L50: '7'
+    Scaffold L90: '15'
+    Contigs: '134'
+    Contig N50: 29,532,000
+    Contig L50: '16'
+    Contig L90: '49'
+    Kmer compl.: '88.15'
+    BUSCO sing.: 92.7%
+    BUSCO dupl.: 4.8%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 2.2%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: hifi hic
+  Coverage: 60x 235x
+
+Assembly pipeline:
+  NBIS/Earth-Biogenome-Project-pilot:
+    ver: commit:855f10a4de2cbfbb20122d2afce4ea6233c1336c
+  Hifiasm:
+    ver: 0.25.0-r726
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2a.1
+
+Curation pipeline:
+  Sanger-tol/curationpretext:
+    ver: 1.5.0
+  PretextView:
+    ver: 1.0.4
+  sanger-tol/agp-tpf-utils:
+    ver: 'commit: 35ea45dbcd8f3ece7a91104e5813541b55beb2ff'
+  mahesh-panchal/sanger-tol-ear:
+    ver: 'commit: 4d9020a088'
+
+Submitter: Mahesh Binzer-Panchal
+Affiliation: SciLifeLab
+
+Date and time: 2025-11-27 09:31:13 CET

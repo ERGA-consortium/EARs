@@ -1,0 +1,101 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '345151'
+ToLID: drZizLotu1
+Species: Ziziphus lotus
+Class: Magnoliopsida
+Order: Rosales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 307,042,740
+    Haploid Number: '12 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: H
+  Observed:
+    Haploid size (bp): 293,261,554
+    Haploid Number: '12'
+    Ploidy: '2'
+    Sample Sex: H
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.7.Q62
+
+Curator notes:
+  Interventions/Gb: 22
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 200,777,297 (40.4 %); Scaffolds removed: 3555 (95.2 %);
+    Largest scaffold removed: (341,751); FCS-GX contaminant species (number of scaffolds;
+    total length of scaffolds):; Brevundimonas sp. UBA6550, a-proteobacteria (4; 167,575);
+    Delftia acidovorans, b-proteobacteria (1; 8,026); Homo sapiens, primates (1; 7,632);
+    Mitochondrion (1621; 85,342,075); Plastid (1928; 115,251,989)"'
+  Other observations: '"Assembly was Hi-C phased;"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 496,389,500
+    GC %: '36.18'
+    Gaps/Gbp: '16.12'
+    Total gap bp: '800'
+    Scaffolds: 3,735
+    Scaffold N50: 20,141,524
+    Scaffold L50: '10'
+    Scaffold L90: 2,349
+    Contigs: 3,743
+    Contig N50: 12,725,994
+    Contig L50: '12'
+    Contig L90: 2,357
+    Kmer compl.: '99.47'
+    BUSCO sing.: 97.8%
+    BUSCO dupl.: 1.4%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.6%
+  Curated pri:
+    Total bp: 293,261,554
+    GC %: '33.33'
+    Gaps/Gbp: '57.97'
+    Total gap bp: 2,900
+    Scaffolds: '142'
+    Scaffold N50: 23,263,395
+    Scaffold L50: '6'
+    Scaffold L90: '12'
+    Contigs: '159'
+    Contig N50: 20,141,524
+    Contig L50: '6'
+    Contig L90: '15'
+    Kmer compl.: '99.24'
+    BUSCO sing.: 98.3%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.7%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: eudicots_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 514x 524x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.25.0-r726
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.25.0-r726
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.2
+
+Submitter: Michael Paulini
+Affiliation: WSI
+
+Date and time: 2025-12-03 22:39:53 CET

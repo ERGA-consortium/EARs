@@ -261,11 +261,7 @@ class EARBotReviewer:
         current_date = datetime.now(tz=cet)
 
         for pr in prs:
-            if pr.updated_at.astimezone(cet) + timedelta(days=7) < current_date:
-                supervisor = pr.assignee.login if pr.assignee else pr.user.login
-                pr.create_issue_comment(
-                    f"Ping @{supervisor},\nOne week without any movements on this PR!"
-                )
+            self._check_pr_activity(pr, current_date)
             if (
                 pr.get_review_requests()[0].totalCount > 0
                 or not any(
@@ -277,7 +273,7 @@ class EARBotReviewer:
                 continue
             old_reviewers_list = self._search_comment_user(pr, "do you agree to review")
             last_comment_date = self._search_last_comment_time(
-                pr, "do you agree to review"
+                pr, text="do you agree to review"
             )
             deadline_passed = (
                 self._deadline(last_comment_date) < current_date
@@ -580,6 +576,45 @@ class EARBotReviewer:
         user_type = comment.raw_data.get("user", {}).get("type", None)
         return str(user_type).lower() == "bot"
 
+    def _check_pr_activity(self, pr, current_date):
+        one_week_ago = current_date - timedelta(weeks=1)
+        four_weeks_ago = current_date - timedelta(weeks=4)
+        labels = {label.name for label in pr.get_labels()}
+
+        researcher = pr.user.login.lower()
+        last_researcher_comment = self._search_last_comment_time(
+            pr, from_bot=False, from_user=researcher
+        )
+
+        last_activity = self._search_last_comment_time(pr, from_bot=False)
+
+        # DELAYED: Researcher hasn't commented in a month
+        if last_researcher_comment < four_weeks_ago:
+            if "DELAYED" not in labels:
+                pr.add_to_labels("DELAYED")
+
+        # STALLED: No one has commented in a month
+        if last_activity < four_weeks_ago:
+            if "STALLED" not in labels:
+                pr.add_to_labels("STALLED")
+        else:
+            # Remove STALLED if there's any recent comment
+            if "STALLED" in labels:
+                pr.remove_from_labels("STALLED")
+
+        # Weekly ping only if no DELAYED or STALLED labels exist
+        if "DELAYED" not in labels and "STALLED" not in labels:
+            if last_activity < one_week_ago:
+                supervisor = pr.assignee.login if pr.assignee else pr.user.login
+                # Only ping once per week - check if we already pinged recently
+                last_ping = self._search_last_comment_time(
+                    pr, text="One week without any movements on this PR!"
+                )
+                if not last_ping or last_ping < one_week_ago:
+                    pr.create_issue_comment(
+                        f"Ping @{supervisor},\nOne week without any movements on this PR!"
+                    )
+
     def _search_comment_user(self, pr, text_to_check):
         comment_user = []
         for comment in pr.get_issue_comments().reversed:
@@ -593,13 +628,17 @@ class EARBotReviewer:
                     comment_user.append(comment_user_re[0].lower())
         return comment_user
 
-    def _search_last_comment_time(self, pr, text_to_check):
-        comment_time = None
+    def _search_last_comment_time(self, pr, text=None, from_bot=True, from_user=None):
         for comment in pr.get_issue_comments().reversed:
-            if self._is_bot_user(comment) and text_to_check in comment.body:
-                comment_time = comment.created_at.astimezone(cet)
-                break
-        return comment_time
+            is_bot = self._is_bot_user(comment)
+            if from_bot != is_bot:
+                continue
+            if text and text not in comment.body:
+                continue
+            if from_user and comment.user.login.lower() != from_user.lower():
+                continue
+            return comment.created_at.astimezone(cet)
+        return pr.created_at.astimezone(cet)
 
     def _search_in_body(self, pr, text_to_check):
         lines = pr.body.strip().split("\n")

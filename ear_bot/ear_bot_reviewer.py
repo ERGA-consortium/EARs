@@ -9,15 +9,17 @@ import pytz
 from github import Github, UnknownObjectException
 
 root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-csv_folder = os.path.join(root_folder, "rev")
-sys.path.append(csv_folder)
-import get_EAR_reviewer  # type: ignore
+sys.path.append(root_folder)
+from rev import get_EAR_reviewer  # noqa: E402
 
 cet = pytz.timezone("CET")
 
 
+def _get_local_path(filename):
+    return os.path.join(root_folder, filename)
+
+
 def commit(repo, path, message, content):
-    path = os.path.relpath(path, root_folder)
     try:
         contents = repo.get_contents(path)
         if not isinstance(contents, list):
@@ -36,16 +38,23 @@ def commit(repo, path, message, content):
 
 
 class EAR_get_reviewer:
+    REVIEWERS_CSV = "rev/reviewers_list.csv"
+    EAR_REVIEWS_CSV = "rev/EAR_reviews.csv"
+    GET_EAR_REVIEWER_SCRIPT = "rev/get_EAR_reviewer.py"
+
     def __init__(self, repo) -> None:
         self.repo = repo
-        self.csv_file = os.path.join(csv_folder, "reviewers_list.csv")
-        if not os.path.exists(self.csv_file):
-            raise Exception("The CSV file does not exist.")
-        with open(self.csv_file, "r") as file:
-            csv_data = file.read()
-        if not csv_data:
-            raise Exception("The CSV file is empty.")
+        csv_data = self._fetch_csv_from_repo(self.REVIEWERS_CSV)
         self.data = get_EAR_reviewer.parse_csv(csv_data)
+
+    def _fetch_csv_from_repo(self, csv_path):
+        contents = self.repo.get_contents(csv_path)
+        if isinstance(contents, list):
+            raise Exception(f"Expected a file, got a directory: {csv_path}")
+        csv_data = contents.decoded_content.decode("utf-8")
+        if not csv_data:
+            raise Exception(f"The CSV file is empty: {csv_path}")
+        return csv_data
 
     def get_supervisor(self, user, calling_institution):
         try:
@@ -61,9 +70,8 @@ class EAR_get_reviewer:
             _, top_candidate, _ = get_EAR_reviewer.select_best_reviewer(
                 self.data, institution, project
             )
-            get_EAR_reviewer_path = os.path.join(csv_folder, "get_EAR_reviewer.py")
             reviewer_print = subprocess.run(
-                f"python {get_EAR_reviewer_path} -i '{institution}' -t '{project}'",
+                f"python {_get_local_path(self.GET_EAR_REVIEWER_SCRIPT)} -i '{institution}' -t '{project}'",
                 shell=True,
                 capture_output=True,
                 text=True,
@@ -89,11 +97,7 @@ class EAR_get_reviewer:
         other_participants,
         notes,
     ):
-        ear_reviews_csv_file = os.path.join(csv_folder, "EAR_reviews.csv")
-        if not os.path.exists(ear_reviews_csv_file):
-            raise Exception("The EAR reviews CSV file does not exist.")
-        with open(ear_reviews_csv_file, "r") as file:
-            ear_reviews_csv_data = file.read()
+        ear_reviews_csv_data = self._fetch_csv_from_repo(self.EAR_REVIEWS_CSV)
 
         csv_row = (
             f"{pr_url},{species},{tag},{requester_name},"
@@ -103,7 +107,7 @@ class EAR_get_reviewer:
         )
         ear_reviews_csv_data += csv_row
         commit(
-            self.repo, ear_reviews_csv_file, "Add new EAR review", ear_reviews_csv_data
+            self.repo, self.EAR_REVIEWS_CSV, "Add new EAR review", ear_reviews_csv_data
         )
         print(f"Added {reviewer_name} to the EAR reviews CSV file.")
 
@@ -146,11 +150,13 @@ class EAR_get_reviewer:
         csv_str = ",".join(self.data[0].keys()) + "\n"
         for row in self.data:
             csv_str += ",".join(row.values()) + "\n"
-        commit(self.repo, self.csv_file, "Update reviewers list", csv_str)
+        commit(self.repo, self.REVIEWERS_CSV, "Update reviewers list", csv_str)
         print(f"Updated the reviewers list for {', '.join(reviewers)}.\n{csv_str}")
 
 
 class EARBotReviewer:
+    EARPDF_TO_YAML_SCRIPT = "EARpdf_to_yaml.py"
+
     def __init__(self) -> None:
         g = Github(os.getenv("GITHUB_APP_TOKEN"))
         self.repo = g.get_repo(str(os.getenv("GITHUB_REPOSITORY")))
@@ -690,18 +696,16 @@ class EARBotReviewer:
         return True
 
     def _add_yaml_file(self, EAR_pdf_filename):
-        EARpdf_to_yaml_path = os.path.join(root_folder, "EARpdf_to_yaml.py")
-        EAR_pdf_file = os.path.join(root_folder, EAR_pdf_filename)
         output_pdf_to_yaml = subprocess.run(
-            f"python {EARpdf_to_yaml_path} {EAR_pdf_file}",
+            f"python {_get_local_path(self.EARPDF_TO_YAML_SCRIPT)} {_get_local_path(EAR_pdf_filename)}",
             shell=True,
             capture_output=True,
             text=True,
         )
-        yaml_file = EAR_pdf_file.replace(".pdf", ".yaml")
-        with open(yaml_file, "r") as file:
+        yaml_filename = EAR_pdf_filename.replace(".pdf", ".yaml")
+        with open(_get_local_path(yaml_filename), "r") as file:
             yaml_content = file.read()
-        commit(self.repo, yaml_file, "Add YAML file", yaml_content)
+        commit(self.repo, yaml_filename, "Add YAML file", yaml_content)
         print(output_pdf_to_yaml.stdout, output_pdf_to_yaml.stderr)
 
 

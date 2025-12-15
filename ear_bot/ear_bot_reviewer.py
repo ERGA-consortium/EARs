@@ -310,7 +310,7 @@ class EARBotReviewer:
                     f"Hi @{supervisor}, it looks like there is a problem with this PR that requires your involvement to sort it out."
                 )
                 pr.add_to_labels("ERROR!")
-                print(e)
+                print(f"Error while finding reviewer for PR #{pr.number}:\n{e}")
 
     def comment(self):
         # Will run when there is a new comment
@@ -638,6 +638,8 @@ class EARBotReviewer:
             if from_user and comment.user.login.lower() != from_user.lower():
                 continue
             return comment.created_at.astimezone(cet)
+        if text:
+            return None
         return pr.created_at.astimezone(cet)
 
     def _search_in_body(self, pr, text_to_check):

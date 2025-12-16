@@ -90,5 +90,5 @@ jobs:
           PR_NUMBER: ${{ env.PR_NUMBER }}
           REVIEWER: ${{ env.REVIEWER }}
         run: |
-          uv pip install -r ear_bot/requirements.txt
+          uv pip install --system -r ear_bot/requirements.txt
           python -u ear_bot/ear_bot_reviewer.py --approve

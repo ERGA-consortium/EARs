@@ -40,7 +40,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install -r ear_bot/requirements.txt
+          uv pip install --system -r ear_bot/requirements.txt
 
       - name: Run python script to find a reviewer
         env:

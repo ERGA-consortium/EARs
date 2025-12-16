@@ -6,7 +6,7 @@ from argparse import ArgumentParser
 from datetime import datetime, timedelta
 
 import pytz
-from github import Github, UnknownObjectException
+from github import Auth, Github, UnknownObjectException
 
 root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(root_folder)
@@ -160,7 +160,10 @@ class EARBotReviewer:
     EARPDF_TO_YAML_SCRIPT = "EARpdf_to_yaml.py"
 
     def __init__(self) -> None:
-        g = Github(os.getenv("GITHUB_APP_TOKEN"))
+        token = os.getenv("GITHUB_APP_TOKEN")
+        if not token:
+            raise Exception("GITHUB_APP_TOKEN environment variable is not set")
+        g = Github(auth=Auth.Token(token))
         self.repo = g.get_repo(str(os.getenv("GITHUB_REPOSITORY")))
         self.EAR_reviewer = EAR_get_reviewer(self.repo)
         self.pr_number = os.getenv("PR_NUMBER")

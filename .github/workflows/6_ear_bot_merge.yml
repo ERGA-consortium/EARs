@@ -46,5 +46,5 @@ jobs:
           SLACK_CHANNEL_ID: "C070UHJ80Q3"
           MERGED_STATUS: "${{ github.event.pull_request.merged }}"
         run: |
-          uv pip install -r ear_bot/requirements.txt
+          uv pip install --system -r ear_bot/requirements.txt
           python -u ear_bot/ear_bot_reviewer.py --merge

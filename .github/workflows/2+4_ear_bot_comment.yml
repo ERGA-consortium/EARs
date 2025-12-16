@@ -45,5 +45,5 @@ jobs:
           COMMENT_TEXT: ${{ github.event.comment.body }}
           COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
         run: |
-          uv pip install -r ear_bot/requirements.txt
+          uv pip install --system -r ear_bot/requirements.txt
           python -u ear_bot/ear_bot_reviewer.py --comment

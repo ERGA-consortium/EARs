@@ -30,7 +30,7 @@ jobs:
           echo "REVIEWER=$REVIEWER" >> pr_status
           echo "SHOULD_RUN=$should_run" >> pr_status
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           path: pr_status
           name: pr_status

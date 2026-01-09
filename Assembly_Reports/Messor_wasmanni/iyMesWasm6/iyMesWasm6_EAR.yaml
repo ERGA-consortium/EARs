@@ -1,0 +1,110 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '612121'
+ToLID: iyMesWasm6
+Species: Messor wasmanni
+Class: Insecta
+Order: Hymenoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 298,579,337
+    Haploid Number: '21 (source: ancestor)'
+    Ploidy: '1 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 326,142,122
+    Haploid Number: '21'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 5.7.Q60
+
+Curator notes:
+  Interventions/Gb: 138
+  Contamination notes: '""'
+  Other observations: '""The assembly of Messor wasmanni (iyMesWasm6) is based on
+    41X PacBio data and 234X Arima Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups, and Hi-C-based scaffolding with YaHS. In total, 2 contigs were identified
+    as contaminants (bacterial, archaeal, or viral), totaling 0.062 Mb (with the largest
+    being 0.045 Mb). Additionally, 144 regions totaling 6.464 Mb (with the largest
+    being 0.254 Mb) were identified as haplotypic duplications and removed. The mitochondrial
+    genome was assembled using OATK. Finally, the primary assembly was analyzed and
+    manually improved using Pretext. During manual curation, 4 haplotypic regions
+    and 5 contaminant sequences were removed, totaling 0.478 Mb and 0.37 Mb respectively,
+    (with the largest being 0.2 Mb and 0.284 Mb).Chromosome-scale scaffolds confirmed
+    by Hi-C data were named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 327,658,177
+    GC %: '36.28'
+    Gaps/Gbp: 1,663.32
+    Total gap bp: 54,800
+    Scaffolds: '109'
+    Scaffold N50: 13,841,405
+    Scaffold L50: '10'
+    Scaffold L90: '20'
+    Contigs: '651'
+    Contig N50: 924,285
+    Contig L50: '109'
+    Contig L90: '361'
+    QV: '60.1421'
+    Kmer compl.: '97.2601'
+    BUSCO sing.: 96.2%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 2.9%
+  Curated collapsed:
+    Total bp: 326,142,122
+    GC %: '36.28'
+    Gaps/Gbp: 1,707.84
+    Total gap bp: 58,800
+    Scaffolds: '78'
+    Scaffold N50: 14,968,348
+    Scaffold L50: '9'
+    Scaffold L90: '19'
+    Contigs: '635'
+    Contig N50: 929,390
+    Contig L50: '108'
+    Contig L90: '360'
+    QV: '60.2357'
+    Kmer compl.: '97.234'
+    BUSCO sing.: 99.0%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.4%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: Long reads Arima
+  Coverage: 41 234
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Sophie Mangenot
+Affiliation: Genoscope
+
+Date and time: 2025-11-20 04:48:18 CET

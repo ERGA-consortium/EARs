@@ -1,0 +1,97 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1869821'
+ToLID: ilEarVern1
+Species: Earias vernana
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 327,502,376
+    Haploid Number: '31 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 366,537,864
+    Haploid Number: '32'
+    Ploidy: '2'
+    Sample Sex: ZZ
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q73
+
+Curator notes:
+  Interventions/Gb: 7
+  Contamination notes: '"Curation made 1 cut in a contig, 1 break at a gap and 5 joins"'
+  Other observations: '"None"'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 366,537,064
+    GC %: '35.89'
+    Gaps/Gbp: '68.21'
+    Total gap bp: 5,000
+    Scaffolds: '44'
+    Scaffold N50: 12,485,495
+    Scaffold L50: '13'
+    Scaffold L90: '27'
+    Contigs: '69'
+    Contig N50: 11,881,358
+    Contig L50: '14'
+    Contig L90: '28'
+    QV: '73.9497'
+    Kmer compl.: '84.1542'
+    BUSCO sing.: 98.3%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 0.5%
+  Curated hap1:
+    Total bp: 366,537,864
+    GC %: '35.89'
+    Gaps/Gbp: '79.12'
+    Total gap bp: 5,800
+    Scaffolds: '41'
+    Scaffold N50: 12,485,495
+    Scaffold L50: '13'
+    Scaffold L90: '27'
+    Contigs: '70'
+    Contig N50: 11,881,358
+    Contig L50: '14'
+    Contig L90: '28'
+    QV: '73.9497'
+    Kmer compl.: '84.1542'
+    BUSCO sing.: 98.3%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 0.5%
+
+BUSCO:
+  ver: 5.8.0 (euk_genome_min, miniprot)
+  lineage: lepidoptera_odb10
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 42.44X 54.85X
+
+Assembly pipeline:
+  Hifiasm:
+    ver: Galaxy Version 0.24.0+galaxy0
+    key param: VGP Galaxy workflow VGP3 v 3.12
+  YaHS:
+    ver: Galaxy Version 1.2a.2+galaxy2
+    key param: VGP Galaxy workflow VGP8 v 3.1
+
+Curation pipeline:
+  PretextMap:
+    ver: Galaxy Version 0.1.9+galaxy1
+    key param: VGP workflow VGP PretextMap generation v2
+  PretextViewAI:
+    ver: 1.0.3
+
+Submitter: Marcella Sozzoni
+Affiliation: UNIFI
+
+Date and time: 2025-12-16 14:13:49 CET

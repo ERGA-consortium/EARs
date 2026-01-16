@@ -1,0 +1,122 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '87964'
+ToLID: xgPatRust1
+Species: Patella rustica
+Class: Gastropoda
+Order: NA
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 725,915,189
+    Haploid Number: '9 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: female
+  Observed:
+    Haploid size (bp): 719,386,390
+    Haploid Number: '9'
+    Ploidy: '2'
+    Sample Sex: female
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q44
+
+Curator notes:
+  Interventions/Gb: 40
+  Contamination notes: '"During the curation process we pre-labeled eight small scaffolds
+    as contaminants based on their much lower ONT coverage than observed across the
+    rest of the assembly. We subsequently analyzed these scaffolds using blobtools
+    and confirmed that these contaminants all matched Spirochaetota. Spirocheta have
+    previoulsy been found in bivalves but little is known about the characteristics
+    of these associations (commensalism or parasitism). These eight scaffolds were
+    not re-mapped with HiC data and are absent from the for-review pretext file. They
+    were also removed from the final assembly fasta. Moreover, running blobtools (using
+    species buscoregions) on the curated assembly allowed us to identify six additional
+    small scaffolds (scaffold_39, scaffold_42, scaffold_43, scaffold_48, scaffold_31
+    & scaffold_50) that contain fish sequence-contaminants. One of the unlocs and
+    another scaffold also contained short matches to fish sequences these seemed to
+    be false positive."'
+  Other observations: '"The curation was generally not too difficult except that several
+    of the differet centromere regions required some level of modification. We also
+    found two haplotypic duplications that were removed from the pretext map sent
+    for reviewing. The organism was determined to be a female but we are not sure
+    of the sex determination system of this species. The curated assembly stats (gfastas,
+    busco and merqury) and the blobplot were generated from the 24-sequence assembly
+    after filtering out for the scaffold-containing contaminants. The pretext does
+    contain the six scaffolds with fish DNA."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 723,798,427
+    GC %: '36.42'
+    Gaps/Gbp: '165.79'
+    Total gap bp: 24,000
+    Scaffolds: '52'
+    Scaffold N50: 83,441,781
+    Scaffold L50: '4'
+    Scaffold L90: '8'
+    Contigs: '172'
+    Contig N50: 8,438,000
+    Contig L50: '23'
+    Contig L90: '79'
+    QV: '44.057'
+    Kmer compl.: '82.3326'
+    BUSCO sing.: 97.0%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 1.3%
+    BUSCO miss.: 1.4%
+  Curated collapsed:
+    Total bp: 719,386,390
+    GC %: '36.4'
+    Gaps/Gbp: '184.88'
+    Total gap bp: 26,600
+    Scaffolds: '24'
+    Scaffold N50: 83,582,575
+    Scaffold L50: '4'
+    Scaffold L90: '8'
+    Contigs: '157'
+    Contig N50: 8,519,583
+    Contig L50: '22'
+    Contig L90: '79'
+    QV: '44.0838'
+    Kmer compl.: '81.9078'
+    BUSCO sing.: 96.9%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 1.3%
+    BUSCO miss.: 1.5%
+
+BUSCO:
+  ver: 5.4.0 (euk_genome_met, metaeuk)
+  lineage: metazoa_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 59x 65x 147x
+
+Assembly pipeline:
+  Trim_galore:
+    ver: 0.6.7
+    key param: retain_unpaired
+  Filtlong:
+    ver: 0.2.1
+  nextdenovo:
+    ver: 2.5.0
+  hypo:
+    ver: 1.0.3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-12-12 15:03:31 CET

@@ -1,0 +1,97 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1890680'
+ToLID: gfCryBron
+Species: Cryptotrichosporon brontae
+Class: Tremellomycetes
+Order: Trichosporonales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 12,798,796
+    Haploid Number: '4 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 18,683,023
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    pri: 5.6.Q61
+
+Curator notes:
+  Contamination notes: '"No presence of contaminants."'
+  Other observations: '"Second round of revision."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 21,861,153
+    GC %: '65.06'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '285'
+    Scaffold N50: 177,658
+    Scaffold L50: '39'
+    Scaffold L90: '167'
+    Contigs: '285'
+    Contig N50: 177,658
+    Contig L50: '39'
+    Contig L90: '167'
+    BUSCO sing.: 96.1%
+    BUSCO dupl.: 0.1%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 3.2%
+  Curated pri:
+    Total bp: 18,683,023
+    GC %: '68.47'
+    Gaps/Gbp: 7,118.76
+    Total gap bp: 26,600
+    Scaffolds: '17'
+    Scaffold N50: 1,453,881
+    Scaffold L50: '5'
+    Scaffold L90: '11'
+    Contigs: '150'
+    Contig N50: 193,145
+    Contig L50: '32'
+    Contig L90: '94'
+    BUSCO sing.: 96.0%
+    BUSCO dupl.: 0.1%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 3.1%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: basidiomycota_odb10
+
+Data:
+  Profile: HiFi Bionano OmniC
+  Coverage: 36x NA 180x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.20.0-r639
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2.2
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: v1.5.0-g5fd8e6e
+  Nextflow:
+    ver: 25.04.2
+  pretextmap:
+    ver: 0.1.9
+  HiGlass:
+    ver: 0.10.4
+  PretextViewAI:
+    ver: 1.0.5
+
+Submitter: "Andr\xE9 E. R. Soares"
+Affiliation: SciLifeLab
+
+Date and time: 2025-11-17 11:03:56 CET

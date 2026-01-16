@@ -1,0 +1,110 @@
+ERGA Assembly Report: v24.02.09_beta
+Tags: ERGA-BGE
+
+ToLID: mApoAgr2
+Species: Apodemus agrarius
+Class: Mammalia
+Order: Rodentia
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,822,679,104
+    Haploid Number: '24 (source: direct)'
+    Ploidy: '2 (source: direct)'
+    Sample Sex: XY
+  Observed:
+    Haploid size (bp): 2,613,523,018
+    Haploid Number: '24'
+    Ploidy: '2'
+    Sample Sex: XY
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q47
+
+Curator notes:
+  Interventions/Gb: 9
+  Contamination notes: '"found fragments of a trypanosoma sp. corresponding to a small
+    unloc of SUPER_1 (SUPER_1_unloc_3) of length 184,352 bases, which was removed
+    from the final assembly, now reflected in the pretext map which corresponds to
+    the uncontaminated sequence."'
+  Other observations: '"This is the version of the assembly after going through the
+    ERGA reviewing process. Stats, merqury file and busco were obtained from the assembly
+    without the contaminated short unloc scaffold. The post-curation contamination
+    screening plot corresponds to the curated assembly before removal of the trypanosoma
+    sp. sequence. WARNING: The shared contact map (.pretext) of the curated assembly
+    shows all scaffolds sorted by length. Thus most of the unloc are towards the end
+    and separated from their corresponding SUPER. This will be fixed in future versions
+    of CLAWS"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 2,614,536,552
+    GC %: '42.15'
+    Gaps/Gbp: '64.64'
+    Total gap bp: 33,800
+    Scaffolds: '75'
+    Scaffold N50: 113,335,371
+    Scaffold L50: '9'
+    Scaffold L90: '21'
+    Contigs: '244'
+    Contig N50: 35,188,814
+    Contig L50: '22'
+    Contig L90: '85'
+    QV: '47.2298'
+    Kmer compl.: '90.9325'
+    BUSCO sing.: 96.4%
+    BUSCO dupl.: 1.9%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 1.2%
+  Curated collapsed:
+    Total bp: 2,613,523,018
+    GC %: '42.15'
+    Gaps/Gbp: '69.64'
+    Total gap bp: 36,400
+    Scaffolds: '60'
+    Scaffold N50: 119,125,257
+    Scaffold L50: '9'
+    Scaffold L90: '20'
+    Contigs: '242'
+    Contig N50: 35,188,814
+    Contig L50: '22'
+    Contig L90: '85'
+    QV: '47.2292'
+    Kmer compl.: '90.9176'
+    BUSCO sing.: 96.4%
+    BUSCO dupl.: 1.9%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 1.2%
+
+BUSCO:
+  ver: 5.4.0
+  lineage: vertebrata_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 91x 87x 64x
+
+Assembly pipeline:
+  Trim_Galore:
+    ver: 0.6.7
+    key param: '"--retain_unpaired"'
+  Filtlong:
+    ver: 0.2.1
+  nextdenovo:
+    ver: 2.5.0
+  hypo:
+    ver: 1.0.3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-03-26 14:04:52 CET

@@ -1,0 +1,110 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '204497'
+ToLID: ilChaSubt4
+Species: Charissa subtaurica
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 651,036,455
+    Haploid Number: '30 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: ZW
+  Observed:
+    Haploid size (bp): 675,591,976
+    Haploid Number: '15'
+    Ploidy: '2'
+    Sample Sex: ZW
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q66
+
+Curator notes:
+  Interventions/Gb: 7
+  Contamination notes: '"We could not find any contaminants on this this assembly"'
+  Other observations: "\"The assembly of each haplotype for this species was nearly\
+    \ telomere-to-telomere (T-to-T). Hap2 was slightly more contiguous than hap1\u2014\
+    hap1 contained two gaps, whereas hap2 was gap-free. However, hap1 included the\
+    \ SUPER scaffold identified as Z, as well as most of the W chromosome. To leverage\
+    \ this, we created a pseudo-hap1 assembly by combining the entire hap2 assembly\
+    \ with the Z and W scaffolds from hap1. We then remapped the Hi-C data against\
+    \ this new combined assembly, which we designated as hap1. This resulted in a\
+    \ T-to-T assembly, with the exception of SUPER_W, which retained two gaps. We\
+    \ attempted to reorganize the SUPER_W sequences, but due to the high repetitiveness\
+    \ of the region, our confidence in the scaffold's structural accuracy remains\
+    \ low. We assigned the longest contig corresponding to W as the SUPER, and the\
+    \ remaining fragments were labeled as Unlocs. A save_state of the Pretext map\
+    \ has been placed in the shared folder for your review\""
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 633,077,418
+    GC %: '35.82'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '19'
+    Scaffold N50: 47,879,875
+    Scaffold L50: '6'
+    Scaffold L90: '12'
+    Contigs: '19'
+    Contig N50: 47,879,875
+    Contig L50: '6'
+    Contig L90: '12'
+    QV: '67.6823'
+    Kmer compl.: '77.7251'
+    BUSCO sing.: 95.8%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 3.0%
+  Curated hap1:
+    Total bp: 675,591,976
+    GC %: '35.81'
+    Gaps/Gbp: '4.44'
+    Total gap bp: '600'
+    Scaffolds: '20'
+    Scaffold N50: 46,187,926
+    Scaffold L50: '7'
+    Scaffold L90: '13'
+    Contigs: '23'
+    Contig N50: 46,187,926
+    Contig L50: '7'
+    Contig L90: '13'
+    QV: '66.3434'
+    Kmer compl.: '81.7073'
+    BUSCO sing.: 98.5%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 0.3%
+
+BUSCO:
+  ver: 5.5.0 (euk_genome_met, metaeuk)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: ONT Illumina WGS OmniC
+  Coverage: 74x 91x 98x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.24.0-r702
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+  CLAWS:
+    ver: '2.3'
+
+Curation pipeline:
+  PretextViewAI:
+    ver: 1.0.4
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Francisco Camara
+Affiliation: CNAG
+
+Date and time: 2025-10-02 16:00:59 CEST

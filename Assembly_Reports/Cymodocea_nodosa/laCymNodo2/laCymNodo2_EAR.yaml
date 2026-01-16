@@ -1,0 +1,96 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '55448'
+ToLID: laCymNodo2
+Species: Cymodocea nodosa
+Class: Magnoliopsida
+Order: Alismatales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 187,263,864
+    Haploid Number: '7 (source: direct)'
+    Ploidy: '4 (source: direct)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 359,377,510
+    Haploid Number: '18'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q52
+
+Curator notes:
+  Interventions/Gb: 143
+  Contamination notes: '"A low number of bacterial contigs were removed post-assembly"'
+  Other observations: '"23 haplotigs were removed"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 360,243,928
+    GC %: '33.22'
+    Gaps/Gbp: '113.81'
+    Total gap bp: 4,100
+    Scaffolds: '31'
+    Scaffold N50: 20,283,553
+    Scaffold L50: '7'
+    Scaffold L90: '15'
+    Contigs: '72'
+    Contig N50: 9,103,177
+    Contig L50: '14'
+    Contig L90: '34'
+    QV: '52.5339'
+    Kmer compl.: '92.1191'
+    BUSCO sing.: 95.3%
+    BUSCO dupl.: 3.9%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.8%
+  Curated collapsed:
+    Total bp: 359,377,510
+    GC %: '33.23'
+    Gaps/Gbp: '133.56'
+    Total gap bp: 7,100
+    Scaffolds: '23'
+    Scaffold N50: 24,187,662
+    Scaffold L50: '7'
+    Scaffold L90: '15'
+    Contigs: '71'
+    Contig N50: 9,097,069
+    Contig L50: '14'
+    Contig L90: '34'
+    QV: '52.5849'
+    Kmer compl.: '92.0497'
+    BUSCO sing.: 95.7%
+    BUSCO dupl.: 3.5%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.8%
+
+BUSCO:
+  ver: 5.4.3 (euk_genome_met, metaeuk)
+  lineage: eukaryota_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima
+  Coverage: 40 100
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Benjamin Istace
+Affiliation: Genoscope
+
+Date and time: 2025-01-23 02:47:46 CET

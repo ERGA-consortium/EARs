@@ -1,0 +1,103 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '537450'
+ToLID: ihGraItal9
+Species: Graphosoma italicum
+Class: Insecta
+Order: Hemiptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,291,444,399
+    Haploid Number: '7 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: U
+  Observed:
+    Haploid size (bp): 1,491,838,610
+    Haploid Number: '8'
+    Ploidy: '2'
+    Sample Sex: M
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.8.Q59
+
+Curator notes:
+  Interventions/Gb: 92
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 5,649,647 (0.4 %); Scaffolds removed: 57 (14.1 %); Largest
+    scaffold removed: (3,629,078); FCS-GX contaminant species (number of scaffolds;
+    total length of scaffolds): Pantoea brenneri, g-proteobacteria (4; 4,294,550);
+    Erwinia tracheiphila, g-proteobacteria (2; 56,671); Salmonella enterica subsp.
+    enterica serovar Kottbus, g-proteobacteria (1; 50,898); Mitochondrion (50; 1,247,528)"'
+  Other observations: '"Assembly was Hi-C phased; The sex chromosomes X and Y were
+    identified by read coverage and copy number in the diploid assembly. A haplotypic
+    inversion was observed in the region on chromosome 1 ( 98.4-207.5 Mbp)."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,501,839,401
+    GC %: '32.73'
+    Gaps/Gbp: '220.4'
+    Total gap bp: 33,100
+    Scaffolds: '404'
+    Scaffold N50: 191,845,183
+    Scaffold L50: '4'
+    Scaffold L90: '7'
+    Contigs: '735'
+    Contig N50: 6,190,740
+    Contig L50: '72'
+    Contig L90: '239'
+    Kmer compl.: '99.74'
+    BUSCO sing.: 98.3%
+    BUSCO dupl.: 1.4%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.2%
+  Curated pri:
+    Total bp: 1,491,838,610
+    GC %: '32.65'
+    Gaps/Gbp: '248.69'
+    Total gap bp: 42,000
+    Scaffolds: '297'
+    Scaffold N50: 221,852,459
+    Scaffold L50: '3'
+    Scaffold L90: '7'
+    Contigs: '668'
+    Contig N50: 6,234,386
+    Contig L50: '71'
+    Contig L90: '238'
+    Kmer compl.: '99.43'
+    BUSCO sing.: 98.5%
+    BUSCO dupl.: 1.2%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.1%
+
+BUSCO:
+  ver: 5.3.0
+  lineage: insecta_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 44x 396x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm-hic:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Michael Paulini
+Affiliation: WSI
+
+Date and time: 2025-04-25 17:33:01 CEST

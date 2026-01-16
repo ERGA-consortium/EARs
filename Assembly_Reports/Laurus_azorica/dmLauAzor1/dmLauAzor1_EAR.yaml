@@ -1,0 +1,96 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-Pilot
+
+TxID: '136121'
+ToLID: dmLauAzor1
+Species: Laurus azorica
+Class: Magnoliopsida
+Order: Laurales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,595,786,563
+    Haploid Number: '24 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XXXY
+  Observed:
+    Haploid size (bp): 1,403,283,976
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code: {}
+
+Curator notes:
+  Interventions/Gb: 1000
+  Contamination notes: '"Many contaminants removed"'
+  Other observations: '"The best we can do given the poor Hi-C signal"'
+
+Metrics:
+  Pre-curation <pri>:
+    Total bp: 1,649,185,159
+    GC %: '41.47'
+    Gaps/Gbp: '110.96'
+    Total gap bp: 36,600
+    Scaffolds: '298'
+    Scaffold N50: 72,886,773
+    Scaffold L50: '8'
+    Scaffold L90: '22'
+    Contigs: '481'
+    Contig N50: 17,123,649
+    Contig L50: '29'
+    Contig L90: '90'
+    QV: '61.7293'
+    Kmer compl.: '66.6739'
+    BUSCO sing.: 84.3%
+    BUSCO dupl.: 11.2%
+    BUSCO frag.: 1.5%
+    BUSCO miss.: 3.0%
+  Curated <pri>:
+    Total bp: 1,403,283,976
+    GC %: '41.16'
+    Gaps/Gbp: '123.99'
+    Total gap bp: 27,300
+    Scaffolds: '193'
+    Scaffold N50: 113,755,423
+    Scaffold L50: '6'
+    Scaffold L90: '11'
+    Contigs: '367'
+    Contig N50: 15,460,700
+    Contig L50: '27'
+    Contig L90: '84'
+    QV: '61.4311'
+    Kmer compl.: '62.7795'
+    BUSCO sing.: 88.8%
+    BUSCO dupl.: 6.5%
+    BUSCO frag.: 1.6%
+    BUSCO miss.: 3.1%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_min, miniprot)
+  lineage: eudicots_odb10
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 40x 10x
+
+Assembly pipeline:
+  HiFiasm:
+    ver: 0.19.4
+    key param: l0
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: '1.1'
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: '2.0'
+  HiGlass:
+    ver: '1.0'
+
+Submitter: Tom Brown
+Affiliation: IZW
+
+Date and time: 2025-10-06 11:46:19 CEST

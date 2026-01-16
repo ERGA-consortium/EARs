@@ -1,0 +1,98 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '439822'
+ToLID: kaMicSqua1
+Species: Microcosmus squamiger
+Class: Ascidiacea
+Order: Stolidobranchia
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 192,802,479
+    Haploid Number: '16 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 188,886,422
+    Haploid Number: '10'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q61
+
+Curator notes:
+  Interventions/Gb: 91
+  Contamination notes: '"No contaminations were detected with FCS-GX."'
+  Other observations: '"Reads were assembled with hifiasm (yield: 218M, N50: 5.3M,
+    666 contigs). FCS-GX detected no contaminations. Purge_dups removed 427 contigs
+    (26Mb). HiC data is of a decent quality with 8.8M cis-reads pairs above 40Kb.
+    The scaffolding was done in the manual curation steps."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 192,689,173
+    GC %: '43.3'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '239'
+    Scaffold N50: 6,661,360
+    Scaffold L50: '11'
+    Scaffold L90: '37'
+    Contigs: '239'
+    Contig N50: 6,661,360
+    Contig L50: '11'
+    Contig L90: '37'
+    QV: '60.6774'
+    Kmer compl.: '66.7366'
+    BUSCO sing.: 96.1%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 1.6%
+    BUSCO miss.: 1.9%
+  Curated pri:
+    Total bp: 188,886,422
+    GC %: '43.43'
+    Gaps/Gbp: '402.36'
+    Total gap bp: 15,200
+    Scaffolds: '108'
+    Scaffold N50: 22,013,698
+    Scaffold L50: '4'
+    Scaffold L90: '9'
+    Contigs: '184'
+    Contig N50: 5,359,238
+    Contig L50: '12'
+    Contig L90: '39'
+    QV: '61.1407'
+    Kmer compl.: '66.5603'
+    BUSCO sing.: 96.3%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 1.6%
+    BUSCO miss.: 1.8%
+
+BUSCO:
+  ver: 5.8.3 (euk_genome_min, miniprot)
+  lineage: metazoa_odb12
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 33x 176x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.6
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: 1a3d79a8
+  HiGlass:
+    ver: 0.10.4
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2025-11-13 06:32:18 CET

@@ -1,0 +1,101 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '101491'
+ToLID: rTriTgu1
+Species: Trionyx triunguis
+Class: NA
+Order: Testudines
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,172,236,689
+    Haploid Number: '33 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: ZZ
+  Observed:
+    Haploid size (bp): 2,320,326,796
+    Haploid Number: '33'
+    Ploidy: '2'
+    Sample Sex: ZZ
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.8.Q70
+
+Curator notes:
+  Interventions/Gb: 0
+  Contamination notes: '"No contaminations could be detected"'
+  Other observations: '"Very good assembly. Indeed purge_dups and Yahs created a worse
+    assembly as is truncated telomeres and the scaffolding cut off pieces. Most of
+    the hifiasm contig assembly contained already full chromosomes with telomere motifs
+    at both ends. Therefore I used the hifiasm assembly and scaffolded it manually
+    with PretextView and the PixelSort option. Haplotigs were removed based on coverage
+    and the purge_dups annotation. I could not identify the Z chromosome, as I could
+    not find a turtle assembly with known sex chromosomes."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 2,330,438,147
+    GC %: '45.83'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '138'
+    Scaffold N50: 80,362,655
+    Scaffold L50: '6'
+    Scaffold L90: '29'
+    Contigs: '138'
+    Contig N50: 80,362,655
+    Contig L50: '6'
+    Contig L90: '29'
+    QV: '70.2438'
+    Kmer compl.: '98.0915'
+    BUSCO sing.: 97.2%
+    BUSCO dupl.: 1.2%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 0.8%
+  Curated pri:
+    Total bp: 2,320,326,796
+    GC %: '45.8'
+    Gaps/Gbp: '28.88'
+    Total gap bp: 13,400
+    Scaffolds: '43'
+    Scaffold N50: 137,054,899
+    Scaffold L50: '6'
+    Scaffold L90: '23'
+    Contigs: '110'
+    Contig N50: 80,362,655
+    Contig L50: '6'
+    Contig L90: '29'
+    QV: '70.2902'
+    Kmer compl.: '98.0429'
+    BUSCO sing.: 97.2%
+    BUSCO dupl.: 1.2%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 0.8%
+
+BUSCO:
+  ver: 5.8.3 (euk_genome_min, miniprot)
+  lineage: sauropsida_odb12
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 80x 118x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.6
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: 1a3d79a8
+  HiGlass:
+    ver: 0.10.4
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2025-10-14 07:54:27 CEST

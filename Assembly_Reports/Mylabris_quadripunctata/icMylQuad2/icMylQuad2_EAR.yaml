@@ -1,0 +1,110 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '268458'
+ToLID: icMylQuad2
+Species: Mylabris quadripunctata
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 264,679,698
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 190,378,444
+    Haploid Number: '10'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q40
+
+Curator notes:
+  Interventions/Gb: 121
+  Contamination notes: '""'
+  Other observations: '"The assembly of Mylabris quadripunctata (icMylQuad2) is based
+    on 43,88X PacBio data and 242,75X Arima Hi-C data generated as part of the European
+    Reference Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity
+    Genomics Europe project (BGE, https://biodiversitygenomics.eu/). The assembly
+    process included the following steps: initial PacBio assembly generation with
+    Nextdenovo, removal of contaminant sequences using Context, removal of haplotypic
+    duplications using purge_dups, and Hi-C-based scaffolding with YaHS. No contigs
+    were found to be contaminants (bacterial, archaeal, or viral). Additionally, 174
+    regions totaling 16.062 Mb (with the largest being 0.338 Mb) were identified as
+    haplotypic duplications and removed. The mitochondrial genome was assembled using
+    OATK. Finally, the primary assembly was analyzed and manually improved using Pretext.
+    Chromosome-scale scaffolds confirmed by Hi-C data were named in order of size.
+    Using comparative genomics analysis with Mylabris sibirica, Hycleus marcipoli,
+    Tenebrio molitor, and Harmonia axyridis; we have been able to identified chromosome
+    X and tag it accordingly."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 190,361,040
+    GC %: '32'
+    Gaps/Gbp: '378.23'
+    Total gap bp: 8,000
+    Scaffolds: '32'
+    Scaffold N50: 19,246,236
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '95'
+    Contig N50: 10,358,000
+    Contig L50: '7'
+    Contig L90: '19'
+    QV: '40.7318'
+    Kmer compl.: '75.058'
+    BUSCO sing.: 96.7%
+    BUSCO dupl.: 0.2%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 2.3%
+  Curated collapsed:
+    Total bp: 190,378,444
+    GC %: '32'
+    Gaps/Gbp: '351.93'
+    Total gap bp: 8,400
+    Scaffolds: '34'
+    Scaffold N50: 19,246,236
+    Scaffold L50: '5'
+    Scaffold L90: '9'
+    Contigs: '101'
+    Contig N50: 10,173,611
+    Contig L50: '7'
+    Contig L90: '20'
+    QV: '40.7322'
+    Kmer compl.: '75.058'
+    BUSCO sing.: 98.4%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 1.1%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: Long reads Arima
+  Coverage: 43 242
+
+Assembly pipeline:
+  NextDenovo:
+    ver: 2.5.2
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Phuong Doan
+Affiliation: Genoscope
+
+Date and time: 2025-10-24 09:34:43 CEST

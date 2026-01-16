@@ -1,0 +1,126 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '204053'
+ToLID: qmScyLatu1
+Species: Scyllarides latus
+Class: Malacostraca
+Order: Decapoda
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 4,658,004,081
+    Haploid Number: '70 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: U
+  Observed:
+    Haploid size (bp): 4,727,697,021
+    Haploid Number: '70'
+    Ploidy: '2'
+    Sample Sex: U
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q56
+
+Curator notes:
+  Interventions/Gb: 238
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 329,932 (0.0 %); Scaffolds removed: 6 (0.1 %); Largest scaffold
+    removed: (130,169); FCS-GX contaminant species (number of scaffolds; total length
+    of scaffolds): Pseudomonas coleopterorum, g-proteobacteria (2; 195,759); Mariniblastus
+    fucicola, bacteria (1; 36,546); Mitochondrion (3; 97,627)"'
+  Other observations: '"Assembly was Hi-C phased; The exact order and orientation
+    of the contigs on chromosome 1 (66,839 - 90,907 Kbp) are unknown; The exact order
+    and orientation of the contigs on chromosome 6 (84,960 - 70,000 & 107,580 - 110,190
+    Kbp) are unknown; The exact order and orientation of the contigs on chromosome
+    7 (40,500 - 45,500 & 57,850 - 73,500 Kbp) are unknown; The exact order and orientation
+    of the contigs on chromosome 9 (61,000 - 80,000 Kbp) are unknown; The exact order
+    and orientation of the contigs on chromosome 11 (0 - 15,000 Kbp) are unknown;
+    The exact order and orientation of the contigs on chromosome 12 (2,000 - 18,800
+    Kbp) are unknown; The exact order and orientation of the contigs on chromosome
+    14 (54,300 - 62,000 Kbp) are unknown; The exact order and orientation of the contigs
+    on chromosome 17 (35,000 - 50,000 Kbp) are unknown; The exact order and orientation
+    of the contigs on chromosome 18 (0 - 5,000 Kbp) are unknown; The exact order and
+    orientation of the contigs on chromosome 21 (28,700 - 41,300 Kbp) are unknown;
+    The exact order and orientation of the contigs on chromosome 23 (0 - 16,300 Kbp)
+    are unknown; The exact order and orientation of the contigs on chromosome 27 (13,000
+    - 24,000 Kbp) are unknown; The exact order and orientation of the contigs on chromosome
+    33 (17,500 - 39,500 Kbp) are unknown; The exact order and orientation of the contigs
+    on chromosome 34 (10,700 - 20,700 Kbp) are unknown; The exact order and orientation
+    of the contigs on chromosome 36 (5,800 - 16,000 Kbp) are unknown; The exact order
+    and orientation of the contigs on chromosome 41 (2,700 - 25,800 Kbp) are unknown;
+    The exact order and orientation of the contigs on chromosome 45 (0 - 10,800 Kbp)
+    are unknown; The exact order and orientation of the contigs on chromosome 48 (21,300
+    - 35,300 Kbp) are unknown; The exact order and orientation of the contigs on chromosome
+    60 (29,000 - 8,000 & 19,500 - 36,246 Kbp) are unknown; The exact order and orientation
+    of the contigs on chromosome 64 (22,000 - 32,500 Kbp) are unknown; The exact order
+    and orientation of the contigs on chromosome 67 (2,300 - 8,000 & 19,500 - 26,000
+    Kbp) are unknown"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 5,323,139,245
+    GC %: '42.84'
+    Gaps/Gbp: '622'
+    Total gap bp: 662,200
+    Scaffolds: 10,129
+    Scaffold N50: 40,182,599
+    Scaffold L50: '38'
+    Scaffold L90: '946'
+    Contigs: 13,440
+    Contig N50: 1,599,401
+    Contig L50: '920'
+    Contig L90: 4,030
+    Kmer compl.: '98.92'
+    BUSCO sing.: 92.9%
+    BUSCO dupl.: 1.6%
+    BUSCO frag.: 3.6%
+    BUSCO miss.: 1.9%
+  Curated pri:
+    Total bp: 4,727,697,021
+    GC %: '43'
+    Gaps/Gbp: '853.06'
+    Total gap bp: 806,590
+    Scaffolds: 4,456
+    Scaffold N50: 56,908,864
+    Scaffold L50: '23'
+    Scaffold L90: '70'
+    Contigs: 8,489
+    Contig N50: 1,678,746
+    Contig L50: '821'
+    Contig L90: 3,148
+    Kmer compl.: '98.92'
+    BUSCO sing.: 92.8%
+    BUSCO dupl.: 1.4%
+    BUSCO frag.: 3.6%
+    BUSCO miss.: 2.2%
+
+BUSCO:
+  ver: 5.3.0
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 47x 175x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm-hic:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Karen Brooks
+Affiliation: WSI
+
+Date and time: 2025-07-01 13:48:06 CEST

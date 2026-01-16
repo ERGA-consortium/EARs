@@ -1,0 +1,153 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '499837'
+ToLID: iqSphRube1
+Species: Sphingonotus rubescens
+Class: Insecta
+Order: Orthoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 8,461,483,717
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 9,028,342,188
+    Haploid Number: '12'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.8.Q73
+    hap2: 7.8.Q72
+
+Curator notes:
+  Interventions/Gb: 27
+  Contamination notes: '"FCS-GX and Blobtools detected no presence of contaminants.
+    .Mitochondrial genome was removed from the assembly"'
+  Other observations: '"The PacBio reads were subsampled to 40X. HiFiasm created a
+    primary collapsed assembly of 13Gb, and HiC-phased haplotypes of 9Gb each. Therefore
+    the haplotype-phased assemblies were used for this species. For each haplotype
+    purge_dups, FCS-GX and yahs was run seperately. When running purge_dups with default
+    parameter 545Mb (hap1) and 746Mb (hap2) of sequence was removed. This also resulted
+    in the loss of some busco genes. Therefore first: contigs larger than 1Mb and
+    second: contigs that were marked as hap but contained single Busco genes were
+    kept. The purge_dups bed annotations was later used in the manual curation step
+    too, in order to decide if e.g. a REPEAT tagged contigs needs to be removed. The
+    manual curation revealed many haplotype misplacements and HapHic was used to guide
+    to guide those corrections. Just for clarification: HapHiC was not error-free
+    either - the correction of contig errors was sub-optimal. Therefore I decided
+    to stick to yahs scaffolds, where I already invested some time to curate those.
+    There are still some weird repetitive HiC patterns left, which look odd to me.
+    E.g.: a large inversion in h2s7 at 638M - 668M, but when trying to remove the
+    potential dup the HiC map looks much worse as the main diagonal has a pretty decent
+    signal including the dup."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 8,987,749,137
+    GC %: '40.89'
+    Gaps/Gbp: '50.18'
+    Total gap bp: 45,100
+    Scaffolds: '200'
+    Scaffold N50: 856,901,657
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '651'
+    Contig N50: 37,154,065
+    Contig L50: '75'
+    Contig L90: '266'
+    QV: '73.1435'
+    Kmer compl.: '62.0923'
+    BUSCO sing.: 96.1%
+    BUSCO dupl.: 2.4%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 0.6%
+  Pre-curation hap2:
+    Total bp: 9,126,898,536
+    GC %: '40.93'
+    Gaps/Gbp: '47.55'
+    Total gap bp: 43,400
+    Scaffolds: '183'
+    Scaffold N50: 694,436,201
+    Scaffold L50: '5'
+    Scaffold L90: '13'
+    Contigs: '617'
+    Contig N50: 35,069,156
+    Contig L50: '81'
+    Contig L90: '282'
+    QV: '72.7469'
+    Kmer compl.: '62.0862'
+    BUSCO sing.: 96.0%
+    BUSCO dupl.: 2.5%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 0.6%
+  Curated hap1:
+    Total bp: 9,028,342,188
+    GC %: '40.9'
+    Gaps/Gbp: '56.27'
+    Total gap bp: 58,700
+    Scaffolds: '135'
+    Scaffold N50: 874,086,278
+    Scaffold L50: '5'
+    Scaffold L90: '9'
+    Contigs: '643'
+    Contig N50: 36,940,391
+    Contig L50: '75'
+    Contig L90: '269'
+    QV: '73.0762'
+    Kmer compl.: '62.0322'
+    BUSCO sing.: 96.0%
+    BUSCO dupl.: 2.5%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 0.6%
+  Curated hap2:
+    Total bp: 8,991,737,251
+    GC %: '40.91'
+    Gaps/Gbp: '56.72'
+    Total gap bp: 60,100
+    Scaffolds: '100'
+    Scaffold N50: 868,557,452
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '610'
+    Contig N50: 34,890,047
+    Contig L50: '81'
+    Contig L90: '280'
+    QV: '72.827'
+    Kmer compl.: '61.9684'
+    BUSCO sing.: 96.2%
+    BUSCO dupl.: 2.3%
+    BUSCO frag.: 1.0%
+    BUSCO miss.: 0.6%
+
+BUSCO:
+  ver: 5.8.3 (euk_genome_min, miniprot)
+  lineage: insecta_odb12
+
+Data:
+  Profile: HiFi Bionano OmniC
+  Coverage: 56x NA 89x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2.2
+  HapHic:
+    ver: 1.0.7
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2025-10-01 15:54:58 CEST

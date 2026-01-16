@@ -1,0 +1,106 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '997549'
+ToLID: ilCalTrid2
+Species: Calamia tridens
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 696,390,245
+    Haploid Number: '30 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 694,842,714
+    Haploid Number: '30'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q70
+
+Curator notes:
+  Interventions/Gb: 46
+  Contamination notes: '""'
+  Other observations: '"The assembly of CALAMIA TRIDENS (ilCalTrid2) is based on 68X
+    PacBio data and 132X Arima Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context and Hi-C-based scaffolding with YaHS. In
+    total, 2 contigs were identified as contaminants (bacterial), totaling 64,299
+    pb (with the largest being 52,155 pb). We did not use purge_dups to remove haplotype
+    duplications, as it did not work properly on this genome. The mitochondrial genome
+    was assembled using OATK. Finally, the primary assembly was analyzed and manually
+    improved using Pretext. During manual curation, 4 haplotypic region was removed,
+    totaling 13,402,842 pb (with the largest being 6,868,000 pb). Chromosome-scale
+    scaffolds confirmed by Hi-C data were named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 718,006,249
+    GC %: '37.6'
+    Gaps/Gbp: '9.75'
+    Total gap bp: '700'
+    Scaffolds: '448'
+    Scaffold N50: 24,184,673
+    Scaffold L50: '13'
+    Scaffold L90: '27'
+    Contigs: '455'
+    Contig N50: 23,752,865
+    Contig L50: '13'
+    Contig L90: '28'
+    QV: '64.2062'
+    Kmer compl.: '71.3141'
+    BUSCO sing.: 96.4%
+    BUSCO dupl.: 1.9%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 1.0%
+  Curated collapsed:
+    Total bp: 694,842,714
+    GC %: '37.84'
+    Gaps/Gbp: '10.07'
+    Total gap bp: 1,200
+    Scaffolds: '62'
+    Scaffold N50: 24,184,673
+    Scaffold L50: '13'
+    Scaffold L90: '25'
+    Contigs: '69'
+    Contig N50: 23,752,865
+    Contig L50: '13'
+    Contig L90: '26'
+    QV: '70.8429'
+    Kmer compl.: '70.6025'
+    BUSCO sing.: 97.9%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 1.0%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_met, metaeuk)
+  lineage: lepidoptera_odb12
+
+Data:
+  Profile: PACBIO Hifi Arima
+  Coverage: 68 132
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2025-09-05 13:31:53 CEST

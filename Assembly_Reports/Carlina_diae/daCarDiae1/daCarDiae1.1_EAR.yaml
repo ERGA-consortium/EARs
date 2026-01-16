@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '538483'
+ToLID: daCarDiae1
+Species: Carlina diae
+Class: Magnoliopsida
+Order: Asterales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,130,449,475
+    Haploid Number: '10 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 4,151,721,093
+    Haploid Number: '10'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q72
+
+Curator notes:
+  Interventions/Gb: 1
+  Contamination notes: '""'
+  Other observations: '"The assembly of CARLINA DIAE (daCarDiae1) is based on 61X
+    PacBio data and 210X Omni-C Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups, and Hi-C-based scaffolding with YaHS. No contigs were found to be
+    contaminants (bacterial, archaeal, or viral). But, 1,107 regions totaling 94 Mb
+    were identified as haplotypic duplications and removed. The mitochondrial genome
+    was assembled using OATK. Finally, the primary assembly was analyzed and manually
+    improved using Pretext. During manual curation, no regions were tagged as allelic
+    duplications or contaminants. The telemeric track is based on TAGTAG, because
+    the usual pattern was not found. Chromosome-scale scaffolds confirmed by Hi-C
+    data were named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 4,151,810,759
+    GC %: '39.27'
+    Gaps/Gbp: '84.3'
+    Total gap bp: 35,000
+    Scaffolds: '125'
+    Scaffold N50: 416,577,109
+    Scaffold L50: '5'
+    Scaffold L90: '9'
+    Contigs: '475'
+    Contig N50: 23,495,317
+    Contig L50: '55'
+    Contig L90: '191'
+    QV: '72.5913'
+    Kmer compl.: '98.1121'
+    BUSCO sing.: 91.1%
+    BUSCO dupl.: 6.8%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.7%
+  Curated collapsed:
+    Total bp: 4,151,721,093
+    GC %: '39.27'
+    Gaps/Gbp: '85.27'
+    Total gap bp: 36,400
+    Scaffolds: '105'
+    Scaffold N50: 416,577,109
+    Scaffold L50: '5'
+    Scaffold L90: '9'
+    Contigs: '459'
+    Contig N50: 23,495,317
+    Contig L50: '55'
+    Contig L90: '191'
+    QV: '72.7263'
+    Kmer compl.: '98.1119'
+    BUSCO sing.: 91.1%
+    BUSCO dupl.: 6.8%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.7%
+
+BUSCO:
+  ver: 5.4.3 (euk_genome_met, metaeuk)
+  lineage: embryophyta_odb10
+
+Data:
+  Profile: PACBIO Hifi Omnic
+  Coverage: 61 210
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2025-02-24 10:59:28 CET

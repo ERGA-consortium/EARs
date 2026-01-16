@@ -1,0 +1,108 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '612075'
+ToLID: iyMesOrie12
+Species: Messor orientalis
+Class: Insecta
+Order: Hymenoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 339,111,674
+    Haploid Number: '21 (source: ancestor)'
+    Ploidy: '1 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 366,044,330
+    Haploid Number: '21'
+    Ploidy: '1'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q52
+
+Curator notes:
+  Interventions/Gb: 102
+  Contamination notes: '"Partial viral hits (Streptomyces phage, 4 contigs, ~130Kb)
+    and proteobacteria (Luteimonas saliphila, 1 contig, 25Kb) were detected with FCS-GX.
+    Mitochondrial genome was removed from the assembly."'
+  Other observations: '"PacBio reads were assembled with hifiasm (yield: 474M, N50:
+    1.5Mb, 953 contigs). FCS-GX detected few contaminations. Purge_dups was run to
+    remove haplotypic duplications (purged: 633 sequences, 90Mb remaining assembly:
+    yield: 384M, N50: 2.4Mb, 360 contigs). Yahs was used to scaffold the contigs (
+    --no-contig-ec was used to avoid over-cutting the contigs and the removal of telomere
+    motifs). The HiC quality is suboptimal (just 2M cis read pairs >40Kb). It seems
+    that this species potentially contains heterochromatin regions which show a much
+    lower PacBio coverage profile and repetitive HiC interactions. At first I tried
+    to assign more shrapnels as unlocalized contigs to the corresponding chromosomes,
+    but then I removed those assignments again as the supports are very thin. I did
+    a synteny analysis with iyMesOert5 and iyMesBuce7 and assigned a larger contig
+    (previously chromosome 22) to SUPER_2. So I ended up with the expected 21 chromosomes."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 384,225,878
+    GC %: '36.92'
+    Gaps/Gbp: '491.9'
+    Total gap bp: 18,900
+    Scaffolds: '171'
+    Scaffold N50: 11,360,363
+    Scaffold L50: '13'
+    Scaffold L90: '59'
+    Contigs: '360'
+    Contig N50: 2,414,186
+    Contig L50: '43'
+    Contig L90: '193'
+    QV: '48.1265'
+    Kmer compl.: '95.5682'
+    BUSCO sing.: 97.1%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 1.6%
+  Curated pri:
+    Total bp: 366,044,330
+    GC %: '36.85'
+    Gaps/Gbp: '611.95'
+    Total gap bp: 27,500
+    Scaffolds: '108'
+    Scaffold N50: 13,350,424
+    Scaffold L50: '11'
+    Scaffold L90: '33'
+    Contigs: '332'
+    Contig N50: 2,309,951
+    Contig L50: '42'
+    Contig L90: '179'
+    QV: '52.7534'
+    Kmer compl.: '95.5015'
+    BUSCO sing.: 97.1%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 1.6%
+
+BUSCO:
+  ver: 5.8.3 (euk_genome_min, miniprot)
+  lineage: hymenoptera_odb12
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 209x 301x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.6
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: 1a3d79a8
+  HiGlass:
+    ver: 0.10.4
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2025-12-19 15:51:20 CET

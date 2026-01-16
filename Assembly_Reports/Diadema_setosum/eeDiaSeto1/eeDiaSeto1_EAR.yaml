@@ -1,0 +1,97 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '31175'
+ToLID: eeDiaSeto1
+Species: Diadema setosum
+Class: Echinoidea
+Order: Diadematoida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 744,053,118
+    Haploid Number: '21 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 912,794,292
+    Haploid Number: '22'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q52
+
+Curator notes:
+  Interventions/Gb: 53
+  Contamination notes: '"None"'
+  Other observations: '"Haplotigs confirmed by a decrease in coverage. The mitochondrial
+    sequence has been added."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 917,618,006
+    GC %: '38.35'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '701'
+    Scaffold N50: 2,320,055
+    Scaffold L50: '128'
+    Scaffold L90: '394'
+    Contigs: '701'
+    Contig N50: 2,320,055
+    Contig L50: '128'
+    Contig L90: '394'
+    QV: '8.26904'
+    Kmer compl.: '0.0141886'
+    BUSCO sing.: 95.5%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 2.8%
+    BUSCO miss.: 0.6%
+  Curated collapsed:
+    Total bp: 912,794,292
+    GC %: '38.36'
+    Gaps/Gbp: '705.53'
+    Total gap bp: 66,200
+    Scaffolds: '102'
+    Scaffold N50: 39,828,611
+    Scaffold L50: '11'
+    Scaffold L90: '20'
+    Contigs: '746'
+    Contig N50: 2,178,457
+    Contig L50: '133'
+    Contig L90: '414'
+    QV: '52.2797'
+    Kmer compl.: '72.1593'
+    BUSCO sing.: 96.6%
+    BUSCO dupl.: 0.1%
+    BUSCO frag.: 2.7%
+    BUSCO miss.: 0.6%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_met, metaeuk)
+  lineage: metazoa_odb12
+
+Data:
+  Profile: PACBIO Hifi Arima
+  Coverage: 30 50
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Arnaud Couloux
+Affiliation: Genoscope
+
+Date and time: 2025-05-22 01:16:08 CEST

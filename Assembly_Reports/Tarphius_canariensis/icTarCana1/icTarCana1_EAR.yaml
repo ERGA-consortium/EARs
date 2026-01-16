@@ -1,0 +1,114 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '124803'
+ToLID: icTarCana1
+Species: Tarphius canariensis
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 310,233,475
+    Haploid Number: '9 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: U
+  Observed:
+    Haploid size (bp): 310,723,302
+    Haploid Number: '0'
+    Ploidy: '2'
+    Sample Sex: U
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.7.Q66
+
+Curator notes:
+  Interventions/Gb: 0
+  Contamination notes: '"Total length of scaffolds removed: 2,074,311 (0.7 %);Scaffolds
+    removed: 59 (72.8 %);Largest scaffold removed: (160,449);FCS-GX contaminant species
+    (number of scaffolds; total length of scaffolds):Erwinia typographi, g-proteobacteria
+    (15; 677,499);Allobranchiibius huperziae, high GC Gram+ (9; 252,647);Erwinia billingiae,
+    g-proteobacteria (5; 190,020);Arachidicoccus soli, CFB group bacteria (2; 185,866);Rhodanobacter
+    denitrificans, g-proteobacteria (1; 86,367);Silvibacterium dinghuense, bacteria
+    (1; 57,248);Filimonas sp., CFB group bacteria (1; 55,454);Acidicapsa acidisoli,
+    bacteria (1; 43,005);Acidobacterium capsulatum, bacteria (1; 42,976);Granulicella
+    mallensis, bacteria (1; 39,590);Terriglobus roseus, bacteria (1; 36,970);Nakamurella
+    endophytica, high GC Gram+ (1; 36,876);Niabella beijingensis, CFB group bacteria
+    (1; 36,705);Erwinia psidii, g-proteobacteria (1; 16,466);Conexibacter sp., actinobacteria
+    (1; 16,280);Metallococcus carri, high GC Gram+ (1; 2,000)"'
+  Other observations: '"Hi-C from a different individual (icTarCana2), so assembly
+    is not Hi-C phased"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 314,484,547
+    GC %: '34.86'
+    Gaps/Gbp: '92.21'
+    Total gap bp: 5,800
+    Scaffolds: '81'
+    Scaffold N50: 31,089,936
+    Scaffold L50: '5'
+    Scaffold L90: '9'
+    Contigs: '110'
+    Contig N50: 14,492,433
+    Contig L50: '8'
+    Contig L90: '24'
+    Kmer compl.: '99.55'
+    BUSCO sing.: 99.3%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.2%
+  Curated pri:
+    Total bp: 310,723,302
+    GC %: '34.73'
+    Gaps/Gbp: '119.08'
+    Total gap bp: 7,400
+    Scaffolds: '12'
+    Scaffold N50: 31,130,618
+    Scaffold L50: '5'
+    Scaffold L90: '9'
+    Contigs: '49'
+    Contig N50: 14,492,433
+    Contig L50: '8'
+    Contig L90: '25'
+    Kmer compl.: '99.20'
+    BUSCO sing.: 99.4%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.1%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 25x 291x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+    key param: -e
+  yahs:
+    ver: 1.2a.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+    key param: -e
+  yahs:
+    ver: 1.2a.2
+  TreeVal:
+    ver: '1.1'
+
+Submitter: Joanna Collins
+Affiliation: WSI
+
+Date and time: 2024-09-18 14:16:44 CEST

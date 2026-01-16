@@ -1,0 +1,97 @@
+ERGA Assembly Report: v24.09.10
+Tags: ERGA-BGE
+
+TxID: '10034'
+ToLID: mCriCri2
+Species: Cricetus cricetus
+Class: Mammalia
+Order: Rodentia
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 3,273,505,721
+    Haploid Number: '11 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XY
+  Observed:
+    Haploid size (bp): 2,520,162,027
+    Haploid Number: '11'
+    Ploidy: '2'
+    Sample Sex: XY
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q54
+
+Curator notes:
+  Interventions/Gb: 8
+  Contamination notes: '"No contaminants detected in the Nextdenovo assembly selected
+    for curation."'
+  Other observations: '"Curation made 1 cut in a contig, 4 breaks at gaps and 9 joins.
+    SUPER_Y sequence accounts for 5,195,203 bp. Despite of searching thoroughly for
+    Y sequence in the purged haplotigs removed from our assemblies we did not found
+    enough to scaffold the male Y chromosome. Mitogenome was not successfully assembled.
+    During review we reoriented a contig in SUPER_2 and localized 3 scaffolds. Thus
+    we made just 2 additional breaks at gaps and 3 additional joins."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 2,520,160,827
+    GC %: '41.46'
+    Gaps/Gbp: '49.2'
+    Total gap bp: 24,800
+    Scaffolds: '54'
+    Scaffold N50: 250,072,296
+    Scaffold L50: '5'
+    Scaffold L90: '9'
+    Contigs: '178'
+    Contig N50: 47,690,202
+    Contig L50: '17'
+    Contig L90: '55'
+    QV: '54.4254'
+    Kmer compl.: '94.0784'
+    BUSCO sing.: 95.3%
+    BUSCO dupl.: 2.8%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 1.2%
+  Curated collapsed:
+    Total bp: 2,520,162,027
+    GC %: '41.46'
+    Gaps/Gbp: '51.58'
+    Total gap bp: 26,000
+    Scaffolds: '48'
+    Scaffold N50: 305,542,590
+    Scaffold L50: '4'
+    Scaffold L90: '8'
+    Contigs: '178'
+    Contig N50: 47,690,202
+    Contig L50: '17'
+    Contig L90: '55'
+    QV: '54.4254'
+    Kmer compl.: '94.0784'
+    BUSCO sing.: 95.3%
+    BUSCO dupl.: 2.8%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 1.2%
+
+BUSCO:
+  ver: 5.4.0
+  lineage: vertebrata_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 105x 84x 78x
+
+Assembly pipeline:
+  CLAWS: {}
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Fernando Cruz
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-11-05 09:56:55 CET

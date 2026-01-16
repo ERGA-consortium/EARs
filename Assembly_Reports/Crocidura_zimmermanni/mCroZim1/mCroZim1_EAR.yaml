@@ -1,0 +1,119 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '387912'
+ToLID: mCroZim1
+Species: Crocidura zimmermanni
+Class: Mammalia
+Order: Eulipotyphla
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,224,927,356
+    Haploid Number: '17 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 2,571,728,606
+    Haploid Number: '20'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q62
+
+Curator notes:
+  Interventions/Gb: 2
+  Contamination notes: '""'
+  Other observations: '"The assembly of Crocidura zimmermanni (mCroZim1.1) is based
+    on 37X PacBio data and 189X Arima Hi-C data generated as part of the European
+    Reference Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity
+    Genomics Europe project (BGE, https://biodiversitygenomics.eu/). The assembly
+    process included the following steps: initial PacBio assembly generation with
+    Hifiasm, removal of contaminant sequences using Context, removal of haplotypic
+    duplications using purge_dups, and Hi-C-based scaffolding with YaHS. In total,
+    8 contigs were identified as contaminants (bacterial), totaling 690.5 Kb (with
+    the largest being 117.9 Kb) ; TAPAs has classified two scaffolds (scaffold_102
+    & scaffold_138) as bacteria, but they are host rDNA, therefore they are not removed.
+    Additionally, 195 regions totaling 76.2 Mb (with the largest being 20.8 Mb) were
+    identified as haplotypic duplications and removed. The mitochondrial genome was
+    assembled using OATK. Finally, the primary assembly was analyzed and manually
+    improved using Pretext. During manual curation, no regions were tagged as allelic
+    duplications nor contaminants ; 24 sequences were tagged Unloc, their orientation
+    is uncertain ; the coverage of mCroZim1_5 seems lower than the others and its
+    alignment with Suncus_etruscus (CM043992.1 chromosome_X) suggests that mCroZim1_5
+    is the X chromosome. the difference in expected vs observed haploid number is
+    noteworthy, but there is a great variability of karyotypes within this genus and
+    also between individuals of the same species ; also, Crocidura zimmermanni is
+    endemic (Crete) and shows a threatened status (Endangered), which could also contribute.
+    Despite counting with karyotype information, that information is rather limited
+    for this species ; there is no evidence of false-joins with the contact map. Chromosome-scale
+    scaffolds confirmed by Hi-C data were named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 2,571,745,479
+    GC %: '39.85'
+    Gaps/Gbp: '62.6'
+    Total gap bp: 16,100
+    Scaffolds: '151'
+    Scaffold N50: 127,229,103
+    Scaffold L50: '9'
+    Scaffold L90: '18'
+    Contigs: '312'
+    Contig N50: 28,351,139
+    Contig L50: '25'
+    Contig L90: '97'
+    QV: '62.0833'
+    Kmer compl.: '92.9631'
+    BUSCO sing.: 90.6%
+    BUSCO dupl.: 2.2%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 6.3%
+  Curated collapsed:
+    Total bp: 2,571,728,606
+    GC %: '39.85'
+    Gaps/Gbp: '62.6'
+    Total gap bp: 16,400
+    Scaffolds: '146'
+    Scaffold N50: 127,229,103
+    Scaffold L50: '9'
+    Scaffold L90: '18'
+    Contigs: '307'
+    Contig N50: 28,351,139
+    Contig L50: '25'
+    Contig L90: '97'
+    QV: '62.0867'
+    Kmer compl.: '92.9629'
+    BUSCO sing.: 90.6%
+    BUSCO dupl.: 2.2%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 6.3%
+
+BUSCO:
+  ver: 5.4.3 (euk_genome_met, metaeuk)
+  lineage: laurasiatheria_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima
+  Coverage: 37 189
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2025-03-11 17:37:22 CET

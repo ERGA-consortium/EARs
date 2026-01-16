@@ -1,0 +1,100 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '270691'
+ToLID: wcHelEuro1
+Species: Helobdella europaea
+Class: Clitellata
+Order: Rhynchobdellida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 207,706,424
+    Haploid Number: '9 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: H
+  Observed:
+    Haploid size (bp): 243,872,151
+    Haploid Number: '18'
+    Ploidy: '2'
+    Sample Sex: H
+
+EBP metrics:
+  EBP quality code:
+    pri: 5.7.Q54
+
+Curator notes:
+  Interventions/Gb: 457
+  Contamination notes: '"Contamination report for assembly labelled primary; Total
+    length of scaffolds removed: 27,517 (0.0 %);Scaffolds removed: 2 (1.2 %);Largest
+    scaffold removed: (17,478);FCS-GX contaminant species (number of scaffolds; total
+    length of scaffolds):Microbulbifer hydrolyticus, g-proteobacteria (1; 17,478);Mitochondrion
+    (1; 10,039);FCS-Adaptor (4; 402)"'
+  Other observations: '"Hi-C was from a separate individual (wcHelEuro3);"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 243,960,360
+    GC %: '31.26'
+    Gaps/Gbp: 4,980.32
+    Total gap bp: 121,500
+    Scaffolds: '162'
+    Scaffold N50: 14,408,463
+    Scaffold L50: '7'
+    Scaffold L90: '16'
+    Contigs: 1,377
+    Contig N50: 300,589
+    Contig L50: '244'
+    Contig L90: '826'
+    Kmer compl.: '99.65'
+    BUSCO sing.: 90.1%
+    BUSCO dupl.: 1.4%
+    BUSCO frag.: 1.6%
+    BUSCO miss.: 6.9%
+  Curated pri:
+    Total bp: 243,872,151
+    GC %: '31.26'
+    Gaps/Gbp: 5,597.2
+    Total gap bp: 165,102
+    Scaffolds: '29'
+    Scaffold N50: 14,980,787
+    Scaffold L50: '7'
+    Scaffold L90: '16'
+    Contigs: 1,394
+    Contig N50: 293,996
+    Contig L50: '247'
+    Contig L90: '840'
+    Kmer compl.: '99.67'
+    BUSCO sing.: 90.1%
+    BUSCO dupl.: 1.4%
+    BUSCO frag.: 1.6%
+    BUSCO miss.: 6.9%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: metazoa_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 92x 652x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Michael Paulini
+Affiliation: WSI
+
+Date and time: 2025-08-18 16:48:20 CEST

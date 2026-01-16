@@ -1,0 +1,111 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '317547'
+ToLID: jaEunCavo1
+Species: Eunicella cavolini
+Class: Anthozoa
+Order: Malacalcyonacea
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 411,546,873
+    Haploid Number: '6 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 489,969,558
+    Haploid Number: '16'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q61
+
+Curator notes:
+  Interventions/Gb: 516
+  Contamination notes: '""'
+  Other observations: '"The assembly of EUNICELLA CAVOLINI (jaEunCavo1) is based on
+    53X PacBio data and 130X Arima Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups, and Hi-C-based scaffolding with YaHS. In total, 37 contigs were identified
+    as contaminants (bacterial, archaeal, or viral), totaling 1 Mb (with the largest
+    being 88,287 pb). Additionally, 208 regions totaling 168 Mb were identified as
+    haplotypic duplications and removed. However, all sequences larger than 1 Mb were
+    added to the assembly, with purge_dups removing too many contigs needed for the
+    scaffolding. The mitochondrial genome was assembled using OATK. Finally, the primary
+    assembly was analyzed and manually improved using Pretext. During manual curation,
+    12 haplotypic regions were removed, totaling 27 Mb (with the largest being 1.8
+    Mb). Chromosome-scale scaffolds confirmed by Hi-C data were named in order of
+    size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 517,467,788
+    GC %: '37.34'
+    Gaps/Gbp: '191.32'
+    Total gap bp: 9,900
+    Scaffolds: '71'
+    Scaffold N50: 36,456,395
+    Scaffold L50: '5'
+    Scaffold L90: '17'
+    Contigs: '170'
+    Contig N50: 7,973,322
+    Contig L50: '21'
+    Contig L90: '75'
+    QV: '61.6597'
+    Kmer compl.: '79.7168'
+    BUSCO sing.: 86.7%
+    BUSCO dupl.: 2.1%
+    BUSCO frag.: 5.5%
+    BUSCO miss.: 5.7%
+  Curated collapsed:
+    Total bp: 489,969,558
+    GC %: '37.34'
+    Gaps/Gbp: '230.63'
+    Total gap bp: 15,300
+    Scaffolds: '46'
+    Scaffold N50: 51,102,291
+    Scaffold L50: '4'
+    Scaffold L90: '13'
+    Contigs: '159'
+    Contig N50: 7,689,143
+    Contig L50: '20'
+    Contig L90: '69'
+    QV: '61.5176'
+    Kmer compl.: '77.4335'
+    BUSCO sing.: 87.6%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 5.6%
+    BUSCO miss.: 5.8%
+
+BUSCO:
+  ver: 5.4.3 (euk_genome_met, metaeuk)
+  lineage: metazoa_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima
+  Coverage: 53 130
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2025-02-24 11:34:09 CET

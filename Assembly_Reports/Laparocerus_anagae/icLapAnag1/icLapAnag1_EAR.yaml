@@ -1,0 +1,139 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1963931'
+ToLID: icLapAnag1
+Species: Laparocerus anagae
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 500,646,919
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 514,188,479
+    Haploid Number: '11'
+    Ploidy: '2'
+    Sample Sex: X0
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q67
+    hap2: 7.7.Q70
+
+Curator notes:
+  Interventions/Gb: 23
+  Contamination notes: '"FCS-GX detected 146 contaminated contigs in haplotype 1 and
+    91 contaminated contigs in haplotype 2. The Proteobacteria Rahnella victoriana
+    was fully assembled to a circle. Mitochondrial genome was removed from the assembly"'
+  Other observations: '"The PacBio reads were subsampled to 50X. The sex chromosome
+    is potentially h1su11 which is part of the hap1 assembly. It has no corresponding
+    haplotype and shows half coverage. Though I don''t know how to tag this sex chromosome
+    - I could not find much information about sex chromosomes in weevils."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 486,377,018
+    GC %: '32.9'
+    Gaps/Gbp: '67.85'
+    Total gap bp: 6,600
+    Scaffolds: '264'
+    Scaffold N50: 55,537,056
+    Scaffold L50: '4'
+    Scaffold L90: '9'
+    Contigs: '297'
+    Contig N50: 24,718,012
+    Contig L50: '9'
+    Contig L90: '23'
+    QV: '66.9104'
+    Kmer compl.: '63.6013'
+    BUSCO sing.: 91.6%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 1.1%
+    BUSCO miss.: 6.4%
+  Pre-curation hap2:
+    Total bp: 510,740,606
+    GC %: '33.18'
+    Gaps/Gbp: '48.95'
+    Total gap bp: 5,000
+    Scaffolds: '113'
+    Scaffold N50: 52,413,696
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '138'
+    Contig N50: 25,762,000
+    Contig L50: '9'
+    Contig L90: '21'
+    QV: '71.0195'
+    Kmer compl.: '67.5989'
+    BUSCO sing.: 96.6%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 1.1%
+    BUSCO miss.: 1.4%
+  Curated hap1:
+    Total bp: 514,188,479
+    GC %: '32.88'
+    Gaps/Gbp: '68.07'
+    Total gap bp: 7,000
+    Scaffolds: '264'
+    Scaffold N50: 52,580,765
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '299'
+    Contig N50: 25,606,415
+    Contig L50: '9'
+    Contig L90: '24'
+    QV: '67.1519'
+    Kmer compl.: '67.4921'
+    BUSCO sing.: 96.6%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 1.0%
+    BUSCO miss.: 1.4%
+  Curated hap2:
+    Total bp: 481,753,495
+    GC %: '33.22'
+    Gaps/Gbp: '58.12'
+    Total gap bp: 5,600
+    Scaffolds: '108'
+    Scaffold N50: 55,302,066
+    Scaffold L50: '4'
+    Scaffold L90: '9'
+    Contigs: '136'
+    Contig N50: 25,935,046
+    Contig L50: '8'
+    Contig L90: '20'
+    QV: '70.7657'
+    Kmer compl.: '63.717'
+    BUSCO sing.: 91.8%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 1.1%
+    BUSCO miss.: 6.3%
+
+BUSCO:
+  ver: 5.8.3 (euk_genome_min, miniprot)
+  lineage: endopterygota_odb12
+
+Data:
+  Profile: HiFi Bionano OmniC
+  Coverage: 317x NA 49x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l2
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2.2
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2025-10-01 10:02:22 CEST

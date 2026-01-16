@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '213841'
+ToLID: drStaPinn1
+Species: Staphylea pinnata
+Class: Magnoliopsida
+Order: Crossosomatales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,626,848,065
+    Haploid Number: '12 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 1,563,064,433
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q60
+
+Curator notes:
+  Interventions/Gb: 8
+  Contamination notes: '""'
+  Other observations: '"The assembly of STAPHYLEA PINNATA (drStaPinn1) is based on
+    50X PacBio data and 137X Omni-C Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups, and Hi-C-based scaffolding with YaHS. In total, 5 contigs were identified
+    as contaminants (bacterial, archaeal, or viral), totaling 390 Kb (with the largest
+    being 277 Kb). Additionally, 650 regions totaling 102 Kb were identified as haplotypic
+    duplications and removed. The mitochondrial genome was assembled using OATK. Finally,
+    the primary assembly was analyzed and manually improved using Pretext. During
+    manual curation, no regions were tagged as allelic duplications but 3 regions
+    as contaminants (151 Kb). Chromosome-scale scaffolds confirmed by Hi-C data were
+    named in order of size and contigs were already mostly chromosome-scale."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,562,129,863
+    GC %: '35.67'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '47'
+    Scaffold N50: 79,008,546
+    Scaffold L50: '7'
+    Scaffold L90: '21'
+    Contigs: '47'
+    Contig N50: 79,008,546
+    Contig L50: '7'
+    Contig L90: '21'
+    QV: '60.7974'
+    Kmer compl.: '89.6396'
+    BUSCO sing.: 90.4%
+    BUSCO dupl.: 6.4%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 2.8%
+  Curated collapsed:
+    Total bp: 1,563,064,433
+    GC %: '35.68'
+    Gaps/Gbp: '15.99'
+    Total gap bp: 2,600
+    Scaffolds: '23'
+    Scaffold N50: 130,005,016
+    Scaffold L50: '6'
+    Scaffold L90: '11'
+    Contigs: '48'
+    Contig N50: 71,159,830
+    Contig L50: '8'
+    Contig L90: '23'
+    QV: '60.8091'
+    Kmer compl.: '89.6852'
+    BUSCO sing.: 90.4%
+    BUSCO dupl.: 6.4%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 2.8%
+
+BUSCO:
+  ver: 5.4.3 (euk_genome_met, metaeuk)
+  lineage: embryophyta_odb10
+
+Data:
+  Profile: PACBIO Hifi Omnic
+  Coverage: 50 137
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2025-02-05 16:32:47 CET

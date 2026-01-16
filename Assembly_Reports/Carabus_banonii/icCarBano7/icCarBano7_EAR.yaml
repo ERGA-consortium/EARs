@@ -1,0 +1,98 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3023605'
+ToLID: icCarBano7
+Species: Carabus banonii
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 71,013,296
+    Haploid Number: '14 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 207,791,100
+    Haploid Number: '15'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q57
+
+Curator notes:
+  Interventions/Gb: 426
+  Contamination notes: '"Only one contig was detected as bacterial contaminant. Some
+    small scaffolds for which no HiC links was found were removed"'
+  Other observations: '"Presence of larges repeated regions (telomeric or centromeric?)
+    at the ends of the scaffolds,therefore need to invert the arms of chromosomes"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 215,432,743
+    GC %: '35.44'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '184'
+    Scaffold N50: 12,129,189
+    Scaffold L50: '7'
+    Scaffold L90: '17'
+    Contigs: '184'
+    Contig N50: 12,129,189
+    Contig L50: '7'
+    Contig L90: '17'
+    QV: '56.8752'
+    Kmer compl.: '81.1251'
+    BUSCO sing.: 98.4%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 0.4%
+  Curated collapsed:
+    Total bp: 207,791,100
+    GC %: '35.4'
+    Gaps/Gbp: '336.88'
+    Total gap bp: 13,800
+    Scaffolds: '18'
+    Scaffold N50: 14,906,334
+    Scaffold L50: '6'
+    Scaffold L90: '13'
+    Contigs: '88'
+    Contig N50: 7,491,500
+    Contig L50: '12'
+    Contig L90: '28'
+    QV: '57.4655'
+    Kmer compl.: '81.1152'
+    BUSCO sing.: 98.4%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 0.5%
+
+BUSCO:
+  ver: 5.4.3 (euk_genome_met, metaeuk)
+  lineage: endopterygota_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima
+  Coverage: 30 50
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Arnaud Couloux
+Affiliation: Genoscope
+
+Date and time: 2025-05-21 15:25:47 CEST

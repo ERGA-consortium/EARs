@@ -1,0 +1,142 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '56557'
+ToLID: heTriNodu1
+Species: Triaenophorus nodulosus
+Class: Cestoda
+Order: Bothriocephalidea
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 677,466,258
+    Haploid Number: '7 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 713,084,067
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    hap1: 6.7.Q67
+    hap2: 6.7.Q67
+
+Curator notes:
+  Interventions/Gb: 324
+  Contamination notes: '"No contaminations were detected with FCS-GX.. Mitochondrial
+    genome was removed from the assembly"'
+  Other observations: '"Hifiasm was run in HiC-mode and created two haplotype assemblies
+    (hap1 - contigs: 782, yield 843Mb, N50: 5.5Mb; hap2 - contigs: 532, yield 728Mb,
+    N50: 4.9Mb). A manual contig filtering was done based on the cumulative evidences
+    from: (1) MitoHifi - detect mitochondrial contigs (2) Tiara - deep learning to
+    classify eukaryotic, bacterial, organelle, archea sequences and (3) BlobtoolKit
+    - detect contaminations. Purge_dups was run to anotate haplotypic duplications.
+    Scaffolding was done with Yahs on both haplotypes. Multiple curation rounds were
+    necessary. The first chromosome still looks a bit odd."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 843,771,454
+    GC %: '33.81'
+    Gaps/Gbp: '237.03'
+    Total gap bp: 20,000
+    Scaffolds: '582'
+    Scaffold N50: 42,307,306
+    Scaffold L50: '6'
+    Scaffold L90: '38'
+    Contigs: '782'
+    Contig N50: 5,500,272
+    Contig L50: '40'
+    Contig L90: '184'
+    QV: '66.0261'
+    Kmer compl.: '88.422'
+    BUSCO sing.: 65.5%
+    BUSCO dupl.: 2.1%
+    BUSCO frag.: 13.2%
+    BUSCO miss.: 19.2%
+  Pre-curation hap2:
+    Total bp: 728,198,039
+    GC %: '33.56'
+    Gaps/Gbp: '288.38'
+    Total gap bp: 21,000
+    Scaffolds: '322'
+    Scaffold N50: 49,554,147
+    Scaffold L50: '6'
+    Scaffold L90: '17'
+    Contigs: '532'
+    Contig N50: 4,973,056
+    Contig L50: '31'
+    Contig L90: '164'
+    QV: '66.5746'
+    Kmer compl.: '86.4289'
+    BUSCO sing.: 66.5%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 13.1%
+    BUSCO miss.: 19.3%
+  Curated hap1:
+    Total bp: 713,084,067
+    GC %: '33.46'
+    Gaps/Gbp: '300.1'
+    Total gap bp: 27,100
+    Scaffolds: '34'
+    Scaffold N50: 51,365,156
+    Scaffold L50: '5'
+    Scaffold L90: '11'
+    Contigs: '248'
+    Contig N50: 6,972,067
+    Contig L50: '31'
+    Contig L90: '127'
+    QV: '67.6372'
+    Kmer compl.: '87.0801'
+    BUSCO sing.: 66.1%
+    BUSCO dupl.: 1.2%
+    BUSCO frag.: 13.8%
+    BUSCO miss.: 18.9%
+  Curated hap2:
+    Total bp: 682,246,441
+    GC %: '33.39'
+    Gaps/Gbp: '357.64'
+    Total gap bp: 30,800
+    Scaffolds: '26'
+    Scaffold N50: 50,519,038
+    Scaffold L50: '5'
+    Scaffold L90: '11'
+    Contigs: '270'
+    Contig N50: 4,997,201
+    Contig L50: '29'
+    Contig L90: '140'
+    QV: '67.425'
+    Kmer compl.: '86.0465'
+    BUSCO sing.: 67.0%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 13.5%
+    BUSCO miss.: 18.8%
+
+BUSCO:
+  ver: 5.8.3 (euk_genome_min, miniprot)
+  lineage: metazoa_odb12
+
+Data:
+  Profile: HiFi Arima3
+  Coverage: 106x 35x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2.2
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2025-11-27 17:48:16 CET

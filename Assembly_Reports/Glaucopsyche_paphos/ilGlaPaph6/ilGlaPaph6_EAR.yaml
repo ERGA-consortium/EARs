@@ -1,0 +1,146 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2744207'
+ToLID: ilGlaPaph6
+Species: Glaucopsyche paphos
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 521,721,393
+    Haploid Number: '23 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: ZZ
+  Observed:
+    Haploid size (bp): 510,089,785
+    Haploid Number: '23'
+    Ploidy: '2'
+    Sample Sex: ZZ
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q64
+    hap2: 7.7.Q64
+
+Curator notes:
+  Interventions/Gb: 0
+  Contamination notes: '"Wolbachia was assembled (present in both haps) and removed
+    (labeled in pretextview) before running Blobtools, which detected no presence
+    of any further contaminants. Mitochondrial genome has not been assembled, yet.
+    Not detected in the assembly."'
+  Other observations: '"Haplotypes were curated separately. Pre-curation hap1 had
+    some haplotigs an minor corrections (Curation made 7 cuts in contigs, 3 breaks
+    at gaps and 4 joins). Hap2 did not require any corrections. Just a few unlocs
+    made. After curation, a new hap1 was made with best (fewest gaps) SUPER per chromosome
+    chosen. The new hap2 assembly was given the more gappy scaffolds. Assignment of
+    the Z was based on alignment to FR990042.1 https://www.ebi.ac.uk/ena/browser/view/GCA_905404095.1."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 516,444,632
+    GC %: '35.89'
+    Gaps/Gbp: '56.15'
+    Total gap bp: 5,800
+    Scaffolds: '42'
+    Scaffold N50: 21,475,491
+    Scaffold L50: '9'
+    Scaffold L90: '19'
+    Contigs: '71'
+    Contig N50: 17,799,701
+    Contig L50: '11'
+    Contig L90: '31'
+    QV: '64.8564'
+    Kmer compl.: '80.7313'
+    BUSCO sing.: 98.0%
+    BUSCO dupl.: 1.3%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.3%
+  Pre-curation hap2:
+    Total bp: 507,012,600
+    GC %: '35.84'
+    Gaps/Gbp: '78.89'
+    Total gap bp: 8,000
+    Scaffolds: '31'
+    Scaffold N50: 21,505,828
+    Scaffold L50: '10'
+    Scaffold L90: '20'
+    Contigs: '71'
+    Contig N50: 12,384,290
+    Contig L50: '13'
+    Contig L90: '38'
+    QV: '64.7011'
+    Kmer compl.: '79.9426'
+    BUSCO sing.: 97.9%
+    BUSCO dupl.: 0.2%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.5%
+  Curated hap1:
+    Total bp: 510,089,785
+    GC %: '35.85'
+    Gaps/Gbp: '27.45'
+    Total gap bp: 2,800
+    Scaffolds: '32'
+    Scaffold N50: 21,718,161
+    Scaffold L50: '10'
+    Scaffold L90: '20'
+    Contigs: '46'
+    Contig N50: 20,270,075
+    Contig L50: '11'
+    Contig L90: '23'
+    QV: '64.6016'
+    Kmer compl.: '80.2513'
+    BUSCO sing.: 98.7%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.4%
+  Curated hap2:
+    Total bp: 505,963,101
+    GC %: '35.89'
+    Gaps/Gbp: '110.68'
+    Total gap bp: 11,200
+    Scaffolds: '40'
+    Scaffold N50: 21,475,491
+    Scaffold L50: '10'
+    Scaffold L90: '20'
+    Contigs: '96'
+    Contig N50: 10,873,703
+    Contig L50: '16'
+    Contig L90: '49'
+    QV: '64.9782'
+    Kmer compl.: '79.4864'
+    BUSCO sing.: 97.8%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.5%
+
+BUSCO:
+  ver: 5.5.0 (euk_genome_met, metaeuk)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: ONT OmniC Illumina WGS
+  Coverage: 72x 36x 39x
+
+Assembly pipeline:
+  Filtlong:
+    ver: 0.2.1
+    key param: --min_length 1000 --min_mean_q 99
+  Hifiasm:
+    ver: 0.24.0
+    key param: --ont --telo-m AACCT"
+  YaHS:
+    ver: 1.2a
+  CLAWS: {}
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: '2.0'
+  PretextViewAI:
+    ver: 1.0.3
+
+Submitter: Tyler Alioto
+Affiliation: CNAG
+
+Date and time: 2025-09-19 14:17:24 CEST

@@ -1,0 +1,103 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '40178'
+ToLID: bAleGra1
+Species: Alectoris graeca
+Class: Aves
+Order: Galliformes
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,015,215,291
+    Haploid Number: '39 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: ZZ
+  Observed:
+    Haploid size (bp): 1,114,500,572
+    Haploid Number: '39'
+    Ploidy: '2'
+    Sample Sex: ZZ
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.7.Q65
+
+Curator notes:
+  Contamination notes: '"No presence of contaminants."'
+  Other observations: '"purging was manually done to avoid removing of large fractions
+    of microchromosomes, guided by purge_dups dups.bed file. Microchromosomes were
+    identified with MicroFinder and scaffolded with the guidance of the alignments
+    against the T2T chicken assembly. Microchromosomes 34-38 are probably not complete
+    due to very low sequencing coverage 3-7X. Includes the mitochondrion (MT) - assembled
+    with MitoHifi."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,131,325,264
+    GC %: '42.08'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '379'
+    Scaffold N50: 43,679,502
+    Scaffold L50: '8'
+    Scaffold L90: '45'
+    Contigs: '379'
+    Contig N50: 43,679,502
+    Contig L50: '8'
+    Contig L90: '45'
+    QV: '65.2645'
+    Kmer compl.: '98.0477'
+    BUSCO sing.: 98.4%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 0.7%
+  Curated pri:
+    Total bp: 1,114,500,572
+    GC %: '41.99'
+    Gaps/Gbp: '134.59'
+    Total gap bp: 30,000
+    Scaffolds: '116'
+    Scaffold N50: 97,991,491
+    Scaffold L50: '4'
+    Scaffold L90: '20'
+    Contigs: '266'
+    Contig N50: 43,679,502
+    Contig L50: '8'
+    Contig L90: '42'
+    QV: '65.8096'
+    Kmer compl.: '98.0031'
+    BUSCO sing.: 98.5%
+    BUSCO dupl.: 0.2%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 0.7%
+
+BUSCO:
+  ver: 5.8.3 (euk_genome_min, miniprot)
+  lineage: aves_odb12
+
+Data:
+  Profile: HiFi Bionano OmniC
+  Coverage: 53x NA 143x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2.2
+  MicroFinder:
+    ver: '0.1'
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: 1a3d79a8
+  HiGlass:
+    ver: 0.10.4
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2025-05-05 12:45:15 CEST

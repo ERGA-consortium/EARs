@@ -1,0 +1,142 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '311461'
+ToLID: wcHirVerb1
+Species: Hirudo verbana
+Class: Clitellata
+Order: Hirudinida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 198,057,365
+    Haploid Number: '13 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: H
+  Observed:
+    Haploid size (bp): 177,750,590
+    Haploid Number: '14'
+    Ploidy: '2'
+    Sample Sex: H
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q55
+
+Curator notes:
+  Interventions/Gb: 237
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 31,600,116 (14.6 %); Scaffolds removed: 112 (31.2 %); Largest
+    scaffold removed: (3,411,796); FCS-GX contaminant species (number of scaffolds;
+    total length of scaffolds):Bdellovibrio sp. UBA4095, proteobacteria (12; 614,916);
+    Myxococcus sp., d-proteobacteria (8; 289,269); Archangium sp., d-proteobacteria
+    (5; 3,328,070); Pedobacter planticolens, CFB group bacteria (5; 3,603,178); Pedobacter
+    frigiditerrae, CFB group bacteria (4; 779,107); Verminephrobacter aporrectodeae,
+    b-proteobacteria (3; 5,446,586); Xenophilus azovorans, b-proteobacteria (2; 2,934,109);
+    Hydrogenophaga crocea, b-proteobacteria (2; 4,125,851); Hydrogenophaga flava,
+    b-proteobacteria (2; 272,515); Bdellovibrio bacteriovorus, proteobacteria (2;
+    173,700); Pedobacter nanyangensis, CFB group bacteria (2; 133,137); Acidovorax
+    citrulli, b-proteobacteria (2; 97,107); Aminobacter carboxidus, a-proteobacteria
+    (2; 83,352); Myxococcus virescens, d-proteobacteria (2; 75,242); Giesbergeria
+    sp., b-proteobacteria (2; 71,504); Pedobacter namyangjuensis, CFB group bacteria
+    (2; 36,528); Nitrosomonas sp., b-proteobacteria (2; 60,276); Niabella ginsengisoli,
+    CFB group bacteria (2; 32,242); Aminobacter aganoensis, a-proteobacteria (2; 46,536);
+    Rikenella microfusus, CFB group bacteria (1; 3,411,796); Comamonas granuli, b-proteobacteria
+    (1; 2,105,643); Rhodoferax bucti, b-proteobacteria (1; 1,487,571); Pedobacter
+    polaris, CFB group bacteria (1; 243,386); Rhodoferax lacus, b-proteobacteria (1;
+    179,524); Pedobacter chitinilyticus, CFB group bacteria (1; 157,701); Bacteroides
+    neonati, CFB group bacteria (1; 149,537); Rhodospirillum rubrum, a-proteobacteria
+    (1; 133,336); Stigmatella erecta, d-proteobacteria (1; 118,242); Pseudobdellovibrio
+    exovorus, proteobacteria (1; 77,394); Polaromonas naphthalenivorans, b-proteobacteria
+    (1; 77,280); Candidatus Methylophosphatis roskildensis, b-proteobacteria (1; 72,446);
+    Comamonas aquatica, b-proteobacteria (1; 66,664); Corallococcus soli, d-proteobacteria
+    (1; 65,410); Xanthobacter oligotrophicus, a-proteobacteria (1; 58,146); Anaeromyxobacter
+    paludicola, d-proteobacteria (1; 55,828); Aminobacter ciceronei, a-proteobacteria
+    (1; 49,286); Paludibacter sp. 47-17, CFB group bacteria (1; 46,723); Piscinibacter
+    sp., b-proteobacteria (1; 41,004); Archangium violaceum, d-proteobacteria (1;
+    39,712); Candidatus Dechloromonas phosphorivorans, b-proteobacteria (1; 39,057);
+    Diaphorobacter caeni, b-proteobacteria (1; 39,008); Myxococcus dinghuensis, d-proteobacteria
+    (1; 37,771); Sphingobium jiangsuense, a-proteobacteria (1; 37,293); Brucella pseudogrignonensis,
+    a-proteobacteria (1; 36,081); Niabella hibiscisoli, CFB group bacteria (1; 33,595);
+    Ralstonia solanacear_v2um, b-proteobacteria (1; 32,147); Bacteroides uniformis,
+    CFB group bacteria (1; 32,020); Ottowia thiooxydans, b-proteobacteria (1; 29,486);
+    Tepidicella xavieri, b-proteobacteria (1; 26,292); Leptothrix cholodnii, b-proteobacteria
+    (1; 25,479); Candidatus Accumulibacter sp. UBA704, b-proteobacteria (1; 24,995);
+    Hyalangium minutum, d-proteobacteria (1; 21,851); Brucella anthropi, a-proteobacteria
+    (1; 21,521); Pseudodonghicola xiamenensis, a-proteobacteria (1; 16,901); Crenobacter
+    luteus, b-proteobacteria (1; 13,877); Bacteroides sp. UBA939, CFB group bacteria
+    (1; 11,107); Vitreoscilla sp., b-proteobacteria (1; 10,000); Tepidicella baoligensis,
+    b-proteobacteria (1; 8,909); Gemmatirosa kalamazoonensis, bacteria (1; 3,000);
+    Corallococcus macrosporus, d-proteobacteria (1; 2,000); Anaeromyxobacter dehalogenans,
+    d-proteobacteria (1; 2,000); Polaromonas glacialis, b-proteobacteria (1; 1,000);
+    Mitochondrion (6; 254,872)"'
+  Other observations: '"This genome has been assembled using PacBio and HiC data and
+    phased; We believe the drop in kmer completeness is due to the large amount of
+    bacterial contamination that was removed;"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 216,164,912
+    GC %: '38.61'
+    Gaps/Gbp: '846.58'
+    Total gap bp: 18,300
+    Scaffolds: '359'
+    Scaffold N50: 11,399,698
+    Scaffold L50: '8'
+    Scaffold L90: '22'
+    Contigs: '542'
+    Contig N50: 1,402,608
+    Contig L50: '42'
+    Contig L90: '161'
+    Kmer compl.: '99.65'
+    BUSCO sing.: 79.7%
+    BUSCO dupl.: 5.7%
+    BUSCO frag.: 7.8%
+    BUSCO miss.: 6.8%
+  Curated pri:
+    Total bp: 177,750,590
+    GC %: '35.97'
+    Gaps/Gbp: 1,406.47
+    Total gap bp: 33,500
+    Scaffolds: '27'
+    Scaffold N50: 13,422,010
+    Scaffold L50: '6'
+    Scaffold L90: '12'
+    Contigs: '277'
+    Contig N50: 1,338,446
+    Contig L50: '36'
+    Contig L90: '132'
+    Kmer compl.: '87.29'
+    BUSCO sing.: 80.7%
+    BUSCO dupl.: 4.1%
+    BUSCO frag.: 7.7%
+    BUSCO miss.: 7.5%
+
+BUSCO:
+  ver: 5.3.0
+  lineage: metazoa_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 49x 536x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Michael Paulini
+Affiliation: WSI
+
+Date and time: 2025-02-19 10:38:02 CET

@@ -1,7 +1,7 @@
 # get_EAR_reviewer.py
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
-version = "v24.09.23"
+version = "v25.10.10"
 
 import requests
 import random
@@ -10,7 +10,13 @@ import argparse
 
 def download_csv(url):
     try:
-        response = requests.get(url)
+        response = requests.get(
+            url,
+            headers={
+                "Accept": "application/vnd.github.raw+json",
+                "X-GitHub-Api-Version": "2022-11-28",
+            },
+        )
         response.raise_for_status()
         return response.text
     except requests.RequestException as e:
@@ -33,6 +39,12 @@ def normalize_institution(institution):
         return 'Genoscope'
     elif 'scilifelab' in institution:
         return 'SciLifeLab'
+    elif 'izw' in institution:
+        return 'IZW'
+    elif 'unifi' in institution:
+        return 'UNIFI'
+    elif 'uniba' in institution:
+        return 'UNIBA'
     return institution
 
 def adjust_score(reviewer, tags):
@@ -40,10 +52,15 @@ def adjust_score(reviewer, tags):
     if reviewer['Last Review'] == 'NA':
         score += 50
     normalized_institution = normalize_institution(reviewer['Institution'])
-    if 'ERGA-BGE' in tags and normalized_institution in ['CNAG', 'Sanger', 'Genoscope', 'SciLifeLab']:
-        score += 50 # Additional 50 points for reviewers from BGE institutions if 'ERGA-BGE' tag is used
+    if 'ERGA-BGE' in tags and normalized_institution in ['CNAG', 'Sanger', 'Genoscope', 'SciLifeLab', 'IZW', 'UNIFI', 'UNIBA']:
+        score += 50  # Additional 50 points for reviewers from BGE institutions if 'ERGA-BGE' tag is used
     if reviewer['Supervisor'] == 'Y':
-        score -= 5 # Substract 5 points if reviewer is also supervisor to decrease the chance of selection
+        score -= 5  # Subtract 5 points if reviewer is also supervisor to decrease the chance of selection
+    
+    # Subtract 20 points per working PR
+    working_prs = int(reviewer.get('Working PRs', '0'))
+    score -= 20 * working_prs  # Subtract 20 points for each PR they're currently working on
+    
     return score
 
 def parse_date(date_str):
@@ -55,8 +72,8 @@ def print_csv(data_list, selected_reviewer):
     if not data_list:
         print("No data to print.")
         return
-    headers = ['Github ID', 'Full Name', 'Institution', 'Total Reviews', 'Last Review', 'Active', 'Busy', 'Calling Score', 'Adjusted Score']
-    col_widths = {header: max(len(header), max((len(str(row[header])) for row in data_list), default=len(header))) for header in headers}
+    headers = ['Github ID', 'Full Name', 'Institution', 'Total Reviews', 'Last Review', 'Active', 'Working PRs', 'Calling Score', 'Adjusted Score']
+    col_widths = {header: max(len(header), max((len(str(row.get(header, ''))) for row in data_list), default=len(header))) for header in headers}
     header_row = ' | '.join(header.ljust(col_widths[header]) for header in headers)
     print(header_row)
     print('-' * len(header_row))
@@ -65,7 +82,7 @@ def print_csv(data_list, selected_reviewer):
         data_list = [selected_reviewer] + [d for d in data_list if d != selected_reviewer]
     
     for data in data_list:
-        data_row = ' | '.join(str(data[header]).ljust(col_widths[header]) for header in headers)
+        data_row = ' | '.join(str(data.get(header, '')).ljust(col_widths[header]) for header in headers)
         print(data_row)
 
 def select_best_reviewer(data, calling_institution, use_bge):
@@ -74,12 +91,13 @@ def select_best_reviewer(data, calling_institution, use_bge):
             **reviewer,
             'Adjusted Score': adjust_score(reviewer, use_bge),
             'Parsed Last Review': parse_date(reviewer['Last Review']),
-            'Total Reviews': int(reviewer['Total Reviews'])
+            'Total Reviews': int(reviewer['Total Reviews']),
+            'Working PRs': reviewer.get('Working PRs', '0')
         } for reviewer in data
-        if reviewer['Active'] == 'Y' and reviewer['Busy'] == 'N' and normalize_institution(reviewer['Institution']) != normalize_institution(calling_institution)
+        if reviewer['Active'] == 'Y' and normalize_institution(reviewer['Institution']) != normalize_institution(calling_institution)
     ]
 
-    eligible_candidates.sort(key=lambda x: (-x['Adjusted Score'], x['Parsed Last Review'], x['Total Reviews']))
+    eligible_candidates.sort(key=lambda x: (-x['Adjusted Score'], x['Total Reviews'], x['Parsed Last Review']))
     
     top_score = eligible_candidates[0]['Adjusted Score'] if eligible_candidates else None
     top_candidates = [c for c in eligible_candidates if c['Adjusted Score'] == top_score] if top_score is not None else []
@@ -99,8 +117,13 @@ def select_best_reviewer(data, calling_institution, use_bge):
     selected = random.choice(final_candidates)
     return eligible_candidates, [selected], "random selection to break a tie among the finalists"
 
-def select_random_supervisor(data, exclude_id):
-    supervisors = [reviewer for reviewer in data if reviewer['Supervisor'] == 'Y' and reviewer['Github ID'] != exclude_id]
+def select_random_supervisor(data, exclude_id, calling_institution):
+    supervisors = [
+        reviewer for reviewer in data
+        if reviewer['Supervisor'] == 'Y' 
+           and reviewer['Github ID'] != exclude_id 
+           and normalize_institution(reviewer['Institution']) != normalize_institution(calling_institution)
+    ]
 
     if not supervisors:
         return None
@@ -116,7 +139,7 @@ def main():
     parser.add_argument("-v", "--version", action="version", version=version, help="Show script's version and exit.")
     args = parser.parse_args()
 
-    url = "https://raw.githubusercontent.com/ERGA-consortium/EARs/main/rev/reviewers_list.csv"
+    url = "https://api.github.com/repos/ERGA-consortium/EARs/contents/rev/reviewers_list.csv"
     csv_data = download_csv(url)
     if csv_data:
         data = parse_csv(csv_data)
@@ -128,7 +151,7 @@ def main():
             if not args.user:
                 print("Github user ID must be provided with --user when using --supervisor.")
                 return
-            selected_supervisor = select_random_supervisor(data, args.user)
+            selected_supervisor = select_random_supervisor(data, args.user, args.institution)
             if selected_supervisor:
                 print(f"Selected supervisor: {selected_supervisor['Full Name']} ({selected_supervisor['Github ID']})")
             else:
@@ -150,8 +173,13 @@ def main():
                 print("The decision was based on:")
                 print(f"- different institution ('{selected_reviewer['Institution']}')")
                 print(f"- active ('{selected_reviewer['Active']}')")
-                print(f"- not busy ('{selected_reviewer['Busy']}')")
+                working_prs = selected_reviewer.get('Working PRs', '0')
+                print(f"- working on {working_prs} PR(s) currently")
                 print(f"- {selection_reason} ({selected_reviewer['Adjusted Score']})")
+                
+                # Additional info about score adjustments if working on PRs
+                if int(working_prs) > 0:
+                    print(f"  (Note: Adjusted score already considering -{20 * int(working_prs)} points due to {working_prs} ongoing PR(s))")
             else:
                 print("No suitable reviewer found at the moment.")
         else:

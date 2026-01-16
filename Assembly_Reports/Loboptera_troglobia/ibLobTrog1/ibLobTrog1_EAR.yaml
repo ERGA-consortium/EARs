@@ -1,0 +1,118 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3054492'
+ToLID: ibLobTrog1
+Species: Loboptera troglobia
+Class: Insecta
+Order: Blattodea
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,370,803,843
+    Haploid Number: '17 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: X0
+  Observed:
+    Haploid size (bp): 2,585,382,996
+    Haploid Number: '14'
+    Ploidy: '2'
+    Sample Sex: X0
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.8.Q43
+
+Curator notes:
+  Interventions/Gb: 13
+  Contamination notes: '"Based on the blobtools report results (using -buscoregions
+    species-) we removed 26 smaller scaffolds that matched mostly bacterial sequences
+    (largely putative endosymbiont fragments). Some of the scaffolds also contained
+    viral and fungal sequences. The scaffolds in question are: scaffold_36,scaffold_40,scaffold
+    _42,scaffold_45,scaffold_48,scaffold_49,scaffold_50,scaffold_52,scaffold_53,scaffold_
+    57,scaffold_59,scaffold_61,scaffold_64,scaffold_67,scaffold_68,scaffold_69,scaffold_7
+    0,scaffold_71,scaffold_74,scaffold_78,scaffold_81,scaffold_83,scaffold_87,scaffold_91
+    ,scaffold_93 and scaffold_109. These scaffolds were not removed form the pretext
+    file but we will do so once the review process is complete. They have, however,
+    already been removed from the blobtools plot and busco, merqury and gfastas included
+    in the report"'
+  Other observations: '"For this specimen the ONT data derived from the heteromorphic
+    sex with the absense of a second sex chromosome (male X0). The number of putative
+    chromosomes seems to match that of another Loboptera genus cockroach (Loboptera
+    subterranea). For a number of the super scaffolds there seem to be weak contacts
+    between the the two arms of the chromosomes, something we have observed in other
+    Loboptera genus cockroaches as well"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 2,589,487,305
+    GC %: '34.21'
+    Gaps/Gbp: '254.1'
+    Total gap bp: 131,600
+    Scaffolds: '113'
+    Scaffold N50: 146,328,501
+    Scaffold L50: '7'
+    Scaffold L90: '17'
+    Contigs: '771'
+    Contig N50: 9,620,444
+    Contig L50: '80'
+    Contig L90: '277'
+    QV: '43.9298'
+    Kmer compl.: '84.0456'
+    BUSCO sing.: 97.0%
+    BUSCO dupl.: 1.5%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 0.9%
+  Curated collapsed:
+    Total bp: 2,585,382,996
+    GC %: '34.19'
+    Gaps/Gbp: '261.86'
+    Total gap bp: 135,400
+    Scaffolds: '69'
+    Scaffold N50: 199,875,071
+    Scaffold L50: '6'
+    Scaffold L90: '12'
+    Contigs: '746'
+    Contig N50: 9,620,444
+    Contig L50: '80'
+    Contig L90: '276'
+    QV: '43.9559'
+    Kmer compl.: '83.8892'
+    BUSCO sing.: 97.0%
+    BUSCO dupl.: 1.5%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 0.9%
+
+BUSCO:
+  ver: 5.4.0 (euk_genome_met, metaeuk)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 40x 49x 121x
+
+Assembly pipeline:
+  Trim_galore:
+    ver: 0.6.7
+    key param: retain_unpaired
+  Filtlong:
+    ver: 0.2.1
+  nextdenovo:
+    ver: 2.5.0
+  hypo:
+    ver: 1.0.3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2024-12-12 11:39:31 CET

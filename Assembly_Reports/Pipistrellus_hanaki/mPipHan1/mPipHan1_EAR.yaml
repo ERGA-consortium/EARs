@@ -1,0 +1,97 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '412090'
+ToLID: mPipHan1
+Species: Pipistrellus hanaki
+Class: Mammalia
+Order: Chiroptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,711,701,524
+    Haploid Number: '22 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 1,892,181,625
+    Haploid Number: '23'
+    Ploidy: '2'
+    Sample Sex: Y
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q59
+
+Curator notes:
+  Interventions/Gb: 50
+  Contamination notes: '""'
+  Other observations: '"A misassembled 56 kb scaffold corresponding to mitochondria
+    was deleted and a new mitochondrial sequence was added."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,912,253,451
+    GC %: '42.55'
+    Gaps/Gbp: '149.04'
+    Total gap bp: 28,500
+    Scaffolds: '167'
+    Scaffold N50: 91,412,170
+    Scaffold L50: '7'
+    Scaffold L90: '18'
+    Contigs: '452'
+    Contig N50: 45,232,785
+    Contig L50: '16'
+    Contig L90: '70'
+    QV: '59.4962'
+    Kmer compl.: '94.9997'
+    BUSCO sing.: 93.6%
+    BUSCO dupl.: 1.7%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 4.2%
+  Curated collapsed:
+    Total bp: 1,892,181,625
+    GC %: '42.55'
+    Gaps/Gbp: '161.72'
+    Total gap bp: 34,100
+    Scaffolds: '141'
+    Scaffold N50: 89,115,682
+    Scaffold L50: '7'
+    Scaffold L90: '18'
+    Contigs: '447'
+    Contig N50: 48,700,701
+    Contig L50: '16'
+    Contig L90: '69'
+    QV: '59.4872'
+    Kmer compl.: '94.6588'
+    BUSCO sing.: 92.7%
+    BUSCO dupl.: 1.6%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 5.2%
+
+BUSCO:
+  ver: 5.4.3 (euk_genome_met, metaeuk)
+  lineage: laurasiatheria_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima
+  Coverage: 36 19
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Sophie Mangenot
+Affiliation: Genoscope
+
+Date and time: 2025-01-30 14:43:06 CET

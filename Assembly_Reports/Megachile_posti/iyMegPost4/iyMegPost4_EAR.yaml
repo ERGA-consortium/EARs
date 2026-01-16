@@ -1,0 +1,115 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3229175'
+ToLID: iyMegPost4
+Species: Megachile posti
+Class: Insecta
+Order: Hymenoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 884,321,423
+    Haploid Number: '16 (source: ancestor)'
+    Ploidy: '1 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 860,368,396
+    Haploid Number: '16'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.6.Q69
+
+Curator notes:
+  Contamination notes: '"FCS-GX detected 13 small (< 100kb) contigs matching Apilactobacillus
+    micheneri and timberlakei, but no complete genome could be recovered for those
+    bacteria."'
+  Other observations: '"The assembly was produced with hifiasm in Hi-C mode, decontaminated
+    with FCS-GX, and haplotigs purged with purde_dups. Scaffolding was performed with
+    YaHS. The resulting scaffolds are mostly gapless, with 16 scaffolds matching the
+    known karyotype for this genus (n=16), and containing all of the identified BUSCOs
+    (99.1%, hymenoptera_odb10). These likely represent the euchromatic arms of each
+    chromosome, and accordingly most contain telomeric sequences on one end only.
+    The assembly also contains a large number of scaffolds that couldn''t be assigned
+    to chromosomes, likely representing the heterochromatic and highly repetitive
+    fraction of this genome. Assembly size is roughly consistent with the k-mer genome
+    size estimate. Mitochondria was assembled with Oatk."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 860,368,196
+    GC %: '31.13'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '738'
+    Scaffold N50: 8,649,748
+    Scaffold L50: '27'
+    Scaffold L90: '118'
+    Contigs: '738'
+    Contig N50: 8,649,748
+    Contig L50: '27'
+    Contig L90: '118'
+    QV: '69.3758'
+    Kmer compl.: '94.8476'
+    BUSCO sing.: 99.1%
+    BUSCO dupl.: 0.1%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.8%
+  Curated collapsed:
+    Total bp: 860,368,396
+    GC %: '31.13'
+    Gaps/Gbp: '1.16'
+    Total gap bp: '200'
+    Scaffolds: '737'
+    Scaffold N50: 8,649,748
+    Scaffold L50: '27'
+    Scaffold L90: '118'
+    Contigs: '738'
+    Contig N50: 8,649,748
+    Contig L50: '27'
+    Contig L90: '118'
+    QV: '69.3758'
+    Kmer compl.: '94.8476'
+    BUSCO sing.: 99.1%
+    BUSCO dupl.: 0.1%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.8%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: hymenoptera_odb10
+
+Data:
+  Profile: PacBio HiFi Arima HiC v2
+  Coverage: 33x 67x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.25.0-r726
+    key param: --h2
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2a.2
+    key param: --no-contig-ec
+  NBIS/Earth-Biogenome-Project-pilot:
+    ver: 1d2a1e4
+  sanger-tol/blobtoolkit:
+    ver: 0.8.0
+  Oatk:
+    ver: '1.0'
+    key param: -m hymenoptera.fam
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.4.2
+  sanger-tol/agp-tpf-utils:
+    ver: 1.2.3
+
+Submitter: Guilherme B. Dias
+Affiliation: SciLifeLab
+
+Date and time: 2025-09-23 10:19:47 CEST

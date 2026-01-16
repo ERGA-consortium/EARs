@@ -1,0 +1,118 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3086104'
+ToLID: qqLeiSuba9
+Species: Leiobunum subalpinum
+Class: Arachnida
+Order: Opiliones
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 674,105,690
+    Haploid Number: '10 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 578,300,861
+    Haploid Number: '11'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q46
+
+Curator notes:
+  Interventions/Gb: 40
+  Contamination notes: '"Sequences of Pseudomonadota (which include symbionts of many
+    arthropod species) were present in 14 scaffolds of this organism. Scaffold_13
+    and scaffold_14 and especially long regions of similarity to to sequences of bacteria
+    from this phyllum. We also found eight other small scaffold with strong similarity
+    to either chordata or mollusca which were also filtered out without detriment
+    to the BUSCO or merqury QV. All sequences were removed from the yahs scaffolded
+    assembly and are not present in the curated pretext and assembly."'
+  Other observations: '"This is the second version of the EAR report for this species
+    which resulted in a new assembly after addressing the changes and suggestions
+    provided by the reviewers. The curation was generally straightforward and the
+    HiC signal along the diagonal quite strong as we produced a lot of HiC data assuming
+    the genome size to be larger than what it turned out to be. The sex of the specimen
+    was set to unknown in our lims system.We were not able to detect any lower coverage
+    super_scaffolds and therefore were not able to detect the sex chromsome. The curated
+    assembly stats (gfastas, busco and merqury), the pretext file and the blobplot
+    were generated from the assembly after filtering out for the scaffold-containing
+    contaminants."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 584,641,086
+    GC %: '36.54'
+    Gaps/Gbp: '354.06'
+    Total gap bp: 41,400
+    Scaffolds: '74'
+    Scaffold N50: 52,294,751
+    Scaffold L50: '5'
+    Scaffold L90: '11'
+    Contigs: '281'
+    Contig N50: 5,187,333
+    Contig L50: '35'
+    Contig L90: '128'
+    QV: '46.3203'
+    Kmer compl.: '88.4393'
+    BUSCO sing.: 95.5%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 1.8%
+    BUSCO miss.: 2.1%
+  Curated collapsed:
+    Total bp: 578,300,861
+    GC %: '36.37'
+    Gaps/Gbp: '382.15'
+    Total gap bp: 44,200
+    Scaffolds: '44'
+    Scaffold N50: 52,575,036
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '265'
+    Contig N50: 5,243,763
+    Contig L50: '34'
+    Contig L90: '123'
+    QV: '46.5446'
+    Kmer compl.: '88.4034'
+    BUSCO sing.: 95.8%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 1.8%
+    BUSCO miss.: 2.1%
+
+BUSCO:
+  ver: 5.4.0 (euk_genome_met, metaeuk)
+  lineage: metazoa_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 115x 140x 210x
+
+Assembly pipeline:
+  Trim_galore:
+    ver: 0.6.7
+    key param: retain_unpaired
+  Filtlong:
+    ver: 0.2.1
+  nextdenovo:
+    ver: 2.5.0
+  hypo:
+    ver: 1.0.3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2025-02-27 13:42:25 CET

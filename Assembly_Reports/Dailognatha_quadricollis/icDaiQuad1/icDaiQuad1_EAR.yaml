@@ -1,0 +1,107 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '575809'
+ToLID: icDaiQuad1
+Species: Dailognatha quadricollis
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 415,868,280
+    Haploid Number: '10 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 524,088,546
+    Haploid Number: '11'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q65
+
+Curator notes:
+  Interventions/Gb: 782
+  Contamination notes: '""'
+  Other observations: '"The assembly of Dailognatha quadricollis (icDaiQuad1) is based
+    on 42X PacBio data and 177X Arima Hi-C data generated as part of the European
+    Reference Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity
+    Genomics Europe project (BGE, https://biodiversitygenomics.eu/). The assembly
+    process included the following steps: initial phased assembly with PacBio and
+    Hi-C data using hifiasm, removal of contaminant sequences using Context, and Hi-C-based
+    scaffolding with YaHS. In total, 0 contig were identified as contaminants (bacterial,
+    archaeal, or viral). The mitochondrial genome was assembled using OATK. Finally,
+    the assembly was analyzed and manually improved using Pretext. Chromosome-scale
+    scaffolds confirmed by Hi-C data were named in order of size. The larger chromosomes
+    were tagged as HAP1. X chromosome was identified after doing an alignment the
+    reference genome of Tenebrio molitor (icTenMoli1.1)."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 392,707,419
+    GC %: '33.65'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '197'
+    Scaffold N50: 12,785,753
+    Scaffold L50: '10'
+    Scaffold L90: '50'
+    Contigs: '197'
+    Contig N50: 12,785,753
+    Contig L50: '10'
+    Contig L90: '50'
+    QV: '50.3522'
+    Kmer compl.: '69.3685'
+    BUSCO sing.: 91.6%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 7.6%
+  Curated collapsed:
+    Total bp: 524,088,546
+    GC %: '33.51'
+    Gaps/Gbp: '135.47'
+    Total gap bp: 13,800
+    Scaffolds: '323'
+    Scaffold N50: 23,571,702
+    Scaffold L50: '8'
+    Scaffold L90: '82'
+    Contigs: '394'
+    Contig N50: 4,327,000
+    Contig L50: '27'
+    Contig L90: '136'
+    QV: '65.1004'
+    Kmer compl.: '75.709'
+    BUSCO sing.: 98.7%
+    BUSCO dupl.: 1.1%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.1%
+
+BUSCO:
+  ver: 5.4.3 (euk_genome_met, metaeuk)
+  lineage: endopterygota_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima
+  Coverage: 42 177
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Emilie Teodori
+Affiliation: Genoscope
+
+Date and time: 2025-02-28 08:38:59 CET

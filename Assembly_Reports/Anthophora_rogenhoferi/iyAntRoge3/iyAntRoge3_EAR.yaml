@@ -1,0 +1,105 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '597850'
+ToLID: iyAntRoge3
+Species: Anthophora rogenhoferi
+Class: Insecta
+Order: Hymenoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 445,419,612
+    Haploid Number: '9 (source: ancestor)'
+    Ploidy: '1 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 441,476,508
+    Haploid Number: '17'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q65
+
+Curator notes:
+  Contamination notes: '""'
+  Other observations: '"The assembly was produced with hifiasm in Hi-C mode, decontaminated
+    with FCS-GX, and haplotigs purged with purge_dups. Scaffolding was performed with
+    YaHS. Mitochondria was assembled with Oatk."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 442,215,395
+    GC %: '40.41'
+    Gaps/Gbp: '36.18'
+    Total gap bp: 3,200
+    Scaffolds: 1,085
+    Scaffold N50: 16,560,000
+    Scaffold L50: '9'
+    Scaffold L90: '350'
+    Contigs: 1,101
+    Contig N50: 10,497,625
+    Contig L50: '13'
+    Contig L90: '366'
+    QV: '65.2913'
+    Kmer compl.: '91.9202'
+    BUSCO sing.: 98.7%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.6%
+  Curated collapsed:
+    Total bp: 441,476,508
+    GC %: '40.42'
+    Gaps/Gbp: '36.24'
+    Total gap bp: 3,200
+    Scaffolds: 1,085
+    Scaffold N50: 17,437,000
+    Scaffold L50: '10'
+    Scaffold L90: '350'
+    Contigs: 1,101
+    Contig N50: 10,497,625
+    Contig L50: '13'
+    Contig L90: '366'
+    QV: '65.284'
+    Kmer compl.: '91.9158'
+    BUSCO sing.: 99.1%
+    BUSCO dupl.: 0.2%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.6%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: hymenoptera_odb10
+
+Data:
+  Profile: PacBio HiFi Arima HiC v2
+  Coverage: 50x 27x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.25.0-r726
+    key param: --h2
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2a.2
+  NBIS/Earth-Biogenome-Project-pilot:
+    ver: 99c8937
+  sanger-tol/blobtoolkit:
+    ver: 0.8.0
+  Oatk:
+    ver: '1.0'
+    key param: -m hymenoptera.fam
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.4.2
+  sanger-tol/agp-tpf-utils:
+    ver: 1.2.3
+
+Submitter: Guilherme B. Dias
+Affiliation: SciLifeLab
+
+Date and time: 2025-10-15 10:32:49 CEST

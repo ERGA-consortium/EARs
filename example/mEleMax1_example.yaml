@@ -49,8 +49,8 @@ ASSEMBLIES:
       gfastats--nstar-report_txt: /Users/TEST/GEP/post/ASSEMBLY_STATISTICS/asm2/ele_post_gfastats.txt
       busco_short_summary_txt: /Users/TEST/GEP/post/BUSCOs/asm2/short_summary.specific.mammalia_odb10.asm2.txt
       merqury_folder: /Users/TEST/GEP/post/QV.KMER-COMPLETENESS.CN-SPECTRA
-      hic_FullMap_png: /Users/TEST/GEP/post/pretext/pretext_2.png  # also can be a HiC full contact map PNG from higlass
-      hic_FullMap_link: https://box.fu-berlin.de/apps/files/?dir=/&openfile=362314416  # also can be a web folder with .mcool from higlass
+      hic_FullMap_png: /Users/TEST/GEP/post/pretext/pretext_2.png  # also can be a HiC full contact map PNG from higlass. If HiC not available, leave it empty
+      hic_FullMap_link: https://box.fu-berlin.de/apps/files/?dir=/&openfile=362314416  # also can be a web folder with .mcool from higlass. If HiC not available, leave it empty
       blobplot_cont_png: /Users/TEST/GEP/post/blob/test2.png
 
 
@@ -72,5 +72,5 @@ NOTES:
   Obs_Haploid_num: 28  # integer
   Obs_Sex: XY  # for example: XX, XY, X0, ZZ, ZW, unknown, NA
   Interventions_per_Gb: 2  # integer or empty
-  Contamination_notes: "No presence of contaminants. Mitochondrial genome was removed from the assembly"  # text in quotes "", related to the decontamination process, or presence of plastids or symbionts
+  Contamination_notes: "FCS-GX and Blobtools detected no presence of contaminants. Mitochondrial genome was removed from the assembly"  # text in quotes "", related to the decontamination process, or presence of plastids or symbionts
   Other_notes: "Large collapsed repeat in chr5, haplotypic inversion in chr12"  # text in quotes "", related to sample characteristics and quality, the curation process, etc

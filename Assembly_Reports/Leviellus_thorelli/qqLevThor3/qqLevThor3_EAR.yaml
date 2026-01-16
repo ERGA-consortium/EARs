@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1662264'
+ToLID: qqLevThor3
+Species: Leviellus thorelli
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,048,663,629
+    Haploid Number: '12 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: female
+  Observed:
+    Haploid size (bp): 2,190,932,837
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: female
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.8.Q51
+
+Curator notes:
+  Interventions/Gb: 26
+  Contamination notes: '"Scaffold_22 (1.5 MBases) was removed from the yahs scaffolded
+    assembly because it was identitfied as pseudomonadota (which include symbionts
+    of many arthropod species). The contaminant was removed from the yahs scaffolded
+    assembly and is not present in the curated pretext which was shared."'
+  Other observations: '"The HiC signal along the diagonal is quite strong. We were
+    able to place several scaffolds to many of the super scaffolds but we found it
+    very difficult to localize most of them. The sex of the specimen was set to -female-
+    in our lims system. We could find the sex chromosome in the assembly"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 2,192,434,344
+    GC %: '34.31'
+    Gaps/Gbp: '356.68'
+    Total gap bp: 156,400
+    Scaffolds: '149'
+    Scaffold N50: 162,679,147
+    Scaffold L50: '6'
+    Scaffold L90: '12'
+    Contigs: '931'
+    Contig N50: 5,371,768
+    Contig L50: '119'
+    Contig L90: '422'
+    QV: '51.5219'
+    Kmer compl.: '95.3695'
+    BUSCO sing.: 93.5%
+    BUSCO dupl.: 2.7%
+    BUSCO frag.: 1.0%
+    BUSCO miss.: 2.8%
+  Curated collapsed:
+    Total bp: 2,190,932,837
+    GC %: '34.31'
+    Gaps/Gbp: '369.25'
+    Total gap bp: 161,800
+    Scaffolds: '130'
+    Scaffold N50: 167,117,025
+    Scaffold L50: '7'
+    Scaffold L90: '12'
+    Contigs: '939'
+    Contig N50: 5,371,768
+    Contig L50: '119'
+    Contig L90: '422'
+    QV: '51.5224'
+    Kmer compl.: '95.2763'
+    BUSCO sing.: 93.8%
+    BUSCO dupl.: 2.4%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 2.9%
+
+BUSCO:
+  ver: 5.4.0 (euk_genome_met, metaeuk)
+  lineage: metazoa_odb10
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 40x 62x 125x
+
+Assembly pipeline:
+  Trim_galore:
+    ver: 0.6.7
+    key param: retain_unpaired
+  Filtlong:
+    ver: 0.2.1
+  nextdenovo:
+    ver: 2.5.0
+  hypo:
+    ver: 1.0.3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2025-02-27 16:35:44 CET

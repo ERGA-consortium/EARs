@@ -1,0 +1,97 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '112209'
+ToLID: xbPinRadi
+Species: Pinctada radiata
+Class: Bivalvia
+Order: Pterioida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 866,069,963
+    Haploid Number: '14 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 931,155,396
+    Haploid Number: '14'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q60
+
+Curator notes:
+  Interventions/Gb: 112
+  Contamination notes: '"A few bacterial contigs were removed post-assembly"'
+  Other observations: '"A large heterozygous rearrangement was found and left intact
+    on SUPER_2"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,005,790,220
+    GC %: '35.44'
+    Gaps/Gbp: '158.08'
+    Total gap bp: 15,900
+    Scaffolds: '73'
+    Scaffold N50: 63,972,673
+    Scaffold L50: '7'
+    Scaffold L90: '14'
+    Contigs: '232'
+    Contig N50: 8,276,876
+    Contig L50: '36'
+    Contig L90: '114'
+    QV: '60.8643'
+    Kmer compl.: '67.0763'
+    BUSCO sing.: 94.5%
+    BUSCO dupl.: 3.5%
+    BUSCO frag.: 2.0%
+    BUSCO miss.: 0.0%
+  Curated collapsed:
+    Total bp: 931,155,396
+    GC %: '35.42'
+    Gaps/Gbp: '191.16'
+    Total gap bp: 24,700
+    Scaffolds: '46'
+    Scaffold N50: 63,836,525
+    Scaffold L50: '6'
+    Scaffold L90: '13'
+    Contigs: '224'
+    Contig N50: 8,065,000
+    Contig L50: '34'
+    Contig L90: '108'
+    QV: '60.8441'
+    Kmer compl.: '63.6564'
+    BUSCO sing.: 97.3%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 2.0%
+    BUSCO miss.: 0.1%
+
+BUSCO:
+  ver: 5.4.3
+  lineage: eukaryota_odb10
+
+Data:
+  Profile: PACBIO Hifi Arima (4-enz)
+  Coverage: 42 54
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+
+Curation pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  yahs:
+    ver: '1.2'
+
+Submitter: Benjamin Istace
+Affiliation: Genoscope
+
+Date and time: 2024-07-25 14:47:29 CEST

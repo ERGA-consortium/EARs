@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1960102'
+ToLID: jaActMedi1
+Species: Actinia mediterranea
+Class: Anthozoa
+Order: Actiniaria
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 301,515,822
+    Haploid Number: '6 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 305,702,489
+    Haploid Number: '19'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q46
+
+Curator notes:
+  Interventions/Gb: 73
+  Contamination notes: '"No clear contaminants were found either using buscogenes
+    or buscoregions (more sensitive) - did not rerun after addressing reviewers"'
+  Other observations: '"The strength of the HiC signal, particularly along the diagonal
+    was weaker than usual, and therefore as suggested by the reviewers, used the mq0
+    pretext map for the reviewing process. With a mq0 map we were able to localize
+    all unlocs, and incorporate a few more scaffolds into the main assembly. The sex
+    of the specimen was set to unknown in our lims system and we were not able to
+    find any sex chromosomes based on ONT coverage either"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 305,700,289
+    GC %: '37.85'
+    Gaps/Gbp: '202.81'
+    Total gap bp: 12,400
+    Scaffolds: '45'
+    Scaffold N50: 16,244,619
+    Scaffold L50: '7'
+    Scaffold L90: '16'
+    Contigs: '107'
+    Contig N50: 5,958,017
+    Contig L50: '16'
+    Contig L90: '54'
+    QV: '46.3055'
+    Kmer compl.: '85.1608'
+    BUSCO sing.: 94.8%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 1.6%
+    BUSCO miss.: 3.2%
+  Curated collapsed:
+    Total bp: 305,702,489
+    GC %: '37.85'
+    Gaps/Gbp: '238.79'
+    Total gap bp: 14,600
+    Scaffolds: '36'
+    Scaffold N50: 15,300,222
+    Scaffold L50: '8'
+    Scaffold L90: '17'
+    Contigs: '109'
+    Contig N50: 5,958,017
+    Contig L50: '16'
+    Contig L90: '54'
+    QV: '46.3055'
+    Kmer compl.: '85.1608'
+    BUSCO sing.: 94.8%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 1.6%
+    BUSCO miss.: 3.2%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: ONT Illumina OmniC
+  Coverage: 133x 130x 93x
+
+Assembly pipeline:
+  Trim_galore:
+    ver: 0.6.7
+    key param: retain_unpaired
+  Filtlong:
+    ver: 0.2.1
+  nextdenovo:
+    ver: 2.5.0
+  hypo:
+    ver: 1.0.3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+
+Curation pipeline:
+  PretextView:
+    ver: 0.2.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2025-03-21 11:17:00 CET

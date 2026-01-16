@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3065877'
+ToLID: icHerPorc
+Species: Herpes porcellus
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 860,627,567
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 775,828,464
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q49
+
+Curator notes:
+  Interventions/Gb: 26
+  Contamination notes: '"No contaminants were detected."'
+  Other observations: '"The assembly of species Herpes porcellus (icHerPorc) is based
+    on 174X long read ONT data and 48X Arima Hi-C data generated as part of the European
+    Reference Genome Atlas (ERGA) via the Biodiversity Genomics Europe project (BGE).
+    The assembly process included the following steps: ONT reads shorter than 3 kb
+    were filtered out, thus the remaining reads -for a total of ~152 Gb- were assembled
+    using Necat with polishing performed using NextPolish. Contigs were subsequently
+    filtered with purge_dups to remove haplotigs and obtain a more accurate, non-redundant
+    assembly. Scaffolding was performed by aligning Hi-C reads to the purged contigs
+    using the Omni-C mapping pipeline, followed by YaHS for scaffold construction.
+    Contamination was checked using BlobTools. The scaffolds were processed through
+    sanger_tol/curationpretext pipeline to generate the contact map, which was manually
+    improved using PretextView. The presence of a mitochondrial genome contig/scaffold
+    was not assessed. Chromosome-scale scaffolds confirmed by Hi-C data were named
+    in order of size."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 776,183,321
+    GC %: '33.36'
+    Gaps/Gbp: '182.95'
+    Total gap bp: 14,200
+    Scaffolds: '159'
+    Scaffold N50: 54,968,996
+    Scaffold L50: '6'
+    Scaffold L90: '12'
+    Contigs: '301'
+    Contig N50: 8,297,486
+    Contig L50: '29'
+    Contig L90: '98'
+    QV: '49.1387'
+    Kmer compl.: '86.6404'
+    BUSCO sing.: 89.7%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 1.0%
+    BUSCO miss.: 8.7%
+  Curated pri:
+    Total bp: 775,828,464
+    GC %: '33.36'
+    Gaps/Gbp: '194.63'
+    Total gap bp: 17,100
+    Scaffolds: '150'
+    Scaffold N50: 55,530,766
+    Scaffold L50: '6'
+    Scaffold L90: '12'
+    Contigs: '301'
+    Contig N50: 8,297,486
+    Contig L50: '29'
+    Contig L90: '98'
+    QV: '49.1367'
+    Kmer compl.: '86.6333'
+    BUSCO sing.: 89.8%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 1.0%
+    BUSCO miss.: 8.7%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_aug, augustus)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: ONT Arima HiC
+  Coverage: 174x 48x
+
+Assembly pipeline:
+  Necat:
+    ver: 0.0.1
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.1'
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.4.1
+  PretextView:
+    ver: 1.0.3
+
+Submitter: Ilenia Urso
+Affiliation: UNIBA
+
+Date and time: 2025-11-19 16:45:21 CET

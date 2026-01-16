@@ -1,0 +1,120 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '478306'
+ToLID: drAlcFaer1
+Species: Alchemilla faeroensis
+Class: Magnoliopsida
+Order: Rosales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,546,153,876
+    Haploid Number: '85 (source: direct)'
+    Ploidy: '6 (source: ancestor)'
+    Sample Sex: H
+  Observed:
+    Haploid size (bp): 4,888,224,412
+    Haploid Number: '211'
+    Ploidy: '2'
+    Sample Sex: H
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q66
+
+Curator notes:
+  Interventions/Gb: 127
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 109,943,101 (3.6 %); Scaffolds removed: 2155 (82.9 %); Largest
+    scaffold removed: (292,073); FCS-GX contaminant species (number of scaffolds;
+    total length of scaffolds): Hymenobacter baengnokdamensis, CFB group bacteria
+    (19; 1,055,728); Hymenobacter ginkgonis, CFB group bacteria (14; 1,062,421); Hymenobacter
+    polaris, CFB group bacteria (11; 763,362); Hymenobacter setariae, CFB group bacteria
+    (5; 240,257); Hymenobacter coccineus, CFB group bacteria (4; 334,246); Hymenobacter
+    caeli, CFB group bacteria (2; 132,038); Hymenobacter monticola, CFB group bacteria
+    (1; 79,444); Hymenobacter lapidarius, CFB group bacteria (1; 54,659); Hymenobacter
+    artigasi, CFB group bacteria (1; 40,243); Hymenobacter terrenus, CFB group bacteria
+    (1; 37,644); Curvularia sp. IFB-Z10, ascomycetes (1; 34,725); Hymenobacter norwichensis,
+    CFB group bacteria (1; 33,411); Hymenobacter nivis, CFB group bacteria (1; 22,579);
+    Mitochondrion (115; 5,317,778); Plastid (1978; 100,734,566); Contamination report
+    for assembly labelled hap2; Total length of scaffolds removed: 14,665,935 (0.8
+    %); Scaffolds removed: 193 (40.8 %) ;Largest scaffold removed: (229,862); FCS-GX
+    contaminant species (number of scaffolds; total length of scaffolds): Hymenobacter
+    baengnokdamensis, CFB group bacteria (7; 502,816); Hymenobacter polaris, CFB group
+    bacteria (2; 99,620); Hymenobacter caeli, CFB group bacteria (1; 170,274); Hymenobacter
+    coccineus, CFB group bacteria (1; 69,749); Hymenobacter ginkgonis, CFB group bacteria
+    (1; 66,773); Mitochondrion (2; 103,209); Plastid (179; 13,653,494)"'
+  Other observations: '"Assembly was Hi-C phased; The species shows a high chromosome
+    number and different chromosome distribution patterns. In addition, it shows a
+    history of many rearrangements and hybridisation events. The number of chromosomes
+    may vary within the species. It was not possible to infer ploidy. The haplotypes
+    could not be separated during curation, so a complete set of chromosomes were
+    submitted."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 3,064,326,706
+    GC %: '38.46'
+    Gaps/Gbp: '67.88'
+    Total gap bp: 20,800
+    Scaffolds: 2,598
+    Scaffold N50: 22,932,066
+    Scaffold L50: '53'
+    Scaffold L90: '125'
+    Contigs: 2,806
+    Contig N50: 11,440,633
+    Contig L50: '98'
+    Contig L90: '266'
+    Kmer compl.: '99.20'
+    BUSCO sing.: 0.4%
+    BUSCO dupl.: 97.9%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 1.5%
+  Curated hap1:
+    Total bp: 4,888,224,412
+    GC %: '38.49'
+    Gaps/Gbp: '89.81'
+    Total gap bp: 54,100
+    Scaffolds: '648'
+    Scaffold N50: 23,747,037
+    Scaffold L50: '82'
+    Scaffold L90: '180'
+    Contigs: 1,087
+    Contig N50: 10,806,000
+    Contig L50: '165'
+    Contig L90: '421'
+    Kmer compl.: '100.00'
+    BUSCO sing.: 0.3%
+    BUSCO dupl.: 98.0%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 1.5%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: eudicots_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 47x 175x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm-hic:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Camilla Santos
+Affiliation: WSI
+
+Date and time: 2025-07-21 17:30:07 CEST

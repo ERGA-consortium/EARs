@@ -115,6 +115,30 @@ class EARBotReviewer:
             return
 
         researcher = pr.user.login
+        files_changed = pr.get_files()
+
+        if files_changed.totalCount != 1:
+            pr.create_issue_comment(
+                f"Attention @{researcher}, you have changed more than one file!\n"
+                "Please make sure to update only the EAR PDF file."
+            )
+            pr.add_to_labels("ERROR!")
+            raise Exception("More than one file changed.")
+        elif files_changed[0].status == "modified":
+            pr.create_issue_comment(
+                f"Hi @{researcher} this looks like an update of an approved EAR. I will flag the PR to call the attention of a supervisor to handle this :)"
+            )
+            pr.add_to_labels("ERROR!")
+            raise Exception("Modified file.")
+
+        if not pr.body:
+            pr.create_issue_comment(
+                f"Attention @{researcher}, it seems you want to start the reviewing process of an EAR, but the PR has an empty body.\n"
+                "Please check the [Wiki](https://github.com/ERGA-consortium/EARs/wiki/Reviewers-section) if you need to refresh something."
+            )
+            pr.add_to_labels("ERROR!")
+            raise Exception("Empty PR description.")
+
         project = self._search_in_body(pr, "Project")
         species = self._search_in_body(pr, "Species")
         self._search_for_institution(pr)
@@ -126,14 +150,6 @@ class EARBotReviewer:
             )
             pr.add_to_labels("ERROR!")
             raise Exception(f"Invalid project name: {project}")
-
-        if pr.get_files().totalCount != 1:
-            pr.create_issue_comment(
-                f"Attention @{researcher}, you have changed more than one file!\n"
-                "Please make sure to update only the EAR PDF file."
-            )
-            pr.add_to_labels("ERROR!")
-            raise Exception("More than one file changed.")
 
         if error_label_existed:
             pr.remove_from_labels("ERROR!")
@@ -422,19 +438,21 @@ class EARBotReviewer:
         )
         pr.add_to_labels("ERROR!")
         raise Exception(f"Missing {text_to_check} in the PR description.")
-    
+
     def _search_for_institution(self, pr):
         institution = self._search_in_body(pr, "Affiliation").lower()
-        if 'cnag' in institution:
-            return 'CNAG'
-        elif any(name in institution for name in ['sanger', 'welcome sanger institute', 'wsi']):
-            return 'Sanger'
-        elif 'genoscope' in institution:
-            return 'Genoscope'
-        elif 'scilifelab' in institution:
-            return 'SciLifeLab'
+        if "cnag" in institution:
+            return "CNAG"
+        elif any(
+            name in institution
+            for name in ["sanger", "welcome sanger institute", "wsi"]
+        ):
+            return "Sanger"
+        elif "genoscope" in institution:
+            return "Genoscope"
+        elif "scilifelab" in institution:
+            return "SciLifeLab"
         return institution
-
 
 
 if __name__ == "__main__":

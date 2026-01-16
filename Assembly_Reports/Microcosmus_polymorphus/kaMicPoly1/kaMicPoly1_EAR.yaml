@@ -1,0 +1,110 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '521046'
+ToLID: kaMicPoly
+Species: Microcosmus polymorphus
+Class: Ascidiacea
+Order: Stolidobranchia
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 323,716,733
+    Haploid Number: '16 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 320,678,343
+    Haploid Number: '12'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q35
+
+Curator notes:
+  Interventions/Gb: 233
+  Contamination notes: '"28 sequences were removed as contaminants. In addition, one
+    large scaffold (SUPER_12) was classified as Arthropoda. However, it was not removed
+    because its coverage and GC content were consistent with the rest of the genome,
+    and it showed no Hi-C contacts with other scaffolds."'
+  Other observations: '"The assembly of species Microcosmus polymorphus is based on
+    352X long read ONT data and 211X Arima HiC data generated as part of the ERGA
+    initiative via the BGE project. The assembly process included the following steps:
+    ONT reads shorter than 1 kb were filtered out, thus the remaining reads for a
+    total of ~121 Gb were assembled using Necat with polishing performed using NextPolish.
+    Contigs were subsequently filtered with purge_dups. Scaffolding was performed
+    by aligning HiC reads to the purged contigs using the Omni-C mapping pipeline,
+    followed by YaHS for scaffold construction. Contamination was checked using BlobTools.
+    The scaffolds were processed through sanger_tol/curationpretext pipeline to generate
+    the contact map, which was manually improved using PretextView. The presence of
+    a mitochondrial genome contig/scaffold was not assessed. Chromosome-scale scaffolds
+    confirmed by HiC data were named in order of size."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 369,422,115
+    GC %: '43.04'
+    Gaps/Gbp: 1,580.85
+    Total gap bp: 58,400
+    Scaffolds: 1,150
+    Scaffold N50: 19,963,143
+    Scaffold L50: '6'
+    Scaffold L90: '28'
+    Contigs: 1,734
+    Contig N50: 1,029,542
+    Contig L50: '97'
+    Contig L90: '420'
+    QV: '36.019'
+    Kmer compl.: '72.238'
+    BUSCO sing.: 85.4%
+    BUSCO dupl.: 7.0%
+    BUSCO frag.: 2.2%
+    BUSCO miss.: 5.3%
+  Curated pri:
+    Total bp: 320,678,343
+    GC %: '43.08'
+    Gaps/Gbp: 1,836.73
+    Total gap bp: 70,800
+    Scaffolds: 1,052
+    Scaffold N50: 24,703,516
+    Scaffold L50: '5'
+    Scaffold L90: '11'
+    Contigs: 1,641
+    Contig N50: 1,069,128
+    Contig L50: '84'
+    Contig L90: '361'
+    QV: '35.5155'
+    Kmer compl.: '65.3982'
+    BUSCO sing.: 89.1%
+    BUSCO dupl.: 2.5%
+    BUSCO frag.: 1.9%
+    BUSCO miss.: 6.5%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_aug, augustus)
+  lineage: metazoa_odb10
+
+Data:
+  Profile: ONT Arima HiC
+  Coverage: 352x 211x
+
+Assembly pipeline:
+  Necat:
+    ver: 0.0.1
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2.2
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.5.0
+  PretextView:
+    ver: 1.0.5
+
+Submitter: Ilenia Urso
+Affiliation: UNIBA
+
+Date and time: 2025-12-18 09:27:33 CET

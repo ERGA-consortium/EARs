@@ -1,0 +1,136 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '647718'
+ToLID: whApoMoll1
+Species: Allolobophora molleri
+Class: Clitellata
+Order: Crassiclitellata
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,378,169,206
+    Haploid Number: '16 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: H
+  Observed:
+    Haploid size (bp): 1,374,945,028
+    Haploid Number: '16'
+    Ploidy: '4'
+    Sample Sex: H
+
+EBP metrics:
+  EBP quality code:
+    pri: 5.7.Q55
+
+Curator notes:
+  Interventions/Gb: 1627
+  Contamination notes: '"Contamination report for assembly: Total length of scaffolds
+    removed: 6,073,400 (0.2 %); Scaffolds removed: 79 (3.0 %); Largest scaffold removed:
+    (944,258); FCS-GX contaminant species (number of scaffolds; total length of scaffolds):;
+    Ohtaekwangia sp., CFB group bacteria (10; 1,567,218); Chryseotalea sp. WA131a,
+    CFB group bacteria (9; 824,648); Chryseolinea soli, CFB group bacteria (8; 700,420);
+    Parachryseolinea silvisoli, CFB group bacteria (4; 509,091); Chryseolinea serpens,
+    CFB group bacteria (4; 158,193); Verminephrobacter aporrectodeae, b-proteobacteria
+    (3; 606,208); Verminephrobacter eiseniae, b-proteobacteria (3; 264,809); Chryseosolibacter
+    histidini, CFB group bacteria (3; 232,020); Ohtaekwangia koreensis, CFB group
+    bacteria (3; 89,069); Ginsengibacter hankyongi, CFB group bacteria (2; 149,731);
+    Hydrotalea sp. AMD, CFB group bacteria (2; 89,940); Chitinophaga niabensis, CFB
+    group bacteria (2; 46,774); Flavobacterium cutihirudinis, CFB group bacteria (1;
+    162,664); Pecten maximus, molluscs (1; 71,752); Sediminibacterium salmoneum, CFB
+    group bacteria (1; 59,000); Dawidia cretensis, CFB group bacteria (1; 57,000);
+    Chitinophaga rhizosphaerae, CFB group bacteria (1; 56,048); Mucilaginibacter sp.,
+    CFB group bacteria (1; 46,382); Sediminibacterium soli, CFB group bacteria (1;
+    39,177); Candidatus Vicinibacter affinis, CFB group bacteria (1; 35,999); Mucilaginibacter
+    rigui, CFB group bacteria (1; 34,774); Solitalea koreensis, CFB group bacteria
+    (1; 33,272); Sediminicola luteus, CFB group bacteria (1; 22,441); Chitinophaga
+    sp., CFB group bacteria (1; 20,160); Haliscomenobacter hydrossis, CFB group bacteria
+    (1; 14,028); Flavisolibacter ginsengisoli, CFB group bacteria (1; 9,752); Niabella
+    sp., CFB group bacteria (1; 7,000); Paraflavitalea devenefica, CFB group bacteria
+    (1; 1,000); Foetidibacter luteolus, CFB group bacteria (1; 14,740); Dreissena
+    polymorpha, molluscs (1; 14,383); Niastella vici, CFB group bacteria (1; 11,747);
+    Segetibacter aerophilus, CFB group bacteria (1; 10,115); Segetibacter koreensis,
+    CFB group bacteria (1; 7,200); Mitochondrion (5; 106,645)"'
+  Other observations: '"Getting an assembly that was curatable was troublesome for
+    this genome. In the end we have used an experimental tool in development that
+    uses FastGA based alignments to look for syntenic units across the 4 haplotypes.
+    This gave a version of the assembly that was curatable, although many phasing
+    errors remained to be dealt with during curation. The sample is tetraploid (2n=32)
+    and seems to be highly polymorphic as many rearrangements could be detected during
+    curation. Haplotypic inversions were detected on:; Chromosome 1 from 33.40 to
+    84.84 Mbp and from 50.98 to 84.84 Mbp; Chromosome 2 from 22.18 to 45.74 Mbp; Chromosome
+    6 from 80.33 Mbp to the end; Chromosome 9 from 7.65 to 28.41 Mbp; Chromosome 10
+    from 545 Kbp to 3.67 Mbp; Chromosome 12 from 55.32 to 61.14 Mbp; Chromosome 14
+    from 31.51 to 55.14 Mbp; The HAP1 file has the curated chromosome-level assembly
+    and the other 3 haplotypes are in HAP2 file as scaffold-level assemblies"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 2,546,329,153
+    GC %: '41.01'
+    Gaps/Gbp: 2,044.51
+    Total gap bp: 520,600
+    Scaffolds: 2,995
+    Scaffold N50: 74,114,021
+    Scaffold L50: '13'
+    Scaffold L90: '37'
+    Contigs: 8,201
+    Contig N50: 869,876
+    Contig L50: '743'
+    Contig L90: 3,537
+    Kmer compl.: '98.83'
+    BUSCO sing.: 27.5%
+    BUSCO dupl.: 69.0%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 3.1%
+  Curated pri:
+    Total bp: 1,374,945,028
+    GC %: '40.93'
+    Gaps/Gbp: 1,743.34
+    Total gap bp: 313,000
+    Scaffolds: 2,120
+    Scaffold N50: 86,106,293
+    Scaffold L50: '7'
+    Scaffold L90: '15'
+    Contigs: 4,517
+    Contig N50: 937,760
+    Contig L50: '380'
+    Contig L90: 1,644
+    Kmer compl.: '98.10'
+    BUSCO sing.: 79.6%
+    BUSCO dupl.: 6.5%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 13.1%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: metazoa_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 60x 80x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  FastGA synteny based experimental phasing for polyploids:
+    ver: NA
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --h1/--h2/--hom-cov 58
+  FastGA synteny based experimental phasing for polyploids:
+    ver: NA
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.2
+
+Submitter: Camilla Santos
+Affiliation: WSI
+
+Date and time: 2025-11-21 16:08:32 CET

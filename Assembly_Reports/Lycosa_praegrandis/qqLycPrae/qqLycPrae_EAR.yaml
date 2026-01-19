@@ -1,0 +1,101 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2066575'
+ToLID: qqLycPrae
+Species: Lycosa praegrandis
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,631,755,056
+    Haploid Number: '12 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 2,580,374,241
+    Haploid Number: '12'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.8.Q66
+
+Curator notes:
+  Contamination notes: '"No presence of contaminants."'
+  Other observations: '"One round of curtation done. Hard to determine the sex or
+    identify sex chromosomes. Earlier papers (from the 1950''s) suggest a 22A+X1X2
+    configuration, but species in this group could have from 1 to 10 X chromosomes.
+    Most Lycosidae have a X1X2/X1X1X2X2 configuration. Identifying the sex chromosomes
+    for this Genus requires lab work, and can''t be done at this stage."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 2,669,554,149
+    GC %: '31.69'
+    Gaps/Gbp: '99.27'
+    Total gap bp: 53,000
+    Scaffolds: '152'
+    Scaffold N50: 216,947,197
+    Scaffold L50: '6'
+    Scaffold L90: '11'
+    Contigs: '417'
+    Contig N50: 24,969,355
+    Contig L50: '29'
+    Contig L90: '125'
+    BUSCO sing.: 93.3%
+    BUSCO dupl.: 5.5%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 1.1%
+  Curated pri:
+    Total bp: 2,580,374,241
+    GC %: '31.67'
+    Gaps/Gbp: '105.8'
+    Total gap bp: 54,600
+    Scaffolds: '135'
+    Scaffold N50: 213,744,341
+    Scaffold L50: '6'
+    Scaffold L90: '11'
+    Contigs: '408'
+    Contig N50: 25,468,180
+    Contig L50: '28'
+    Contig L90: '120'
+    BUSCO sing.: 90.4%
+    BUSCO dupl.: 5.0%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 4.4%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arachnida_odb10
+
+Data:
+  Profile: HiFi Bionano OmniC
+  Coverage: 71x NA 134x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.20.0-r639
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2.2
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: v1.5.0-g5fd8e6e
+  Nextflow:
+    ver: 25.04.2
+  pretextmap:
+    ver: 0.1.9
+  HiGlass:
+    ver: 0.10.4
+  PretextViewAI:
+    ver: 1.0.5
+
+Submitter: "Andr\xE9 E. R. Soares"
+Affiliation: SciLifeLab
+
+Date and time: 2025-12-11 15:07:28 CET

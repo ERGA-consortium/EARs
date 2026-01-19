@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3229104'
+ToLID: qqAegCypr1
+Species: Aegaeobuthus cyprius
+Class: Arachnida
+Order: Scorpiones
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,139,951,727
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 1,147,323,490
+    Haploid Number: '10'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q76
+
+Curator notes:
+  Contamination notes: '"FCS-GX detected four small bacterial contigs matching Knoellia
+    remsis and Knoellia locipacati, and totalling 125,318 bp. These were removed from
+    the assembly. Additionally, a 579,681 bp long contig was removed from the assembly
+    during curation on the basis of skewed GC content, high coverage, very little
+    Hi-C contact with the rest of the genome, and tiara classification as bacterial."'
+  Other observations: '"The assembly was produced with hifiasm and the *p_ctg.fa was
+    selected. The assembly was decontaminated with FCS-GX, and haplotigs purged with
+    purge_dups. Scaffolding was performed with YaHS. Mitochondria was assembled with
+    Oatk."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,152,164,342
+    GC %: '29.5'
+    Gaps/Gbp: '48.6'
+    Total gap bp: 11,200
+    Scaffolds: '155'
+    Scaffold N50: 116,441,941
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '211'
+    Contig N50: 26,129,882
+    Contig L50: '13'
+    Contig L90: '47'
+    QV: '76.1731'
+    Kmer compl.: '91.3086'
+    BUSCO sing.: 90.6%
+    BUSCO dupl.: 7.8%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.3%
+  Curated collapsed:
+    Total bp: 1,147,323,490
+    GC %: '29.51'
+    Gaps/Gbp: '49.68'
+    Total gap bp: 11,400
+    Scaffolds: '151'
+    Scaffold N50: 122,189,364
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '208'
+    Contig N50: 26,129,882
+    Contig L50: '13'
+    Contig L90: '46'
+    QV: '76.2985'
+    Kmer compl.: '91.2129'
+    BUSCO sing.: 90.9%
+    BUSCO dupl.: 7.5%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.3%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arachnida_odb10
+
+Data:
+  Profile: PacBio HiFi Arima HiC v2
+  Coverage: 70x 28x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.25.0-r726
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2a.2
+  NBIS/Earth-Biogenome-Project-pilot:
+    ver: 99c8937
+  sanger-tol/blobtoolkit:
+    ver: 0.8.0
+  Oatk:
+    ver: '1.0'
+    key param: -c 100
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.4.1
+  sanger-tol/agp-tpf-utils:
+    ver: 1.2.3
+
+Submitter: Guilherme B. Dias
+Affiliation: SciLifeLab
+
+Date and time: 2026-01-13 18:58:41 CET

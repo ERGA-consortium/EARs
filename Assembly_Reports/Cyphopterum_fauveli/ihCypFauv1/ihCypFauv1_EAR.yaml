@@ -1,0 +1,102 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '3163543'
+ToLID: ihCypFauv1
+Species: Cyphopterum fauveli
+Class: Insecta
+Order: Hemiptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,148,925,366
+    Haploid Number: '13 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: M
+  Observed:
+    Haploid size (bp): 1,202,282,383
+    Haploid Number: '14'
+    Ploidy: '2'
+    Sample Sex: M
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.7.Q59
+
+Curator notes:
+  Interventions/Gb: 70
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 1,253,070 (0.1 %); Scaffolds removed: 6 (2.4 %);Largest
+    scaffold removed: (992,013);FCS-GX contaminant species (number of scaffolds; total
+    length of scaffolds); Rickettsia endosymbiont of Cimex lectularius, a-proteobacteria
+    (2; 1,096,646); Nilaparvata lugens yeast-like symbiont, ascomycetes (1; 61,632);Mitochondrion
+    (3; 94,792)"'
+  Other observations: '"Hifiasm assembly run in Hi-C phasing mode; XO sex chromosome
+    system observed;"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,128,364,655
+    GC %: '30.23'
+    Gaps/Gbp: '129.39'
+    Total gap bp: 14,600
+    Scaffolds: '394'
+    Scaffold N50: 86,774,930
+    Scaffold L50: '4'
+    Scaffold L90: '11'
+    Contigs: '540'
+    Contig N50: 15,213,093
+    Contig L50: '23'
+    Contig L90: '94'
+    Kmer compl.: '99.70'
+    BUSCO sing.: 95.6%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 3.4%
+  Curated pri:
+    Total bp: 1,202,282,383
+    GC %: '30.19'
+    Gaps/Gbp: '157.2'
+    Total gap bp: 23,400
+    Scaffolds: '198'
+    Scaffold N50: 80,806,226
+    Scaffold L50: '5'
+    Scaffold L90: '12'
+    Contigs: '387'
+    Contig N50: 12,755,399
+    Contig L50: '27'
+    Contig L90: '104'
+    Kmer compl.: '99.59'
+    BUSCO sing.: 98.0%
+    BUSCO dupl.: 1.5%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.5%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: insecta_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 43x 99x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Thomas Mathers
+Affiliation: WSI
+
+Date and time: 2025-11-21 15:58:48 CET

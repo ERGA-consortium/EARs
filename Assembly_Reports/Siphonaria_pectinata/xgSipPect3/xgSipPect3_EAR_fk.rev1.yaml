@@ -1,0 +1,101 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '57642'
+ToLID: xgSipPect3
+Species: Siphonaria pectinata
+Class: Gastropoda
+Order: Siphonariida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 674,619,290
+    Haploid Number: '16 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 817,424,656
+    Haploid Number: '16'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q55
+
+Curator notes:
+  Interventions/Gb: 91
+  Contamination notes: '"Few contigs (5, bacterial) were detected by FCS-GX or blobtoolkit
+    and were removed."'
+  Other observations: '"The assembly was produced with hifiasm using HiFi data. The
+    resulting collapsetd *.bp.p_ctg.gfa was selected, screened for contamination with
+    FCS-GX, and purged of haplotigs with purge_dups. Scaffolding was performed with
+    YaHS. The HiC data was not of great use for curation, pairtools reported the fraction
+    frac_cis_40kb+ being 0.042. 75 changes were made using PretextView."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 830,088,125
+    GC %: '37.18'
+    Gaps/Gbp: 1,017.96
+    Total gap bp: 169,000
+    Scaffolds: '255'
+    Scaffold N50: 43,728,786
+    Scaffold L50: '6'
+    Scaffold L90: '14'
+    Contigs: 1,100
+    Contig N50: 1,870,862
+    Contig L50: '134'
+    Contig L90: '460'
+    Kmer compl.: '81.42'
+    BUSCO sing.: 97.1%
+    BUSCO dupl.: 2.0%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.5%
+  Curated collapsed:
+    Total bp: 817,424,656
+    GC %: '37.17'
+    Gaps/Gbp: 1,056.98
+    Total gap bp: 172,800
+    Scaffolds: '220'
+    Scaffold N50: 48,856,956
+    Scaffold L50: '6'
+    Scaffold L90: '14'
+    Contigs: 1,084
+    Contig N50: 1,866,751
+    Contig L50: '133'
+    Contig L90: '456'
+    Kmer compl.: '79.52'
+    BUSCO sing.: 97.5%
+    BUSCO dupl.: 1.3%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 0.7%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: metazoa_odb10
+
+Data:
+  Profile: PacBio HiFi Arima HiC v2
+  Coverage: 35X 72X
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.25.0-r726
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a.2
+  NBIS/Earth-Biogenome-Project-pilot:
+    ver: e6e9c1621b
+  sanger-tol/blobtoolkit:
+    ver: 0.9.0
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.5.1
+
+Submitter: "Estelle Proux-W\xE9ra"
+Affiliation: SciLifeLab
+
+Date and time: 2026-01-19 13:57:42 CET

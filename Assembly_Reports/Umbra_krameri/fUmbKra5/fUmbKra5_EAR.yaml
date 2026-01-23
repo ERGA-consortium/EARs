@@ -1,0 +1,101 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '75933'
+ToLID: fUmbKra5
+Species: Umbra krameri
+Class: Actinopteri
+Order: Esociformes
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,677,207,767
+    Haploid Number: '10 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 1,727,840,106
+    Haploid Number: '22'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q65
+
+Curator notes:
+  Interventions/Gb: 35
+  Contamination notes: '"Contaminants were removed using NCB FCS and blobtools information.
+    The main contaminant was Arthropoda, scaffold were removed if no contact was present
+    in the map. The big contamination seen in the blob, is relative to two of our
+    species chromsome, SUPER_2, SUPER_5 and SUPER_17. Those scaffolds were not removed
+    since the contact on the map was good and constant in those 3 scaffold."'
+  Other observations: '"None"'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 1,729,746,145
+    GC %: '40.41'
+    Gaps/Gbp: '79.78'
+    Total gap bp: 27,600
+    Scaffolds: '237'
+    Scaffold N50: 75,584,379
+    Scaffold L50: '9'
+    Scaffold L90: '19'
+    Contigs: '375'
+    Contig N50: 23,186,746
+    Contig L50: '25'
+    Contig L90: '83'
+    QV: '65.4433'
+    Kmer compl.: '98.9727'
+    BUSCO sing.: 97.6%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 1.2%
+    BUSCO miss.: 0.5%
+  Curated hap1:
+    Total bp: 1,727,840,106
+    GC %: '40.4'
+    Gaps/Gbp: '96.65'
+    Total gap bp: 33,400
+    Scaffolds: '167'
+    Scaffold N50: 75,584,379
+    Scaffold L50: '9'
+    Scaffold L90: '19'
+    Contigs: '334'
+    Contig N50: 23,186,746
+    Contig L50: '25'
+    Contig L90: '83'
+    QV: '65.5402'
+    Kmer compl.: '98.9722'
+    BUSCO sing.: 97.6%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 1.2%
+    BUSCO miss.: 0.5%
+
+BUSCO:
+  ver: 5.8.0 (euk_genome_min, miniprot)
+  lineage: actinopterygii_odb10
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 30.01X 76.45X
+
+Assembly pipeline:
+  Hifiasm:
+    ver: Galaxy Version 0.25.0+galaxy0
+    key param: VGP Galaxy workflow VGP4 v 0.4
+  YaHS:
+    ver: Galaxy Version 1.2a.2+galaxy3
+    key param: VGP Galaxy workflow VGP8 v 3.1
+
+Curation pipeline:
+  PretextMap:
+    ver: Galaxy Version 0.1.9+galaxy1
+    key param: VGP workflow VGP PretextMap generation v2
+  PretextViewAI:
+    ver: 1.0.3
+
+Submitter: Marcella Sozzoni
+Affiliation: UNIFI
+
+Date and time: 2026-01-19 16:43:17 CET

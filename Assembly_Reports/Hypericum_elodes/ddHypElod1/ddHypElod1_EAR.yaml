@@ -1,0 +1,98 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '673926'
+ToLID: ddHypElod1
+Species: Hypericum elodes
+Class: Magnoliopsida
+Order: Malpighiales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 503,129,940
+    Haploid Number: '9 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 466,502,948
+    Haploid Number: '0'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.6.Q58
+
+Curator notes:
+  Interventions/Gb: 0
+  Contamination notes: '""'
+  Other observations: '"The assembly of HYPERICUM ELODES (ddHypElod1) is based on
+    24X PacBio data generated as part of the European Reference Genome Atlas (ERGA,
+    https://www.erga-biodiversity.eu/) via the Biodiversity Genomics Europe project
+    (BGE, https://biodiversitygenomics.eu/). The assembly process included the following
+    steps: initial PacBio assembly generation with Hifiasm, removal of contaminant
+    sequences using Context and removal of haplotypic duplications using purge_dup.
+    In total, 79 contigs were identified as contaminants (bacterial), totaling 2,041,414
+    pb (with the largest being 83,852 pb). Additionally, 378 regions totaling 67,690,356
+    pb were identified as haplotypic duplications and removed. No Hi-C available"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 466,502,948
+    GC %: '37.61'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '494'
+    Scaffold N50: 3,005,422
+    Scaffold L50: '52'
+    Scaffold L90: '167'
+    Contigs: '494'
+    Contig N50: 3,005,422
+    Contig L50: '52'
+    Contig L90: '167'
+    QV: '58.8838'
+    Kmer compl.: '94.4149'
+    BUSCO sing.: 86.8%
+    BUSCO dupl.: 12.4%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.8%
+  Curated collapsed:
+    Total bp: 466,502,948
+    GC %: '37.61'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '494'
+    Scaffold N50: 3,005,422
+    Scaffold L50: '52'
+    Scaffold L90: '167'
+    Contigs: '494'
+    Contig N50: 3,005,422
+    Contig L50: '52'
+    Contig L90: '167'
+    QV: '58.8838'
+    Kmer compl.: '94.4149'
+    BUSCO sing.: 86.8%
+    BUSCO dupl.: 12.4%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.8%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_met, metaeuk)
+  lineage: eukaryota_odb12
+
+Data:
+  Profile: PACBIO Hifi Arima
+  Coverage: 24 NA
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+
+Curation pipeline: {}
+
+Submitter: Lola DEMIRDJIAN
+Affiliation: Genoscope
+
+Date and time: 2025-09-02 18:00:54 CEST

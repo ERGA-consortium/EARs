@@ -1,0 +1,105 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '293813'
+ToLID: qqAgeOrie5
+Species: Agelena orientalis
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 6,397,309,515
+    Haploid Number: '22 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 6,488,071,794
+    Haploid Number: '22'
+    Ploidy: '2'
+    Sample Sex: X1X1X2X2
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q66
+
+Curator notes:
+  Contamination notes: '"FCS-GX detected four bacterial contigs matching Cardinium
+    endosymbiont and totalling 1,438,579 bp. These were removed from the assembly."'
+  Other observations: '"The assembly was produced with hifiasm and the collapsed *p_ctg.fa
+    was selected. The assembly was decontaminated with FCS-GX, and haplotigs purged
+    with purge_dups. Scaffolding was performed with YaHS. Mitochondria was assembled
+    with MitoHiFi."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 6,499,455,072
+    GC %: '31.81'
+    Gaps/Gbp: '188.79'
+    Total gap bp: 245,400
+    Scaffolds: '157'
+    Scaffold N50: 292,788,066
+    Scaffold L50: '10'
+    Scaffold L90: '20'
+    Contigs: 1,384
+    Contig N50: 11,280,987
+    Contig L50: '170'
+    Contig L90: '618'
+    QV: '66.1059'
+    Kmer compl.: '88.7927'
+    BUSCO sing.: 93.7%
+    BUSCO dupl.: 5.4%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.7%
+  Curated collapsed:
+    Total bp: 6,488,071,794
+    GC %: '31.81'
+    Gaps/Gbp: '189.58'
+    Total gap bp: 246,000
+    Scaffolds: '146'
+    Scaffold N50: 298,975,081
+    Scaffold L50: '10'
+    Scaffold L90: '20'
+    Contigs: 1,376
+    Contig N50: 11,280,987
+    Contig L50: '170'
+    Contig L90: '615'
+    QV: '66.1112'
+    Kmer compl.: '88.7414'
+    BUSCO sing.: 93.7%
+    BUSCO dupl.: 5.3%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.7%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arachnida_odb10
+
+Data:
+  Profile: PacBio HiFi Arima HiC v2
+  Coverage: 27x 34x
+
+Assembly pipeline:
+  hifiasm-hic:
+    ver: 0.25.0-r726
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2a.2
+  NBIS/Earth-Biogenome-Project-pilot:
+    ver: 99c8937
+  sanger-tol/blobtoolkit:
+    ver: 0.8.0
+  mitohifi:
+    ver: 3.0.0
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.4.1
+  sanger-tol/agp-tpf-utils:
+    ver: 1.2.3
+
+Submitter: Guilherme B. Dias
+Affiliation: SciLifeLab
+
+Date and time: 2026-01-15 14:08:35 CET

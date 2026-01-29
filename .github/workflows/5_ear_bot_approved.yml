@@ -4,18 +4,18 @@ on:
   pull_request_review:
     types: [submitted]
 
+concurrency:
+  group: ear-bot
+  cancel-in-progress: false
+
 jobs:
   approved-changes:
     if: github.event.review.state == 'approved' && (contains(github.event.pull_request.labels.*.name, 'ERGA-BGE') || contains(github.event.pull_request.labels.*.name, 'ERGA-Pilot') || contains(github.event.pull_request.labels.*.name, 'ERGA-Community'))
     runs-on: ubuntu-latest
 
     steps:
-      - uses: jsok/serialize-workflow-action@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: "main"
           persist-credentials: false
@@ -30,7 +30,7 @@ jobs:
           echo "REVIEWER=$REVIEWER" >> pr_status
           echo "SHOULD_RUN=$should_run" >> pr_status
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           path: pr_status
           name: pr_status

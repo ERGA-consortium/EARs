@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '1971494'
+ToLID: qdTypLobi1
+Species: Typhloiulus lobifer
+Class: Diplopoda
+Order: Julida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,081,278,584
+    Haploid Number: '12 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: U
+  Observed:
+    Haploid size (bp): 937,744,401
+    Haploid Number: '7'
+    Ploidy: '2'
+    Sample Sex: U
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q64
+
+Curator notes:
+  Interventions/Gb: 322
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 797,121 (0.1 %); Scaffolds removed: 37 (1.6 %); Largest
+    scaffold removed: (71,029); FCS-GX contaminant species (number of scaffolds; total
+    length of scaffolds): Mitochondrion (37; 797,121)"'
+  Other observations: '"Assembly was Hi-C phased; original contigs were filtered from
+    bacterial contamination based on tiara results; for hap1 there were 8 rounds of
+    yahs with read remapping; for hap2 there were 3 rounds of yahs with read remapping;
+    The order and orientation of scaffolds within the following regions is uncertain:
+    Chromosome 1 between approximately 20.97-76.37Mb; Chromosome 2 between approximately
+    24.36-58.04Mb; Chromosome 3 between approximately 27.29-50.90Mb; Chromosome 4
+    between approximately 38.17-49.74Mb; Chromosome 5 from the start to approximately
+    32.83Mb; Chromosome 6 between approximately 42.17-47.45Mb; Chromosome 7 between
+    approximately 20.53-29.70Mb; Inversions between haplotypes were observed in the
+    following locations: Chromosome 1 between approximately 98.76-104.39Mb; Chromosome
+    2 between approximately 70.2-100.2Mb; Chromosome 3 between approximately 12.06-26.96Mb"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,430,896,336
+    GC %: '38.12'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 3,370
+    Scaffold N50: 1,601,000
+    Scaffold L50: '258'
+    Scaffold L90: 1,192
+    Contigs: 3,370
+    Contig N50: 1,601,000
+    Contig L50: '258'
+    Contig L90: 1,192
+    Kmer compl.: '98.37'
+    BUSCO sing.: 96.6%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 1.2%
+    BUSCO miss.: 1.3%
+  Curated pri:
+    Total bp: 937,744,401
+    GC %: '38.15'
+    Gaps/Gbp: 1,313.79
+    Total gap bp: 137,974
+    Scaffolds: 2,088
+    Scaffold N50: 78,863,615
+    Scaffold L50: '6'
+    Scaffold L90: '383'
+    Contigs: 3,320
+    Contig N50: 1,257,506
+    Contig L50: '213'
+    Contig L90: 1,203
+    Kmer compl.: '96.87'
+    BUSCO sing.: 98.1%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 1.2%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 32x 176x
+
+Assembly pipeline:
+  0.19.8-r603:
+    ver: NA
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  0.19.8-r603:
+    ver: NA
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.2
+
+Submitter: Sarah Pelan
+Affiliation: WSI
+
+Date and time: 2026-01-23 14:24:02 CET

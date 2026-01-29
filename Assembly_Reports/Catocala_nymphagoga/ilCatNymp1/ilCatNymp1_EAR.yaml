@@ -1,0 +1,110 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1734902'
+ToLID: ilCatNymp1
+Species: Catocala nymphagoga
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 570,200,512
+    Haploid Number: '31 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 628,081,482
+    Haploid Number: '33'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 5.7.Q51
+
+Curator notes:
+  Interventions/Gb: 189
+  Contamination notes: '""'
+  Other observations: '"The assembly of Catocala nymphagoga (ilCatNymp1) is based
+    on 61X PacBio data and 410X Arima Hi-C data generated as part of the European
+    Reference Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity
+    Genomics Europe project (BGE, https://biodiversitygenomics.eu/).The assembly process
+    included the following steps: initial PacBio assembly generation with Hifiasm,
+    removal of contaminant sequences using Context, removal of haplotypic duplications
+    using purge_dups, and Hi-C-based scaffolding with YaHS. In total, 146 contigs
+    were identified as contaminants (bacterial, archaeal, or viral), totaling 4.9
+    Mb (with the largest being 327Kb). Additionally, 565 regions totaling 22 Mb (with
+    the largest being 0.293 Mb) were identified as haplotypic duplications and removed.
+    The mitochondrial genome was assembled using OATK. Finally, the primary assembly
+    was analyzed and manually improved using Pretext. During manual curation, 2 haplotypic
+    regions were removed, totaling 536 Kb(with the largest being 0.303 Kb). Chromosome-scale
+    scaffolds confirmed by Hi-C data were named in order of size. Z chromosome was
+    identified by comparison with the Catocala promissa genome assembly"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 628,680,820
+    GC %: '36.59'
+    Gaps/Gbp: 2,223.7
+    Total gap bp: 151,900
+    Scaffolds: '209'
+    Scaffold N50: 22,011,387
+    Scaffold L50: '13'
+    Scaffold L90: '27'
+    Contigs: 1,588
+    Contig N50: 913,285
+    Contig L50: '203'
+    Contig L90: '773'
+    QV: '51.1531'
+    Kmer compl.: '77.4125'
+    BUSCO sing.: 93.1%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 3.0%
+    BUSCO miss.: 3.3%
+  Curated collapsed:
+    Total bp: 628,081,482
+    GC %: '36.59'
+    Gaps/Gbp: 2,286.33
+    Total gap bp: 165,100
+    Scaffolds: '145'
+    Scaffold N50: 22,258,276
+    Scaffold L50: '13'
+    Scaffold L90: '26'
+    Contigs: 1,581
+    Contig N50: 913,285
+    Contig L50: '203'
+    Contig L90: '773'
+    QV: '51.1661'
+    Kmer compl.: '77.3907'
+    BUSCO sing.: 93.1%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 3.0%
+    BUSCO miss.: 3.3%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: lepidoptera_odb12
+
+Data:
+  Profile: Long reads Arima
+  Coverage: 61 410
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Caroline Menguy
+Affiliation: Genoscope
+
+Date and time: 2025-11-01 07:19:47 CET

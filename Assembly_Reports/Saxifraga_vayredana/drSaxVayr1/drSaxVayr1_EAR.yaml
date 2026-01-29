@@ -1,0 +1,106 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '88878'
+ToLID: drSaxVayr1
+Species: Saxifraga vayredana
+Class: Magnoliopsida
+Order: Saxifragales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 632,079,025
+    Haploid Number: '31 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: H
+  Observed:
+    Haploid size (bp): 542,591,247
+    Haploid Number: '29'
+    Ploidy: '2'
+    Sample Sex: H
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q61
+
+Curator notes:
+  Interventions/Gb: 160
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 106,957,162 (15.3 %); Scaffolds removed: 2477 (75.7 %);
+    Largest scaffold removed: (192,208); FCS-GX contaminant species (number of scaffolds;
+    total length of scaffolds): Aureobasidium vineae, ascomycetes (1; 37,569); Aureobasidium
+    sp. EXF-3400, ascomycetes (1; 7,384); Mitochondrion (1099; 43,974,556); Plastid
+    (1376; 62,937,653)"'
+  Other observations: '"Assembly was Hi-C phased; The sample appears to be allopolyploid
+    (4n = 58) with the HIC signal indicating highly divergent subgenomes. The primary
+    (HAP 1) assembly contains a single copy of each subgenome. The order and orientation
+    of contigs along chromosome 1 is uncertain between 15 Mb and 21.5 Mb. Heterozygous
+    inversions were observed in the following regions: chromosome 7, 5.3 Mb to 7 Mb.;
+    chromosome 8, 8.2 Mb to 10.9 Mb and 15.6 Mb to 17. 6 Mb."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 783,419,052
+    GC %: '37.86'
+    Gaps/Gbp: 1,018.61
+    Total gap bp: 79,800
+    Scaffolds: 4,334
+    Scaffold N50: 16,228,285
+    Scaffold L50: '20'
+    Scaffold L90: 1,968
+    Contigs: 5,132
+    Contig N50: 5,450,061
+    Contig L50: '38'
+    Contig L90: 2,687
+    Kmer compl.: '99.21'
+    BUSCO sing.: 42.1%
+    BUSCO dupl.: 54.5%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 3.1%
+  Curated pri:
+    Total bp: 542,591,247
+    GC %: '37.2'
+    Gaps/Gbp: '235.91'
+    Total gap bp: 19,900
+    Scaffolds: '29'
+    Scaffold N50: 18,520,738
+    Scaffold L50: '12'
+    Scaffold L90: '25'
+    Contigs: '157'
+    Contig N50: 8,734,432
+    Contig L50: '21'
+    Contig L90: '62'
+    Kmer compl.: '98.72'
+    BUSCO sing.: 52.7%
+    BUSCO dupl.: 43.8%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 3.2%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: eudicots_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 140x 700x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.2
+
+Submitter: Thomas Mathers
+Affiliation: WSI
+
+Date and time: 2025-11-21 16:35:23 CET

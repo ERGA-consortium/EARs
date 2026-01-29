@@ -1,0 +1,103 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3229145'
+ToLID: iyColCypr3
+Species: Colletes cyprius
+Class: Insecta
+Order: Hymenoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 347,125,941
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '1 (source: ancestor)'
+    Sample Sex: Female
+  Observed:
+    Haploid size (bp): 289,597,081
+    Haploid Number: '14'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q69
+
+Curator notes:
+  Interventions/Gb: 1
+  Contamination notes: '"Only one contig was split to make an unloc, otherwise all
+    other contigs were left as chromosomes. Slight uncertainty about whether there
+    are 13 or 14 chromosomes in this species, but I left the two smallest scaffolds
+    as two separate chromosomes without strong evidence for joining them. Approx 35Mb
+    of contaminant sequence were removed"'
+  Other observations: '"None"'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 304,177,643
+    GC %: '40.39'
+    Gaps/Gbp: '9.86'
+    Total gap bp: '300'
+    Scaffolds: '320'
+    Scaffold N50: 19,470,507
+    Scaffold L50: '7'
+    Scaffold L90: '17'
+    Contigs: '323'
+    Contig N50: 17,189,520
+    Contig L50: '7'
+    Contig L90: '20'
+    QV: '69.7979'
+    Kmer compl.: '91.0673'
+    BUSCO sing.: 99.3%
+    BUSCO dupl.: 0.2%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.5%
+  Curated hap1:
+    Total bp: 289,597,081
+    GC %: '40.89'
+    Gaps/Gbp: '10.36'
+    Total gap bp: '300'
+    Scaffolds: '302'
+    Scaffold N50: 19,287,579
+    Scaffold L50: '7'
+    Scaffold L90: '14'
+    Contigs: '305'
+    Contig N50: 17,189,520
+    Contig L50: '7'
+    Contig L90: '16'
+    QV: '69.8373'
+    Kmer compl.: '86.8134'
+    BUSCO sing.: 99.3%
+    BUSCO dupl.: 0.2%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.5%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: hymenoptera_odb12
+
+Data:
+  Profile: PacBio HiFi HiC
+  Coverage: 280X 1000X
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.25.0
+    key param: --h1 --h2
+  purge-dups:
+    ver: 1.2.6
+  yahs:
+    ver: 1.2a
+  fcs-gx:
+    ver: 0.5.4
+  blobtoolkit:
+    ver: 4..40
+
+Curation pipeline:
+  PretextViewAI:
+    ver: '1.0'
+
+Submitter: Tom Brown
+Affiliation: IZW
+
+Date and time: 2025-12-02 14:35:18 CET

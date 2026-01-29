@@ -1,0 +1,92 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2689250'
+ToLID: qqTroLibu4
+Species: Troglohyphantes liburnicus
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,160,633,276
+    Haploid Number: '12 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 1,358,755,034
+    Haploid Number: '0'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.6.Q57
+
+Curator notes:
+  Interventions/Gb: 0
+  Contamination notes: '"60 sequences removed identrified as proteobacteria"'
+  Other observations: '"Hi-C library failed, so a contig-level assembly was submitted"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,358,755,034
+    GC %: '32.09'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 1,951
+    Scaffold N50: 2,770,517
+    Scaffold L50: '148'
+    Scaffold L90: '539'
+    Contigs: 1,951
+    Contig N50: 2,770,517
+    Contig L50: '148'
+    Contig L90: '539'
+    QV: '57.721'
+    Kmer compl.: '96.8176'
+    BUSCO sing.: 96.3%
+    BUSCO dupl.: 2.6%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.8%
+  Curated pri:
+    Total bp: 1,358,755,034
+    GC %: '32.09'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 1,951
+    Scaffold N50: 2,770,517
+    Scaffold L50: '148'
+    Scaffold L90: '539'
+    Contigs: 1,951
+    Contig N50: 2,770,517
+    Contig L50: '148'
+    Contig L90: '539'
+    QV: '57.721'
+    Kmer compl.: '96.8176'
+    BUSCO sing.: 96.3%
+    BUSCO dupl.: 2.6%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 0.8%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: araneae_odb12
+
+Data:
+  Profile: HiFi
+  Coverage: '92'
+
+Assembly pipeline:
+  HiFiasm:
+    ver: 0.25.0
+  purge-dups:
+    ver: 1.2.6
+  fcs-gx:
+    ver: 0.5.4
+
+Curation pipeline: {}
+
+Submitter: Tom Brown
+Affiliation: IZW
+
+Date and time: 2026-01-20 16:17:28 CET

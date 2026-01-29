@@ -6,18 +6,20 @@ from argparse import ArgumentParser
 from datetime import datetime, timedelta
 
 import pytz
-from github import Github, UnknownObjectException
+from github import Auth, Github, UnknownObjectException
 
 root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-csv_folder = os.path.join(root_folder, "rev")
-sys.path.append(csv_folder)
-import get_EAR_reviewer  # type: ignore
+sys.path.append(root_folder)
+from rev import get_EAR_reviewer  # noqa: E402
 
 cet = pytz.timezone("CET")
 
 
+def _get_local_path(filename):
+    return os.path.join(root_folder, filename)
+
+
 def commit(repo, path, message, content):
-    path = os.path.relpath(path, root_folder)
     try:
         contents = repo.get_contents(path)
         if not isinstance(contents, list):
@@ -36,22 +38,31 @@ def commit(repo, path, message, content):
 
 
 class EAR_get_reviewer:
+    REVIEWERS_CSV = "rev/reviewers_list.csv"
+    EAR_REVIEWS_CSV = "rev/EAR_reviews.csv"
+    GET_EAR_REVIEWER_SCRIPT = "rev/get_EAR_reviewer.py"
+
     def __init__(self, repo) -> None:
         self.repo = repo
-        self.csv_file = os.path.join(csv_folder, "reviewers_list.csv")
-        if not os.path.exists(self.csv_file):
-            raise Exception("The CSV file does not exist.")
-        with open(self.csv_file, "r") as file:
-            csv_data = file.read()
-        if not csv_data:
-            raise Exception("The CSV file is empty.")
+        csv_data = self._fetch_csv_from_repo(self.REVIEWERS_CSV)
         self.data = get_EAR_reviewer.parse_csv(csv_data)
+
+    def _fetch_csv_from_repo(self, csv_path):
+        contents = self.repo.get_contents(csv_path)
+        if isinstance(contents, list):
+            raise Exception(f"Expected a file, got a directory: {csv_path}")
+        csv_data = contents.decoded_content.decode("utf-8")
+        if not csv_data:
+            raise Exception(f"The CSV file is empty: {csv_path}")
+        return csv_data
 
     def get_supervisor(self, user, calling_institution):
         try:
             selected_supervisor = get_EAR_reviewer.select_random_supervisor(
                 self.data, user, calling_institution
             )
+            if selected_supervisor is None:
+                raise Exception("No supervisor selected")
             return selected_supervisor.get("Github ID")
         except Exception as e:
             raise Exception(f"No eligible supervisors found.\n{e}")
@@ -61,9 +72,8 @@ class EAR_get_reviewer:
             _, top_candidate, _ = get_EAR_reviewer.select_best_reviewer(
                 self.data, institution, project
             )
-            get_EAR_reviewer_path = os.path.join(csv_folder, "get_EAR_reviewer.py")
             reviewer_print = subprocess.run(
-                f"python {get_EAR_reviewer_path} -i '{institution}' -t '{project}'",
+                f"python {_get_local_path(self.GET_EAR_REVIEWER_SCRIPT)} -i '{institution}' -t '{project}'",
                 shell=True,
                 capture_output=True,
                 text=True,
@@ -89,11 +99,7 @@ class EAR_get_reviewer:
         other_participants,
         notes,
     ):
-        ear_reviews_csv_file = os.path.join(csv_folder, "EAR_reviews.csv")
-        if not os.path.exists(ear_reviews_csv_file):
-            raise Exception("The EAR reviews CSV file does not exist.")
-        with open(ear_reviews_csv_file, "r") as file:
-            ear_reviews_csv_data = file.read()
+        ear_reviews_csv_data = self._fetch_csv_from_repo(self.EAR_REVIEWS_CSV)
 
         csv_row = (
             f"{pr_url},{species},{tag},{requester_name},"
@@ -103,7 +109,7 @@ class EAR_get_reviewer:
         )
         ear_reviews_csv_data += csv_row
         commit(
-            self.repo, ear_reviews_csv_file, "Add new EAR review", ear_reviews_csv_data
+            self.repo, self.EAR_REVIEWS_CSV, "Add new EAR review", ear_reviews_csv_data
         )
         print(f"Added {reviewer_name} to the EAR reviews CSV file.")
 
@@ -146,13 +152,18 @@ class EAR_get_reviewer:
         csv_str = ",".join(self.data[0].keys()) + "\n"
         for row in self.data:
             csv_str += ",".join(row.values()) + "\n"
-        commit(self.repo, self.csv_file, "Update reviewers list", csv_str)
+        commit(self.repo, self.REVIEWERS_CSV, "Update reviewers list", csv_str)
         print(f"Updated the reviewers list for {', '.join(reviewers)}.\n{csv_str}")
 
 
 class EARBotReviewer:
+    EARPDF_TO_YAML_SCRIPT = "EARpdf_to_yaml.py"
+
     def __init__(self) -> None:
-        g = Github(os.getenv("GITHUB_APP_TOKEN"))
+        token = os.getenv("GITHUB_APP_TOKEN")
+        if not token:
+            raise Exception("GITHUB_APP_TOKEN environment variable is not set")
+        g = Github(auth=Auth.Token(token))
         self.repo = g.get_repo(str(os.getenv("GITHUB_REPOSITORY")))
         self.EAR_reviewer = EAR_get_reviewer(self.repo)
         self.pr_number = os.getenv("PR_NUMBER")
@@ -163,6 +174,8 @@ class EARBotReviewer:
 
     def find_supervisor(self):
         # Will run when a new PR is opened
+        if not self.pr_number:
+            raise Exception("PR_NUMBER environment variable is not set")
         pr = self.repo.get_pull(int(self.pr_number))
 
         action_type = os.getenv("ACTION_TYPE")
@@ -261,11 +274,7 @@ class EARBotReviewer:
         current_date = datetime.now(tz=cet)
 
         for pr in prs:
-            if pr.updated_at.astimezone(cet) + timedelta(days=7) < current_date:
-                supervisor = pr.assignee.login if pr.assignee else pr.user.login
-                pr.create_issue_comment(
-                    f"Ping @{supervisor},\nOne week without any movements on this PR!"
-                )
+            self._check_pr_activity(pr, current_date)
             if (
                 pr.get_review_requests()[0].totalCount > 0
                 or not any(
@@ -277,7 +286,7 @@ class EARBotReviewer:
                 continue
             old_reviewers_list = self._search_comment_user(pr, "do you agree to review")
             last_comment_date = self._search_last_comment_time(
-                pr, "do you agree to review"
+                pr, text="do you agree to review"
             )
             deadline_passed = (
                 self._deadline(last_comment_date) < current_date
@@ -299,6 +308,8 @@ class EARBotReviewer:
                     new_reviewer, get_EAR_reviewer_print = (
                         self.EAR_reviewer.get_reviewer(institution, project)
                     )
+                    if new_reviewer is None:
+                        raise Exception("No reviewer found")
                     pr.create_issue_comment(f"```\n{get_EAR_reviewer_print}```")
                     pr.create_issue_comment(
                         f"Hi @{new_reviewer}, do you agree to review this assembly?\n"
@@ -314,11 +325,13 @@ class EARBotReviewer:
                     f"Hi @{supervisor}, it looks like there is a problem with this PR that requires your involvement to sort it out."
                 )
                 pr.add_to_labels("ERROR!")
-                print(e)
+                print(f"Error while finding reviewer for PR #{pr.number}:\n{e}")
 
     def comment(self):
         # Will run when there is a new comment
         try:
+            if not self.comment_text or not self.comment_author or not self.pr_number:
+                raise Exception("Missing required environment variables")
             comment_text = self.comment_text.lower()
             comment_author = self.comment_author.lower()
             pr = self.repo.get_pull(int(self.pr_number))
@@ -350,9 +363,11 @@ class EARBotReviewer:
                 sys.exit()
             if "ok" in comment_text:
                 pr.add_to_assignees(comment_author)
+                if not self.pr_number:
+                    raise Exception("PR_NUMBER is not set")
                 self.find_reviewer([self.repo.get_pull(int(self.pr_number))])
             else:
-                pr.create_issue_comment(f"Invalid confirmation!")
+                pr.create_issue_comment("Invalid confirmation!")
                 pr.add_to_labels("ERROR!")
                 sys.exit(1)
         else:
@@ -419,6 +434,8 @@ class EARBotReviewer:
     def approve_reviewer(self):
         # Will run when there is a new review
         try:
+            if not self.pr_number or not self.reviewer:
+                raise Exception("Missing required environment variables")
             pr = self.repo.get_pull(int(self.pr_number))
             reviewer = self.reviewer.lower()
         except Exception as e:
@@ -449,6 +466,8 @@ class EARBotReviewer:
 
     def closed_pr(self):
         # Will run when the PR is closed
+        if not self.pr_number:
+            raise Exception("PR_NUMBER environment variable is not set")
         pr = self.repo.get_pull(int(self.pr_number))
         reviews = pr.get_reviews().reversed
         merged = os.getenv("MERGED_STATUS") == "true"
@@ -580,6 +599,45 @@ class EARBotReviewer:
         user_type = comment.raw_data.get("user", {}).get("type", None)
         return str(user_type).lower() == "bot"
 
+    def _check_pr_activity(self, pr, current_date):
+        one_week_ago = current_date - timedelta(weeks=1)
+        four_weeks_ago = current_date - timedelta(weeks=4)
+        labels = {label.name for label in pr.get_labels()}
+
+        researcher = pr.user.login.lower()
+        last_researcher_comment = self._search_last_comment_time(
+            pr, from_bot=False, from_user=researcher
+        )
+
+        last_activity = self._search_last_comment_time(pr, from_bot=False)
+
+        # DELAYED: Researcher hasn't commented in a month
+        if last_researcher_comment < four_weeks_ago:
+            if "DELAYED" not in labels:
+                pr.add_to_labels("DELAYED")
+
+        # STALLED: No one has commented in a month
+        if last_activity < four_weeks_ago:
+            if "STALLED" not in labels:
+                pr.add_to_labels("STALLED")
+        else:
+            # Remove STALLED if there's any recent comment
+            if "STALLED" in labels:
+                pr.remove_from_labels("STALLED")
+
+        # Weekly ping only if no DELAYED or STALLED labels exist
+        if "DELAYED" not in labels and "STALLED" not in labels:
+            if last_activity < one_week_ago:
+                supervisor = pr.assignee.login if pr.assignee else pr.user.login
+                # Only ping once per week - check if we already pinged recently
+                last_ping = self._search_last_comment_time(
+                    pr, text="One week without any movements on this PR!"
+                )
+                if not last_ping or last_ping < one_week_ago:
+                    pr.create_issue_comment(
+                        f"Ping @{supervisor},\nOne week without any movements on this PR!"
+                    )
+
     def _search_comment_user(self, pr, text_to_check):
         comment_user = []
         for comment in pr.get_issue_comments().reversed:
@@ -593,13 +651,19 @@ class EARBotReviewer:
                     comment_user.append(comment_user_re[0].lower())
         return comment_user
 
-    def _search_last_comment_time(self, pr, text_to_check):
-        comment_time = None
+    def _search_last_comment_time(self, pr, text=None, from_bot=True, from_user=None):
         for comment in pr.get_issue_comments().reversed:
-            if self._is_bot_user(comment) and text_to_check in comment.body:
-                comment_time = comment.created_at.astimezone(cet)
-                break
-        return comment_time
+            is_bot = self._is_bot_user(comment)
+            if from_bot != is_bot:
+                continue
+            if text and text not in comment.body:
+                continue
+            if from_user and comment.user.login.lower() != from_user.lower():
+                continue
+            return comment.created_at.astimezone(cet)
+        if text:
+            return None
+        return pr.created_at.astimezone(cet)
 
     def _search_in_body(self, pr, text_to_check):
         lines = pr.body.strip().split("\n")
@@ -638,31 +702,37 @@ class EARBotReviewer:
     def _create_slack_post(self, content):
         from slack_sdk import WebClient
 
-        client = WebClient(token=os.getenv("SLACK_TOKEN"))
+        slack_token = os.getenv("SLACK_TOKEN")
         channel_id = os.getenv("SLACK_CHANNEL_ID")
+        if not slack_token or not channel_id:
+            print("Error: SLACK_TOKEN or SLACK_CHANNEL_ID not set")
+            return False
+        client = WebClient(token=slack_token)
         response = client.chat_postMessage(channel=channel_id, text=content)
         if not response["ok"]:
             print("Error creating post in Slack")
             return False
-        link = client.chat_getPermalink(channel=channel_id, message_ts=response["ts"])[
+        message_ts = response.get("ts")
+        if not message_ts:
+            print("Error: No timestamp in Slack response")
+            return False
+        link = client.chat_getPermalink(channel=channel_id, message_ts=message_ts)[
             "permalink"
         ]
         print(f"Slack post created: {link}")
         return True
 
     def _add_yaml_file(self, EAR_pdf_filename):
-        EARpdf_to_yaml_path = os.path.join(root_folder, "EARpdf_to_yaml.py")
-        EAR_pdf_file = os.path.join(root_folder, EAR_pdf_filename)
         output_pdf_to_yaml = subprocess.run(
-            f"python {EARpdf_to_yaml_path} {EAR_pdf_file}",
+            f"python {_get_local_path(self.EARPDF_TO_YAML_SCRIPT)} {_get_local_path(EAR_pdf_filename)}",
             shell=True,
             capture_output=True,
             text=True,
         )
-        yaml_file = EAR_pdf_file.replace(".pdf", ".yaml")
-        with open(yaml_file, "r") as file:
+        yaml_filename = EAR_pdf_filename.replace(".pdf", ".yaml")
+        with open(_get_local_path(yaml_filename), "r") as file:
             yaml_content = file.read()
-        commit(self.repo, yaml_file, "Add YAML file", yaml_content)
+        commit(self.repo, yaml_filename, "Add YAML file", yaml_content)
         print(output_pdf_to_yaml.stdout, output_pdf_to_yaml.stderr)
 
 

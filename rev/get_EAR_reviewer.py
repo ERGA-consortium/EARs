@@ -10,7 +10,13 @@ import argparse
 
 def download_csv(url):
     try:
-        response = requests.get(url)
+        response = requests.get(
+            url,
+            headers={
+                "Accept": "application/vnd.github.raw+json",
+                "X-GitHub-Api-Version": "2022-11-28",
+            },
+        )
         response.raise_for_status()
         return response.text
     except requests.RequestException as e:
@@ -133,7 +139,7 @@ def main():
     parser.add_argument("-v", "--version", action="version", version=version, help="Show script's version and exit.")
     args = parser.parse_args()
 
-    url = "https://raw.githubusercontent.com/ERGA-consortium/EARs/main/rev/reviewers_list.csv"
+    url = "https://api.github.com/repos/ERGA-consortium/EARs/contents/rev/reviewers_list.csv"
     csv_data = download_csv(url)
     if csv_data:
         data = parse_csv(csv_data)

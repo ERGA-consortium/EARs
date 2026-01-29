@@ -1,0 +1,105 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '187398'
+ToLID: mLepCas1
+Species: Lepus castroviejoi
+Class: Mammalia
+Order: Lagomorpha
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,745,042,277
+    Haploid Number: '24 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XY
+  Observed:
+    Haploid size (bp): 2,919,066,766
+    Haploid Number: '24'
+    Ploidy: '2'
+    Sample Sex: XY
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.8.Q69
+
+Curator notes:
+  Interventions/Gb: 166
+  Contamination notes: '"Some contaminants were found with the pipeline NCBI FCS GX
+    v Galaxy Version 0.5.5+galaxy1, and some scaffolds were flagged as contaminants
+    by BlobToolKit. The one flagged in the present blob plot are confirmed as non
+    contaminat based on the HiC contact map and the NCBI FCS pipeline"'
+  Other observations: '"We were able to reconstruct the sex chromosome. We confirmed
+    the assignation of the X and Y flag with an alignment with a close species, Lepus
+    timidus (GCA_040893245.2)"'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 2,953,087,076
+    GC %: '43.84'
+    Gaps/Gbp: '69.76'
+    Total gap bp: 41,200
+    Scaffolds: '236'
+    Scaffold N50: 142,000,722
+    Scaffold L50: '9'
+    Scaffold L90: '19'
+    Contigs: '442'
+    Contig N50: 74,601,310
+    Contig L50: '14'
+    Contig L90: '55'
+    QV: '69.0173'
+    Kmer compl.: '98.5651'
+    BUSCO sing.: 94.9%
+    BUSCO dupl.: 3.3%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 1.0%
+  Curated hap1:
+    Total bp: 2,919,066,766
+    GC %: '43.78'
+    Gaps/Gbp: '81.88'
+    Total gap bp: 47,800
+    Scaffolds: '212'
+    Scaffold N50: 137,255,412
+    Scaffold L50: '9'
+    Scaffold L90: '20'
+    Contigs: '451'
+    Contig N50: 58,008,274
+    Contig L50: '16'
+    Contig L90: '61'
+    QV: '69.1112'
+    Kmer compl.: '98.173'
+    BUSCO sing.: 93.8%
+    BUSCO dupl.: 3.6%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 1.7%
+
+BUSCO:
+  ver: 5.8.0 (euk_genome_min, miniprot)
+  lineage: mammalia_odb10
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 38.29X 48.80X
+
+Assembly pipeline:
+  Hifiasm:
+    ver: Galaxy Version 0.24.0+galaxy0
+    key param: VGP Galaxy workflow VGP3 v 0.2.8
+  purge_dups:
+    ver: Galaxy Version 1.2.6+galaxy0
+    key param: VGP Galaxy workflow VGP6 v 0.5
+  YaHS:
+    ver: Galaxy Version 1.2a.2+galaxy2
+    key param: VGP Galaxy workflow VGP8 v 1.4
+
+Curation pipeline:
+  PretextMap:
+    ver: Galaxy Version 0.1.9+galaxy1
+    key param: VGP workflow VGP PretextMap generation v2
+  PretextView:
+    ver: 1.0.0
+
+Submitter: Marcella Sozzoni
+Affiliation: UNIFI
+
+Date and time: 2025-12-11 10:09:59 CET

@@ -1,0 +1,110 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '581057'
+ToLID: kaBotViol
+Species: Botrylloides violaceus
+Class: Ascidiacea
+Order: Stolidobranchia
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 139,513,824
+    Haploid Number: '16 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 129,131,147
+    Haploid Number: '16'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.6.Q40
+
+Curator notes:
+  Interventions/Gb: 107
+  Contamination notes: '"34 sequences were removed as contaminants. In addition, 2
+    large scaffolds (SUPER_6, SUPER_7) were classified as Mollusca. However, they
+    were not removed because their coverage and GC content were consistent with the
+    rest of the genome, and they showed no Hi-C contacts with other scaffolds."'
+  Other observations: '"The assembly of species Botrylloides violaceus is based on
+    1493x long read ONT data and 1085x Arima HiC data generated as part of the ERGA
+    initiative via the BGE project. The assembly process included the following steps:
+    ONT reads shorter than 3 kb were filtered out, thus the remaining reads for a
+    total of ~215 Gb were assembled using Necat with polishing performed using NextPolish.
+    Contigs were subsequently filtered with purge_dups. Scaffolding was performed
+    by aligning HiC reads to the purged contigs using the Omni-C mapping pipeline,
+    followed by YaHS for scaffold construction. Contamination was checked using BlobTools.
+    The scaffolds were processed through sanger_tol/curationpretext pipeline to generate
+    the contact map, which was manually improved using PretextView. The presence of
+    a mitochondrial genome contig/scaffold was not assessed. Chromosome-scale scaffolds
+    confirmed by HiC data were named in order of size."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 141,960,073
+    GC %: '41.24'
+    Gaps/Gbp: '331.08'
+    Total gap bp: 4,700
+    Scaffolds: '258'
+    Scaffold N50: 7,416,636
+    Scaffold L50: '9'
+    Scaffold L90: '57'
+    Contigs: '305'
+    Contig N50: 3,327,369
+    Contig L50: '16'
+    Contig L90: '101'
+    QV: '39.8281'
+    Kmer compl.: '80.5841'
+    BUSCO sing.: 89.8%
+    BUSCO dupl.: 2.8%
+    BUSCO frag.: 1.7%
+    BUSCO miss.: 5.7%
+  Curated pri:
+    Total bp: 129,131,147
+    GC %: '41.16'
+    Gaps/Gbp: '495.62'
+    Total gap bp: 10,500
+    Scaffolds: '159'
+    Scaffold N50: 7,692,581
+    Scaffold L50: '8'
+    Scaffold L90: '16'
+    Contigs: '223'
+    Contig N50: 3,355,943
+    Contig L50: '14'
+    Contig L90: '58'
+    QV: '40.5143'
+    Kmer compl.: '78.6535'
+    BUSCO sing.: 91.9%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 1.9%
+    BUSCO miss.: 5.9%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_aug, augustus)
+  lineage: metazoa_odb10
+
+Data:
+  Profile: ONT Arima HiC
+  Coverage: 1493x 1085x
+
+Assembly pipeline:
+  Necat:
+    ver: 0.0.1
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2.2
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.5.0
+  PretextView:
+    ver: 1.0.5
+
+Submitter: Ilenia Urso
+Affiliation: UNIBA
+
+Date and time: 2026-01-20 15:06:28 CET

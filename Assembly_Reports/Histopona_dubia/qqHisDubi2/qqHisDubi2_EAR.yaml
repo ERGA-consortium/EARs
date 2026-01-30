@@ -1,0 +1,104 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '3139654'
+ToLID: qqHisDubi2
+Species: Histopona dubia
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 4,357,519,084
+    Haploid Number: '22 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: M
+  Observed:
+    Haploid size (bp): 4,817,552,322
+    Haploid Number: '23'
+    Ploidy: '2'
+    Sample Sex: M
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.8.Q66
+
+Curator notes:
+  Interventions/Gb: 116
+  Contamination notes: '"Contamination report_v2 for assembly labelled hap1; Total
+    length of scaffolds removed: 263,028 (0.0 %); Scaffolds removed: 8 (0.5 %); Largest
+    scaffold removed: (57,504); FCS-GX contaminant species (number of scaffolds; total
+    length of scaffolds):Pectobacterium phage Astalicious, prokaryotic viruses (1;
+    57,504);Mitochondrion (7; 205,524)"'
+  Other observations: '"Assembly was Hi-C phased; Chromosomes X1, X2 and X3 were identified
+    by copy number in the diploid assembly and named to match the chromosome naming
+    of GCA_965122215. Chromosome X3 is a part of ancestral X1 that underwent a fusion/fission
+    event. A haplotypic inversion was observed in the region on chromosome 15 (0-27.2
+    Mbp). A large number of centromeric repeats is in the unlocalised sequences."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 4,126,461,816
+    GC %: '32.73'
+    Gaps/Gbp: '259.54'
+    Total gap bp: 107,100
+    Scaffolds: 1,647
+    Scaffold N50: 195,020,524
+    Scaffold L50: '10'
+    Scaffold L90: '19'
+    Contigs: 2,718
+    Contig N50: 13,528,000
+    Contig L50: '79'
+    Contig L90: '374'
+    Kmer compl.: '99.52'
+    BUSCO sing.: 90.5%
+    BUSCO dupl.: 2.9%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 6.0%
+  Curated pri:
+    Total bp: 4,817,552,322
+    GC %: '32.77'
+    Gaps/Gbp: '281.47'
+    Total gap bp: 151,600
+    Scaffolds: 1,562
+    Scaffold N50: 203,116,814
+    Scaffold L50: '11'
+    Scaffold L90: '21'
+    Contigs: 2,918
+    Contig N50: 12,783,366
+    Contig L50: '98'
+    Contig L90: '449'
+    Kmer compl.: '99.52'
+    BUSCO sing.: 93.9%
+    BUSCO dupl.: 4.4%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 1.2%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 32x 279x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.25.0-r726
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.25.0-r726
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.2
+
+Submitter: Danil Zilov
+Affiliation: WSI
+
+Date and time: 2026-01-23 14:27:14 CET

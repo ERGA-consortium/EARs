@@ -1,0 +1,103 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2828945'
+ToLID: ilHipCypr1
+Species: Hipparchia cypriensis
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 382,535,333
+    Haploid Number: '29 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 387,821,496
+    Haploid Number: '28'
+    Ploidy: '2'
+    Sample Sex: ZZ
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.7.Q65
+
+Curator notes:
+  Interventions/Gb: 5
+  Contamination notes: '"33 contaminants (pseudomonadota, bacillota, nematoda) detected
+    with blobtools and removed."'
+  Other observations: '"Curation made 0 cuts in contigs, 1 break at a gap and 1 join.
+    Z identified by alignment to ilHipSeme1.2. Performed diploid curation. Hap2 was
+    incomplete. Put longest, no-gap haps into primary assembly and the rest into alt."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 391,457,550
+    GC %: '37.09'
+    Gaps/Gbp: '5.11'
+    Total gap bp: '400'
+    Scaffolds: '110'
+    Scaffold N50: 14,412,884
+    Scaffold L50: '13'
+    Scaffold L90: '25'
+    Contigs: '112'
+    Contig N50: 14,412,884
+    Contig L50: '13'
+    Contig L90: '25'
+    QV: '62.7713'
+    Kmer compl.: '67.8475'
+    BUSCO sing.: 98.2%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.2%
+  Curated pri:
+    Total bp: 387,821,496
+    GC %: '36.95'
+    Gaps/Gbp: '2.58'
+    Total gap bp: '200'
+    Scaffolds: '54'
+    Scaffold N50: 14,456,993
+    Scaffold L50: '13'
+    Scaffold L90: '25'
+    Contigs: '55'
+    Contig N50: 14,456,993
+    Contig L50: '13'
+    Contig L90: '25'
+    QV: '65.8841'
+    Kmer compl.: '68.1245'
+    BUSCO sing.: 98.8%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.8%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: ONT Illumina Omni-C
+  Coverage: 300x 198x 137x
+
+Assembly pipeline:
+  Filtlong:
+    ver: 0.2.1
+    key param: --min_length 1000 --min_mean_q 80
+  Hifiasm:
+    ver: 0.24.0
+    key param: --telo-m AACCT"
+  YaHS:
+    ver: 1.2a
+    key param: --no-contig-ec
+  CLAWS: {}
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: '2.0'
+  PretextViewAI:
+    ver: 1.0.4
+
+Submitter: Tyler Alioto
+Affiliation: CNAG
+
+Date and time: 2026-01-15 22:06:30 CET

@@ -1,0 +1,107 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1849190'
+ToLID: icAntGang1
+Species: Anthroherpon ganglbaueri
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 289,632,189
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 245,273,758
+    Haploid Number: '11'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    hap1: 5.7.Q64
+
+Curator notes:
+  Interventions/Gb: 66
+  Contamination notes: '"Protobacteria contaminants were found in two scaffolds and
+    removed with the pipeline NCBI FCS GX v Galaxy Version 0.5.5+galaxy1. Scaffolds
+    that are flagged as contaminants by BlobToolKit were confirmed with FCS output
+    table and with contact in the map as non-contaminants. Contact for scaffolds was
+    also confirmed using HiGlass"'
+  Other observations: '"Only one X chromosomes was found with alignement with close
+    relatives Leptodirus hochenwartii and Catops nigricans"'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 332,096,506
+    GC %: '32.02'
+    Gaps/Gbp: 1,165.32
+    Total gap bp: 77,400
+    Scaffolds: 1,498
+    Scaffold N50: 22,404,328
+    Scaffold L50: '6'
+    Scaffold L90: '609'
+    Contigs: 1,885
+    Contig N50: 1,050,880
+    Contig L50: '89'
+    Contig L90: '952'
+    QV: '60.1544'
+    Kmer compl.: '91.1711'
+    BUSCO sing.: 96.6%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 1.7%
+  Curated hap1:
+    Total bp: 245,273,758
+    GC %: '32.53'
+    Gaps/Gbp: 1,777.61
+    Total gap bp: 87,200
+    Scaffolds: '157'
+    Scaffold N50: 21,074,117
+    Scaffold L50: '5'
+    Scaffold L90: '12'
+    Contigs: '593'
+    Contig N50: 954,296
+    Contig L50: '93'
+    Contig L90: '273'
+    QV: '64.9846'
+    Kmer compl.: '91.6898'
+    BUSCO sing.: 97.7%
+    BUSCO dupl.: 1.1%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 1.2%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 58.8x 312x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: Galaxy Version 0.24.0+galaxy0
+    key param: VGP Galaxy workflow VGP3 v 0.2.8
+  purge_dups:
+    ver: Galaxy Version 1.2.6+galaxy0
+    key param: VGP Galaxy workflow VGP6 v 0.5
+  YaHS:
+    ver: Galaxy Version 1.2a.2+galaxy2
+    key param: VGP Galaxy workflow VGP8 v 1.4
+
+Curation pipeline:
+  PretextMap:
+    ver: Galaxy Version 0.1.9+galaxy1
+    key param: VGP workflow VGP PretextMap generation v2
+  HiGlass:
+    ver: '1.0'
+  PretextView:
+    ver: 1.0.0
+
+Submitter: Marcella Sozzoni
+Affiliation: UNIFI
+
+Date and time: 2026-01-19 12:34:20 CET

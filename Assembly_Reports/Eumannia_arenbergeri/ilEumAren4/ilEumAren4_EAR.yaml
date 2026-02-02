@@ -1,0 +1,143 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3229155'
+ToLID: ilEumAren4
+Species: Eumannia arenbergeri
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 401,697,388
+    Haploid Number: '30 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 420,681,263
+    Haploid Number: '33'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q68
+    hap2: 7.7.Q68
+
+Curator notes:
+  Contamination notes: '"One scaffold of 1,311,256 bp identified as Wolbachia was
+    removed from hap1. Additionally, two scaffolds of 1,311,256 bp and 59,890 bp also
+    identified as Wolbachia were removed from hap2."'
+  Other observations: '"This genome assembly was produced by assembling PacBio HiFi
+    data with Hifiasm and then scaffolding with Yahs. Given the good quality of both
+    haplotypes, curation was made in diploid mode and we are planning to submit both
+    haplotypes to the ENA. Curation made 1 cut in contigs, 3 breaks at gaps and 4
+    joins. Mitogenome was successfully assembled with FOAM."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 420,474,646
+    GC %: '36.24'
+    Gaps/Gbp: '11.89'
+    Total gap bp: 1,000
+    Scaffolds: '133'
+    Scaffold N50: 13,950,272
+    Scaffold L50: '14'
+    Scaffold L90: '29'
+    Contigs: '138'
+    Contig N50: 13,775,434
+    Contig L50: '14'
+    Contig L90: '30'
+    QV: '67.5081'
+    Kmer compl.: '73.9321'
+    BUSCO sing.: 98.0%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 1.1%
+  Pre-curation hap2:
+    Total bp: 416,273,480
+    GC %: '36.18'
+    Gaps/Gbp: '33.63'
+    Total gap bp: 2,800
+    Scaffolds: '82'
+    Scaffold N50: 13,940,839
+    Scaffold L50: '14'
+    Scaffold L90: '28'
+    Contigs: '96'
+    Contig N50: 12,863,022
+    Contig L50: '15'
+    Contig L90: '32'
+    QV: '69.8644'
+    Kmer compl.: '73.7533'
+    BUSCO sing.: 98.0%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 1.1%
+  Curated hap1:
+    Total bp: 420,681,263
+    GC %: '36.24'
+    Gaps/Gbp: '14.26'
+    Total gap bp: 1,200
+    Scaffolds: '130'
+    Scaffold N50: 14,082,768
+    Scaffold L50: '14'
+    Scaffold L90: '29'
+    Contigs: '136'
+    Contig N50: 14,082,768
+    Contig L50: '14'
+    Contig L90: '29'
+    QV: '68.3577'
+    Kmer compl.: '73.5634'
+    BUSCO sing.: 98.0%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 1.1%
+  Curated hap2:
+    Total bp: 413,384,861
+    GC %: '36.2'
+    Gaps/Gbp: '36.29'
+    Total gap bp: 3,000
+    Scaffolds: '81'
+    Scaffold N50: 13,940,839
+    Scaffold L50: '14'
+    Scaffold L90: '28'
+    Contigs: '96'
+    Contig N50: 12,247,657
+    Contig L50: '15'
+    Contig L90: '33'
+    QV: '68.6677'
+    Kmer compl.: '73.3054'
+    BUSCO sing.: 98.0%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 1.2%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: lepidoptera_odb12
+
+Data:
+  Profile: PacBio HiFi Arima Hi-C
+  Coverage: 296 144
+
+Assembly pipeline:
+  CLAWS:
+    ver: v3.0
+  Hifiasm:
+    ver: 0.24.0
+    key param: --telo-m TTAGG
+  Yahs:
+    ver: 1.2a
+    key param: --no-contig-ec
+  FOAM:
+    ver: '0.5'
+
+Curation pipeline:
+  FCS-FX:
+    ver: None
+  Blobtoolkit Nextflow: {}
+
+Submitter: Jessica Gomez-Garrido
+Affiliation: CNAG
+
+Date and time: 2026-01-30 11:42:48 CET

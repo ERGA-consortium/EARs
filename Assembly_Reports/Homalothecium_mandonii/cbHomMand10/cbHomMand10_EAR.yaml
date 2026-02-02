@@ -1,0 +1,110 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '378980'
+ToLID: cbHomMand10
+Species: Homalothecium mandonii
+Class: Bryopsida
+Order: Hypnales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 565,007,130
+    Haploid Number: '10 (source: ancestor)'
+    Ploidy: '1 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 416,463,416
+    Haploid Number: '10'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q74
+
+Curator notes:
+  Interventions/Gb: 20
+  Contamination notes: '""'
+  Other observations: '"The assembly of Homalothecium mandonii (cbHomMand10) is based
+    on 242X PacBio data and 87X Arima Hi-C data generated as part of the European
+    Reference Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity
+    Genomics Europe project (BGE, https://biodiversitygenomics.eu/). The assembly
+    process included the following steps: initial PacBio assembly generation with
+    Hifiasm, removal of contaminant sequences using Context, removal of haplotypic
+    duplications using purge_dups, and Hi-C-based scaffolding with YaHS. In total,
+    117,724 contigs were identified as contaminants (bacterial, archaeal, or viral),
+    totaling 5,525.781 Mb (with the largest being 12.259 Mb). Additionally, 689 regions
+    totaling 15.958 Mb (with the largest being 0.086 Mb) were identified as haplotypic
+    duplications and removed. Mitochondrial genome was assembled using OATK. Finally,
+    the primary assembly was analyzed and manually improved using Pretext. During
+    manual curation, 2,088 contaminant sequences were removed, totaling 102,136,336
+    pb (with the largest being 7,115,672 pb). Chromosome-scale scaffolds confirmed
+    by Hi-C data were named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 519,220,046
+    GC %: '40.28'
+    Gaps/Gbp: 1,222.99
+    Total gap bp: 63,500
+    Scaffolds: 2,214
+    Scaffold N50: 36,023,647
+    Scaffold L50: '5'
+    Scaffold L90: '227'
+    Contigs: 2,849
+    Contig N50: 16,178,403
+    Contig L50: '10'
+    Contig L90: '734'
+    QV: '58.7459'
+    Kmer compl.: '12.841'
+    BUSCO sing.: 71.6%
+    BUSCO dupl.: 9.4%
+    BUSCO frag.: 4.4%
+    BUSCO miss.: 14.6%
+  Curated collapsed:
+    Total bp: 416,463,416
+    GC %: '37.92'
+    Gaps/Gbp: '60.03'
+    Total gap bp: 2,700
+    Scaffolds: '20'
+    Scaffold N50: 38,796,100
+    Scaffold L50: '4'
+    Scaffold L90: '9'
+    Contigs: '45'
+    Contig N50: 23,327,363
+    Contig L50: '7'
+    Contig L90: '21'
+    QV: '74.2609'
+    Kmer compl.: '12.6967'
+    BUSCO sing.: 71.6%
+    BUSCO dupl.: 9.1%
+    BUSCO frag.: 4.3%
+    BUSCO miss.: 15.1%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: embryophyta_odb12
+
+Data:
+  Profile: Long reads Arima
+  Coverage: 184 87
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2026-01-30 01:51:18 CET

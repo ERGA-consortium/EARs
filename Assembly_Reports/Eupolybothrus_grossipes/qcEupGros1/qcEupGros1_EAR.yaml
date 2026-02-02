@@ -1,0 +1,115 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '171369'
+ToLID: qcEupGros1
+Species: Eupolybothrus grossipes
+Class: Chilopoda
+Order: Lithobiomorpha
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 6,577,503,001
+    Haploid Number: '20 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: F
+  Observed:
+    Haploid size (bp): 6,577,898,979
+    Haploid Number: '14'
+    Ploidy: '2'
+    Sample Sex: F
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.8.Q65
+
+Curator notes:
+  Interventions/Gb: 168
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 665,591 (0.0 %); Scaffolds removed: 34 (1.6 %); Largest
+    scaffold removed: (57,401); FCS-GX contaminant species (number of scaffolds; total
+    length of scaffolds):; Rickettsia endosymbiont of Cimex lectularius, a-proteobacteria
+    (2; 44,092); Rickettsia endosymbiont of Bradysia coprophila, a-proteobacteria
+    (1; 57,401); Besnoitia besnoiti, alveolates (1; 9,369); Mitochondrion (30; 554,729);
+    FCS-Adaptor (1; 38)"'
+  Other observations: '"Hifiasm assembly run in Hi-C phasing mode; The exact order
+    and orientation of the contigs on chromosome 1 (813,203 - 818,222 Kbp) are unknown.
+    The exact order and orientation of the contigs on chromosome 2 (22,884 - 28,304
+    & 89,329 - 103,1c81 Kbp) are unknown. The exact order and orientation of the contigs
+    on chromosome 3 (548,024 - 553,243 & 665,056 - 669,473 Kbp) are unknown. The exact
+    order and orientation of the contigs on chromosome 4 (359,929 - 371,974 & 389,840
+    - 400,880 & 663,049 - 668,667 Kbp) are unknown. The exact order and orientation
+    of the contigs on chromosome 7 (275,015 - 280,435 Kbp) are unknown. The exact
+    order and orientation of the contigs on chromosome 8 (50,988 - 55,806 Kbp) are
+    unknown. The exact order and orientation of the contigs on chromosome 9 (271,804
+    - 275,216 Kbp) are unknown. The exact order and orientation of the contigs on
+    chromosome 10 (64,638 - 75,679 Kbp) are unknown. The exact order and orientation
+    of the contigs on chromosome 13 (176,451 - 181, 871 & g402,312 - 406,943 Kbp)
+    are unknown"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 6,709,770,180
+    GC %: '40.61'
+    Gaps/Gbp: '543.68'
+    Total gap bp: 364,800
+    Scaffolds: 2,106
+    Scaffold N50: 653,174,762
+    Scaffold L50: '4'
+    Scaffold L90: '13'
+    Contigs: 5,754
+    Contig N50: 3,308,181
+    Contig L50: '604'
+    Contig L90: 2,143
+    Kmer compl.: '99.09'
+    BUSCO sing.: 96.8%
+    BUSCO dupl.: 1.6%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 1.4%
+  Curated pri:
+    Total bp: 6,577,898,979
+    GC %: '40.63'
+    Gaps/Gbp: '575.26'
+    Total gap bp: 419,138
+    Scaffolds: 1,445
+    Scaffold N50: 669,113,179
+    Scaffold L50: '4'
+    Scaffold L90: '12'
+    Contigs: 5,229
+    Contig N50: 3,235,202
+    Contig L50: '609'
+    Contig L90: 2,108
+    Kmer compl.: '73.59'
+    BUSCO sing.: 96.9%
+    BUSCO dupl.: 1.5%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.2%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 27x 26x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.25.0-r726
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.25.0-r726
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Karen Brooks
+Affiliation: WSI
+
+Date and time: 2026-01-29 13:50:10 CET

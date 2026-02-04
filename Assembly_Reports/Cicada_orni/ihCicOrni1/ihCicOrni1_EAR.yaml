@@ -1,0 +1,103 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '134416'
+ToLID: ihCicOrni1
+Species: Cicada orni
+Class: Insecta
+Order: Hemiptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 4,668,429,022
+    Haploid Number: '9 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: M
+  Observed:
+    Haploid size (bp): 4,991,566,508
+    Haploid Number: '10'
+    Ploidy: '2'
+    Sample Sex: M
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.8.Q62
+
+Curator notes:
+  Interventions/Gb: 292
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 10,646,772 (0.2 %); Scaffolds removed: 202 (6.4 %); Largest
+    scaffold removed: (4,261,779); FCS-GX contaminant species (number of scaffolds;
+    total length of scaffolds): Candidatus Karelsulcia muelleri, CFB group bacteria
+    (176; 5,743,823); Arthrobacter cavernae, high GC Gram+ (1; 4,261,779); Hypocreales
+    sp. Mo6-1, ascomycetes (1; 110,855); Mitochondrion (24; 530,315); FCS-Adaptor
+    (1; 30)"'
+  Other observations: '"Hifiasm assembly run in Hi-C phasing mode; X chromosome identified
+    based on read coverage and copy number in the diploid assembly."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 4,966,805,591
+    GC %: '34.57'
+    Gaps/Gbp: '159.66'
+    Total gap bp: 79,300
+    Scaffolds: 3,177
+    Scaffold N50: 315,173,651
+    Scaffold L50: '6'
+    Scaffold L90: '297'
+    Contigs: 3,970
+    Contig N50: 6,396,890
+    Contig L50: '217'
+    Contig L90: 1,012
+    Kmer compl.: '99.13'
+    BUSCO sing.: 95.9%
+    BUSCO dupl.: 2.0%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 2.0%
+  Curated pri:
+    Total bp: 4,991,566,508
+    GC %: '34.55'
+    Gaps/Gbp: '187.12'
+    Total gap bp: 109,330
+    Scaffolds: 2,773
+    Scaffold N50: 339,203,014
+    Scaffold L50: '5'
+    Scaffold L90: '131'
+    Contigs: 3,707
+    Contig N50: 6,598,048
+    Contig L50: '215'
+    Contig L90: '978'
+    Kmer compl.: '98.97'
+    BUSCO sing.: 97.3%
+    BUSCO dupl.: 2.0%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.7%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: insecta_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 42x 251x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Thomas Mathers
+Affiliation: WSI
+
+Date and time: 2026-01-27 15:00:43 CET

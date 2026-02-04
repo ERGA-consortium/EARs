@@ -1,0 +1,103 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '3056766'
+ToLID: iqAntSpin1
+Species: Antaxius spinibrachius
+Class: Insecta
+Order: Orthoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 5,159,417,685
+    Haploid Number: '15 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: F
+  Observed:
+    Haploid size (bp): 5,179,441,024
+    Haploid Number: '15'
+    Ploidy: '2'
+    Sample Sex: F
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.8.Q68
+
+Curator notes:
+  Interventions/Gb: 62
+  Contamination notes: '"Contamination report for assembly labelled hap1; Total length
+    of scaffolds removed: 1,493,926 (0.0 %); Scaffolds removed: 59 (4.8 %); Largest
+    scaffold removed: (48,121); FCS-GX contaminant species (number of scaffolds; total
+    length of scaffolds): Mitochondrion (59; 1,493,926)"'
+  Other observations: '"Hifiasm assembly run in Hi-C phasing mode; The exact order
+    and orientation of the contigs on chromosome 4 (393.6-410.3 Mbp)m chromosome 3
+    (515.5-521.2 Mbp) and chromosome 1 (4.0-10.8 and 1043-end Mbp) is unknown. The
+    sample was homogametous. No X chromosome was assigned, as comparator X were ambiguous.
+    Chromosome 8 shows a heterologous rearrangment from 52.6-174.7 Mbp to 250 Mbp."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 5,234,029,028
+    GC %: '39.95'
+    Gaps/Gbp: '124'
+    Total gap bp: 64,900
+    Scaffolds: 1,226
+    Scaffold N50: 210,465,830
+    Scaffold L50: '7'
+    Scaffold L90: '42'
+    Contigs: 1,875
+    Contig N50: 45,506,000
+    Contig L50: '34'
+    Contig L90: '200'
+    Kmer compl.: '99.46'
+    BUSCO sing.: 95.1%
+    BUSCO dupl.: 4.1%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.7%
+  Curated pri:
+    Total bp: 5,179,441,024
+    GC %: '40.04'
+    Gaps/Gbp: '134.38'
+    Total gap bp: 82,200
+    Scaffolds: 1,026
+    Scaffold N50: 473,558,889
+    Scaffold L50: '4'
+    Scaffold L90: '14'
+    Contigs: 1,722
+    Contig N50: 45,506,000
+    Contig L50: '34'
+    Contig L90: '183'
+    Kmer compl.: '99.46'
+    BUSCO sing.: 95.0%
+    BUSCO dupl.: 4.2%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.7%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: insecta_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 46x 492x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.25.0-r726
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.25.0-r726
+    key param: --h1/--h2
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Michael Paulini
+Affiliation: WSI
+
+Date and time: 2026-02-02 11:14:37 CET

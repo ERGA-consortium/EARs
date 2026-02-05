@@ -1,0 +1,112 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2967106'
+ToLID: ilMusMusc1
+Species: Muscula muscula
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 751,486,236
+    Haploid Number: '31 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: ZW
+  Observed:
+    Haploid size (bp): 815,388,997
+    Haploid Number: '30'
+    Ploidy: '2'
+    Sample Sex: ZW
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q71
+
+Curator notes:
+  Interventions/Gb: 4
+  Contamination notes: "\"Repeated attempts to run BlobTools were unsuccessful. We\
+    \ instead utilized an alternative tool, FCS-GX (Foreign Contamination Screen \u2013\
+    \ Genome eXclusion), which identified three scaffolds as contaminated with bacterial\
+    \ sequence. One scaffold appears to correspond to the full genome of the endosymbiont\
+    \ Serratia marcescens. These contaminated scaffolds were removed prior to diploid\
+    \ curation\""
+  Other observations: '"This assembly was generated with Hifiasm using ONT data. Given
+    the high quality of both haplotypes, curation was performed in diploid mode. In
+    this report, only hap1 is shared. This haplotype is more complete than hap2, as
+    it includes the full Z chromosome (originally in hap1) and the fragmented W chromosome,
+    which was present in both hap1 and hap2 prior to diploid curation. After the reviewing
+    process we agreed that SUPER_W_unloc_12 and SUPER_W_unloc_13 did not appear to
+    be Unlocs of SUPER_W. They were moved to the Chaff and renamed scaffold_3 and
+    scaffold_4. We also foind two other segments of SUPER_15 and SUPER_21 respectively
+    that did not not seem to match specifically to these SUPERs and we also moved
+    these to the chaff while renaming them scaffold_1 and scaffold_2"'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 786,754,004
+    GC %: '39.36'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '75'
+    Scaffold N50: 26,643,511
+    Scaffold L50: '13'
+    Scaffold L90: '27'
+    Contigs: '75'
+    Contig N50: 26,643,511
+    Contig L50: '13'
+    Contig L90: '27'
+    QV: '71.9384'
+    Kmer compl.: '86.5872'
+    BUSCO sing.: 98.7%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.2%
+  Curated hap1:
+    Total bp: 815,388,997
+    GC %: '39.27'
+    Gaps/Gbp: '3.68'
+    Total gap bp: '600'
+    Scaffolds: '63'
+    Scaffold N50: 26,102,625
+    Scaffold L50: '14'
+    Scaffold L90: '28'
+    Contigs: '66'
+    Contig N50: 26,102,625
+    Contig L50: '14'
+    Contig L90: '29'
+    QV: '71.7977'
+    Kmer compl.: '86.0378'
+    BUSCO sing.: 98.8%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.2%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: lepidoptera_odb10
+
+Data:
+  Profile: ONT Illumina Omni-C
+  Coverage: 100 100 268
+
+Assembly pipeline:
+  CLAWS:
+    ver: v2.3.0
+  Filtlong:
+    ver: v0.2.1
+    key param: --filtlong-min-mean-q 97
+  Hifiasm:
+    ver: 0.24.0
+    key param: --ont
+  Yahs:
+    ver: 1.2a
+    key param: -no-contig-ec
+
+Curation pipeline:
+  "FCS-GX (ForeignContamination Screen\u2013Genome eXclusion)": {}
+
+Submitter: Francisco Camara Ferreira
+Affiliation: CNAG
+
+Date and time: 2026-02-03 16:09:42 CET

@@ -1,0 +1,115 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3086330'
+ToLID: drCotNebr1
+Species: Cotoneaster nebrodensis
+Class: Magnoliopsida
+Order: Rosales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,029,637,717
+    Haploid Number: '34 (source: direct)'
+    Ploidy: '4 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 2,837,986,727
+    Haploid Number: '87'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.7.Q70
+
+Curator notes:
+  Interventions/Gb: 148
+  Contamination notes: '""'
+  Other observations: '"The assembly of Cotoneaster nebrodensis (drCotNebr1) is based
+    on 20X PacBio data and 98X OmniC Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). This genome is decaploid
+    and expected to have an AAABB structure. The assembly was performed using PacBio
+    and Hi-C data, with the -n_hap parameter set to 2. Several tests were performed
+    with this option, and only with this configuration were we able to retrieve the
+    five chromosomes for each haplotype: in general, hap1 contains two A copies (often
+    fused into a single scaffold) and one B chromosome, while hap2 contains one A
+    and one B chromosome. The assembly process included the following steps: initial
+    PacBio assembly generation with Hifiasm, removal of contaminant sequences using
+    Context, and Hi-C-based scaffolding with YaHS. The mitochondrial and chloroplastic
+    genomes were assembled using OATK. Finally, the primary assembly was analyzed
+    and manually improved using Pretext. During manual curation, 895 contaminant sequences
+    were removed, totaling 38.13 Mb (the largest being 0.51 Mb). Chromosome-scale
+    scaffolds confirmed by Hi-C data were named in order of size (average size of
+    the 3 A and 2 B chromosomes), and similarly, A and B copies were named according
+    to their size. Note that the assembly contains more than the expected 5x17 = 85
+    chromosomes, as the two expected B chromosome 1 copies are split into four chromosomes;
+    consequently, the final assembly contains a total of 87 chromosomes."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,455,938,951
+    GC %: '38.34'
+    Gaps/Gbp: '156.6'
+    Total gap bp: 22,800
+    Scaffolds: '620'
+    Scaffold N50: 72,466,578
+    Scaffold L50: '9'
+    Scaffold L90: '21'
+    Contigs: '848'
+    Contig N50: 25,638,989
+    Contig L50: '24'
+    Contig L90: '67'
+    QV: '65.8183'
+    Kmer compl.: '78.602'
+    BUSCO sing.: 3.8%
+    BUSCO dupl.: 91.9%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 4.2%
+  Curated collapsed:
+    Total bp: 2,837,986,727
+    GC %: '38.17'
+    Gaps/Gbp: '153.63'
+    Total gap bp: 67,800
+    Scaffolds: '421'
+    Scaffold N50: 32,471,515
+    Scaffold L50: '39'
+    Scaffold L90: '77'
+    Contigs: '857'
+    Contig N50: 11,316,000
+    Contig L50: '73'
+    Contig L90: '257'
+    QV: '70.7191'
+    Kmer compl.: '99.3787'
+    BUSCO sing.: 0.1%
+    BUSCO dupl.: 97.6%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 2.3%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: Long reads Omnic
+  Coverage: 53 264
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Caroline Menguy
+Affiliation: Genoscope
+
+Date and time: 2026-02-10 14:20:07 CET

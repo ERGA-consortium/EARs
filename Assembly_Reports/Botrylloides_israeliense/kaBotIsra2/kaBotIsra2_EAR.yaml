@@ -1,0 +1,96 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2057147'
+ToLID: kaBotIsra2
+Species: Botrylloides israeliense
+Class: Ascidiacea
+Order: Stolidobranchia
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 335,130,659
+    Haploid Number: '16 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Hermaphrodite
+  Observed:
+    Haploid size (bp): 746,408,380
+    Haploid Number: '16'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q52
+
+Curator notes:
+  Contamination notes: '"None"'
+  Other observations: '"Yahs failed to make any meaningful joins, so scaffolding was
+    done manually after purge-dups. 60 sequences were removed that fcs-gx tagged as
+    proteobacteria totalling 2Mb."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 376,304,086
+    GC %: '39.6'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '242'
+    Scaffold N50: 22,502,874
+    Scaffold L50: '8'
+    Scaffold L90: '16'
+    Contigs: '242'
+    Contig N50: 22,502,874
+    Contig L50: '8'
+    Contig L90: '16'
+    QV: '58.6778'
+    Kmer compl.: '69.06'
+    BUSCO sing.: 92.7%
+    BUSCO dupl.: 3.6%
+    BUSCO frag.: 1.5%
+    BUSCO miss.: 2.2%
+  Curated hap1:
+    Total bp: 746,408,380
+    GC %: '39.56'
+    Gaps/Gbp: '33.49'
+    Total gap bp: 2,500
+    Scaffolds: '315'
+    Scaffold N50: 22,918,972
+    Scaffold L50: '15'
+    Scaffold L90: '29'
+    Contigs: '340'
+    Contig N50: 21,455,131
+    Contig L50: '16'
+    Contig L90: '34'
+    QV: '52.0836'
+    Kmer compl.: '68.4764'
+    BUSCO sing.: 92.4%
+    BUSCO dupl.: 4.0%
+    BUSCO frag.: 1.5%
+    BUSCO miss.: 2.1%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: metazoa_odb12
+
+Data:
+  Profile: ONT HiC
+  Coverage: 292 71
+
+Assembly pipeline:
+  HiFiasm:
+    ver: 0.25.0
+    key param: --ont
+  purge-dups:
+    ver: 1.2.6
+  fcs-gx:
+    ver: 0.5.4
+
+Curation pipeline:
+  PretextView:
+    ver: '1.0'
+
+Submitter: Tom Brown
+Affiliation: IZW
+
+Date and time: 2026-02-10 14:16:38 CET

@@ -1,0 +1,97 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '84551'
+ToLID: iyCamVagu1
+Species: Camponotus vagus
+Class: Insecta
+Order: Hymenoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 299,749,104
+    Haploid Number: '14 (source: direct)'
+    Ploidy: '1 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 296,104,461
+    Haploid Number: '14'
+    Ploidy: '1'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    hap1: 6.7.Q64
+
+Curator notes:
+  Interventions/Gb: 101
+  Contamination notes: '""'
+  Other observations: '"None"'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 297,983,080
+    GC %: '34.41'
+    Gaps/Gbp: '607.42'
+    Total gap bp: 36,200
+    Scaffolds: '45'
+    Scaffold N50: 16,861,317
+    Scaffold L50: '6'
+    Scaffold L90: '14'
+    Contigs: '226'
+    Contig N50: 3,356,906
+    Contig L50: '27'
+    Contig L90: '99'
+    QV: '64.2344'
+    Kmer compl.: '95.4404'
+    BUSCO sing.: 99.2%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.3%
+  Curated hap1:
+    Total bp: 296,104,461
+    GC %: '34.4'
+    Gaps/Gbp: '715.96'
+    Total gap bp: 42,400
+    Scaffolds: '21'
+    Scaffold N50: 20,871,121
+    Scaffold L50: '6'
+    Scaffold L90: '13'
+    Contigs: '233'
+    Contig N50: 3,299,784
+    Contig L50: '28'
+    Contig L90: '102'
+    QV: '64.3547'
+    Kmer compl.: '95.3418'
+    BUSCO sing.: 99.2%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.3%
+
+BUSCO:
+  ver: 5.8.0 (euk_genome_min, miniprot)
+  lineage: insecta_odb10
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 45.53X 62.69X
+
+Assembly pipeline:
+  Hifiasm:
+    ver: Galaxy Version 0.24.0+galaxy0
+    key param: VGP Galaxy workflow VGP3 v 3.12
+  YaHS:
+    ver: Galaxy Version 1.2a.2+galaxy2
+    key param: VGP Galaxy workflow VGP8 v 2.2
+
+Curation pipeline:
+  PretextMap:
+    ver: Galaxy Version 0.1.9+galaxy1
+    key param: VGP workflow VGP PretextMap generation v2
+  PretextViewAI:
+    ver: 1.0.3
+
+Submitter: Marcella Sozzoni
+Affiliation: UNIFI
+
+Date and time: 2026-02-12 11:07:41 CET

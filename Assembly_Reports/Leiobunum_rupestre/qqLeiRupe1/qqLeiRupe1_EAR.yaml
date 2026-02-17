@@ -1,0 +1,135 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3082394'
+ToLID: qqLeiRupe1
+Species: Leiobunum rupestre
+Class: Arachnida
+Order: Opiliones
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 792,557,719
+    Haploid Number: '10 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 788,741,417
+    Haploid Number: '11'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q60
+    hap2: 7.7.Q59
+
+Curator notes:
+  Interventions/Gb: 45
+  Contamination notes: '"FCS-GX found 1 bacterial contaminant in hap1 that was removed
+    during curation. The curated diploid map is inside a shared folder."'
+  Other observations: '"Sequencing was done by UNIBA, two different specimens were
+    used: for ONT (qqLeiRupe1) and for Hi-C (qqLeiRupe9). Data was transfered to CNAG,
+    where we assembled the genome. Our hifiasm assembly produced 2 haplotypes and
+    we did a diploid curation. After review, curation made 71 interventions in total:
+    21 cuts in contigs, 15 breaks at gaps and 35 joins. We assembled them into 11
+    super-scaffolds what is consitent with the karyotype of the species (https//www.doi.org/10.14411/eje.2020.032).
+    The sex chromosomes, likely homomorphic, were not identified. Mitogenome could
+    not be assembled as we did not find reads matching the reference mitogenome"'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 806,831,472
+    GC %: '36.33'
+    Gaps/Gbp: '109.07'
+    Total gap bp: 17,600
+    Scaffolds: '37'
+    Scaffold N50: 66,210,421
+    Scaffold L50: '6'
+    Scaffold L90: '11'
+    Contigs: '125'
+    Contig N50: 13,213,833
+    Contig L50: '18'
+    Contig L90: '64'
+    QV: '61.0992'
+    Kmer compl.: '90.6565'
+    BUSCO sing.: 94.2%
+    BUSCO dupl.: 2.9%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 2.2%
+  Pre-curation hap2:
+    Total bp: 820,196,170
+    GC %: '36.29'
+    Gaps/Gbp: '106.07'
+    Total gap bp: 17,400
+    Scaffolds: '27'
+    Scaffold N50: 63,372,409
+    Scaffold L50: '5'
+    Scaffold L90: '11'
+    Contigs: '114'
+    Contig N50: 13,739,694
+    Contig L50: '23'
+    Contig L90: '61'
+    QV: '59.5274'
+    Kmer compl.: '90.8925'
+    BUSCO sing.: 94.6%
+    BUSCO dupl.: 2.2%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 2.5%
+  Curated hap1:
+    Total bp: 788,741,417
+    GC %: '36.32'
+    Gaps/Gbp: '120.45'
+    Total gap bp: 19,000
+    Scaffolds: '31'
+    Scaffold N50: 74,207,850
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '126'
+    Contig N50: 12,592,226
+    Contig L50: '19'
+    Contig L90: '65'
+    QV: '60.8851'
+    Kmer compl.: '90.4461'
+    BUSCO sing.: 95.7%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 2.9%
+  Curated hap2:
+    Total bp: 781,315,026
+    GC %: '36.3'
+    Gaps/Gbp: '124.15'
+    Total gap bp: 19,400
+    Scaffolds: '20'
+    Scaffold N50: 73,188,438
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '117'
+    Contig N50: 12,857,947
+    Contig L50: '23'
+    Contig L90: '62'
+    QV: '59.7151'
+    Kmer compl.: '90.1649'
+    BUSCO sing.: 96.9%
+    BUSCO dupl.: 0.2%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 2.2%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arthropoda_odb12
+
+Data:
+  Profile: ONT Hi-C
+  Coverage: 323x 53x
+
+Assembly pipeline:
+  CLAWS: {}
+
+Curation pipeline:
+  Blobtoolkit DToL Nextflow: {}
+
+Submitter: Fernando Cruz
+Affiliation: CNAG
+
+Date and time: 2026-02-17 11:10:12 CET

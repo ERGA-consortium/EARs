@@ -1,0 +1,102 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1342031'
+ToLID: icLarUrsu1
+Species: Larinus ursus
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,613,542,317
+    Haploid Number: '19 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 1,742,276,210
+    Haploid Number: '22'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    Pri: 7.7.Q62
+
+Curator notes:
+  Contamination notes: '"Blobtoolkit detected no contamination."'
+  Other observations: '"This assembly was obtained with Hifiasm from ONT data. Mitogenome
+    was successfully assembled with FOAM. Curation made 24 cuts in contigs, 15 breaks
+    at gaps and 37 joins. Twelve haplotig sequences, adding up a total of 36.4 Mb
+    of sequence, were removed during curaton."'
+
+Metrics:
+  Pre-curation Pri:
+    Total bp: 1,778,658,397
+    GC %: '35.31'
+    Gaps/Gbp: '20.8'
+    Total gap bp: 7,400
+    Scaffolds: '179'
+    Scaffold N50: 86,794,555
+    Scaffold L50: '9'
+    Scaffold L90: '22'
+    Contigs: '216'
+    Contig N50: 48,742,161
+    Contig L50: '14'
+    Contig L90: '42'
+    QV: '62.4669'
+    Kmer compl.: '79.8695'
+    BUSCO sing.: 98.5%
+    BUSCO dupl.: 1.5%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.0%
+  Curated Pri:
+    Total bp: 1,742,276,210
+    GC %: '35.32'
+    Gaps/Gbp: '33.86'
+    Total gap bp: 11,800
+    Scaffolds: '169'
+    Scaffold N50: 86,231,057
+    Scaffold L50: '9'
+    Scaffold L90: '20'
+    Contigs: '228'
+    Contig N50: 45,364,611
+    Contig L50: '15'
+    Contig L90: '49'
+    QV: '62.5369'
+    Kmer compl.: '79.5688'
+    BUSCO sing.: 98.8%
+    BUSCO dupl.: 1.2%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 0.0%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: insecta_odb10
+
+Data:
+  Profile: ONT Illumina Omni-C
+  Coverage: 42 83 61
+
+Assembly pipeline:
+  CLAWS:
+    ver: v2.3.0
+  Filtlong:
+    ver: v0.2.1
+    key param: --min_mean_q 80
+  Hifiasm:
+    ver: 0.24.0
+    key param: --telo-m AAACTAACCC
+  Yahs:
+    ver: 1.2a
+    key param: --no-contig-ec
+  FOAM:
+    ver: '0.5'
+
+Curation pipeline:
+  Blobtoolkit Nextflow: {}
+
+Submitter: Jessica Gomez-Garrido
+Affiliation: CNAG
+
+Date and time: 2026-02-18 11:10:01 CET

@@ -1,0 +1,104 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1960709'
+ToLID: wpGesJame1
+Species: Gesiella jameensis
+Class: Polychaeta
+Order: Phyllodocida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 8,446,252,482
+    Haploid Number: '10 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 8,590,060,017
+    Haploid Number: '9'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.9.Q66
+
+Curator notes:
+  Interventions/Gb: 193
+  Contamination notes: '"FCS-GX identified 59 contaminants (proteobacteria and mycosplasma)
+    which we removed (the larger ones are tagged in pretextview savestate and the
+    rest will be removed with a script)."'
+  Other observations: '"Round1 curation on entire genome made 25 cuts in contigs,
+    115 breaks at gaps and 238 joins. A second round of curation, 1 pretextmap per
+    super, made 377 cuts in contigs, 460 breaks at gaps and 444 joins. Many haplotigs
+    removed from gap flanks."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 8,893,284,574
+    GC %: '41.77'
+    Gaps/Gbp: '207.01'
+    Total gap bp: 368,200
+    Scaffolds: 2,025
+    Scaffold N50: 1,062,753,756
+    Scaffold L50: '4'
+    Scaffold L90: '8'
+    Contigs: 3,866
+    Contig N50: 7,120,079
+    Contig L50: '383'
+    Contig L90: 1,258
+    QV: '66.3363'
+    Kmer compl.: '93.9213'
+    BUSCO sing.: 83.6%
+    BUSCO dupl.: 5.5%
+    BUSCO frag.: 7.1%
+    BUSCO miss.: 3.8%
+  Curated pri:
+    Total bp: 8,590,060,017
+    GC %: '41.78'
+    Gaps/Gbp: '224.45'
+    Total gap bp: 385,600
+    Scaffolds: 1,816
+    Scaffold N50: 1,071,549,555
+    Scaffold L50: '4'
+    Scaffold L90: '8'
+    Contigs: 3,744
+    Contig N50: 7,197,108
+    Contig L50: '370'
+    Contig L90: 1,201
+    QV: '66.385'
+    Kmer compl.: '93.4586'
+    BUSCO sing.: 93.0%
+    BUSCO dupl.: 3.9%
+    BUSCO frag.: 2.1%
+    BUSCO miss.: 1.0%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: Pacbio HiFi ONT Illumina Omni-C
+  Coverage: 27x 21x 17x 69x
+
+Assembly pipeline:
+  Filtlong:
+    ver: 0.2.1
+    key param: --min_length 1000 --min_mean_q 80
+  Hifiasm:
+    ver: 0.24.0
+    key param: '"'
+  YaHS:
+    ver: 1.2a
+  CLAWS: {}
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: '2.0'
+  PretextViewAI:
+    ver: 1.0.4
+
+Submitter: Tyler Alioto
+Affiliation: CNAG
+
+Date and time: 2026-02-13 12:29:57 CET

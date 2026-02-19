@@ -1,0 +1,149 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '470652'
+ToLID: iqPlaAffi1
+Species: Platycleis affinis
+Class: Insecta
+Order: Orthoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 5,236,719,231
+    Haploid Number: '15 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 5,448,474,875
+    Haploid Number: '14'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    hap1: 8.8.Q73
+    hap2: 8.8.Q72
+
+Curator notes:
+  Contamination notes: '"463,602 bp contained in 5 sequences were considered contaminats
+    by FCS-GX and removed from hap1. Additionally, 215,540 bp contained in 3 sequences
+    were also considered contaminants and removed from hap2. The longest removed contigs
+    for hap1 and hap2 were 113,622 and 87,503 bp, respectively."'
+  Other observations: '"This genome assembly was produced by assembling ONT data with
+    Hifiasm, phasing with Hi-C data, and then scaffolding with Yahs. Given the good
+    quality of both haplotypes, curation was made in diploid mode and we are planning
+    to submit both haplotypes to the ENA. Curation made 11 cuts in contigs, 5 breaks
+    at gaps and 22 joins. The X chromosome was identified by WGA against iqPlaFalx.
+    The mitogenome was successfully assembled with FOAM."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 5,454,009,557
+    GC %: '39.28'
+    Gaps/Gbp: '9.9'
+    Total gap bp: 10,800
+    Scaffolds: '140'
+    Scaffold N50: 651,131,869
+    Scaffold L50: '4'
+    Scaffold L90: '11'
+    Contigs: '194'
+    Contig N50: 204,990,438
+    Contig L50: '9'
+    Contig L90: '32'
+    QV: '72.6626'
+    Kmer compl.: '77.8108'
+    BUSCO sing.: 94.6%
+    BUSCO dupl.: 4.0%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.0%
+  Pre-curation hap2:
+    Total bp: 5,428,956,239
+    GC %: '39.29'
+    Gaps/Gbp: '9.95'
+    Total gap bp: 10,800
+    Scaffolds: '73'
+    Scaffold N50: 640,708,031
+    Scaffold L50: '4'
+    Scaffold L90: '11'
+    Contigs: '127'
+    Contig N50: 146,597,035
+    Contig L50: '10'
+    Contig L90: '36'
+    QV: '72.3099'
+    Kmer compl.: '77.7795'
+    BUSCO sing.: 95.0%
+    BUSCO dupl.: 3.6%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.0%
+  Curated hap1:
+    Total bp: 5,448,474,875
+    GC %: '39.28'
+    Gaps/Gbp: '8.99'
+    Total gap bp: 9,800
+    Scaffolds: '118'
+    Scaffold N50: 643,586,180
+    Scaffold L50: '4'
+    Scaffold L90: '11'
+    Contigs: '167'
+    Contig N50: 211,379,782
+    Contig L50: '8'
+    Contig L90: '28'
+    QV: '73.086'
+    Kmer compl.: '77.8764'
+    BUSCO sing.: 95.0%
+    BUSCO dupl.: 3.8%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.0%
+  Curated hap2:
+    Total bp: 5,433,815,179
+    GC %: '39.28'
+    Gaps/Gbp: '13.99'
+    Total gap bp: 15,200
+    Scaffolds: '81'
+    Scaffold N50: 640,708,031
+    Scaffold L50: '4'
+    Scaffold L90: '11'
+    Contigs: '157'
+    Contig N50: 156,705,242
+    Contig L50: '11'
+    Contig L90: '44'
+    QV: '72.2699'
+    Kmer compl.: '77.7093'
+    BUSCO sing.: 94.7%
+    BUSCO dupl.: 3.9%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.0%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: insecta_odb12
+
+Data:
+  Profile: ONT Arima Hi-C
+  Coverage: 115 58
+
+Assembly pipeline:
+  CLAWS:
+    ver: v3.1
+  Filtlong:
+    ver: v0.2.1
+    key param: --target_bases 300000000000
+  Hifiasm:
+    ver: 0.24.0
+    key param: -h1 -h2
+  Yahs:
+    ver: 1.2a
+    key param: --no-contig-ec
+  FOAM:
+    ver: '0.5'
+
+Curation pipeline:
+  FCS-GX:
+    ver: None
+  PretextViewAI:
+    ver: 1.0.5
+
+Submitter: Jessica Gomez-Garrido
+Affiliation: CNAG
+
+Date and time: 2026-02-18 14:10:49 CET

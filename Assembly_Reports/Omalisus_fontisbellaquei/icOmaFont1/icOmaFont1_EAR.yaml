@@ -1,0 +1,96 @@
+ERGA Assembly Report: v24.10.15
+Tags: non-curated[INVALID TAG]
+
+TxID: '350094'
+ToLID: icOmaFont1
+Species: Omalisus fontisbellaquei
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 321,564,405
+    Haploid Number: '9 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 355,235,907
+    Haploid Number: '20'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 4.5.Q61
+
+Curator notes:
+  Interventions/Gb: 0
+  Contamination notes: '"No contaminations were detected with FCS-GX."'
+  Other observations: '"This is a draft genome, not a manually curated assembly. No
+    long range information from the Hi-C libraries, precluding the possibility to
+    perform manual curation on this genome. I am providing the Hi-C map image and
+    Pretext files anyway."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 355,235,907
+    GC %: '34.11'
+    Gaps/Gbp: 11,685.19
+    Total gap bp: 830,200
+    Scaffolds: 4,605
+    Scaffold N50: 178,600
+    Scaffold L50: '558'
+    Scaffold L90: 2,306
+    Contigs: 8,756
+    Contig N50: 49,000
+    Contig L50: 2,034
+    Contig L90: 6,437
+    QV: '59.0401'
+    BUSCO sing.: 93.9%
+    BUSCO dupl.: 3.4%
+    BUSCO frag.: 1.1%
+    BUSCO miss.: 1.7%
+  Curated pri:
+    Total bp: 355,235,907
+    GC %: '34.11'
+    Gaps/Gbp: 11,685.19
+    Total gap bp: 830,200
+    Scaffolds: 4,605
+    Scaffold N50: 178,600
+    Scaffold L50: '558'
+    Scaffold L90: 2,306
+    Contigs: 8,756
+    Contig N50: 49,000
+    Contig L50: 2,034
+    Contig L90: 6,437
+    QV: '61.4911'
+    BUSCO sing.: 93.9%
+    BUSCO dupl.: 3.4%
+    BUSCO frag.: 1.1%
+    BUSCO miss.: 1.7%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 68x 195x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.6
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: '0'
+  HiGlass:
+    ver: '0'
+
+Submitter: "Andr\xE9 Soares"
+Affiliation: SciLifeLab
+
+Date and time: 2026-02-16 16:35:04 CET

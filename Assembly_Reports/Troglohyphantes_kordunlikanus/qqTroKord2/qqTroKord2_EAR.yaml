@@ -1,0 +1,97 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2936736'
+ToLID: qqTroKord2
+Species: Troglohyphantes kordunlikanus
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 970,163,739
+    Haploid Number: '12 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 649,380,381
+    Haploid Number: '0'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    hap1: 4.4.Q51
+
+Curator notes:
+  Contamination notes: '"Contaminants were first removed with NCBI FCS and then with
+    a diamond and Blobtoolkit identification. Only the scaffold that were confirmed
+    as contaminant were removed"'
+  Other observations: '"This is a contig level assembly. Despite the scaffolding the
+    N50 was to low to procede with the curation."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 649,380,381
+    GC %: '31.84'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 11,362
+    Scaffold N50: 81,759
+    Scaffold L50: 2,395
+    Scaffold L90: 8,042
+    Contigs: 11,362
+    Contig N50: 81,759
+    Contig L50: 2,395
+    Contig L90: 8,042
+    QV: '51.6918'
+    Kmer compl.: '73.1792'
+    BUSCO sing.: 69.35%
+    BUSCO dupl.: 1.83%
+    BUSCO frag.: 4.46%
+    BUSCO miss.: 24.36%
+  Curated hap1:
+    Total bp: 649,380,381
+    GC %: '31.84'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 11,362
+    Scaffold N50: 81,759
+    Scaffold L50: 2,395
+    Scaffold L90: 8,042
+    Contigs: 11,362
+    Contig N50: 81,759
+    Contig L50: 2,395
+    Contig L90: 8,042
+    QV: '51.6918'
+    Kmer compl.: '73.1792'
+    BUSCO sing.: 69.35%
+    BUSCO dupl.: 1.83%
+    BUSCO frag.: 4.46%
+    BUSCO miss.: 24.36%
+
+BUSCO:
+  ver: 5.8.0 (euk_genome_met, metaeuk)
+  lineage: insecta_odb10
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 29.13x 51.48x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: Galaxy Version 0.25.0+galaxy0
+    key param: VGP Galaxy workflow VGP3 v 0.3.4
+  purge_dups:
+    ver: Galaxy Version 1.2.6+galaxy0
+    key param: VGP Galaxy workflow VGP6 v 0.10.4
+  YaHS:
+    ver: Galaxy Version 1.2a.2+galaxy3
+    key param: VGP Galaxy workflow v 3.3
+
+Curation pipeline: {}
+
+Submitter: Marcella Sozzoni
+Affiliation: UNIFI
+
+Date and time: 2026-02-20 11:14:21 CET

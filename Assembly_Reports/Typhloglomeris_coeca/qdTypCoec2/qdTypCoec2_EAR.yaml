@@ -1,0 +1,150 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3139675'
+ToLID: qdTypCoec2
+Species: Typhloglomeris coeca
+Class: Diplopoda
+Order: Glomerida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 326,504,482
+    Haploid Number: '12 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 325,456,575
+    Haploid Number: '9'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q69
+    hap2: 7.7.Q71
+
+Curator notes:
+  Interventions/Gb: 1
+  Contamination notes: "\"Repeated attempts to run BlobTools were unsuccessful, so\
+    \ we used an alternative tool called FCS-GX (Foreign Contamination Screen \u2013\
+    \ Genome eXclusion), to identify contaminated scaffolds. In this species, hap1\
+    \ contained 496 contaminated scaffolds with diverse bacterial sequences. Of these,\
+    \ seven scaffolds exceeded 1 Mbp. Hap2 contained 149 contaminated scaffolds, two\
+    \ of which were also longer than 1 Mbp. All contaminated scaffolds from both haps\
+    \ were flagged as contaminants during a preliminary curation step using pretextview,\
+    \ and were subsequently removed from the analysis in the pretextview file shared\
+    \ for review.\""
+  Other observations: '"This assembly was generated using Hifiasm with ONT data. Given
+    the high quality of both haplotypes, curation was performed in diploid mode. We
+    are sharing the curated haplotypes extracted from the diploid curation map. Intentionally,
+    we selected the aligned SUPER scaffolds with the fewest gaps to construct hap1.
+    Only minor modifications were made to the yahs-scaffolded assemblies. No sex chromosome
+    could be identified. The rev1 assembly addresses the reviewers comments: 1- rearrangement
+    of SUPER_9 of HAP2 to fix a large assembly error, 2- ensure that the SUPER sscaffolds
+    of HAP1 and HAP2 follow the same order."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 396,695,769
+    GC %: '39.37'
+    Gaps/Gbp: '22.69'
+    Total gap bp: 1,800
+    Scaffolds: '763'
+    Scaffold N50: 32,385,137
+    Scaffold L50: '6'
+    Scaffold L90: '60'
+    Contigs: '772'
+    Contig N50: 31,870,558
+    Contig L50: '6'
+    Contig L90: '67'
+    QV: '51.0894'
+    Kmer compl.: '85.87'
+    BUSCO sing.: 97.7%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.6%
+  Pre-curation hap2:
+    Total bp: 350,105,123
+    GC %: '38.75'
+    Gaps/Gbp: '51.41'
+    Total gap bp: 3,600
+    Scaffolds: '188'
+    Scaffold N50: 33,396,051
+    Scaffold L50: '5'
+    Scaffold L90: '9'
+    Contigs: '206'
+    Contig N50: 32,668,977
+    Contig L50: '5'
+    Contig L90: '16'
+    QV: '57.395'
+    Kmer compl.: '84.6058'
+    BUSCO sing.: 97.6%
+    BUSCO dupl.: 0.2%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 1.7%
+  Curated hap1:
+    Total bp: 325,456,575
+    GC %: '38.81'
+    Gaps/Gbp: '6.15'
+    Total gap bp: '400'
+    Scaffolds: '9'
+    Scaffold N50: 37,203,801
+    Scaffold L50: '4'
+    Scaffold L90: '8'
+    Contigs: '11'
+    Contig N50: 33,015,150
+    Contig L50: '5'
+    Contig L90: '9'
+    QV: '69.1425'
+    Kmer compl.: '81.2215'
+    BUSCO sing.: 97.8%
+    BUSCO dupl.: 0.2%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.7%
+  Curated hap2:
+    Total bp: 319,913,225
+    GC %: '38.78'
+    Gaps/Gbp: '53.14'
+    Total gap bp: 3,400
+    Scaffolds: '9'
+    Scaffold N50: 36,917,534
+    Scaffold L50: '4'
+    Scaffold L90: '8'
+    Contigs: '26'
+    Contig N50: 28,239,313
+    Contig L50: '5'
+    Contig L90: '13'
+    QV: '71.1675'
+    Kmer compl.: '80.9319'
+    BUSCO sing.: 97.5%
+    BUSCO dupl.: 0.2%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.9%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: ONT Omni-C
+  Coverage: 111 100
+
+Assembly pipeline:
+  CLAWS:
+    ver: v3.1.0
+  Filtlong:
+    ver: v0.2.1
+  Hifiasm:
+    ver: 0.24.0
+    key param: --ont
+  Yahs:
+    ver: 1.2a
+
+Curation pipeline:
+  "FCS-GX (ForeignContamination Screen\u2013Genome eXclusion)": {}
+
+Submitter: Francisco Camara Ferreira
+Affiliation: CNAG
+
+Date and time: 2026-02-19 15:14:52 CET

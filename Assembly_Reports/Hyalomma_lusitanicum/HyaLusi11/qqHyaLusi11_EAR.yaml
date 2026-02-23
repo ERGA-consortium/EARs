@@ -1,0 +1,98 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '49205'
+ToLID: qqHyaLusi11
+Species: Hyalomma lusitanicum
+Class: Arachnida
+Order: Ixodida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,828,234,218
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: X0
+  Observed:
+    Haploid size (bp): 1,814,221,550
+    Haploid Number: '18'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 8.8.Q65
+
+Curator notes:
+  Contamination notes: '"Analyses with FCS-GX and BTK did not detect contaminants
+    in the assembly."'
+  Other observations: "\"Our best assembly was haplotype 2 obtained with hifiasm.\
+    \ We will upload this assembly as a contig-level primary assembly to ENA. Contigs\
+    \ are large and almost chromosome level. However, we could not obtain a Hi-C library\
+    \ for this genome, so it was not scaffolded with YaHS or curated using Hi-C. We\
+    \ could not confirm is a T2T assembly due to the lack of close reference and telomere\
+    \ peaks at both ends of the largest scaffolds (\u2021 16.7 Mb). Illumina was used\
+    \ only to build a combined meryl database with the ONT and estimate genome-size.\
+    \ Mitogenome was not assembled.\""
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,814,221,550
+    GC %: '46.53'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '59'
+    Scaffold N50: 153,563,811
+    Scaffold L50: '5'
+    Scaffold L90: '13'
+    Contigs: '59'
+    Contig N50: 153,563,811
+    Contig L50: '5'
+    Contig L90: '13'
+    QV: '65.2791'
+    Kmer compl.: '78.2416'
+    BUSCO sing.: 93.2%
+    BUSCO dupl.: 2.1%
+    BUSCO frag.: 2.1%
+    BUSCO miss.: 2.6%
+  Curated pri:
+    Total bp: 1,814,221,550
+    GC %: '46.53'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '59'
+    Scaffold N50: 153,563,811
+    Scaffold L50: '5'
+    Scaffold L90: '13'
+    Contigs: '59'
+    Contig N50: 153,563,811
+    Contig L50: '5'
+    Contig L90: '13'
+    QV: '65.2791'
+    Kmer compl.: '78.2416'
+    BUSCO sing.: 93.2%
+    BUSCO dupl.: 2.1%
+    BUSCO frag.: 2.1%
+    BUSCO miss.: 2.6%
+
+BUSCO:
+  ver: 5.4.0 (euk_genome_met, metaeuk)
+  lineage: arachnida_odb10
+
+Data:
+  Profile: ONT Illumina
+  Coverage: 98x 111x
+
+Assembly pipeline:
+  CLAWS: {}
+
+Curation pipeline:
+  Blobtoolkit DToL Nextflow Pipeline:
+    ver: '0.6'
+  FCS-GX:
+    ver: 0.5.5
+
+Submitter: Fernando Cruz
+Affiliation: CNAG
+
+Date and time: 2026-02-23 15:00:31 CET

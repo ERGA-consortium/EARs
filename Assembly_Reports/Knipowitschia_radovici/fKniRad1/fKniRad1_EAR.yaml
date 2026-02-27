@@ -1,0 +1,106 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1483046'
+ToLID: fKniRad1
+Species: Knipowitschia radovici
+Class: Actinopteri
+Order: Gobiiformes
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 744,287,080
+    Haploid Number: '21 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 1,076,409,648
+    Haploid Number: '0'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.6.Q55
+
+Curator notes:
+  Interventions/Gb: 0
+  Contamination notes: '""'
+  Other observations: '"The assembly of Knipowitschia radovici (fKniRad1) is based
+    on 40X ONT data and 489X Arima Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/). The assembly process included
+    the following steps: initial ONT assembly generation with Hifiasm, removal of
+    contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups, and Hi-C-based scaffolding with YaHS. In total, 58 contigs were identified
+    as contaminants (bacterial, archaeal, or viral), totaling 1.501 Mb (with the largest
+    being 0.088 Mb). Additionally, 3735 regions totaling 66.756 Mb (with the largest
+    being 0.121 Mb) were identified as haplotypic duplications and removed. Mitochondrial
+    genome was assembled using OATK. Genome submitted to the contig scale"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,076,582,148
+    GC %: '42.25'
+    Gaps/Gbp: 1,602.29
+    Total gap bp: 172,500
+    Scaffolds: 8,851
+    Scaffold N50: 3,695,328
+    Scaffold L50: '51'
+    Scaffold L90: 2,612
+    Contigs: 10,576
+    Contig N50: 1,985,558
+    Contig L50: '77'
+    Contig L90: 4,158
+    QV: '55.089'
+    Kmer compl.: '90.7045'
+    BUSCO sing.: 74.2%
+    BUSCO dupl.: 16.4%
+    BUSCO frag.: 3.3%
+    BUSCO miss.: 6.1%
+  Curated collapsed:
+    Total bp: 1,076,409,648
+    GC %: '42.25'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 7,108
+    Scaffold N50: 5,342,815
+    Scaffold L50: '43'
+    Scaffold L90: 2,780
+    Contigs: 7,108
+    Contig N50: 5,342,815
+    Contig L50: '43'
+    Contig L90: 2,780
+    QV: '55.0886'
+    Kmer compl.: '90.7078'
+    BUSCO sing.: 74.2%
+    BUSCO dupl.: 17.4%
+    BUSCO frag.: 2.8%
+    BUSCO miss.: 5.7%
+
+BUSCO:
+  ver: 5.8.2 (euk_genome_met, metaeuk)
+  lineage: actinopterygii_odb12
+
+Data:
+  Profile: Long reads Arima
+  Coverage: 40 489
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Lola Demirdjian
+Affiliation: Genoscope
+
+Date and time: 2026-02-27 11:02:55 CET

@@ -1,0 +1,107 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3350002'
+ToLID: idIrwNobi7
+Species: Irwiniella nobilipennis
+Class: Insecta
+Order: Diptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 305,332,931
+    Haploid Number: '6 (source: ancestor)'
+    Ploidy: '3 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 373,623,222
+    Haploid Number: '6'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code: {}
+
+Curator notes:
+  Interventions/Gb: 13
+  Contamination notes: '"Removed one Pseudomonas contig from initial 12 contigs. This
+    corresponds to the shoulder on left of het/1n peak in merqury plot. Due to this,
+    genomescope did not estimate genome size accurately. Loss in k-mer completeness
+    due to contaminant removal."'
+  Other observations: '"No Hi-C was produced for this species (funding ran dry, I
+    think). The draft assembly was aligned to idTheUnic2.1 (GCA_949987705) and idTheNobi1.1
+    (GCA_963855945) assemblies, which confirmed order of contigs inferred based on
+    repeats types and read overlaps. The pre-curation WGA is shown in the image (instead
+    of contact map). 2 contig joins made in SUPER_2 and 3 contig joins made in SUPER_X
+    with 0 gap characters. The result is all sequence placed into T2T chromosomes."'
+
+Metrics:
+  Pre-curation <pri>:
+    Total bp: 373,685,851
+    GC %: '35.99'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '12'
+    Scaffold N50: 59,897,714
+    Scaffold L50: '3'
+    Scaffold L90: '6'
+    Contigs: '12'
+    Contig N50: 59,897,714
+    Contig L50: '3'
+    Contig L90: '6'
+    QV: '71.8728'
+    Kmer compl.: '91.1877'
+    BUSCO sing.: 98.8%
+    BUSCO dupl.: 0.2%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.9%
+  Curated <pri>:
+    Total bp: 373,623,222
+    GC %: '35.98'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '6'
+    Scaffold N50: 70,131,851
+    Scaffold L50: '3'
+    Scaffold L90: '5'
+    Contigs: '6'
+    Contig N50: 70,131,851
+    Contig L50: '3'
+    Contig L90: '5'
+    QV: '72.1545'
+    Kmer compl.: '83.947'
+    BUSCO sing.: 98.3%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.9%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: ONT
+  Coverage: 347x
+
+Assembly pipeline:
+  CLAWS:
+    ver: v2.3
+  Filtlong:
+    ver: v0.2.1
+    key param: --min_length 1000 --min_mean_q 99 -t 58000000000
+  Hifiasm:
+    ver: 0.24.0
+    key param: --ont
+  purge_dups:
+    ver: 1.2.6
+
+Curation pipeline:
+  D-GENIES:
+    ver: None
+  Blobtoolkit Nextflow:
+    ver: None
+
+Submitter: Tyler Alioto
+Affiliation: CNAG
+
+Date and time: 2026-02-24 19:45:47 CET

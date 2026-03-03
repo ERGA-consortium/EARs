@@ -7,7 +7,7 @@ on:
       - "Assembly_Reports/**/*.pdf"
 
 concurrency:
-  group: ear-bot
+  group: ear-bot-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: false
 
 jobs:

@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ear-bot
+  group: ear-bot-scheduled
   cancel-in-progress: false
 
 jobs:

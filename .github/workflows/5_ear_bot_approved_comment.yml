@@ -7,7 +7,7 @@ on:
       - completed
 
 concurrency:
-  group: ear-bot
+  group: ear-bot-approved-${{ github.event.workflow_run.id }}
   cancel-in-progress: false
 
 jobs:

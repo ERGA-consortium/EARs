@@ -5,7 +5,7 @@ on:
     types: [created]
 
 concurrency:
-  group: ear-bot
+  group: ear-bot-pr-${{ github.event.issue.number }}
   cancel-in-progress: false
 
 jobs:

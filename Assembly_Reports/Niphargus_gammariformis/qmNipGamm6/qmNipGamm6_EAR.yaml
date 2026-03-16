@@ -1,0 +1,104 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2707950'
+ToLID: qmNipGamm6
+Species: Niphargus gammariformis
+Class: Malacostraca
+Order: Amphipoda
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 4,398,769,668
+    Haploid Number: '13 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 5,516,277,530
+    Haploid Number: '25'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.8.Q63
+
+Curator notes:
+  Interventions/Gb: 150
+  Contamination notes: '"No presence of contaminants."'
+  Other observations: '"After second round of reviews. Additional curation fixes.
+    Lots of interventions, this one took me a while to finish. Thanks Emilie Teodori
+    for the review."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 5,584,042,361
+    GC %: '44.02'
+    Gaps/Gbp: '634.49'
+    Total gap bp: 708,600
+    Scaffolds: 2,739
+    Scaffold N50: 45,827,757
+    Scaffold L50: '35'
+    Scaffold L90: '221'
+    Contigs: 6,282
+    Contig N50: 2,052,718
+    Contig L50: '829'
+    Contig L90: 2,867
+    QV: '22.9'
+    Kmer compl.: '97.23'
+    BUSCO sing.: 91.3%
+    BUSCO dupl.: 1.6%
+    BUSCO frag.: 1.0%
+    BUSCO miss.: 6.1%
+  Curated pri:
+    Total bp: 5,516,277,530
+    GC %: '44.03'
+    Gaps/Gbp: '729.11'
+    Total gap bp: 804,400
+    Scaffolds: 2,171
+    Scaffold N50: 241,154,867
+    Scaffold L50: '10'
+    Scaffold L90: '23'
+    Contigs: 6,193
+    Contig N50: 2,074,702
+    Contig L50: '816'
+    Contig L90: 2,808
+    QV: '63.0'
+    Kmer compl.: '76.81'
+    BUSCO sing.: 95.7%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 1.7%
+    BUSCO miss.: 1.9%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: HiFi OmniC
+  Coverage: 40x 76x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.20.0-r639
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2.2
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: v1.5.0-g5fd8e6e
+  Nextflow:
+    ver: 25.04.2
+  pretextmap:
+    ver: 0.1.9
+  HiGlass:
+    ver: 0.10.4
+  PretextViewAI:
+    ver: 1.0.5
+
+Submitter: "Andr\xE9 E. R. Soares"
+Affiliation: SciLifeLab
+
+Date and time: 2026-03-10 16:15:47 CET

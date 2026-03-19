@@ -1,27 +1,27 @@
 Pull-Request,Species Name,Tag,Requester Name,Requester Affiliation,Reviewer Name,Reviewer Affiliation,Supervisor Name,Supervisor Affiliation,Interaction,Open Date,Approval Date,Other Participants,Notes
-https://github.com/ERGA-consortium/EARs/pull/25,Valencia hispanica,ERGA-BGE,Francisco Câmara Ferreira,CNAG,Tom Brown,IZW,Diego De Panis,IZW,4,2024-02-09,2024-02-09,,N/A
-https://github.com/ERGA-consortium/EARs/pull/26,Erebia palarica,ERGA-BGE,Francisco Câmara Ferreira,CNAG,Tom Brown,IZW,Diego De Panis,IZW,9,2024-02-19,2024-02-21,,N/A
-https://github.com/ERGA-consortium/EARs/pull/27,Rupicapra rupicapra,ERGA-BGE,Francisco Câmara Ferreira,CNAG,Jo Wood,Sanger,Tom Brown,IZW,8,2024-02-19,2024-02-26,Diego De Panis,N/A
-https://github.com/ERGA-consortium/EARs/pull/28,Apodemus agrarius,ERGA-BGE,Francisco Câmara Ferreira,CNAG,Jo Collins,Sanger,Tom Brown,IZW,18,2024-02-19,2024-02-23,Diego De Panis,N/A
-https://github.com/ERGA-consortium/EARs/pull/29,Phyllidia flava,ERGA-BGE,Francisco Câmara Ferreira,CNAG,Dom Absolon,Sanger,Tom Brown,IZW,27,2024-03-08,2024-03-22,"Diego De Panis, Fernando Cruz",N/A
-https://github.com/ERGA-consortium/EARs/pull/30,Corema album,ERGA-Pilot,Tom Brown,IZW,Diego De Panis,IZW,Tom Brown,IZW,5,2024-03-15,2024-03-15,,N/A
-https://github.com/ERGA-consortium/EARs/pull/31,Graellsia isabellae,ERGA-BGE,Fernando Cruz,CNAG,Sarah Pelan,Sanger,Tom Brown,IZW,15,2024-03-21,2024-03-22,Diego De Panis,N/A
-https://github.com/ERGA-consortium/EARs/pull/36,Gluvia dorsalis,ERGA-BGE,Fernando Cruz,CNAG,Tom Mathers,Sanger,Tom Brown,IZW,28,2024-04-05,2024-04-05,Diego De Panis,N/A
-https://github.com/ERGA-consortium/EARs/pull/38,Malpolon monspessulanus,ERGA-BGE,Francisco Câmara Ferreira,CNAG,Tom Mathers,Sanger,Tom Brown,IZW,44,2024-04-29,2024-04-30,"Diego De Panis, Tyler Alioto",N/A
-https://github.com/ERGA-consortium/EARs/pull/41,Culex laticinctus,ERGA-BGE,Michael Paulini,Sanger,Jessica Gomez,CNAG,Tom Brown,IZW,11,2024-05-30,2024-06-03,"Diego De Panis, Jessica Gomez Garrido",N/A
-https://github.com/ERGA-consortium/EARs/pull/43,Alburnus alburnus,ERGA-Pilot,Tom Brown,MPI-CBG,Jo Wood,Sanger,Diego De Panis,IZW,21,2024-05-31,2024-06-06,Benjamin Istace,N/A
-https://github.com/ERGA-consortium/EARs/pull/44,Anaecypris hispanica,ERGA-Pilot,Tom Brown,MPI-CBG,Caroline Menguy,Genoscope,Diego De Panis,IZW,30,2024-05-31,2024-06-14,Jo Wood,N/A
-https://github.com/ERGA-consortium/EARs/pull/42,Culex modestus,ERGA-BGE,Michael Paulini,Sanger,Fernando Cruz,CNAG,Tom Brown,IZW,19,2024-05-30,2024-07-11,"Diego De Panis, Sarah Pelan",N/A
-https://github.com/ERGA-consortium/EARs/pull/45,Culex perexiguus,ERGA-BGE,Michael Paulini,Sanger,Jessica Gomez,CNAG,Tom Brown,IZW,22,2024-06-17,2024-06-18,"Diego De Panis, Jessica Gomez Garrido, Tom Mathers",N/A
-https://github.com/ERGA-consortium/EARs/pull/46,Citrullus colocynthis,ERGA-Community,Anestis Gkanogiannis,International Center for Biosaline Agriculture (ICBA),Diego De Panis,IZW,Tom Brown,IZW,5,2024-07-04,2024-07-05,,N/A
-https://github.com/ERGA-consortium/EARs/pull/47,Pinctada radiata,ERGA-BGE,Benjamin Istace,Genoscope,Michael Paulini,Sanger,Diego De Panis,IZW,26,2024-07-10,2024-07-17,,N/A
-https://github.com/ERGA-consortium/EARs/pull/48,Arca noae,ERGA-BGE,Emilie Teodori,Genoscope,Jo Collins,Sanger,Diego De Panis,IZW,16,2024-07-16,2024-07-25,,N/A
-https://github.com/ERGA-consortium/EARs/pull/49,Androsace saussurei,ERGA-BGE,Jean-Marc Aury,Genoscope,Sarah Pelan,Sanger,Tom Brown,IZW,16,2024-07-25,2024-08-20,Diego De Panis,N/A
-https://github.com/ERGA-consortium/EARs/pull/53,Dendarus foraminosus,ERGA-BGE,duprats,Genoscope,Michael Paulini,Sanger,Tom Brown,IZW,19,2024-07-31,2024-09-05,Diego De Panis,N/A
+https://github.com/ERGA-consortium/EARs/pull/25,Valencia hispanica,ERGA-BGE,Francisco Câmara Ferreira,CNAG,Tom Brown,IZW,Diego De Panis,IZW,4,2024-02-09,2024-02-09,,testing
+https://github.com/ERGA-consortium/EARs/pull/26,Erebia palarica,ERGA-BGE,Francisco Câmara Ferreira,CNAG,Tom Brown,IZW,Diego De Panis,IZW,9,2024-02-19,2024-02-21,,testing
+https://github.com/ERGA-consortium/EARs/pull/27,Rupicapra rupicapra,ERGA-BGE,Francisco Câmara Ferreira,CNAG,Jo Wood,Sanger,Tom Brown,IZW,8,2024-02-19,2024-02-26,Diego De Panis,testing
+https://github.com/ERGA-consortium/EARs/pull/28,Apodemus agrarius,ERGA-BGE,Francisco Câmara Ferreira,CNAG,Jo Collins,Sanger,Tom Brown,IZW,18,2024-02-19,2024-02-23,Diego De Panis,testing
+https://github.com/ERGA-consortium/EARs/pull/29,Phyllidia flava,ERGA-BGE,Francisco Câmara Ferreira,CNAG,Dom Absolon,Sanger,Tom Brown,IZW,27,2024-03-08,2024-03-22,"Diego De Panis, Fernando Cruz",testing
+https://github.com/ERGA-consortium/EARs/pull/30,Corema album,ERGA-Pilot,Tom Brown,IZW,Diego De Panis,IZW,Tom Brown,IZW,5,2024-03-15,2024-03-15,,testing
+https://github.com/ERGA-consortium/EARs/pull/31,Graellsia isabellae,ERGA-BGE,Fernando Cruz,CNAG,Sarah Pelan,Sanger,Tom Brown,IZW,15,2024-03-21,2024-03-22,Diego De Panis,testing
+https://github.com/ERGA-consortium/EARs/pull/36,Gluvia dorsalis,ERGA-BGE,Fernando Cruz,CNAG,Tom Mathers,Sanger,Tom Brown,IZW,28,2024-04-05,2024-04-05,Diego De Panis,testing
+https://github.com/ERGA-consortium/EARs/pull/38,Malpolon monspessulanus,ERGA-BGE,Francisco Câmara Ferreira,CNAG,Tom Mathers,Sanger,Tom Brown,IZW,44,2024-04-29,2024-04-30,"Diego De Panis, Tyler Alioto",testing
+https://github.com/ERGA-consortium/EARs/pull/41,Culex laticinctus,ERGA-BGE,Michael Paulini,Sanger,Jessica Gomez,CNAG,Tom Brown,IZW,11,2024-05-30,2024-06-03,"Diego De Panis, Jessica Gomez Garrido",testing
+https://github.com/ERGA-consortium/EARs/pull/43,Alburnus alburnus,ERGA-Pilot,Tom Brown,MPI-CBG,Jo Wood,Sanger,Diego De Panis,IZW,21,2024-05-31,2024-06-06,Benjamin Istace,testing
+https://github.com/ERGA-consortium/EARs/pull/44,Anaecypris hispanica,ERGA-Pilot,Tom Brown,MPI-CBG,Caroline Menguy,Genoscope,Diego De Panis,IZW,30,2024-05-31,2024-06-14,Jo Wood,testing
+https://github.com/ERGA-consortium/EARs/pull/42,Culex modestus,ERGA-BGE,Michael Paulini,Sanger,Fernando Cruz,CNAG,Tom Brown,IZW,19,2024-05-30,2024-07-11,"Diego De Panis, Sarah Pelan",testing
+https://github.com/ERGA-consortium/EARs/pull/45,Culex perexiguus,ERGA-BGE,Michael Paulini,Sanger,Jessica Gomez,CNAG,Tom Brown,IZW,22,2024-06-17,2024-06-18,"Diego De Panis, Jessica Gomez Garrido, Tom Mathers","testing, summer-delay"
+https://github.com/ERGA-consortium/EARs/pull/46,Citrullus colocynthis,ERGA-Community,Anestis Gkanogiannis,International Center for Biosaline Agriculture (ICBA),Diego De Panis,IZW,Tom Brown,IZW,5,2024-07-04,2024-07-05,,testing
+https://github.com/ERGA-consortium/EARs/pull/47,Pinctada radiata,ERGA-BGE,Benjamin Istace,Genoscope,Michael Paulini,Sanger,Diego De Panis,IZW,26,2024-07-10,2024-07-17,,testing
+https://github.com/ERGA-consortium/EARs/pull/48,Arca noae,ERGA-BGE,Emilie Teodori,Genoscope,Jo Collins,Sanger,Diego De Panis,IZW,16,2024-07-16,2024-07-25,,testing
+https://github.com/ERGA-consortium/EARs/pull/49,Androsace saussurei,ERGA-BGE,Jean-Marc Aury,Genoscope,Sarah Pelan,Sanger,Tom Brown,IZW,16,2024-07-25,2024-08-20,Diego De Panis,"testing, summer-delay"
+https://github.com/ERGA-consortium/EARs/pull/53,Dendarus foraminosus,ERGA-BGE,duprats,Genoscope,Michael Paulini,Sanger,Tom Brown,IZW,19,2024-07-31,2024-09-05,Diego De Panis,"testing, summer-delay"
 https://github.com/ERGA-consortium/EARs/pull/65,Xanthium orientale,ERGA-BGE,Adama Ndar,Genoscope,Tyler Alioto,CNAG,Tom Brown,IZW,3,2024-09-06,2024-09-06,,N/A
-https://github.com/ERGA-consortium/EARs/pull/55,Anisus vorticulus,ERGA-BGE,Michael Paulini,Sanger,Fernando Cruz,CNAG,Tom Brown,IZW,27,2024-08-16,2024-09-12,"DLBPointon, Diego De Panis, eeaunin, rjchallis",N/A
-https://github.com/ERGA-consortium/EARs/pull/51,Albinaria teres,ERGA-BGE,Lola Demirdjian,Genoscope,Dom Absolon,Sanger,Tom Brown,IZW,19,2024-07-25,2024-09-23,Diego De Panis,N/A
-https://github.com/ERGA-consortium/EARs/pull/50,Deroceras lasithionense,ERGA-BGE,Caroline Menguy,Genoscope,Tom Mathers,Sanger,Tom Brown,IZW,25,2024-07-25,2024-08-02,Diego De Panis,N/A
+https://github.com/ERGA-consortium/EARs/pull/55,Anisus vorticulus,ERGA-BGE,Michael Paulini,Sanger,Fernando Cruz,CNAG,Tom Brown,IZW,27,2024-08-16,2024-09-12,"DLBPointon, Diego De Panis, eeaunin, rjchallis",testing
+https://github.com/ERGA-consortium/EARs/pull/51,Albinaria teres,ERGA-BGE,Lola Demirdjian,Genoscope,Dom Absolon,Sanger,Tom Brown,IZW,19,2024-07-25,2024-09-23,Diego De Panis,"testing, summer-delay"
+https://github.com/ERGA-consortium/EARs/pull/50,Deroceras lasithionense,ERGA-BGE,Caroline Menguy,Genoscope,Tom Mathers,Sanger,Tom Brown,IZW,25,2024-07-25,2024-08-02,Diego De Panis,testing
 https://github.com/ERGA-consortium/EARs/pull/73,Acomys minous,ERGA-BGE,SMangenot,Genoscope,Tyler Alioto,CNAG,Tom Brown,IZW,11,2024-09-23,2024-09-23,,N/A
 https://github.com/ERGA-consortium/EARs/pull/72,Diadema setosum,ERGA-BGE,Arno75,Genoscope,Fernando Cruz,CNAG,Tom Brown,IZW,11,2024-09-18,2024-09-30,Benjamin Istace,N/A
 https://github.com/ERGA-consortium/EARs/pull/66,Cymodocea nodosa,ERGA-BGE,Benjamin Istace,Genoscope,Sarah Pelan,Sanger,Diego De Panis,IZW,17,2024-09-09,2024-10-04,,N/A
@@ -90,11 +90,11 @@ https://github.com/ERGA-consortium/EARs/pull/191,Herpes porcellus,ERGA-BGE,Ileni
 https://github.com/ERGA-consortium/EARs/pull/185,Scolopendra cretica,ERGA-BGE,Adama Ndar,Genoscope,Jessica Gomez Garrido,CNAG,Diego De Panis,IZW,9,2025-06-19,2025-07-28,Lola Demirdjian,N/A
 https://github.com/ERGA-consortium/EARs/pull/204,Troglohyphantes giromettai,ERGA-BGE,Danil,Sanger,Diego De Panis,IZW,Tom Brown,IZW,2,2025-08-19,2025-08-28,,N/A
 https://github.com/ERGA-consortium/EARs/pull/200,Helobdella europaea,ERGA-BGE,Michael Paulini,Sanger,Emilie Teodori,Genoscope,Diego De Panis,IZW,4,2025-08-18,2025-08-29,,N/A
-https://github.com/ERGA-consortium/EARs/pull/186,Lithobius stygius,ERGA-BGE,Martin Pippel,SciLifeLab,Jean-Marc Aury,Genoscope,Diego De Panis,IZW,11,2025-07-08,2025-08-29,,N/A
+https://github.com/ERGA-consortium/EARs/pull/186,Lithobius stygius,ERGA-BGE,Martin Pippel,SciLifeLab,Jean-Marc Aury,Genoscope,Diego De Panis,IZW,11,2025-07-08,2025-08-29,,summer-delay
 https://github.com/ERGA-consortium/EARs/pull/210,Platycleis falx,ERGA-BGE,Guilherme Borges Dias,SciLifeLab,Jean-Marc Aury,Genoscope,Tom Brown,IZW,7,2025-08-29,2025-09-03,,N/A
 https://github.com/ERGA-consortium/EARs/pull/206,Empusa pennicornis,ERGA-BGE,Adama Ndar,Genoscope,Dom Absolon,Sanger,Diego De Panis,IZW,4,2025-08-27,2025-09-04,,N/A
 https://github.com/ERGA-consortium/EARs/pull/215,Euscorpius feti,ERGA-BGE,Fernando Cruz,CNAG,Adama Ndar,Genoscope,Diego De Panis,IZW,7,2025-09-02,2025-09-05,,N/A
-https://github.com/ERGA-consortium/EARs/pull/190,Scolopax rusticola,ERGA-BGE,Marcella Sozzoni,UNIFI,Michael Paulini,Sanger,Tom Brown,IZW,18,2025-07-15,2025-09-09,"Jean-Marc Aury, Tom Mathers",N/A
+https://github.com/ERGA-consortium/EARs/pull/190,Scolopax rusticola,ERGA-BGE,Marcella Sozzoni,UNIFI,Michael Paulini,Sanger,Tom Brown,IZW,18,2025-07-15,2025-09-09,"Jean-Marc Aury, Tom Mathers",summer-delay
 https://github.com/ERGA-consortium/EARs/pull/220,Calamia tridens,ERGA-BGE,Lola Demirdjian,Genoscope,Jessica Gomez Garrido,CNAG,Tom Brown,IZW,6,2025-09-05,2025-09-12,,N/A
 https://github.com/ERGA-consortium/EARs/pull/196,Distaplia bermudensis,ERGA-BGE,Ilenia Urso,UNIBA,Lola Demirdjian,Genoscope,Diego De Panis,IZW,10,2025-07-25,2025-09-15,,N/A
 https://github.com/ERGA-consortium/EARs/pull/207,Messor oertzeni,ERGA-BGE,Adama Ndar,Genoscope,Sarah Pelan,Sanger,Diego De Panis,IZW,8,2025-08-28,2025-09-16,,N/A
@@ -103,7 +103,7 @@ https://github.com/ERGA-consortium/EARs/pull/212,Somatochlora meridionalis,ERGA-
 https://github.com/ERGA-consortium/EARs/pull/205,Helobdella europaea,ERGA-BGE,Michael Paulini,Sanger,Fernando Cruz,CNAG,Diego De Panis,IZW,13,2025-08-27,2025-09-17,Jo Wood,N/A
 https://github.com/ERGA-consortium/EARs/pull/208,Morimus orientalis,ERGA-BGE,Caroline Menguy,Genoscope,Jo Wood,Sanger,Diego De Panis,IZW,10,2025-08-29,2025-09-18,,N/A
 https://github.com/ERGA-consortium/EARs/pull/203,Eumerus hispidus,ERGA-BGE,Danil,Sanger,Caroline Menguy,Genoscope,Tom Brown,IZW,8,2025-08-19,2025-09-19,,N/A
-https://github.com/ERGA-consortium/EARs/pull/199,Glaucopsyche paphos,ERGA-BGE,Tyler Alioto,CNAG,Tom Mathers,Sanger,Tom Brown,IZW,5,2025-08-03,2025-09-19,,N/A
+https://github.com/ERGA-consortium/EARs/pull/199,Glaucopsyche paphos,ERGA-BGE,Tyler Alioto,CNAG,Tom Mathers,Sanger,Tom Brown,IZW,5,2025-08-03,2025-09-19,,summer-delay
 https://github.com/ERGA-consortium/EARs/pull/224,Zygaena laeta,ERGA-BGE,Adama Ndar,Genoscope,Michael Paulini,Sanger,Jo Wood,Sanger,5,2025-09-10,2025-09-22,,N/A
 https://github.com/ERGA-consortium/EARs/pull/209,Frontinellina frutetorum,ERGA-BGE,Caroline Menguy,Genoscope,Diego De Panis,IZW,Jo Wood,Sanger,9,2025-08-29,2025-09-22,,N/A
 https://github.com/ERGA-consortium/EARs/pull/202,Axinella verrucosa,ERGA-BGE,Lola Demirdjian,Genoscope,Tyler Alioto,CNAG,Diego De Panis,IZW,9,2025-08-19,2025-09-24,,N/A
@@ -165,24 +165,24 @@ https://github.com/ERGA-consortium/EARs/pull/295,_Lycosa praegrandis_,ERGA-BGE,A
 https://github.com/ERGA-consortium/EARs/pull/277,Marumba quercus,ERGA-BGE,Francisco Camara,CNAG,Emilie Teodori,Genoscope,Tom Brown,IZW,8,2025-10-31,2025-12-15,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/298,Messor orientalis,ERGA-BGE,Martin Pippel,SciLifeLab,Sarah Pelan,Sanger,Diego De Panis,IZW,3,2025-12-01,2025-12-19,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/297,Botryllus gaiae,ERGA-Pilot,Ilenia Urso,UNIBA,Jessica Gomez Garrido,CNAG,Tom Brown,IZW,3,2025-12-01,2025-12-19,"Adama Ndar, Fernando Cruz",N/A
-https://github.com/ERGA-consortium/EARs/pull/269,Dolichopoda araneiformis,ERGA-BGE,Tyler Alioto,CNAG,Adama Ndar,Genoscope,Jo Wood,Sanger,9,2025-10-23,2026-01-08,"",N/A
-https://github.com/ERGA-consortium/EARs/pull/249,Messor wasmanni,ERGA-BGE,SMangenot,Genoscope,Tyler Alioto,CNAG,Diego De Panis,IZW,15,2025-10-07,2026-01-09,"Jo Wood",N/A
-https://github.com/ERGA-consortium/EARs/pull/304,Microcosmus polymorphus,ERGA-BGE,Ilenia Urso,UNIBA,Benjamin Istace,Genoscope,Diego De Panis,IZW,15,2025-12-10,2026-01-09,"carmelagissi",N/A
-https://github.com/ERGA-consortium/EARs/pull/303,Aegaeobuthus cyprius,ERGA-BGE,Guilherme Dias,SciLifeLab,Fernando Cruz,CNAG,Jo Wood,Sanger,6,2025-12-08,2026-01-14,"CaroB-M, Jessica Gomez Garrido, Tyler Alioto",N/A
-https://github.com/ERGA-consortium/EARs/pull/312,Earias vernana,ERGA-BGE,Marcella Sozzoni,UNIFI,Guilherme Dias,SciLifeLab,Diego De Panis,IZW,7,2025-12-16,2026-01-14,"",N/A
-https://github.com/ERGA-consortium/EARs/pull/286,Arachnocephalus vestitus,ERGA-BGE,Caroline Menguy,Genoscope,Jo Collins,Sanger,Tom Brown,IZW,9,2025-11-25,2026-01-16,"Diego De Panis, Fernando Cruz, Guilherme Borges Dias",N/A
-https://github.com/ERGA-consortium/EARs/pull/241,Cyphopterum fauveli,ERGA-BGE,Tom Mathers,Sanger,Martin Pippel,SciLifeLab,Diego De Panis,IZW,13,2025-09-26,2026-01-20,"Fernando Cruz, Tom Brown",N/A
-https://github.com/ERGA-consortium/EARs/pull/270,Hipparchia cypriensis,ERGA-BGE,Tyler Alioto,CNAG,Jean-Marc Aury,Genoscope,Diego De Panis,IZW,7,2025-10-24,2026-01-20,"",N/A
-https://github.com/ERGA-consortium/EARs/pull/292,Siphonaria pectinata,ERGA-BGE,Estelle PW,SciLifeLab,Lola Demirdjian,Genoscope,Tom Brown,IZW,9,2025-11-26,2026-01-20,"",N/A
-https://github.com/ERGA-consortium/EARs/pull/313,Agelena orientalis,ERGA-BGE,Guilherme Dias,SciLifeLab,Caroline Menguy,Genoscope,Diego De Panis,IZW,6,2025-12-17,2026-01-20,"",N/A
-https://github.com/ERGA-consortium/EARs/pull/181,Anthroherpon ganglbaueri,ERGA-BGE,Marcella Sozzoni,UNIFI,Benjamin Istace,Genoscope,Diego De Panis,IZW,54,2025-06-18,2026-01-21,"Jo Wood",N/A
-https://github.com/ERGA-consortium/EARs/pull/201,Viola uliginosa,ERGA-BGE,Lola Demirdjian,Genoscope,Tom Brown,IZW,Jo Wood,Sanger,25,2025-08-19,2026-01-22,"Diego De Panis",N/A
+https://github.com/ERGA-consortium/EARs/pull/269,Dolichopoda araneiformis,ERGA-BGE,Tyler Alioto,CNAG,Adama Ndar,Genoscope,Jo Wood,Sanger,9,2025-10-23,2026-01-08,"",winter-delay
+https://github.com/ERGA-consortium/EARs/pull/249,Messor wasmanni,ERGA-BGE,SMangenot,Genoscope,Tyler Alioto,CNAG,Diego De Panis,IZW,15,2025-10-07,2026-01-09,"Jo Wood",winter-delay
+https://github.com/ERGA-consortium/EARs/pull/304,Microcosmus polymorphus,ERGA-BGE,Ilenia Urso,UNIBA,Benjamin Istace,Genoscope,Diego De Panis,IZW,15,2025-12-10,2026-01-09,"carmelagissi",winter-delay
+https://github.com/ERGA-consortium/EARs/pull/303,Aegaeobuthus cyprius,ERGA-BGE,Guilherme Dias,SciLifeLab,Fernando Cruz,CNAG,Jo Wood,Sanger,6,2025-12-08,2026-01-14,"CaroB-M, Jessica Gomez Garrido, Tyler Alioto",winter-delay
+https://github.com/ERGA-consortium/EARs/pull/312,Earias vernana,ERGA-BGE,Marcella Sozzoni,UNIFI,Guilherme Dias,SciLifeLab,Diego De Panis,IZW,7,2025-12-16,2026-01-14,"",winter-delay
+https://github.com/ERGA-consortium/EARs/pull/286,Arachnocephalus vestitus,ERGA-BGE,Caroline Menguy,Genoscope,Jo Collins,Sanger,Tom Brown,IZW,9,2025-11-25,2026-01-16,"Diego De Panis, Fernando Cruz, Guilherme Borges Dias",winter-delay
+https://github.com/ERGA-consortium/EARs/pull/241,Cyphopterum fauveli,ERGA-BGE,Tom Mathers,Sanger,Martin Pippel,SciLifeLab,Diego De Panis,IZW,13,2025-09-26,2026-01-20,"Fernando Cruz, Tom Brown",winter-delay
+https://github.com/ERGA-consortium/EARs/pull/270,Hipparchia cypriensis,ERGA-BGE,Tyler Alioto,CNAG,Jean-Marc Aury,Genoscope,Diego De Panis,IZW,7,2025-10-24,2026-01-20,"",winter-delay
+https://github.com/ERGA-consortium/EARs/pull/292,Siphonaria pectinata,ERGA-BGE,Estelle PW,SciLifeLab,Lola Demirdjian,Genoscope,Tom Brown,IZW,9,2025-11-26,2026-01-20,"",winter-delay
+https://github.com/ERGA-consortium/EARs/pull/313,Agelena orientalis,ERGA-BGE,Guilherme Dias,SciLifeLab,Caroline Menguy,Genoscope,Diego De Panis,IZW,6,2025-12-17,2026-01-20,"",winter-delay
+https://github.com/ERGA-consortium/EARs/pull/181,Anthroherpon ganglbaueri,ERGA-BGE,Marcella Sozzoni,UNIFI,Benjamin Istace,Genoscope,Diego De Panis,IZW,54,2025-06-18,2026-01-21,"Jo Wood",winter-delay
+https://github.com/ERGA-consortium/EARs/pull/201,Viola uliginosa,ERGA-BGE,Lola Demirdjian,Genoscope,Tom Brown,IZW,Jo Wood,Sanger,25,2025-08-19,2026-01-22,"Diego De Panis",winter-delay
 https://github.com/ERGA-consortium/EARs/pull/327,Umbra krameri,ERGA-BGE,Marcella Sozzoni,UNIFI,Guilherme Dias,SciLifeLab,Diego De Panis,IZW,3,2026-01-19,2026-01-23,"",N/A
-https://github.com/ERGA-consortium/EARs/pull/308,Histopona dubia,ERGA-BGE,Danil,Sanger,Jean-Marc Aury,Genoscope,Tom Brown,IZW,3,2025-12-16,2026-01-27,"CaroB-M, Jo Wood",N/A
+https://github.com/ERGA-consortium/EARs/pull/308,Histopona dubia,ERGA-BGE,Danil,Sanger,Jean-Marc Aury,Genoscope,Tom Brown,IZW,3,2025-12-16,2026-01-27,"CaroB-M, Jo Wood",winter-delay
 https://github.com/ERGA-consortium/EARs/pull/335,Typhloiulus lobifer,ERGA-BGE,Sarah Pelan,Sanger,Lola Demirdjian,Genoscope,Tom Brown,IZW,4,2026-01-23,2026-01-27,"",N/A
-https://github.com/ERGA-consortium/EARs/pull/216,Hypericum elodes,ERGA-BGE,Lola Demirdjian,Genoscope,Jessica Gomez Garrido,CNAG,Tom Brown,IZW,11,2025-09-02,2026-01-28,"Diego De Panis, Jean-Marc Aury",N/A
-https://github.com/ERGA-consortium/EARs/pull/272,Lepus castroviejoi,ERGA-BGE,Marcella Sozzoni,UNIFI,Lola Demirdjian,Genoscope,Diego De Panis,IZW,19,2025-10-28,2026-01-29,"",N/A
-https://github.com/ERGA-consortium/EARs/pull/306,Botrylloides violaceus,ERGA-BGE,Ilenia Urso,UNIBA,Martin Pippel,SciLifeLab,Jo Wood,Sanger,10,2025-12-12,2026-01-30,"CaroB-M, Tyler Alioto",N/A
+https://github.com/ERGA-consortium/EARs/pull/216,Hypericum elodes,ERGA-BGE,Lola Demirdjian,Genoscope,Jessica Gomez Garrido,CNAG,Tom Brown,IZW,11,2025-09-02,2026-01-28,"Diego De Panis, Jean-Marc Aury",winter-delay
+https://github.com/ERGA-consortium/EARs/pull/272,Lepus castroviejoi,ERGA-BGE,Marcella Sozzoni,UNIFI,Lola Demirdjian,Genoscope,Diego De Panis,IZW,19,2025-10-28,2026-01-29,"",winter-delay
+https://github.com/ERGA-consortium/EARs/pull/306,Botrylloides violaceus,ERGA-BGE,Ilenia Urso,UNIBA,Martin Pippel,SciLifeLab,Jo Wood,Sanger,10,2025-12-12,2026-01-30,"CaroB-M, Tyler Alioto",winter-delay
 https://github.com/ERGA-consortium/EARs/pull/321,Eupolybothrus grossipes,ERGA-BGE,klb1001,Sanger,Caroline Menguy,Genoscope,Diego De Panis,IZW,5,2026-01-14,2026-02-02,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/317,Homalothecium mandonii,ERGA-BGE,Lola Demirdjian,Genoscope,Jessica Gomez Garrido,CNAG,Tom Brown,IZW,11,2026-01-08,2026-02-02,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/333,Eumannia arenbergeri,ERGA-BGE,Jessica Gomez Garrido,CNAG,Emilie Teodori,Genoscope,Jo Wood,Sanger,7,2026-01-23,2026-02-02,"Tyler Alioto",N/A
@@ -192,27 +192,28 @@ https://github.com/ERGA-consortium/EARs/pull/345,Antaxius spinibrachius,ERGA-BGE
 https://github.com/ERGA-consortium/EARs/pull/332,Muscula muscula,ERGA-BGE,Francisco Camara,CNAG,Marcella Sozzoni,UNIFI,Jo Wood,Sanger,5,2026-01-22,2026-02-05,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/323,Gyrocaryum oppositifolium,ERGA-BGE,Dom Absolon,Sanger,Jessica Gomez Garrido,CNAG,Diego De Panis,IZW,12,2026-01-16,2026-02-09,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/336,Radziella styx,ERGA-BGE,Marcella Sozzoni,UNIFI,Emilie Teodori,Genoscope,Jo Wood,Sanger,7,2026-01-26,2026-02-09,"",N/A
-https://github.com/ERGA-consortium/EARs/pull/300,Cotoneaster nebrodensis,ERGA-BGE,Jean-Marc Aury,Genoscope,Guilherme Dias,SciLifeLab,Jo Wood,Sanger,15,2025-12-05,2026-02-11,"Diego De Panis, Tom Brown, Tom Mathers",N/A
+https://github.com/ERGA-consortium/EARs/pull/300,Cotoneaster nebrodensis,ERGA-BGE,Jean-Marc Aury,Genoscope,Guilherme Dias,SciLifeLab,Jo Wood,Sanger,15,2025-12-05,2026-02-11,"Diego De Panis, Tom Brown, Tom Mathers",winter-delay
 https://github.com/ERGA-consortium/EARs/pull/322,Botrylloides israeliense,ERGA-BGE,Tom Brown,IZW,Benjamin Istace,Genoscope,Jo Wood,Sanger,13,2026-01-16,2026-02-12,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/334,Bathyscidius tristiculus,ERGA-BGE,Jessica Gomez Garrido,CNAG,Marcella Sozzoni,UNIFI,Diego De Panis,IZW,15,2026-01-23,2026-02-12,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/326,Camponotus vagus,ERGA-BGE,Marcella Sozzoni,UNIFI,Lola Demirdjian,Genoscope,Tom Brown,IZW,6,2026-01-19,2026-02-12,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/340,Nychiodes_aphrodite,ERGA-BGE,Fernando Cruz,CNAG,Martin Pippel,SciLifeLab,Diego De Panis,IZW,5,2026-01-28,2026-02-13,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/318,Lyristes plebejus,ERGA-BGE,Caroline Menguy,Genoscope,Fernando Cruz,CNAG,Tom Brown,IZW,18,2026-01-12,2026-02-13,"",N/A
-https://github.com/ERGA-consortium/EARs/pull/284,Schizoporella errata,ERGA-BGE,Phuong Doan,Genoscope,Jo Wood,Sanger,Diego De Panis,IZW,20,2025-11-20,2026-02-13,"Fernando Cruz, Tom Brown",N/A
+https://github.com/ERGA-consortium/EARs/pull/284,Schizoporella errata,ERGA-BGE,Phuong Doan,Genoscope,Jo Wood,Sanger,Diego De Panis,IZW,20,2025-11-20,2026-02-13,"Fernando Cruz, Tom Brown",winter-delay
 https://github.com/ERGA-consortium/EARs/pull/328,Aphis hillerislambersi,ERGA-BGE,Martin Pippel,SciLifeLab,Jessica Gomez Garrido,CNAG,Diego De Panis,IZW,7,2026-01-20,2026-02-16,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/348,Leiobunum rupestre,ERGA-BGE,Fernando Cruz,CNAG,Emilie Teodori,Genoscope,Diego De Panis,IZW,14,2026-02-09,2026-02-17,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/339,Chaetopelma olivaceum,ERGA-BGE,Jessica Gomez Garrido,CNAG,Jean-Marc Aury,Genoscope,Jo Wood,Sanger,9,2026-01-28,2026-02-17,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/337,Maniola cypricola,ERGA-BGE,Francisco Camara,CNAG,Caroline Menguy,Genoscope,Jo Wood,Sanger,7,2026-01-26,2026-02-17,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/320,Larinus ursus,ERGA-BGE,Jessica Gomez Garrido,CNAG,Sarah Pelan,Sanger,Tom Brown,IZW,23,2026-01-12,2026-02-18,"CaroB-M, Tom Mathers",N/A
-https://github.com/ERGA-consortium/EARs/pull/274,Gesiella jameensis,ERGA-BGE,Tyler Alioto,CNAG,Jean-Marc Aury,Genoscope,Tom Brown,IZW,21,2025-10-30,2026-02-19,"",N/A
+https://github.com/ERGA-consortium/EARs/pull/274,Gesiella jameensis,ERGA-BGE,Tyler Alioto,CNAG,Jean-Marc Aury,Genoscope,Tom Brown,IZW,21,2025-10-30,2026-02-19,"",winter-delay
 https://github.com/ERGA-consortium/EARs/pull/349,Platycleis affinis,ERGA-BGE,Jessica Gomez Garrido,CNAG,Lola Demirdjian,Genoscope,Tom Brown,IZW,6,2026-02-09,2026-02-19,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/338,Holothuria poli,ERGA-BGE,Lola Demirdjian,Genoscope,Marcella Sozzoni,UNIFI,Diego De Panis,IZW,9,2026-01-27,2026-02-19,"Tom Brown",N/A
 https://github.com/ERGA-consortium/EARs/pull/343,Typhloglomeris coeca,ERGA-BGE,Francisco Camara,CNAG,Tom Mathers,Sanger,Diego De Panis,IZW,9,2026-01-30,2026-02-20,"Tom Brown",N/A
 https://github.com/ERGA-consortium/EARs/pull/324,Boreus westwoodi,ERGA-BGE,Dom Absolon,Sanger,Tyler Alioto,CNAG,Diego De Panis,IZW,6,2026-01-16,2026-02-20,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/351,Aiolopus thalassinus,ERGA-BGE,Martin Pippel,SciLifeLab,Benjamin Istace,Genoscope,Tom Brown,IZW,7,2026-02-14,2026-02-20,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/319,Brachydesmus stygivagus,ERGA-BGE,Francisco Camara,CNAG,Jo Collins,Sanger,Jo Wood,Sanger,20,2026-01-12,2026-02-24,"Tom Brown",N/A
-https://github.com/ERGA-consortium/EARs/pull/315,Lucanus tetraodon,ERGA-BGE,melaniaspinelli,UNIBA,Caroline Menguy,Genoscope,Diego De Panis,IZW,9,2025-12-19,2026-02-24,"Tom Brown",N/A
+https://github.com/ERGA-consortium/EARs/pull/315,Lucanus tetraodon,ERGA-BGE,melaniaspinelli,UNIBA,Caroline Menguy,Genoscope,Diego De Panis,IZW,9,2025-12-19,2026-02-24,"Tom Brown",winter-delay
 https://github.com/ERGA-consortium/EARs/pull/374,Irwiniella nobilipennis,ERGA-BGE,Tyler Alioto,CNAG,Jo Wood,Sanger,Jo Wood,Sanger,4,2026-02-24,2026-02-27,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/325,Scarites abbreviatus,ERGA-BGE,Martin Pippel,SciLifeLab,Dom Absolon,Sanger,Tom Brown,IZW,13,2026-01-17,2026-03-12,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/347,Clavelina lepadiformis,ERGA-BGE,Mahesh Binzer-Panchal,SciLifeLab,Benjamin Istace,Genoscope,Tom Brown,IZW,11,2026-02-09,2026-03-12,"",N/A
 https://github.com/ERGA-consortium/EARs/pull/375,Spelaeobates novaki,ERGA-BGE,Tyler Alioto,CNAG,Guilherme Dias,SciLifeLab,Diego De Panis,IZW,2,2026-02-25,2026-03-13,"",N/A
+https://github.com/ERGA-consortium/EARs/pull/361,Niphargus gammariformis,ERGA-BGE,Andre Soares,SciLifeLab,Emilie Teodori,Genoscope,Diego De Panis,IZW,6,2026-02-19,2026-03-16,"Jean-Marc Aury",N/A

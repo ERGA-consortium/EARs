@@ -1,3 +1,37 @@
+"""
+EAR bot — automated peer-review coordinator for ERGA Assembly Reports.
+
+Entry point: run as ``python ear_bot_reviewer.py <flag>`` from a GitHub
+Actions workflow (see .github/workflows/).  One flag is required:
+
+    --supervisor   Validate a new/updated PR and ping a supervisor.
+    --comment      React to a new issue comment (OK / Yes / No / CLEAR).
+    --search       Scheduled scan: advance timed-out reviewer requests and
+                   apply DELAYED/STALLED labels.
+    --approve      Thank the reviewer after they submit an approved review.
+    --merge        Finalise a merged or closed PR: update CSVs, generate
+                   YAML, post to Slack (ERGA-BGE only).
+
+Required environment variables (injected by workflows):
+    GITHUB_APP_TOKEN    Short-lived token from actions/create-github-app-token.
+    GITHUB_REPOSITORY   Owner/repo string (e.g. "ERGA-consortium/EARs").
+    PR_NUMBER           PR number (most flags).
+    COMMENT_TEXT        Raw comment body (--comment only).
+    COMMENT_AUTHOR      Comment author login (--comment only).
+    REVIEWER            Reviewer login (--approve only).
+    MERGED_STATUS       "true" or "false" (--merge only).
+    SLACK_TOKEN         Slack bot token (--merge only, ERGA-BGE PRs).
+    SLACK_CHANNEL_ID    Target Slack channel ID (--merge only).
+
+Customisation notes:
+  - valid_projects: add or remove project labels in EARBotReviewer.__init__.
+  - Deadline length (100 working hours): change the ``timedelta(hours=100)``
+    literal in _deadline().
+  - Inactivity thresholds (1 week ping, 4 weeks DELAYED/STALLED): change the
+    timedelta values in _check_pr_activity().
+  - Slack posting is skipped for non-BGE projects; adjust the condition in
+    closed_pr() to enable it for other project types.
+"""
 import os
 import re
 import subprocess
@@ -38,6 +72,16 @@ def commit(repo, path, message, content):
 
 
 class EAR_get_reviewer:
+    """Thin wrapper around the CSV data files and get_EAR_reviewer helpers.
+
+    Fetches ``rev/reviewers_list.csv`` from the GitHub repo on construction
+    and exposes methods to select supervisors/reviewers and to commit updates
+    back to the repo.
+
+    To point the bot at different CSV paths, change the class-level constants
+    REVIEWERS_CSV and EAR_REVIEWS_CSV.
+    """
+
     REVIEWERS_CSV = "rev/reviewers_list.csv"
     EAR_REVIEWS_CSV = "rev/EAR_reviews.csv"
     GET_EAR_REVIEWER_SCRIPT = "rev/get_EAR_reviewer.py"
@@ -157,6 +201,13 @@ class EAR_get_reviewer:
 
 
 class EARBotReviewer:
+    """Main bot class — one instance per workflow run.
+
+    Reads all required state from environment variables (set by the calling
+    workflow) and from the GitHub API via PyGithub.  Each public method
+    corresponds to one CLI flag and one workflow stage.
+    """
+
     EARPDF_TO_YAML_SCRIPT = "EARpdf_to_yaml.py"
 
     def __init__(self) -> None:
@@ -173,6 +224,19 @@ class EARBotReviewer:
         self.valid_projects = ["ERGA-BGE", "ERGA-Pilot", "ERGA-Community"]
 
     def find_supervisor(self):
+        """Validate the PR and request supervisor confirmation (--supervisor flag).
+
+        Triggered by WF1 on PR open, reopen, synchronise, or body edit.
+        Checks that exactly one PDF was added (not modified), that the PR body
+        contains valid Project/Species/Affiliation fields, and that the project
+        label is one of valid_projects.  Applies ERROR! on any failure.
+        On success, applies the project label and pings a randomly selected
+        supervisor from a different institution.
+
+        Customisation: to change what the bot checks in the PR body, modify
+        _search_in_body() calls below; to change the welcome message or
+        supervisor ping wording, edit the create_issue_comment() calls.
+        """
         # Will run when a new PR is opened
         if not self.pr_number:
             raise Exception("PR_NUMBER environment variable is not set")
@@ -267,6 +331,24 @@ class EARBotReviewer:
             )
 
     def find_reviewer(self, prs=[], reject=False):
+        """Find and ask the next eligible reviewer for each open PR (--search flag).
+
+        Called directly after a supervisor says OK (via comment()), and also
+        by WF3 on schedule to advance timed-out requests.
+
+        Args:
+            prs:    List of PR objects to process.  Defaults to all open PRs.
+            reject: If True, treats the current reviewer as having declined
+                    (used when comment() receives a "No" reply).
+
+        Skips PRs that already have a pending review request, an accepted
+        review, no project label, or no assigned supervisor.  Calls
+        _check_pr_activity() on every PR regardless of skip conditions to
+        keep DELAYED/STALLED labels up to date.
+
+        Customisation: the 100-working-hour deadline comes from _deadline();
+        change the ``timedelta(hours=100)`` there to adjust the timeout window.
+        """
         # Will run when supervisor approves to be a assignee, or when there is a rejection or a deadline passed for a reviewer
         if not prs:
             prs = list(self.repo.get_pulls(state="open"))
@@ -328,6 +410,25 @@ class EARBotReviewer:
                 print(f"Error while finding reviewer for PR #{pr.number}:\n{e}")
 
     def comment(self):
+        """Route a new PR comment to the appropriate action (--comment flag).
+
+        Triggered by WF2+4 on every issue_comment event for PRs that carry a
+        project label.  Handles four cases:
+
+        1. Supervisor hasn't been assigned yet and the author is a supervisor:
+           expects "OK" → assigns them and calls find_reviewer().
+        2. Supervisor has been assigned but no reviewer yet — author is the
+           most-recently-asked reviewer:
+           "yes" → formally requests the review and marks others as not busy.
+           "no"  → calls find_reviewer(reject=True) to move to the next one.
+        3. Any supervisor on a *closed* PR comments "@erga-ear-bot CLEAR" →
+           removes all labels and resets reviewer busy status.
+        4. Anything else → posts an error or exits silently.
+
+        Customisation: the CLEAR command string is checked case-insensitively
+        in comment_text; change "@erga-ear-bot clear" here and in the README
+        if you rename the bot account.
+        """
         # Will run when there is a new comment
         try:
             if not self.comment_text or not self.comment_author or not self.pr_number:
@@ -432,6 +533,17 @@ class EARBotReviewer:
                 sys.exit()
 
     def approve_reviewer(self):
+        """Post a thank-you comment after the reviewer submits an approval (--approve flag).
+
+        Triggered by WF5 (two-step artifact pattern) when a pull_request_review
+        event fires with state == 'approved'.  Verifies that the reviewer who
+        submitted the review matches the one who accepted the request, then
+        posts a congratulations comment to the researcher and notifies the
+        supervisor to merge.
+
+        Customisation: edit the create_issue_comment() call to change the
+        approval message wording.
+        """
         # Will run when there is a new review
         try:
             if not self.pr_number or not self.reviewer:
@@ -465,6 +577,29 @@ class EARBotReviewer:
         return user_id.lower(), user_name
 
     def closed_pr(self):
+        """Finalise a merged or closed PR (--merge flag).
+
+        Triggered by WF6 on pull_request_target [closed].
+
+        Merged with a review:
+          - Appends a row to EAR_reviews.csv (via EAR_get_reviewer.add_pr).
+          - Updates reviewers_list.csv: reviewer score -1, total +1, last
+            review date set, working PRs -1; same-institution reviewers +1.
+          - Generates a YAML file next to the PDF via EARpdf_to_yaml.py.
+          - Posts a Slack announcement (ERGA-BGE projects only).
+
+        Merged without a review (EAR-UPDATE):
+          - Only generates the YAML file.
+
+        Closed without merging:
+          - Warns the supervisor and adds ERROR! label.
+
+        Customisation:
+          - To enable Slack posts for other project types, change the
+            ``if self._search_in_body(pr, "Project") == "ERGA-BGE"`` condition.
+          - To change the Slack message format, edit the ``slack_post`` string.
+          - To skip YAML generation, remove the _add_yaml_file() calls.
+        """
         # Will run when the PR is closed
         if not self.pr_number:
             raise Exception("PR_NUMBER environment variable is not set")

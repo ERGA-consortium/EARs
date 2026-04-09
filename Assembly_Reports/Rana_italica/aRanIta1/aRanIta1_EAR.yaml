@@ -1,0 +1,138 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '147302'
+ToLID: aRanIta1
+Species: Rana italica
+Class: Amphibia
+Order: Anura
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 5,101,732,283
+    Haploid Number: '13 (source: direct)'
+    Ploidy: '3 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 5,152,309,785
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    hap1: 6.8.Q64
+    hap2: 6.8.Q64
+
+Curator notes:
+  Interventions/Gb: 36
+  Contamination notes: '"Both FCS-GX and Blobtoolkit did not detected contaminants
+    in the curated assemblies."'
+  Other observations: '"First, Hifiasm assemblies were scaffolded with yahs without
+    allowing for contig breaks. Then it was curated using the diploid map to produce
+    the curated haplotypes and then reviewed individually with high resolution (HR).
+    In total curation and reviews, made 27 cuts in contigs, 137 breaks at gaps and
+    206 joins. The links provided point to a shared folder with the High Resolution
+    maps (HR), for each hap or both (diploid), allowing multimappings (mq0) or not
+    (mq10). The savestate_1 for the diploid map has all supers side by side, showing
+    1:1 correpondence between haplotypes. For hap2, SUPER_5 is named SUPER_5_unloc_1
+    in the maps, but this little mistake has been fixed in the fasta for the ENA upload.
+    Finally, the mitogenome was assembled into a single circular contig 22,497 bp
+    long that will be uploaded to ENA together with hap1."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 5,149,033,152
+    GC %: '44.56'
+    Gaps/Gbp: '502.42'
+    Total gap bp: 517,400
+    Scaffolds: '344'
+    Scaffold N50: 676,956,069
+    Scaffold L50: '3'
+    Scaffold L90: '11'
+    Contigs: 2,931
+    Contig N50: 5,393,737
+    Contig L50: '279'
+    Contig L90: 1,186
+    QV: '64.094'
+    Kmer compl.: '94.8376'
+    BUSCO sing.: 90.1%
+    BUSCO dupl.: 2.9%
+    BUSCO frag.: 1.9%
+    BUSCO miss.: 5.1%
+  Pre-curation hap2:
+    Total bp: 5,028,367,072
+    GC %: '44.5'
+    Gaps/Gbp: '532.78'
+    Total gap bp: 535,800
+    Scaffolds: '330'
+    Scaffold N50: 596,098,675
+    Scaffold L50: '4'
+    Scaffold L90: '11'
+    Contigs: 3,009
+    Contig N50: 4,359,970
+    Contig L50: '317'
+    Contig L90: 1,351
+    QV: '64.3927'
+    Kmer compl.: '94.0275'
+    BUSCO sing.: 87.5%
+    BUSCO dupl.: 2.7%
+    BUSCO frag.: 2.3%
+    BUSCO miss.: 7.5%
+  Curated hap1:
+    Total bp: 5,152,309,785
+    GC %: '44.56'
+    Gaps/Gbp: '507.15'
+    Total gap bp: 522,600
+    Scaffolds: '334'
+    Scaffold N50: 595,068,311
+    Scaffold L50: '4'
+    Scaffold L90: '11'
+    Contigs: 2,947
+    Contig N50: 5,334,790
+    Contig L50: '283'
+    Contig L90: 1,200
+    QV: '64.095'
+    Kmer compl.: '94.8789'
+    BUSCO sing.: 90.0%
+    BUSCO dupl.: 2.9%
+    BUSCO frag.: 1.9%
+    BUSCO miss.: 5.1%
+  Curated hap2:
+    Total bp: 5,024,435,688
+    GC %: '44.5'
+    Gaps/Gbp: '541.35'
+    Total gap bp: 544,000
+    Scaffolds: '297'
+    Scaffold N50: 600,065,487
+    Scaffold L50: '4'
+    Scaffold L90: '11'
+    Contigs: 3,017
+    Contig N50: 4,357,435
+    Contig L50: '319'
+    Contig L90: 1,357
+    QV: '64.3873'
+    Kmer compl.: '94.0009'
+    BUSCO sing.: 87.5%
+    BUSCO dupl.: 2.7%
+    BUSCO frag.: 2.3%
+    BUSCO miss.: 7.6%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: vertebrata_odb12
+
+Data:
+  Profile: HiFi Hi-C
+  Coverage: 27x 240x
+
+Assembly pipeline:
+  CLAWS: {}
+
+Curation pipeline:
+  Blobtoolkit DToL Nextflow: {}
+
+Submitter: Fernando Cruz
+Affiliation: CNAG
+
+Date and time: 2026-04-07 12:35:24 CEST

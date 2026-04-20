@@ -93,7 +93,7 @@ def make_report(yaml_file):
         values = extract_gfastats_values(content, keys_needed)
         contig_n50_log = math.floor(math.log10(int(values[0].replace(',', ''))))
         scaffold_n50_log = math.floor(math.log10(int(values[1].replace(',', ''))))
-    
+
         return f"Obtained EBP quality metric for {haplotype}: {contig_n50_log}.{scaffold_n50_log}.Q{math.floor(float(qv_value))}"
 
 
@@ -104,6 +104,17 @@ def make_report(yaml_file):
             for file_path in file_paths:
                 with open(file_path, 'r') as file:
                     lines = file.readlines()
+                    # MerquryFK
+                    if len(lines) > 0 and lines[0].startswith("Assembly"):
+                        if len(lines) > 3 and lines[3].startswith('both'):
+                            # case: pri+alt / hap1+hap2
+                            return lines[3].split('\t')[4]
+                        elif len(lines) == 2:
+                            # case: collapsed / hap1 only
+                            return lines[1].split('\t')[4]
+                        else:
+                            continue
+                    # Merqury
                     if len(lines) > order and (len(lines) == 1 or lines[2].split('\t')[0].strip() == "Both"):
                         target_line = lines[order]
                         fourth_column_value = target_line.split('\t')[3]
@@ -113,13 +124,24 @@ def make_report(yaml_file):
         return ''
 
 
-    # extract Kmer completeness values       
+    # extract Kmer completeness values
     def get_completeness_value(dir_path, order):
         try:
             file_paths = glob.glob(f"{dir_path}/*completeness.stats")
             for file_path in file_paths:
                 with open(file_path, 'r') as file:
                     lines = file.readlines()
+                    # MerquryFK
+                    if len(lines) > 0 and lines[0].startswith("Assembly"):
+                        if len(lines) > 3 and lines[3].startswith('both'):
+                            # case: pri+alt / hap1+hap2
+                            return lines[3].split('\t')[4].strip()
+                        elif len(lines) == 2:
+                            # case: collapsed / hap1 only
+                            return lines[1].split('\t')[4].strip()
+                        else:
+                            continue
+                    # Merqury
                     if len(lines) > order:
                         target_line = lines[order]
                         fifth_column_value = target_line.split('\t')[4].strip()
@@ -148,10 +170,10 @@ def make_report(yaml_file):
         # Find unique parts
         unique_parts1 = [part for part in parts1 if part not in parts2]
         unique_parts2 = [part for part in parts2 if part not in parts1]
-    
+
         return ' '.join(unique_parts1), ' '.join(unique_parts2)
 
-    
+
     # extract BUSCO values
     def extract_busco_values(file_path):
         try:
@@ -174,7 +196,7 @@ def make_report(yaml_file):
         lineage_info = None
         busco_mode = None
         busco_pred = None
-    
+
         try:
             with open(file_path, 'r') as file:
                 content = file.read()
@@ -190,7 +212,7 @@ def make_report(yaml_file):
                 pred_match = re.search(r"# Gene predictor used: (\w+)", content)
                 if pred_match:
                     busco_pred = pred_match.group(1)
-    
+
         except Exception as e:
             logging.warning(f"Error reading {file_path}: {str(e)}")
 
@@ -222,7 +244,7 @@ def make_report(yaml_file):
                     paragraphs.append(Paragraph(message, styles["midiStyle"]))
         except Exception as e:
             logging.warning(f"Error in generating warning for {trait}: {str(e)}")
-    
+
         return paragraphs
 
 
@@ -262,7 +284,7 @@ def make_report(yaml_file):
         return paragraphs
 
 
-    # Generate warnings for curated haplotypes (loss, gaps, 90inChrom) 
+    # Generate warnings for curated haplotypes (loss, gaps, 90inChrom)
     def generate_assembly_warnings(asm_data, gaps_per_gbp_data, obs_haploid_num):
         warnings = []
 
@@ -326,7 +348,7 @@ def make_report(yaml_file):
         tree_diagram = "<br/>".join(tree_lines)
         return tree_diagram
 
-    
+
     # Reading SAMPLE INFORMATION section from yaml ################################################
 
     # Check for required fields
@@ -365,11 +387,11 @@ def make_report(yaml_file):
     # Get stuff from GoaT
     goat_response = requests.get(f'https://goat.genomehubs.org/api/v2/search?query=tax_name%28{species_name}%29&result=taxon')
     goat_data = goat_response.json() # convert json to dict
-    
+
     taxon_number = goat_data['results'][0]['result']['taxon_id']
-    
+
     goat_results = goat_data['results']
-    
+
     class_name = 'NA'
     order_name = 'NA'
     haploid_number = 'NA'
@@ -504,16 +526,16 @@ def make_report(yaml_file):
 
 
     # Reading ASSEMBLY DATA section from yaml #####################################################
-    
+
     asm_data = yaml_data.get('ASSEMBLIES', {})
-    
+
     # make a list from the assemblies available in asm_data
     asm_stages = []
     for asm_stage, stage_properties in asm_data.items():
         for haplotypes in stage_properties.keys():
             if haplotypes not in asm_stages:
                 asm_stages.append(haplotypes)
-    
+
     # get gfastats-based data
     gfastats_data = {}
     for asm_stage, stage_properties in asm_data.items():
@@ -524,7 +546,7 @@ def make_report(yaml_file):
                     with open(file_path, 'r') as file:
                         content = file.read()
                     gfastats_data[(asm_stage, haplotypes)] = extract_gfastats_values(content, keys)
-    
+
     gaps_per_gbp_data = {}
     for (asm_stage, haplotypes), values in gfastats_data.items():
         try:
@@ -534,19 +556,19 @@ def make_report(yaml_file):
             gaps_per_gbp_data[(asm_stage, haplotypes)] = gaps_per_gbp
         except (ValueError, ZeroDivisionError):
             gaps_per_gbp_data[(asm_stage, haplotypes)] = ''
-    
+
     # Define the contigging table (column names)
     asm_table_data = [["Metrics"] + [f'{asm_stage} \n {haplotypes}' for asm_stage in asm_data for haplotypes in asm_stages if haplotypes in asm_data[asm_stage]]]
-    
+
     # Fill the table with the gfastats data
     for i in range(len(display_names)):
         metric = display_names[i]
         if metric not in exclusion_list:
             asm_table_data.append([metric] + [format_number(gfastats_data.get((asm_stage, haplotypes), [''])[i]) if (asm_stage, haplotypes) in gfastats_data else '' for asm_stage in asm_data for haplotypes in asm_stages if haplotypes in asm_data[asm_stage]])
-    
+
     # Add the gaps/gbp in between
     asm_table_data.insert(gaps_index + 1, ['Gaps/Gbp'] + [format_number(gaps_per_gbp_data.get((asm_stage, haplotypes), '')) for asm_stage in asm_data for haplotypes in asm_stages if haplotypes in asm_data[asm_stage]])
-    
+
     # get QV, Kmer completeness and BUSCO data
     qv_data = {}
     completeness_data = {}
@@ -565,24 +587,24 @@ def make_report(yaml_file):
                     busco_data['BUSCO dupl.'].update({(asm_stage, haplotypes): d_value})
                     busco_data['BUSCO frag.'].update({(asm_stage, haplotypes): f_value})
                     busco_data['BUSCO miss.'].update({(asm_stage, haplotypes): m_value})
-    
+
     # Fill the table with the QV data
     asm_table_data.append(['QV'] + [qv_data.get((asm_stage, haplotypes), '') for asm_stage in asm_data for haplotypes in asm_stages if haplotypes in asm_data[asm_stage]])
-    
+
     # Fill the table with the Kmer completeness data
     asm_table_data.append(['Kmer compl.'] + [completeness_data.get((asm_stage, haplotypes), '') for asm_stage in asm_data for haplotypes in asm_stages if haplotypes in asm_data[asm_stage]])
-    
+
     # Fill the table with the BUSCO data
     for metric in ['BUSCO sing.', 'BUSCO dupl.', 'BUSCO frag.', 'BUSCO miss.']:
         asm_table_data.append([metric] + [busco_data[metric].get((asm_stage, haplotypes), '') for asm_stage in asm_data for haplotypes in asm_stages if haplotypes in asm_data[asm_stage]])
-        
+
 
 
 
     # Reading CURATION NOTES section from yaml ####################################################
 
     obs_haploid_num = yaml_data.get("NOTES", {}).get("Obs_Haploid_num", "NA")
-    obs_sex = yaml_data.get("NOTES", {}).get("Obs_Sex", "NA")    
+    obs_sex = yaml_data.get("NOTES", {}).get("Obs_Sex", "NA")
     interventions_per_gb = yaml_data.get("NOTES", {}).get("Interventions_per_Gb", "NA")
     contamination_notes = yaml_data.get("NOTES", {}).get("Contamination_notes", "NA")
     other_notes = yaml_data.get("NOTES", {}).get("Other_notes", "NA")
@@ -594,9 +616,9 @@ def make_report(yaml_file):
         if 'gfastats--nstar-report_txt' in properties:
             total_bp = extract_total_bp_from_gfastats(properties['gfastats--nstar-report_txt'])
             total_bp_values.append(total_bp)
-    
+
     max_total_bp = max(total_bp_values, default='NA')
-    
+
     # Create table data
     genome_traits_table_data = [
         ["Genome Traits", "Expected", "Observed"],
@@ -612,10 +634,10 @@ def make_report(yaml_file):
         f". Contamination notes: &quot;{contamination_notes}&quot;<br/>"
         f". Other observations: &quot;{other_notes}&quot;"
     )
-    
 
 
-    
+
+
     # PDF CONSTRUCTION ############################################################################
 
     # Set up the PDF file
@@ -639,10 +661,10 @@ def make_report(yaml_file):
     styles.add(ParagraphStyle(name='treeStyle', fontName='Courier', fontSize=10, leftIndent=12))
     styles.add(ParagraphStyle(name='miniStyle', fontName='Courier', fontSize=8))
     styles.add(ParagraphStyle(name='FileNameStyle', fontName='Courier', fontSize=6))
-    
+
 
     # PDF SECTION 1 -------------------------------------------------------------------------------
-    
+
     # Add the title
     title = Paragraph("ERGA Assembly Report", styles['TitleStyle'])
     elements.append(title)
@@ -650,7 +672,7 @@ def make_report(yaml_file):
     # Spacer
     elements.append(Spacer(1, 12))
 
-    # Add version 
+    # Add version
     ver_paragraph = Paragraph(EAR_version, styles['normalStyle'])
     elements.append(ver_paragraph)
 
@@ -689,7 +711,7 @@ def make_report(yaml_file):
 
     # Create the GENOME TRAITS table
     genome_traits_table = Table(genome_traits_table_data)
-    
+
     # Style the table
     genome_traits_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (0, -1), '#e7e7e7'),
@@ -705,9 +727,9 @@ def make_report(yaml_file):
 
     # Spacer
     elements.append(Spacer(1, 28))
-    
+
     # Add EBP METRICS SECTION subtitle
-    subtitle = Paragraph("EBP metrics summary and curation notes", styles['subTitleStyle']) 
+    subtitle = Paragraph("EBP metrics summary and curation notes", styles['subTitleStyle'])
     elements.append(subtitle)
 
     # Spacer
@@ -723,21 +745,21 @@ def make_report(yaml_file):
             gfastats_path = properties['gfastats--nstar-report_txt']
             order = haplotype_names.index(haplotype) # Determine the order based on the position of the haplotype in the list
             qv_value = get_qv_value(properties['merqury_folder'], order)
-        
+
             ebp_quality_metric = compute_ebp_metric(haplotype, gfastats_path, qv_value)
             EBP_metric_paragraph = Paragraph(ebp_quality_metric, styles["midiStyle"])
-            
+
             # Add the EBP quality metric paragraph to elements
             elements.append(EBP_metric_paragraph)
 
-    # Spacer        
+    # Spacer
     elements.append(Spacer(1, 8))
 
     # Add sentence
     Textline = Paragraph("The following metrics were automatically flagged as below EBP recommended standards or different from expected:", styles['midiStyle'])
     elements.append(Textline)
 
-    # Spacer        
+    # Spacer
     elements.append(Spacer(1, 4))
 
     # Apply checks and add warning paragraphs to elements
@@ -746,7 +768,7 @@ def make_report(yaml_file):
     elements += generate_warning_paragraphs(proposed_ploidy, ploidy, "Ploidy")
     elements += generate_warning_paragraphs(sex, obs_sex, "Sample Sex")
 
-    # Spacer        
+    # Spacer
     elements.append(Spacer(1, 4))
 
     # Iterate over haplotypes in the Curated category and apply checks
@@ -767,8 +789,8 @@ def make_report(yaml_file):
     # Spacer
     elements.append(Spacer(1, 24))
 
-    # Add small subtitle for Curator notes    
-    subtitle = Paragraph("Curator notes", styles['normalStyle']) 
+    # Add small subtitle for Curator notes
+    subtitle = Paragraph("Curator notes", styles['normalStyle'])
     elements.append(subtitle)
 
     # Spacer
@@ -777,7 +799,7 @@ def make_report(yaml_file):
     # Curator notes
     curator_notes_paragraph = Paragraph(curator_notes_text, styles["midiStyle"])
     elements.append(curator_notes_paragraph)
-        
+
     # Page break
     elements.append(PageBreak())
 
@@ -788,7 +810,7 @@ def make_report(yaml_file):
     subtitle = Paragraph("Quality metrics table", styles['TitleStyle'])
     elements.append(subtitle)
 
-    # Spacer 
+    # Spacer
     elements.append(Spacer(1, 48))
 
     # create QUALITY METRICS table
@@ -846,9 +868,9 @@ def make_report(yaml_file):
     subtitle = Paragraph("HiC contact map of curated assembly", styles['TitleStyle'])
     elements.append(subtitle)
 
-    # Spacer 
+    # Spacer
     elements.append(Spacer(1, 36))
-    
+
     # Initialize counter
     tool_count = 0
 
@@ -856,12 +878,12 @@ def make_report(yaml_file):
     for asm_stages, stage_properties in asm_data.items():
         if asm_stages == 'Curated':
             tool_elements = list(stage_properties.keys())
-        
+
             images_with_names = []
 
             for haplotype in tool_elements:
                 haplotype_properties = stage_properties[haplotype]
-                
+
                 # Check if there is an image and/or a link
                 png_file = haplotype_properties.get('hic_FullMap_png', '')
                 link = haplotype_properties.get('hic_FullMap_link', '')
@@ -875,7 +897,7 @@ def make_report(yaml_file):
                     # Add paragraph for missing image
                     missing_png_paragraph = Paragraph(f"<b>{haplotype}</b> HiC PNG is missing!", styles["midiStyle"])
                     images_with_names.append([missing_png_paragraph])
-                
+
                 # Add paragraph for the link
                 if link:
                     link_html = f'<b>{haplotype}</b> <link href="{link}" color="blue">[LINK]</link>'
@@ -884,30 +906,30 @@ def make_report(yaml_file):
 
                 link_paragraph = Paragraph(link_html, styles["midiStyle"])
                 images_with_names.append([link_paragraph])
-                
+
                 # Append a spacer only if the next element is an image
                 if len(tool_elements) > 1 and tool_elements.index(haplotype) < len(tool_elements) - 1:
-                    images_with_names.append([Spacer(1, 12)]) 
+                    images_with_names.append([Spacer(1, 12)])
 
             # Add images and names to the elements in pairs
             for i in range(0, len(images_with_names), 4):  # Process two images (and their names) at a time
                 elements_to_add = images_with_names[i:i+4]
-        
+
                 # Create table for the images and names
                 table = Table(elements_to_add)
                 table.hAlign = 'CENTER'
                 elements.append(table)
-        
+
                 # Add a page break conditionally
                 next_elements_start = i + 4
                 if next_elements_start < len(images_with_names):
                     if len(images_with_names[next_elements_start]) > 0 and isinstance(images_with_names[next_elements_start][0], Image):
                         elements.append(PageBreak())
-        
+
             tool_count += 1
 
     elements.append(PageBreak())
-    
+
 
     # PDF SECTION 4 -------------------------------------------------------------------------------
 
@@ -915,9 +937,9 @@ def make_report(yaml_file):
     subtitle = Paragraph("K-mer spectra of curated assembly", styles['TitleStyle'])
     elements.append(subtitle)
 
-    # Spacer 
+    # Spacer
     elements.append(Spacer(1, 48))
-    
+
     # Initialize counter
     counter = 0
     processed_folders = set()
@@ -926,7 +948,7 @@ def make_report(yaml_file):
         # Check if the stage is 'Curated'
         if asm_stages == 'Curated':
             stage_elements = list(stage_properties.keys())
-            
+
             for haplotype in stage_elements:
                 haplotype_properties = stage_properties[haplotype]
                 if isinstance(haplotype_properties, dict) and 'merqury_folder' in haplotype_properties:
@@ -940,7 +962,7 @@ def make_report(yaml_file):
                         # Filter out only .spectra-cn.ln.png files and find the shortest one, also skip None values
                         spectra_cn_files = [f for f in png_files if f and f.endswith("spectra-cn.ln.png")]
                         shortest_spectra_cn_file = min(spectra_cn_files, key=lambda f: len(os.path.basename(f)), default=None)
-                        
+
                         # Handle cases based on the number of spectra-cn.ln.png files
                         if len(spectra_cn_files) == 3:
                             # For 3 .spectra-cn.ln.png files
@@ -972,59 +994,59 @@ def make_report(yaml_file):
                                         text = "Distribution of k-mer counts per copy numbers found in asm"
                                 else:
                                     text = filename
-                                
+
                                 images.append([image, Paragraph(text, styles["midiStyle"])])
 
-        
+
                         # Filter None values
                         images = [img for img in images if img[0] is not None]
-        
+
                         # get number of rows and columns for the table
                         num_rows = (len(images) + 1) // 2  # +1 to handle odd numbers of images
                         num_columns = 2
-        
+
                         # Create the table with dynamic size
                         image_table_data = [[images[i * num_columns + j] if i * num_columns + j < len(images) else [] for j in range(num_columns)] for i in range(num_rows)]
                         image_table = Table(image_table_data)
-        
+
 
                         # Style the "table"
                         table_style = TableStyle([
                             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
                             ('BOTTOMPADDING', (0, 0), (-1, -1), 20),  #20 here is a spacer between rows
                         ])
-                        
+
                         # Set the style
                         image_table.setStyle(table_style)
-        
+
                         # Add image table to elements
                         elements.append(image_table)
-        
+
                         # Increase counter by the number of PNGs added
                         counter += len(png_files)
-        
+
                         # If counter is a multiple of 4, insert a page break and reset counter
                         if counter % 4 == 0:
                             elements.append(PageBreak())
                             counter = 0
-        
+
                 # Add spacer
                 elements.append(Spacer(1, 12))
 
     # If we have processed all haps and the last page does not contain exactly 4 images, insert a page break
     if counter % 4 != 0:
         elements.append(PageBreak())
-    
-    
+
+
     # PDF SECTION 5 -------------------------------------------------------------------------------
 
     # Add contamination section subtitle
     subtitle = Paragraph("Post-curation contamination screening", styles['TitleStyle'])
     elements.append(subtitle)
 
-    # Spacer 
+    # Spacer
     elements.append(Spacer(1, 36))
-    
+
     # Initialize counter
     tool_count = 0
 
@@ -1063,7 +1085,7 @@ def make_report(yaml_file):
     # SECTION 6 -----------------------------------------------------------------------------------
 
     # Add data profile section subtitle
-    subtitle = Paragraph("Data profile", styles['TitleStyle']) 
+    subtitle = Paragraph("Data profile", styles['TitleStyle'])
     elements.append(subtitle)
 
     # Spacer
@@ -1089,9 +1111,9 @@ def make_report(yaml_file):
     elements.append(Spacer(1, 32))
 
     # Add assembly pipeline section subtitle
-    subtitle = Paragraph("Assembly pipeline", styles['TitleStyle']) 
+    subtitle = Paragraph("Assembly pipeline", styles['TitleStyle'])
     elements.append(subtitle)
- 
+
     # Spacer
     elements.append(Spacer(1, 24))
 
@@ -1102,15 +1124,15 @@ def make_report(yaml_file):
     elements.append(Spacer(1, 32))
 
     # Add curation pipeline section subtitle
-    subtitle = Paragraph("Curation pipeline", styles['TitleStyle'])  
+    subtitle = Paragraph("Curation pipeline", styles['TitleStyle'])
     elements.append(subtitle)
- 
+
     # Spacer
     elements.append(Spacer(1, 24))
 
     # Add CURATION PIPELINE tree
     elements.append(Paragraph(curation_pipeline_tree, styles['treeStyle']))
-    
+
     # Spacer
     elements.append(Spacer(1, 48))
 
@@ -1137,5 +1159,5 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Create an ERGA Assembly Report (EAR) from a YAML file. Visit https://github.com/ERGA-consortium/EARs for more information')
     parser.add_argument('yaml_file', type=str, help='Path to the YAML file')
     args = parser.parse_args()
-    
+
     make_report(args.yaml_file)

@@ -1,0 +1,96 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3049732'
+ToLID: qdStyIlly1
+Species: Stygiiulus illyricus
+Class: Diplopoda
+Order: Julida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 526,119,689
+    Haploid Number: '12 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 549,733,997
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q52
+
+Curator notes:
+  Contamination notes: '""'
+  Other observations: '"Difficult to know if the first two scaffolds should be one
+    or two chromosomes. Potentially the X and Y. Lots of repetitive sequences."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 550,780,026
+    GC %: '37.49'
+    Gaps/Gbp: '490.21'
+    Total gap bp: 54,000
+    Scaffolds: 1,682
+    Scaffold N50: 29,700,184
+    Scaffold L50: '5'
+    Scaffold L90: '36'
+    Contigs: 1,952
+    Contig N50: 2,585,720
+    Contig L50: '60'
+    Contig L90: '235'
+    QV: '48.5773'
+    Kmer compl.: '94.9653'
+    BUSCO sing.: 97.1%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 1.4%
+  Curated pri:
+    Total bp: 549,733,997
+    GC %: '37.48'
+    Gaps/Gbp: '491.15'
+    Total gap bp: 54,000
+    Scaffolds: 1,680
+    Scaffold N50: 29,024,683
+    Scaffold L50: '5'
+    Scaffold L90: '34'
+    Contigs: 1,950
+    Contig N50: 2,585,720
+    Contig L50: '60'
+    Contig L90: '234'
+    QV: '52.7783'
+    Kmer compl.: '87.5237'
+    BUSCO sing.: 97.1%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 1.5%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arthropoda_odb12
+
+Data:
+  Profile: ONT HiC
+  Coverage: NA NA
+
+Assembly pipeline:
+  HiFiasm:
+    ver: 0.25.0
+  purge-dups:
+    ver: 1.2.6
+  yahs:
+    ver: 1.1a
+  fcs-gx:
+    ver: 0.5.0
+
+Curation pipeline:
+  PretextView:
+    ver: 1.0.0
+
+Submitter: Tom Brown
+Affiliation: IZW
+
+Date and time: 2026-03-01 06:14:22 CET

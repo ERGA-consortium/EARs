@@ -33,7 +33,7 @@ jobs:
           persist-credentials: false
 
       - name: Download artifact
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
@@ -57,7 +57,7 @@ jobs:
         run: unzip pr_status.zip
 
       - name: Extract artifact
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             let fs = require('fs');

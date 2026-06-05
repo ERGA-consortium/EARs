@@ -1,0 +1,100 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '391263'
+ToLID: hrDivMult2
+Species: Diversibipalium multilineatum
+Class: NA
+Order: Tricladida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 862,056,696
+    Haploid Number: '4 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: H
+  Observed:
+    Haploid size (bp): 846,494,783
+    Haploid Number: '5'
+    Ploidy: '2'
+    Sample Sex: H
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.8.Q62
+
+Curator notes:
+  Interventions/Gb: 227
+  Contamination notes: '"None"'
+  Other observations: '"None"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 846,294,444
+    GC %: '27.84'
+    Gaps/Gbp: '94.53'
+    Total gap bp: 8,000
+    Scaffolds: '378'
+    Scaffold N50: 165,852,147
+    Scaffold L50: '3'
+    Scaffold L90: '5'
+    Contigs: '458'
+    Contig N50: 16,230,347
+    Contig L50: '17'
+    Contig L90: '55'
+    Kmer compl.: '98.62'
+    BUSCO sing.: 60.7%
+    BUSCO dupl.: 9.4%
+    BUSCO frag.: 1.9%
+    BUSCO miss.: 28.0%
+  Curated pri:
+    Total bp: 846,494,783
+    GC %: '27.84'
+    Gaps/Gbp: '314.23'
+    Total gap bp: 49,000
+    Scaffolds: '190'
+    Scaffold N50: 195,353,191
+    Scaffold L50: '2'
+    Scaffold L90: '5'
+    Contigs: '456'
+    Contig N50: 16,230,347
+    Contig L50: '17'
+    Contig L90: '56'
+    Kmer compl.: '98.71'
+    BUSCO sing.: 60.5%
+    BUSCO dupl.: 9.3%
+    BUSCO frag.: 2.1%
+    BUSCO miss.: 28.1%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: metazoa_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 58x 134x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.25.0-r726
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.25.0-r726
+    key param: --primary
+  purge_dups:
+    ver: 1.2.5
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Danil Zilov
+Affiliation: WSI
+
+Date and time: 2026-05-19 15:34:20 CEST

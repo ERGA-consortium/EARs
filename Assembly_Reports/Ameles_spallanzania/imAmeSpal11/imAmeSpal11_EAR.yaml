@@ -1,0 +1,144 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3014478'
+ToLID: imAmeSpal11
+Species: Ameles spallanzania
+Class: Insecta
+Order: Mantodea
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,583,211,628
+    Haploid Number: '8 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 2,605,433,968
+    Haploid Number: '14'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    hap1: 6.8.Q62
+    hap2: 6.8.Q62
+
+Curator notes:
+  Contamination notes: '"Decontamination was done with NCBI FCS pipeline and confirmed
+    with Blobtoolkit"'
+  Other observations: '"This genome assembly was produced by assembling PacBio HiFi
+    data from two different individuals with Hifiasm, purging with purge_dups and
+    then scaffolding with Yahs. Both assemblies are presented as requested. Curation
+    made 18 cuts in contigs, 14 breaks at gaps and 80 joins for the Hap1 and 17 cuts
+    in contigs, 6 breaks at gaps and 413 joins for the Hap2. The sex chromosomes were
+    assigned based on an alignment with the species Deroplatys truncata (GCA_030765065.1)"'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 2,609,282,592
+    GC %: '37.88'
+    Gaps/Gbp: '378.65'
+    Total gap bp: 197,600
+    Scaffolds: '646'
+    Scaffold N50: 17,033,530
+    Scaffold L50: '41'
+    Scaffold L90: '161'
+    Contigs: 1,634
+    Contig N50: 3,996,391
+    Contig L50: '180'
+    Contig L90: '757'
+    QV: '62.6925'
+    Kmer compl.: '94.9093'
+    BUSCO sing.: 96.0%
+    BUSCO dupl.: 3.2%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 0.7%
+  Pre-curation hap2:
+    Total bp: 2,583,173,298
+    GC %: '37.88'
+    Gaps/Gbp: '341.83'
+    Total gap bp: 176,600
+    Scaffolds: '819'
+    Scaffold N50: 17,239,675
+    Scaffold L50: '38'
+    Scaffold L90: '176'
+    Contigs: 1,702
+    Contig N50: 4,133,618
+    Contig L50: '159'
+    Contig L90: '708'
+    QV: '62.6457'
+    Kmer compl.: '95.5045'
+    BUSCO sing.: 96.2%
+    BUSCO dupl.: 2.7%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 0.8%
+  Curated hap1:
+    Total bp: 2,605,433,968
+    GC %: '37.88'
+    Gaps/Gbp: '550'
+    Total gap bp: 286,600
+    Scaffolds: '254'
+    Scaffold N50: 167,826,513
+    Scaffold L50: '6'
+    Scaffold L90: '13'
+    Contigs: 1,687
+    Contig N50: 3,681,516
+    Contig L50: '188'
+    Contig L90: '797'
+    QV: '62.6942'
+    Kmer compl.: '94.8929'
+    BUSCO sing.: 95.8%
+    BUSCO dupl.: 3.3%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.7%
+  Curated hap2:
+    Total bp: 2,584,298,143
+    GC %: '37.88'
+    Gaps/Gbp: '510.78'
+    Total gap bp: 264,000
+    Scaffolds: '421'
+    Scaffold N50: 164,258,888
+    Scaffold L50: '6'
+    Scaffold L90: '13'
+    Contigs: 1,741
+    Contig N50: 4,022,341
+    Contig L50: '164'
+    Contig L90: '742'
+    QV: '62.6448'
+    Kmer compl.: '95.4991'
+    BUSCO sing.: 96.1%
+    BUSCO dupl.: 2.7%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 0.9%
+
+BUSCO:
+  ver: 5.8.0 (euk_genome_min, miniprot)
+  lineage: insecta_odb10
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 29.54X 145.70X
+
+Assembly pipeline:
+  Hifiasm:
+    ver: Galaxy Version 0.24.0+galaxy0
+    key param: VGP Galaxy workflow VGP3 v 0.3.2
+  purge_dups:
+    ver: Galaxy Version 1.2.6+galaxy0
+    key param: VGP Galaxy workflow VGP6 v 0.8
+  YaHS:
+    ver: Galaxy Version 1.2a.2+galaxy2
+    key param: VGP Galaxy workflow VGP8 v 2.0
+
+Curation pipeline:
+  PretextMap:
+    ver: Galaxy Version 0.1.9+galaxy1
+    key param: VGP workflow VGP PretextMap generation v2
+  PretextView:
+    ver: 1.0.0
+
+Submitter: Marcella Sozzoni
+Affiliation: UNIFI
+
+Date and time: 2026-05-27 15:25:40 CEST

@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3350012'
+ToLID: ihAphHill11
+Species: Aphis hillerislambersi
+Class: Insecta
+Order: Hemiptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 489,340,424
+    Haploid Number: '4 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 427,291,510
+    Haploid Number: '4'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.8.Q69
+
+Curator notes:
+  Interventions/Gb: 20
+  Contamination notes: '"Contaminations were identified and removed with FCS-GX (removed:
+    760 contigs, 24.3M). Mitochondrial genome was removed from the assembly."'
+  Other observations: '"PacBio reads were assembled with hifiasm (yield: 509M, N50:
+    37.7Mb, 850 contigs). FCS-GX detected several contaminations which where removed
+    (yield: 485M, N50: 50.4Mb, 90 contigs). Purge_dups was run to remove haplotypic
+    duplications (purged: 62 sequences, 38.8Mb remaining assembly: yield: 446M, N50:
+    48.4Mb, 28 contigs). The HiC quality is really suboptimal (just 130K cis read
+    pairs >40Kb) and 4 individuals were used for the HiC sequencing (see comments
+    in assembly_curation slack channel from 16th October 2025) Due to the low number
+    of contigs and the low HiC quality the scaffolding was done manually in the manual
+    curation step. Obvious contig misjoins (see old slack message) where removed based
+    on off-diagonal HiC signals, on coverage, and by investigating PacBio read alignments
+    in IGV. The newer Hifiasm version (0.25.0-r726) created far less contig errors
+    compared to the older version back in October 2025. Synteny analysis with 5 chromosome-scale
+    Aphis assemblies were used to confirm the overall chromosome structure and the
+    X-chromosome."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 446,144,015
+    GC %: '28.81'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '25'
+    Scaffold N50: 48,412,940
+    Scaffold L50: '4'
+    Scaffold L90: '10'
+    Contigs: '25'
+    Contig N50: 48,412,940
+    Contig L50: '4'
+    Contig L90: '10'
+    QV: '69.419'
+    Kmer compl.: '89.5035'
+    BUSCO sing.: 93.7%
+    BUSCO dupl.: 4.2%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 1.2%
+  Curated pri:
+    Total bp: 427,291,510
+    GC %: '28.79'
+    Gaps/Gbp: '23.4'
+    Total gap bp: 2,000
+    Scaffolds: '13'
+    Scaffold N50: 110,330,946
+    Scaffold L50: '2'
+    Scaffold L90: '4'
+    Contigs: '23'
+    Contig N50: 48,412,940
+    Contig L50: '4'
+    Contig L90: '10'
+    QV: '69.8166'
+    Kmer compl.: '89.2276'
+    BUSCO sing.: 97.7%
+    BUSCO dupl.: 1.3%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 1.0%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 70x 92x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.6
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: 1a3d79a8
+  HiGlass:
+    ver: 0.10.4
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2026-02-13 22:14:52 CET

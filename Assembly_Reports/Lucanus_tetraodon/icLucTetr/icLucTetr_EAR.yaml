@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '618066'
+ToLID: icLucTetr
+Species: Lucanus tetraodon
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 360,638,005
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XY
+  Observed:
+    Haploid size (bp): 337,598,709
+    Haploid Number: '14'
+    Ploidy: '2'
+    Sample Sex: XY
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q39
+
+Curator notes:
+  Interventions/Gb: 386
+  Contamination notes: '"No contaminants were detected."'
+  Other observations: '"The assembly of species Lucanus tetraodon (icLucTetr) is based
+    on 150X long read ONT data and 85X Arima Hi-C data generated as part of the European
+    Reference Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity
+    Genomics Europe project (BGE, https://biodiversitygenomics.eu/). The assembly
+    process included the following steps: ONT reads shorter than 3 kb were filtered
+    out, thus the remaining reads were assembled using Necat with polishing performed
+    using NextPolish. Contigs were subsequently filtered with purge_dups to remove
+    haplotigs and obtain a more accurate, non-redundant assembly. Scaffolding was
+    performed by aligning Hi-C reads to the purged contigs using the Omni-C mapping
+    pipeline, followed by YaHS for scaffold construction. Contamination was checked
+    using BlobTools, and no contaminants were detected. The scaffolds were processed
+    through sanger_tol/curationpretext pipeline to generate the contact map, which
+    was manually improved using PretextView. Chromosome-scale scaffolds confirmed
+    by Hi-C data were named in order of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 362,404,194
+    GC %: '35.67'
+    Gaps/Gbp: '711.91'
+    Total gap bp: 25,800
+    Scaffolds: '356'
+    Scaffold N50: 18,996,966
+    Scaffold L50: '8'
+    Scaffold L90: '28'
+    Contigs: '614'
+    Contig N50: 1,875,229
+    Contig L50: '51'
+    Contig L90: '211'
+    QV: '39.8955'
+    Kmer compl.: '86.6829'
+    BUSCO sing.: 91.0%
+    BUSCO dupl.: 5.2%
+    BUSCO frag.: 1.3%
+    BUSCO miss.: 2.5%
+  Curated collapsed:
+    Total bp: 337,598,709
+    GC %: '35.66'
+    Gaps/Gbp: '995.26'
+    Total gap bp: 47,400
+    Scaffolds: '249'
+    Scaffold N50: 23,875,370
+    Scaffold L50: '6'
+    Scaffold L90: '13'
+    Contigs: '585'
+    Contig N50: 1,983,884
+    Contig L50: '47'
+    Contig L90: '190'
+    QV: '39.6757'
+    Kmer compl.: '84.6071'
+    BUSCO sing.: 94.9%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 1.3%
+    BUSCO miss.: 3.0%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_aug, augustus)
+  lineage: polyphaga_odb12
+
+Data:
+  Profile: ONT Arima HiC
+  Coverage: 150 85
+
+Assembly pipeline:
+  Necat:
+    ver: 0.0.1
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2.2
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.5.0
+  PretextView:
+    ver: 1.0.5
+
+Submitter: Melania Spinelli, Ilenia Urso
+Affiliation: UNIBA
+
+Date and time: 2026-02-23 16:10:56 CET

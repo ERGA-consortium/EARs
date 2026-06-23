@@ -1,0 +1,105 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '243007'
+ToLID: iqAioThal3
+Species: Aiolopus thalassinus
+Class: Insecta
+Order: Orthoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 6,979,785,760
+    Haploid Number: '11 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: X0
+  Observed:
+    Haploid size (bp): 7,268,171,333
+    Haploid Number: '12'
+    Ploidy: '2'
+    Sample Sex: X0
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.8.Q71
+
+Curator notes:
+  Interventions/Gb: 39
+  Contamination notes: '"Contaminations were identified and removed with FCS-GX (removed:
+    4 contigs, 150Kb). Mitochondrial genome was removed from the assembly."'
+  Other observations: '"PacBio reads were assembled with hifiasm. FCS-GX detected
+    a few contaminations which where removed. Purge_dups was run to remove haplotypic
+    duplications. But it removed to much sequence and even the Busco score dropped
+    significantly. Therefore the Busco gene set was used to guide the purging. Afterwards
+    Tiara was used to remove archaea|bacteria|organelle hits. Due to time issues and
+    compute cluster down-time the scaffolding was done manually within the curation
+    step. This worked well as the input assembly consisted of just 230 contigs. The
+    curation revealed more contig misjoins than usual (76 contigs cuts were necessary).This
+    is probably caused by the large heterozygosity (1.6%). Several large-scale structural
+    haplotypic variations can be seen in the HiC-map. The X-chromosome was identified
+    by synteny analysis with other Acrididae (e.g. GCF_021461395.2_iqSchAmer2) assemblies,
+    but also the PacBio read coverage showed a 1n coverage pattern."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 7,497,130,708
+    GC %: '41.47'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '227'
+    Scaffold N50: 63,728,264
+    Scaffold L50: '33'
+    Scaffold L90: '115'
+    Contigs: '227'
+    Contig N50: 63,728,264
+    Contig L50: '33'
+    Contig L90: '115'
+    QV: '72.0441'
+    Kmer compl.: '77.349'
+    BUSCO sing.: 93.4%
+    BUSCO dupl.: 4.9%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 1.1%
+  Curated pri:
+    Total bp: 7,268,171,333
+    GC %: '41.47'
+    Gaps/Gbp: '27.93'
+    Total gap bp: 40,600
+    Scaffolds: '48'
+    Scaffold N50: 765,756,381
+    Scaffold L50: '4'
+    Scaffold L90: '9'
+    Contigs: '251'
+    Contig N50: 52,464,910
+    Contig L50: '36'
+    Contig L90: '126'
+    QV: '71.9946'
+    Kmer compl.: '76.1607'
+    BUSCO sing.: 96.0%
+    BUSCO dupl.: 2.5%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.2%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: insecta_odb12
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 53x 210x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.6
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: 1a3d79a8
+
+Submitter: Guilherme Dias Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2026-02-18 09:37:05 CET

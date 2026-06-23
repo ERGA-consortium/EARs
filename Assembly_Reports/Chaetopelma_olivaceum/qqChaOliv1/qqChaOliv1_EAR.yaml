@@ -1,0 +1,151 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1795686'
+ToLID: qqChaOliv1
+Species: Chaetopelma olivaceum
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 4,899,563,537
+    Haploid Number: '9 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 5,076,251,623
+    Haploid Number: '33'
+    Ploidy: '2'
+    Sample Sex: XXX
+
+EBP metrics:
+  EBP quality code:
+    hap1: 8.8.Q70
+    hap2: 8.8.Q70
+
+Curator notes:
+  Contamination notes: '"5,851,380 bp contained in 75 sequences were considered contaminats
+    by FCS-GX and removed from hap1. Additionally, 2,128,985 contained in 32 sequences
+    were also considered contaminants and removed from hap2. The longest removed contigs
+    for hap1 and hap2 were 263,942 and 160,176 bp, respectively."'
+  Other observations: '"This genome assembly was produced by assembling ONT data with
+    Hifiasm and then scaffolding with Yahs. Given the good quality of both haplotypes,
+    curation was made in diploid mode and we are planning to submit both haplotypes
+    to the ENA. Curation made 2 cuts in contigs, 5 breaks at gaps and 40 joins. 3
+    sex chromosomes were identified during curation based on half coverage, given
+    their structure and based on some of the existant knowledge in spiders, we believe
+    that they correspond to 3 X chromosomes. The mitogenome was successfully assembled
+    with FOAM."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 5,070,272,142
+    GC %: '40.97'
+    Gaps/Gbp: '2.56'
+    Total gap bp: 2,600
+    Scaffolds: '898'
+    Scaffold N50: 158,663,373
+    Scaffold L50: '14'
+    Scaffold L90: '30'
+    Contigs: '911'
+    Contig N50: 144,858,072
+    Contig L50: '15'
+    Contig L90: '35'
+    QV: '68.111'
+    Kmer compl.: '93.1278'
+    BUSCO sing.: 92.3%
+    BUSCO dupl.: 5.6%
+    BUSCO frag.: 1.2%
+    BUSCO miss.: 1.0%
+  Pre-curation hap2:
+    Total bp: 4,434,489,659
+    GC %: '40.79'
+    Gaps/Gbp: '6.31'
+    Total gap bp: 5,600
+    Scaffolds: '266'
+    Scaffold N50: 154,201,259
+    Scaffold L50: '13'
+    Scaffold L90: '26'
+    Contigs: '294'
+    Contig N50: 131,742,126
+    Contig L50: '14'
+    Contig L90: '34'
+    QV: '68.896'
+    Kmer compl.: '85.1184'
+    BUSCO sing.: 89.6%
+    BUSCO dupl.: 3.9%
+    BUSCO frag.: 1.6%
+    BUSCO miss.: 4.9%
+  Curated hap1:
+    Total bp: 5,076,251,623
+    GC %: '40.96'
+    Gaps/Gbp: '6.5'
+    Total gap bp: 6,600
+    Scaffolds: '807'
+    Scaffold N50: 158,462,686
+    Scaffold L50: '14'
+    Scaffold L90: '29'
+    Contigs: '840'
+    Contig N50: 137,120,474
+    Contig L50: '15'
+    Contig L90: '34'
+    QV: '70.2331'
+    Kmer compl.: '93.1057'
+    BUSCO sing.: 92.4%
+    BUSCO dupl.: 5.5%
+    BUSCO frag.: 1.1%
+    BUSCO miss.: 1.0%
+  Curated hap2:
+    Total bp: 5,076,251,623
+    GC %: '40.96'
+    Gaps/Gbp: '6.5'
+    Total gap bp: 6,600
+    Scaffolds: '807'
+    Scaffold N50: 158,462,686
+    Scaffold L50: '14'
+    Scaffold L90: '29'
+    Contigs: '840'
+    Contig N50: 137,120,474
+    Contig L50: '15'
+    Contig L90: '34'
+    QV: '70.2487'
+    Kmer compl.: '85.0959'
+    BUSCO sing.: 92.4%
+    BUSCO dupl.: 5.5%
+    BUSCO frag.: 1.1%
+    BUSCO miss.: 1.0%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arachnida_odb12
+
+Data:
+  Profile: ONT Illumina Omni-C
+  Coverage: 64 17 32
+
+Assembly pipeline:
+  CLAWS:
+    ver: v3.0
+  Filtlong:
+    ver: v0.2.1
+    key param: --target_bases 300000000000
+  Hifiasm:
+    ver: 0.24.0
+    key param: -h1 -h2
+  Yahs:
+    ver: 1.2a
+    key param: --no-contig-ec
+  FOAM:
+    ver: '0.5'
+
+Curation pipeline:
+  FCS-GX:
+    ver: None
+  PretextViewAI:
+    ver: 1.0.5
+
+Submitter: Jessica Gomez-Garrido
+Affiliation: CNAG
+
+Date and time: 2026-02-10 09:21:26 CET

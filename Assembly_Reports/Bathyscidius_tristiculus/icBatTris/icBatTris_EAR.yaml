@@ -1,0 +1,103 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3073148'
+ToLID: icBatTris
+Species: Bathyscidius tristiculus
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 434,092,953
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 488,115,944
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: X0
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q66
+
+Curator notes:
+  Contamination notes: '"No contamination was detected."'
+  Other observations: '"This genome assembly was produced by assembling PacBio HiFi
+    data from two different individuals with Hifiasm, purging with purge_dups and
+    then scaffolding with Yahs. Curation made 27 cuts in contigs, 46 breaks at gaps
+    and 47 joins. 44 haplotypic sequences, composing a total of 28,686,280 bp were
+    identified and removed during curation. Mitogenome was successfully assembled
+    with FOAM."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 516,802,241
+    GC %: '32.89'
+    Gaps/Gbp: 1,079.72
+    Total gap bp: 111,600
+    Scaffolds: '331'
+    Scaffold N50: 33,037,159
+    Scaffold L50: '6'
+    Scaffold L90: '45'
+    Contigs: '889'
+    Contig N50: 1,128,672
+    Contig L50: '121'
+    Contig L90: '468'
+    QV: '66.3313'
+    Kmer compl.: '79.3841'
+    BUSCO sing.: 92.5%
+    BUSCO dupl.: 3.3%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 3.5%
+  Curated pri:
+    Total bp: 488,115,944
+    GC %: '32.92'
+    Gaps/Gbp: 1,143.17
+    Total gap bp: 111,600
+    Scaffolds: '313'
+    Scaffold N50: 34,462,195
+    Scaffold L50: '4'
+    Scaffold L90: '35'
+    Contigs: '871'
+    Contig N50: 1,117,445
+    Contig L50: '122'
+    Contig L90: '462'
+    QV: '66.2884'
+    Kmer compl.: '78.5194'
+    BUSCO sing.: 94.5%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 3.9%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: insecta_odb12
+
+Data:
+  Profile: PacBio HiFi Arima Hi-C
+  Coverage: 74 171
+
+Assembly pipeline:
+  CLAWS:
+    ver: v3.0
+  Hifiasm:
+    ver: 0.24.0
+    key param: -N 150
+  Purge_dups:
+    ver: 1.2.6
+  Yahs:
+    ver: 1.2a
+    key param: --no-contig-ec
+  FOAM:
+    ver: '0.5'
+
+Curation pipeline:
+  Blobtoolkit Nextflow: {}
+
+Submitter: Jessica Gomez-Garrido
+Affiliation: CNAG
+
+Date and time: 2026-02-10 15:29:18 CET

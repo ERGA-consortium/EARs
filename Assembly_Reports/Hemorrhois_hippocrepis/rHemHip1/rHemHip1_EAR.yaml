@@ -1,4 +1,4 @@
-ERGA Assembly Report: v24.09.10
+ERGA Assembly Report: v24.10.15
 Tags: ERGA-BGE
 
 TxID: '166086'
@@ -14,88 +14,128 @@ Genome Traits:
     Ploidy: '3 (source: ancestor)'
     Sample Sex: ZW
   Observed:
-    Haploid size (bp): 1,806,509,314
-    Haploid Number: '18'
+    Haploid size (bp): 1,851,468,933
+    Haploid Number: '19'
     Ploidy: '2'
     Sample Sex: ZW
 
 EBP metrics:
   EBP quality code:
-    collapsed: 7.8.Q50
+    hap1: 8.8.Q66
+    hap2: 7.8.Q66
 
 Curator notes:
-  Interventions/Gb: 5
-  Contamination notes: '"No contaminants detected with blobtoolkit INSDC pipeline
-    in the precurated assembly."'
-  Other observations: '"Curation made 4 cuts in contigs, 5 breaks at gaps and 0 joins.
-    The W contigs were found in the purge_dups'' hap.fa and placed back into the nextdenovo
-    asseembly before yahs scaffolding. After curation and review, the W was assembled
-    into 1 contig of 11.9 Mb and 37 unlocalized scaffolds totalling 99,702,411 bp.
-    Consistently with the cytogenetic information we identified 10 microchromosomes
-    (SUPER_7-SUPER_16). Although there are 4 scaffolds with clear contcats with them
-    is not possible to place them into a unique SUPER. The link provided for the pretextmap
-    points to a folder where reviewers can add additional save_states if required.
-    Finally, the mitogenome has been assembled independently with FOAM into a 21,416
-    bp circular contig with high accuracy."'
+  Interventions/Gb: 20
+  Contamination notes: '"No contaminants were detected"'
+  Other observations: '"The reads were re-assembled with hifiasm (ont) with Hi-C phasing
+    (initially with CLAWS 3.0 and finishing with remapping and evaluation steps with
+    CLAWS 3.3). In the initial round of curation, we made 2 cuts in contigs, 10 breaks
+    at gaps and 8 joins. The -better- SUPERs (higher BUSCO, fewer gaps, longer length)
+    as well as the Z and W chrs were assigned to hap1 a posteriori."'
 
 Metrics:
-  Pre-curation collapsed:
-    Total bp: 1,810,545,746
-    GC %: '41.21'
-    Gaps/Gbp: '24.3'
-    Total gap bp: 8,800
-    Scaffolds: '112'
-    Scaffold N50: 153,613,959
+  Pre-curation hap1:
+    Total bp: 1,689,233,707
+    GC %: '41.19'
+    Gaps/Gbp: '13.02'
+    Total gap bp: 4,400
+    Scaffolds: '57'
+    Scaffold N50: 223,150,264
+    Scaffold L50: '3'
+    Scaffold L90: '12'
+    Contigs: '79'
+    Contig N50: 94,437,553
+    Contig L50: '6'
+    Contig L90: '20'
+    QV: '66.1566'
+    Kmer compl.: '88.7141'
+    BUSCO sing.: 91.2%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 7.3%
+  Pre-curation hap2:
+    Total bp: 1,696,562,687
+    GC %: '41.06'
+    Gaps/Gbp: '8.84'
+    Total gap bp: 3,000
+    Scaffolds: '29'
+    Scaffold N50: 220,572,697
+    Scaffold L50: '3'
+    Scaffold L90: '9'
+    Contigs: '44'
+    Contig N50: 132,354,085
+    Contig L50: '5'
+    Contig L90: '15'
+    QV: '67.263'
+    Kmer compl.: '93.5576'
+    BUSCO sing.: 96.2%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 2.2%
+  Curated hap1:
+    Total bp: 1,851,468,933
+    GC %: '41.18'
+    Gaps/Gbp: '10.26'
+    Total gap bp: 3,800
+    Scaffolds: '55'
+    Scaffold N50: 154,801,275
     Scaffold L50: '4'
     Scaffold L90: '11'
-    Contigs: '156'
-    Contig N50: 47,232,710
-    Contig L50: '12'
-    Contig L90: '40'
-    QV: '50.2312'
-    Kmer compl.: '95.6393'
-    BUSCO sing.: 96.5%
-    BUSCO dupl.: 1.0%
-    BUSCO frag.: 0.7%
-    BUSCO miss.: 1.8%
-  Curated collapsed:
-    Total bp: 1,806,509,314
-    GC %: '41.21'
-    Gaps/Gbp: '19.93'
-    Total gap bp: 7,200
-    Scaffolds: '110'
-    Scaffold N50: 153,613,759
-    Scaffold L50: '4'
-    Scaffold L90: '14'
-    Contigs: '146'
-    Contig N50: 54,718,507
-    Contig L50: '11'
-    Contig L90: '35'
-    QV: '50.2958'
-    Kmer compl.: '95.62'
-    BUSCO sing.: 96.5%
-    BUSCO dupl.: 1.0%
-    BUSCO frag.: 0.7%
-    BUSCO miss.: 1.8%
+    Contigs: '74'
+    Contig N50: 114,638,990
+    Contig L50: '6'
+    Contig L90: '21'
+    QV: '66.566'
+    Kmer compl.: '95.5531'
+    BUSCO sing.: 97.4%
+    BUSCO dupl.: 1.3%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 1.1%
+  Curated hap2:
+    Total bp: 1,531,310,509
+    GC %: '41.06'
+    Gaps/Gbp: '11.1'
+    Total gap bp: 3,400
+    Scaffolds: '32'
+    Scaffold N50: 220,572,697
+    Scaffold L50: '3'
+    Scaffold L90: '10'
+    Contigs: '49'
+    Contig N50: 93,867,649
+    Contig L50: '5'
+    Contig L90: '16'
+    QV: '66.8302'
+    Kmer compl.: '85.7345'
+    BUSCO sing.: 92.4%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 0.1%
+    BUSCO miss.: 6.6%
 
 BUSCO:
-  ver: 5.4.0
-  lineage: vertebrata_odb10
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
 
 Data:
   Profile: ONT Illumina OmniC
   Coverage: 84x 60x 53x
 
 Assembly pipeline:
-  CLAWS: {}
+  CLAWS:
+    ver: v3.3.0
+  Filtlong:
+    ver: v0.2.1
+  Hifiasm:
+    ver: 0.24.0
+    key param: --ont
+  Yahs:
+    ver: 1.2a
+  Chromap:
+    ver: 0.3.2-r518
 
 Curation pipeline:
-  PretextView:
-    ver: 0.2.5
-  GRIT_Rapid:
-    ver: '2.0'
+  Blobtoolkit Nextflow: {}
 
-Submitter: Fernando Cruz
-Affiliation: CNAG Barcelona
+Submitter: Francisco Camara Ferreira
+Affiliation: CNAG
 
-Date and time: 2024-11-11 15:09:28 CET
+Date and time: 2026-06-12 15:29:32 CEST

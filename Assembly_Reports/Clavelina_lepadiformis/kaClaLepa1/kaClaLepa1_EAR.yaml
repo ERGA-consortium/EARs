@@ -1,0 +1,161 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '159417'
+ToLID: kaClaLepa1
+Species: Clavelina lepadiformis
+Class: Ascidiacea
+Order: Aplousobranchia
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 191,230,229
+    Haploid Number: '9 (source: direct)'
+    Ploidy: '2 (source: direct)'
+    Sample Sex: Hermaphrodite
+  Observed:
+    Haploid size (bp): 218,900,232
+    Haploid Number: '9'
+    Ploidy: '2'
+    Sample Sex: Hermaphrodite
+
+EBP metrics:
+  EBP quality code:
+    hap1: 6.7.Q65
+    hap2: 6.7.Q65
+
+Curator notes:
+  Interventions/Gb: 107
+  Contamination notes: '"The organism was moderately contaminated. Initial screening
+    was performed with Tiara and BlobToolKit. Those contaminants were identified in
+    the Hi-C contact map and clustered with other contigs showing high contact frequency.
+    These blocks, along with other contigs showing minimal contact frequency to the
+    primary scaffolds, were removed from the assembly."'
+  Other observations: '"The Hifi data was subsampled to 130x, which improved contiguity
+    and reduced contamination. The Sanger Hi-C library (ERR10501018) was used for
+    scaffolding and manual curation after the SciLifeLab library proved insufficient.
+    SciLifeLab data was subsequently remapped for final validation. Because the Sanger
+    library used a different individual, signal breaks within contigs were ignored
+    to prioritize HiFi data accuracy. The SciLifeLab library was used primarily for
+    contamination checks. The pretext file of Sanger Hi-C against the Hifi is also
+    in https://export.uppmax.uu.se/snic2021-6-194/ERGA/kaClaLepa1"'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 198,159,941
+    GC %: '35.88'
+    Gaps/Gbp: '282.6'
+    Total gap bp: 11,200
+    Scaffolds: '353'
+    Scaffold N50: 22,014,189
+    Scaffold L50: '4'
+    Scaffold L90: '15'
+    Contigs: '409'
+    Contig N50: 3,344,678
+    Contig L50: '17'
+    Contig L90: '70'
+    Kmer compl.: '98.93'
+    BUSCO sing.: 93.7%
+    BUSCO dupl.: 1.5%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 4.5%
+  Pre-curation hap2:
+    Total bp: 228,295,693
+    GC %: '35.13'
+    Gaps/Gbp: '232.16'
+    Total gap bp: 10,600
+    Scaffolds: '282'
+    Scaffold N50: 21,931,320
+    Scaffold L50: '5'
+    Scaffold L90: '46'
+    Contigs: '335'
+    Contig N50: 4,310,601
+    Contig L50: '17'
+    Contig L90: '95'
+    Kmer compl.: '98.93'
+    BUSCO sing.: 93.6%
+    BUSCO dupl.: 1.9%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 4.1%
+  Curated hap1:
+    Total bp: 193,721,913
+    GC %: '35.8'
+    Gaps/Gbp: '449.1'
+    Total gap bp: 17,400
+    Scaffolds: '177'
+    Scaffold N50: 20,804,929
+    Scaffold L50: '5'
+    Scaffold L90: '9'
+    Contigs: '264'
+    Contig N50: 3,016,126
+    Contig L50: '19'
+    Contig L90: '65'
+    Kmer compl.: '98.11'
+    BUSCO sing.: 94.2%
+    BUSCO dupl.: 0.8%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 4.5%
+  Curated hap2:
+    Total bp: 218,900,232
+    GC %: '35.12'
+    Gaps/Gbp: '328.92'
+    Total gap bp: 14,400
+    Scaffolds: '189'
+    Scaffold N50: 21,998,938
+    Scaffold L50: '5'
+    Scaffold L90: '27'
+    Contigs: '261'
+    Contig N50: 4,930,265
+    Contig L50: '16'
+    Contig L90: '81'
+    Kmer compl.: '98.11'
+    BUSCO sing.: 94.0%
+    BUSCO dupl.: 1.4%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 4.1%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: metazoa_odb10
+
+Data:
+  Profile: PacBio Hi-C Hi-C_ERR10501018
+  Coverage: 259 226 869
+
+Assembly pipeline:
+  Rasusa:
+    ver: 2.2.2
+    key param: --coverage 130
+  NBISweden/Earth-Biogenome-Project-pilot:
+    ver: commit:85e04ded1d
+    key param: --busco.lineages_db_path "path-to-busco-v5_lineage_sets"
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: --h2
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2a.1
+    key param: --no-contig-ec
+  FCSGX:
+    ver: 0.5.4
+  Mitohifi:
+    ver: 3.0.0
+    key param: -o 13
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.5.1
+  sanger-tol/blobtoolkit:
+    ver: 0.9.0
+  PretextView:
+    ver: 1.0.4
+  sanger-tol/agp-tpf-utils:
+    ver: 'commit: 35ea45dbcd8f3ece7a91104e5813541b55beb2ff'
+  sanger-tol/sanger-tol-ear:
+    ver: 'commit: 2b15915ec8'
+
+Submitter: Mahesh Binzer-Panchal
+Affiliation: SciLifeLab
+
+Date and time: 2026-02-27 14:23:44 CET

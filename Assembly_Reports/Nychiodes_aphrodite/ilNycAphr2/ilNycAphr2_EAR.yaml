@@ -1,0 +1,93 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3229189'
+ToLID: ilNycAphr2
+Species: Nychiodes aphrodite
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 668,888,793
+    Haploid Number: '30 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: ZW
+  Observed:
+    Haploid size (bp): 691,271,241
+    Haploid Number: '22'
+    Ploidy: '2'
+    Sample Sex: ZW
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.7.Q63
+
+Curator notes:
+  Interventions/Gb: 12
+  Contamination notes: '"We removed a total of 49 contaminant scaffolds/contigs detected
+    with BTK and FCS-GX. As FCS its faster, it was used to obtain the blobplot shown."'
+  Other observations: '"We curated the hifiasm primary. Curation made 4 cuts in contigs,
+    1 break at a gap and 3 joins. We both sex chromosomes, the Z chromosome and the
+    W. The mitogenome was assembled with FOAMv0.5 into a single circular contig of
+    15,485 bp. Note that the MT is not present in the assembly under review and it
+    will be added just before the ENA upload."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 700,508,710
+    GC %: '36.62'
+    Gaps/Gbp: '1.43'
+    Total gap bp: '200'
+    Scaffolds: '195'
+    Scaffold N50: 29,429,818
+    Scaffold L50: '10'
+    Scaffold L90: '21'
+    Contigs: '196'
+    Contig N50: 28,094,440
+    Contig L50: '10'
+    Contig L90: '21'
+    QV: '61.9876'
+    Kmer compl.: '87.5682'
+    BUSCO sing.: 97.9%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 1.4%
+  Curated pri:
+    Total bp: 691,271,241
+    GC %: '36.4'
+    Gaps/Gbp: '4.34'
+    Total gap bp: '600'
+    Scaffolds: '144'
+    Scaffold N50: 29,451,812
+    Scaffold L50: '10'
+    Scaffold L90: '20'
+    Contigs: '147'
+    Contig N50: 28,094,440
+    Contig L50: '10'
+    Contig L90: '21'
+    QV: '63.3307'
+    Kmer compl.: '86.766'
+    BUSCO sing.: 97.9%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 1.4%
+
+BUSCO:
+  ver: 5.5.0 (euk_genome_met, metaeuk)
+  lineage: lepidoptera_odb10
+
+Data:
+  Profile: ONT Illumina Omni-C
+  Coverage: 96 63 61
+
+Assembly pipeline:
+  CLAWS: {}
+
+Curation pipeline:
+  Blobtoolkit dtol nextflow: {}
+
+Submitter: Fernando Cruz
+Affiliation: CNAG
+
+Date and time: 2026-01-28 10:48:24 CET

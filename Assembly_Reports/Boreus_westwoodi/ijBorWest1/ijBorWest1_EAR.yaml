@@ -1,0 +1,100 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '270879'
+ToLID: ijBorWest1
+Species: Boreus westwoodi
+Class: Insecta
+Order: Mecoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 529,682,445
+    Haploid Number: '13 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: F
+  Observed:
+    Haploid size (bp): 657,981,536
+    Haploid Number: '24'
+    Ploidy: '2'
+    Sample Sex: F
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q54
+
+Curator notes:
+  Interventions/Gb: 216
+  Contamination notes: '"Contamination report for assembly labelled primary; Total
+    length of scaffolds removed: 15 (0.0 %); Scaffolds removed: 0 (0.0 %); Largest
+    scaffold removed: (15); FCS-GX contaminant species (number of scaffolds; total
+    length of scaffolds):Barcodes (1; 15)"'
+  Other observations: '"hifiasm run in non-phasing mode; Hi-C is from 3 different
+    individuals, ijBorWest2, ijBorWest4, ijBorWest5."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 667,801,017
+    GC %: '33.59'
+    Gaps/Gbp: 1,758.01
+    Total gap bp: 117,400
+    Scaffolds: '764'
+    Scaffold N50: 17,691,776
+    Scaffold L50: '12'
+    Scaffold L90: '94'
+    Contigs: 1,938
+    Contig N50: 1,007,420
+    Contig L50: '197'
+    Contig L90: '828'
+    Kmer compl.: '99.24'
+    BUSCO sing.: 93.4%
+    BUSCO dupl.: 4.7%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.5%
+  Curated pri:
+    Total bp: 657,981,536
+    GC %: '33.6'
+    Gaps/Gbp: 1,759.93
+    Total gap bp: 130,900
+    Scaffolds: '739'
+    Scaffold N50: 21,986,458
+    Scaffold L50: '11'
+    Scaffold L90: '69'
+    Contigs: 1,897
+    Contig N50: 1,012,485
+    Contig L50: '184'
+    Contig L90: '800'
+    Kmer compl.: '65.72'
+    BUSCO sing.: 95.2%
+    BUSCO dupl.: 3.3%
+    BUSCO frag.: 0.0%
+    BUSCO miss.: 1.5%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: PacBio HiFi Arima v3
+  Coverage: 46x 819x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.19.8-r603
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Dominic Absolon
+Affiliation: WSI
+
+Date and time: 2026-02-16 10:50:53 CET

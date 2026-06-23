@@ -1,0 +1,92 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1534607'
+ToLID: drSemWulf4
+Species: Sempervivum wulfenii
+Class: Magnoliopsida
+Order: Saxifragales
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 278,332,209
+    Haploid Number: '9 (source: direct)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 261,058,541
+    Haploid Number: '0'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    pri: 5.5.Q57
+
+Curator notes:
+  Contamination notes: '"No contaminants detected by fcs-gx"'
+  Other observations: '"No Hi-C library available for this species - contig level
+    assembly submitted. Likely tetrapoloid"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 261,058,541
+    GC %: '38.03'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '551'
+    Scaffold N50: 811,835
+    Scaffold L50: '101'
+    Scaffold L90: '315'
+    Contigs: '551'
+    Contig N50: 811,835
+    Contig L50: '101'
+    Contig L90: '315'
+    QV: '57.8118'
+    Kmer compl.: '91.3446'
+    BUSCO sing.: 72.0%
+    BUSCO dupl.: 24.5%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 2.5%
+  Curated pri:
+    Total bp: 261,058,541
+    GC %: '38.03'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '551'
+    Scaffold N50: 811,835
+    Scaffold L50: '101'
+    Scaffold L90: '315'
+    Contigs: '551'
+    Contig N50: 811,835
+    Contig L50: '101'
+    Contig L90: '315'
+    QV: '57.8118'
+    Kmer compl.: '91.3446'
+    BUSCO sing.: 72.0%
+    BUSCO dupl.: 24.5%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 2.5%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: eudicotyledons_odb12
+
+Data:
+  Profile: PacBio HiFi
+  Coverage: '50'
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.25.0
+  purge-dups:
+    ver: 1.2.6
+  fcs-gx:
+    ver: 0.5.0
+
+Curation pipeline: {}
+
+Submitter: Tom Brown
+Affiliation: IZW
+
+Date and time: 2026-02-17 11:49:10 CET

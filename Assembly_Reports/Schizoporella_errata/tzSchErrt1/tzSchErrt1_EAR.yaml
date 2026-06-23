@@ -1,0 +1,112 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '544679'
+ToLID: tzSchErrt1
+Species: Schizoporella errata
+Class: Gymnolaemata
+Order: Cheilostomatida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 343,009,412
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 332,690,956
+    Haploid Number: '11'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q61
+
+Curator notes:
+  Interventions/Gb: 468
+  Contamination notes: '"The species was contaminated with Algae and Apicomplexa,
+    during manual curation 560 scaffolds were removed, totaling 22.591041Mb (with
+    the largest being 0.304681Mb)."'
+  Other observations: '"The assembly of Schizoporella errata (tzSchErrt1) is based
+    on 63,48X PacBio data and 282,50X Arima Hi-C data generated as part of the European
+    Reference Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity
+    Genomics Europe project (BGE, https://biodiversitygenomics.eu/). The assembly
+    process included the following steps: initial PacBio assembly generation with
+    Hifiasm, removal of contaminant sequences using Context, removal of haplotypic
+    duplications using purge_dups, and Hi-C-based scaffolding with YaHS. In total,
+    2501 contigs were identified as contaminants (bacterial, archaeal, or viral),
+    totaling 203.001 Mb (with the largest being 11.897 Mb). Additionally, 633 regions
+    totaling 18.648 Mb (with the largest being 0.641 Mb) were identified as haplotypic
+    duplications and removed. During manual curation, 53 haplotypic regions were removed,
+    totaling 43.745424Mb (with the largest being 5.974177Mb). The telomeric pattern
+    TTTGGGG was identified with TelFinder and used to generate the Pretext Telomeres
+    tracks . Chromosome-scale scaffolds confirmed by Hi-C data were named in order
+    of size."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 399,442,775
+    GC %: '41.78'
+    Gaps/Gbp: 1,011.41
+    Total gap bp: 40,400
+    Scaffolds: '925'
+    Scaffold N50: 25,342,757
+    Scaffold L50: '6'
+    Scaffold L90: '22'
+    Contigs: 1,329
+    Contig N50: 3,538,013
+    Contig L50: '31'
+    Contig L90: '151'
+    QV: '59.2567'
+    Kmer compl.: '70.2415'
+    BUSCO sing.: 91.4%
+    BUSCO dupl.: 3.4%
+    BUSCO frag.: 2.2%
+    BUSCO miss.: 3.0%
+  Curated collapsed:
+    Total bp: 332,690,956
+    GC %: '41.11'
+    Gaps/Gbp: '613.18'
+    Total gap bp: 26,400
+    Scaffolds: '177'
+    Scaffold N50: 31,542,654
+    Scaffold L50: '5'
+    Scaffold L90: '10'
+    Contigs: '381'
+    Contig N50: 3,436,012
+    Contig L50: '28'
+    Contig L90: '97'
+    QV: '61.8968'
+    Kmer compl.: '65.7118'
+    BUSCO sing.: 92.3%
+    BUSCO dupl.: 2.4%
+    BUSCO frag.: 2.2%
+    BUSCO miss.: 3.0%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: lophotrochozoa_odb12
+
+Data:
+  Profile: Long reads Arima
+  Coverage: 63 282
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Phuong Doan
+Affiliation: Genoscope
+
+Date and time: 2026-02-13 00:17:00 CET

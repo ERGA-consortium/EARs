@@ -7,7 +7,7 @@ on:
       - completed
 
 concurrency:
-  group: ear-bot
+  group: ear-bot-approved-${{ github.event.workflow_run.id }}
   cancel-in-progress: false
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Generate a token
         id: generate-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
           app-id: 917566
           private-key: ${{ secrets.APP_PRIVATE_KEY }}

@@ -1,0 +1,126 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '1230023'
+ToLID: xgCatTriz1
+Species: Cattania trizona
+Class: Gastropoda
+Order: Stylommatophora
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,918,048,373
+    Haploid Number: '25 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: H
+  Observed:
+    Haploid size (bp): 2,627,864,951
+    Haploid Number: '0'
+    Ploidy: '2'
+    Sample Sex: EBP
+
+EBP metrics:
+  EBP quality code:
+    pri: 5.5.Q55
+
+Curator notes:
+  Contamination notes: '"Contamination report for assembly labelled hap1: Total length
+    of scaffolds removed: 13,447,483 (0.5 %); Scaffolds removed: 192 (0.5 %); Largest
+    scaffold removed: (1,073,004); FCS-GX contaminant species (number of scaffolds;
+    total length of scaffolds): Brevundimonas sp. UBA6550, a-proteobacteria (44; 2,592,848);
+    Microbacterium sp. SCN 69-37, high GC Gram+ (31; 1,212,203); Microbacterium laevaniformans,
+    high GC Gram+ (23; 878,836); Delftia acidovorans, b-proteobacteria (19; 5,781,184);
+    Bosea thiooxidans, a-proteobacteria (9; 229,828); Buchnera aphidicola, g-proteobacteria
+    (8; 522,861); Mesorhizobium denitrificans, a-proteobacteria (6; 275,371); Bosea
+    spartocytisi, a-proteobacteria (4; 111,859); Bosea vaviloviae, a-proteobacteria
+    (3; 78,435); Bosea robiniae, a-proteobacteria (2; 66,471); Agrobacterium cavarae,
+    a-proteobacteria (2; 68,328); Brevundimonas bullata, a-proteobacteria (2; 68,602);
+    Bosea psychrotolerans, a-proteobacteria (2; 53,947); Bosea lupini, a-proteobacteria
+    (2; 42,954); Brucella pituitosa, a-proteobacteria (1; 22,456); Mesorhizobium escarrei,
+    a-proteobacteria (1; 48,819); Mesorhizobium australicum, a-proteobacteria (1;
+    54,453); Cupriavidus basilensis, b-proteobacteria (1; 362,638);Alkalispirochaeta
+    americana, spirochetes (1; 27,040); Phyllobacterium endophyticum, a-proteobacteria
+    (1; 26,875); Brevundimonas mediterranea, a-proteobacteria (1; 26,848); Mesorhizobium
+    ciceri, a-proteobacteria (1; 15,795); Mesorhizobium camelthorni, a-proteobacteria
+    (1; 19,173); Bradyrhizobium stylosanthis, a-proteobacteria (1; 25,919); Pseudorhizobium
+    banfieldiae, a-proteobacteria (1; 72,374); Delftia tsuruhatensis, b-proteobacteria
+    (1; 149,166); Devosia sp. 66-14, a-proteobacteria (1; 21,402); Aphis gossypii,
+    insects (1; 20,038); Chelativorans intermedius, a-proteobacteria (1; 21,766);
+    Microbacterium ginsengisoli, high GC Gram+ (1; 55,042); Bosea caraganae, a-proteobacteria
+    (1; 41,744); Bosea lathyri, a-proteobacteria (1; 43,352); Rhizobium oryzihabitans,
+    a-proteobacteria (1; 24,141); Brevundimonas sp. UBA7616, a-proteobacteria (1;
+    33,913); Mesorhizobium carmichaelinearum, a-proteobacteria (1; 22,888); Brevundimonas
+    goettingensis, a-proteobacteria (1; 22,747); Mesorhizobium zhangyense, a-proteobacteria
+    (1; 12,588); Bartonella quintana, a-proteobacteria (1; 13,717); Nitratireductor
+    kimnyeongensis, a-proteobacteria (1; 35,698); Mesorhizobium amorphae, a-proteobacteria
+    (1; 13,640); Brevundimonas sp. UBA7838, a-proteobacteria (1; 49,910); Brevundimonas
+    sp. UBA4553, a-proteobacteria (1; 15,078); Mesorhizobium delmotii, a-proteobacteria
+    (1; 29,073); Aminobacter aganoensis, a-proteobacteria (1; 32,220); Brevundimonas
+    pondensis, a-proteobacteria (1; 43,125); Brucella grignonensis, a-proteobacteria
+    (1; 12,153); Bosea minatitlanensis, a-proteobacteria (1; 19,804); Mitochondrion
+    (2; 28,002); FCS-Adaptor (3; 123); Barcodes (11; 159)"'
+  Other observations: '"Hifiasm assembly run in Hi-C phasing mode; Hi-C was not good
+    enough to scaffold well; submitting as contig level assembly"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 2,652,108,606
+    GC %: '42.54'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 37,504
+    Scaffold N50: 111,993
+    Scaffold L50: 6,457
+    Scaffold L90: 24,055
+    Contigs: 37,504
+    Contig N50: 111,993
+    Contig L50: 6,457
+    Contig L90: 24,055
+    Kmer compl.: '98.20'
+    BUSCO sing.: 71.4%
+    BUSCO dupl.: 12.2%
+    BUSCO frag.: 5.0%
+    BUSCO miss.: 11.4%
+  Curated pri:
+    Total bp: 2,627,864,951
+    GC %: '42.42'
+    Gaps/Gbp: '1.14'
+    Total gap bp: '123'
+    Scaffolds: 37,104
+    Scaffold N50: 112,113
+    Scaffold L50: 6,402
+    Scaffold L90: 23,790
+    Contigs: 37,107
+    Contig N50: 112,113
+    Contig L50: 6,402
+    Contig L90: 23,790
+    Kmer compl.: '97.72'
+    BUSCO sing.: 71.4%
+    BUSCO dupl.: 12.1%
+    BUSCO frag.: 5.0%
+    BUSCO miss.: 11.4%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: mollusca_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 30x 670x
+
+Assembly pipeline:
+  0.25.0-r726:
+    ver: NA
+    key param: --h1/--h2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.25.0-r726
+    key param: --h1/--h2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Shane McCarthy
+Affiliation: WSI
+
+Date and time: 2026-02-28 22:04:23 CET

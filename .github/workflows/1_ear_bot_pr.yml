@@ -7,7 +7,7 @@ on:
       - "Assembly_Reports/**/*.pdf"
 
 concurrency:
-  group: ear-bot
+  group: ear-bot-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: false
 
 jobs:
@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Generate a token
         id: generate-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
           app-id: 917566
           private-key: ${{ secrets.APP_PRIVATE_KEY }}

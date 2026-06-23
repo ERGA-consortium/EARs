@@ -1,0 +1,117 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '669229'
+ToLID: xoWirArge9
+Species: Wirenia argentea
+Class: Solenogastres
+Order: Pholidoskepia
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,295,744,130
+    Haploid Number: '9 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 988,417,968
+    Haploid Number: '19'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 5.7.Q61
+
+Curator notes:
+  Interventions/Gb: 9999999
+  Contamination notes: '"No contaminations were detected with FCS-GX."'
+  Other observations: '"This was a special project. There were 2 PacBio data set -
+    both ultra low input. Several attempts to combine the data sets failed. In the
+    end we only used PacBio data from individual xoWirArge9 for the hifiasm contig
+    assembly. The primary collapsed contigs had following stats: 58004 contigs, 3.04Gb
+    yield; n50 189K and a BUSCO of 86.59% with 61.55% duplication rate. Automatic
+    purging with purge_dups was suboptimal. We lost Busco genes but duplication rate
+    was still above 30%. Therefore we did an iterative purging approach and removed
+    junk-, haplotig-, repeat-tagged contigs that don''t have any Busco genes. This
+    approach converged after eight rounds at: 3722 contigs, 1.2Gb yield, 519Kb n50
+    and a BUSCO of 85.25% with 16.47% duplication rate. The HiC data is based on several
+    individuals and of low quality: 78% duplication rate and very few long range interaction:
+    437341 read pairs at cis_40kb+. Initial Yahs scaffolding did a very bad job -
+    contig error correction was disabled. Therefore we started the manual curation
+    from the contigs but in the order and orientation proposed from yahs. In the first
+    curation round all contigs were roughly assigned to putative chromosomes without
+    splitting any contigs (because the resolution was simply too bad). The second
+    curation round is based on smaller chunks, i.e. maps based on 2-3 chromosomes.
+    This allowed for better detection of duplicated signals. In this step the contigs
+    were trimmed according to the duplication HiC-signal. In order to decide which
+    contigs should be marked as haplotig the Busco genes were checked and we tried
+    to minimize the BUSCO duplication rate. So far no scaffolding was done. Afterwards
+    all curated contigs which are sorted and oriented into putative chromosomes were
+    combined and two more curation rounds were done. This time on the full assembly
+    and we created scaffolds. This assembly is far from being great. But it would
+    be nice to get a another opinion on it :)"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,203,184,737
+    GC %: '39.85'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 3,722
+    Scaffold N50: 519,909
+    Scaffold L50: '748'
+    Scaffold L90: 2,232
+    Contigs: 3,722
+    Contig N50: 519,909
+    Contig L50: '748'
+    Contig L90: 2,232
+    QV: '60.8941'
+    Kmer compl.: '71.1514'
+    BUSCO sing.: 64.3%
+    BUSCO dupl.: 21.2%
+    BUSCO frag.: 3.1%
+    BUSCO miss.: 11.4%
+  Curated pri:
+    Total bp: 988,417,968
+    GC %: '39.87'
+    Gaps/Gbp: 2,300.65
+    Total gap bp: 454,800
+    Scaffolds: '925'
+    Scaffold N50: 49,430,100
+    Scaffold L50: '8'
+    Scaffold L90: '19'
+    Contigs: 3,199
+    Contig N50: 485,898
+    Contig L50: '656'
+    Contig L90: 1,966
+    QV: '61.2222'
+    Kmer compl.: '62.1923'
+    BUSCO sing.: 82.8%
+    BUSCO dupl.: 2.2%
+    BUSCO frag.: 3.1%
+    BUSCO miss.: 11.9%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: mollusca_odb12
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 29x 66x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l2
+  purge_dups:
+    ver: 1.2.6
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: 1a3d79a8
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2026-04-29 09:57:38 CEST

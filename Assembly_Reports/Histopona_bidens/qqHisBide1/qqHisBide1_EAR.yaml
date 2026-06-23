@@ -1,0 +1,97 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3139652'
+ToLID: qqHisBide1
+Species: Histopona bidens
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 3,417,256,072
+    Haploid Number: '22 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 3,137,991,485
+    Haploid Number: '0'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    hap1: 5.6.Q50
+
+Curator notes:
+  Contamination notes: '"Decontamination was performed with NCBI FCS that removed
+    40 scaffold of protobacteria. Diamond and blobtools identified a lot of contaminants,
+    and were not removed due to uncertainty."'
+  Other observations: '"This is a contig level assembly. Despite scaffolding the N50
+    was to low to perform curation"'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 3,137,991,485
+    GC %: '32.84'
+    Gaps/Gbp: 7,632.27
+    Total gap bp: 2,395,000
+    Scaffolds: 5,223
+    Scaffold N50: 2,332,351
+    Scaffold L50: '371'
+    Scaffold L90: 1,899
+    Contigs: 29,173
+    Contig N50: 117,545
+    Contig L50: 8,411
+    Contig L90: 23,478
+    QV: '50.5869'
+    Kmer compl.: '77.848'
+    BUSCO sing.: 85.6%
+    BUSCO dupl.: 3.5%
+    BUSCO frag.: 2.4%
+    BUSCO miss.: 8.5%
+  Curated hap1:
+    Total bp: 3,137,991,485
+    GC %: '32.84'
+    Gaps/Gbp: 7,632.27
+    Total gap bp: 2,395,000
+    Scaffolds: 5,223
+    Scaffold N50: 2,332,351
+    Scaffold L50: '371'
+    Scaffold L90: 1,899
+    Contigs: 29,173
+    Contig N50: 117,545
+    Contig L50: 8,411
+    Contig L90: 23,478
+    QV: '50.5869'
+    Kmer compl.: '77.848'
+    BUSCO sing.: 85.6%
+    BUSCO dupl.: 3.5%
+    BUSCO frag.: 2.4%
+    BUSCO miss.: 8.5%
+
+BUSCO:
+  ver: 5.8.0 (euk_genome_min, miniprot)
+  lineage: arachnida_odb10
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 33.59x 46.64x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: Galaxy Version 0.25.0+galaxy0
+    key param: VGP Galaxy workflow VGP3 v 0.3.4
+  purge_dups:
+    ver: Galaxy Version 1.2.6+galaxy0
+    key param: VGP Galaxy workflow VGP6 v 0.10.4
+  YaHS:
+    ver: Galaxy Version 1.2s.2+galaxy3
+    key param: VGP Galaxy workflow VGP8 v 3.3
+
+Curation pipeline: {}
+
+Submitter: Marcella Sozzoni
+Affiliation: UNIFI
+
+Date and time: 2026-02-19 10:57:03 CET

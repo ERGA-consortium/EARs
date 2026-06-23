@@ -1,0 +1,95 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '297749'
+ToLID: qqCypTeyr2
+Species: Cyphophthalmus teyrovskyi
+Class: Arachnida
+Order: Opiliones
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 332,466,274
+    Haploid Number: '8 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 400,051,399
+    Haploid Number: '69'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.6.Q50
+
+Curator notes:
+  Contamination notes: '"FCS-GX and Blobtoolkit identified 90 contigs as contaminants
+    and they were removed from the assembly."'
+  Other observations: '"Sequencing was done at UNIBA for to different specimens: qqCypTeyr2
+    (HiFi) and qqCypTeyr8 (Hi-C). Assembly was performed by the CNAG. We obtained
+    a contig level assembly as detailed. We first assembled the HiFi reads with Hifiasm
+    and then ran purge_dups on it to collapse duplicated haplotigs and repeats. The
+    Hi-C barely mapped to the purged assembly so scaffolding did not work. We did
+    not assembled the mitogenome. We did not found evidences of contamination in the
+    Hi-C or HiFi reads, and our QC of the HiC library shows <1% mapped reads and the
+    few Cis Read Pairs mapping at distances shorter than 1kb"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 404,302,988
+    GC %: '37.06'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '612'
+    Scaffold N50: 1,407,397
+    Scaffold L50: '70'
+    Scaffold L90: '281'
+    Contigs: '612'
+    Contig N50: 1,407,397
+    Contig L50: '70'
+    Contig L90: '281'
+    QV: '49.5001'
+    Kmer compl.: '86.5403'
+    BUSCO sing.: 75.3%
+    BUSCO dupl.: 3.8%
+    BUSCO frag.: 5.2%
+    BUSCO miss.: 15.7%
+  Curated collapsed:
+    Total bp: 400,051,399
+    GC %: '37.03'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '522'
+    Scaffold N50: 1,421,856
+    Scaffold L50: '69'
+    Scaffold L90: '271'
+    Contigs: '522'
+    Contig N50: 1,421,856
+    Contig L50: '69'
+    Contig L90: '271'
+    QV: '50.1812'
+    Kmer compl.: '86.5213'
+    BUSCO sing.: 75.5%
+    BUSCO dupl.: 3.6%
+    BUSCO frag.: 5.1%
+    BUSCO miss.: 15.9%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arachnida_odb12
+
+Data:
+  Profile: Pacbio HiFi Hi-C
+  Coverage: 85x 166x
+
+Assembly pipeline:
+  CLAWS: {}
+
+Curation pipeline:
+  Blobtoolkit DToL Nextflow: {}
+
+Submitter: Fernando Cruz
+Affiliation: CNAG
+
+Date and time: 2026-02-20 13:02:51 CET

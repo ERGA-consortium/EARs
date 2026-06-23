@@ -1,0 +1,157 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3349997'
+ToLID: icScaAbbr5
+Species: Scarites abbreviatus
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 768,563,182
+    Haploid Number: '19 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 888,527,465
+    Haploid Number: '25'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q72
+    hap2: 7.7.Q72
+
+Curator notes:
+  Contamination notes: '"FCX-GX and blobtools were used to detect contaminations but
+    could not identify anything. Mitochondrial genome was removed from the assemblies."'
+  Other observations: '"PacBio Hifi reads were sub-sampled to 60x read coverage. Hifiasm
+    was run in HiC-mode and created two haplotype assemblies (hap1 - contigs: 702,
+    yield 762Mb, N50: 17.0Mb; hap2 - contigs: 726, yield 1071Mb, N50: 10.1Mb). The
+    phasing is quite in-balanced in terms of yield. But a prior haplotype collapsed
+    assembly showed similar stats as the hap2 and were difficult to manually curate.
+    (1) MitoHifi - detect mitochondrial contigs (2) Tiara - deep learning to classify
+    eukaryotic, bacterial, organelle, archea sequences and (3) BlobtoolKit - detect
+    contaminations. Purge_dups was used to remove haplotypic duplications and YaHS
+    was used to scaffold the contigs. Manual curations was done in dual-curation mode
+    (3 rounds) to fix haplotype misplacements, and misjoins and followed by one curation
+    round on each haplotype. I ended up with 26 autosomes + X in hap1 and 26 chromosomes
+    in hap2. Though I think that is probably not correct. Many chromosomes have a
+    very repetitive block and for some of the smaller chrosomes I could not assign
+    a repetitive block. Therfore I might have counted chromosome arms as full chromosomes.
+    There are many repetitive contigs (also larger ones in the shrapnels) that show
+    low PacBio read coverages. On top there are many structural variations within
+    contigs. Long story ... this is the best that I came up with. Happy for any suggestions!
+    I could not find any karyotypes images of this species nor any chromosome number.
+    Within the genus the chromosome number ranges from 17-30 and the sex system from
+    XXY, XY and XO. I could definitely find a single X chromosome that shows nice
+    haplotype coverage but I could not find a Y chromosome. I did a synteny analysis
+    with 26 "closely" related chromosome scale assemblies but this gave no clue about
+    chromosome number or structure either. The mitochondrial sequence was assembled
+    with MitoHifi from the raw reads (len=17001bp)."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 1,071,779,099
+    GC %: '31.73'
+    Gaps/Gbp: '27.99'
+    Total gap bp: 3,000
+    Scaffolds: '694'
+    Scaffold N50: 13,600,044
+    Scaffold L50: '23'
+    Scaffold L90: '154'
+    Contigs: '724'
+    Contig N50: 10,145,749
+    Contig L50: '29'
+    Contig L90: '179'
+    QV: '69.3952'
+    Kmer compl.: '88.2277'
+    BUSCO sing.: 96.7%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 1.0%
+    BUSCO miss.: 1.8%
+  Pre-curation hap2:
+    Total bp: 762,754,003
+    GC %: '31.28'
+    Gaps/Gbp: '32.78'
+    Total gap bp: 2,500
+    Scaffolds: '674'
+    Scaffold N50: 20,412,667
+    Scaffold L50: '15'
+    Scaffold L90: '52'
+    Contigs: '699'
+    Contig N50: 17,038,473
+    Contig L50: '18'
+    Contig L90: '75'
+    QV: '66.9877'
+    Kmer compl.: '83.2452'
+    BUSCO sing.: 90.6%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 1.0%
+    BUSCO miss.: 8.0%
+  Curated hap1:
+    Total bp: 749,674,767
+    GC %: '31.39'
+    Gaps/Gbp: '89.37'
+    Total gap bp: 11,300
+    Scaffolds: '102'
+    Scaffold N50: 30,887,957
+    Scaffold L50: '10'
+    Scaffold L90: '22'
+    Contigs: '169'
+    Contig N50: 17,448,818
+    Contig L50: '17'
+    Contig L90: '54'
+    QV: '72.3188'
+    Kmer compl.: '86.9953'
+    BUSCO sing.: 97.8%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 1.3%
+  Curated hap2:
+    Total bp: 888,527,465
+    GC %: '31.66'
+    Gaps/Gbp: '77.66'
+    Total gap bp: 11,300
+    Scaffolds: '206'
+    Scaffold N50: 32,677,719
+    Scaffold L50: '12'
+    Scaffold L90: '40'
+    Contigs: '275'
+    Contig N50: 12,803,616
+    Contig L50: '22'
+    Contig L90: '99'
+    QV: '72.0493'
+    Kmer compl.: '83.8929'
+    BUSCO sing.: 91.9%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 7.3%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: HiFi Arima3
+  Coverage: 114x 71x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l3
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2.2
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2026-02-16 10:23:13 CET

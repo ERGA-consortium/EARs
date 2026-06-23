@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1699694'
+ToLID: ihLyrPleb1
+Species: Lyristes plebejus
+Class: Insecta
+Order: Hemiptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 4,208,280,295
+    Haploid Number: '9 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 4,458,562,265
+    Haploid Number: '10'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 7.8.Q65
+
+Curator notes:
+  Interventions/Gb: 7
+  Contamination notes: '""'
+  Other observations: '"The assembly of Lyristes plebejus (ihLyrPleb1) is based on
+    32X PacBio data and 307X Arima Hi-C data generated as part of the European Reference
+    Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity Genomics
+    Europe project (BGE, https://biodiversitygenomics.eu/).The assembly process included
+    the following steps: initial PacBio assembly generation with Hifiasm, removal
+    of contaminant sequences using Context, removal of haplotypic duplications using
+    purge_dups, and Hi-C-based scaffolding with YaHS. In total, 23 contigs were identified
+    as contaminants (bacterial, archaeal, or viral), totaling 15 Mb (with the largest
+    being 13.7 Mb). Additionally, 1273 regions totaling 288 Mb (with the largest being
+    7.5 Mb) were identified as haplotypic duplications and removed. The mitochondrial
+    genome was assembled using OATK (linear sequence). Finally, the primary assembly
+    was analyzed and manually improved using Pretext. During manual curation, 1 haplotypic
+    region was removed, totaling 7.4 Mb. Chromosome-scale scaffolds confirmed by Hi-C
+    data were named in order of size"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 4,466,092,279
+    GC %: '33.89'
+    Gaps/Gbp: '43.89'
+    Total gap bp: 19,600
+    Scaffolds: '165'
+    Scaffold N50: 349,842,518
+    Scaffold L50: '4'
+    Scaffold L90: '10'
+    Contigs: '361'
+    Contig N50: 35,864,000
+    Contig L50: '33'
+    Contig L90: '120'
+    QV: '65.3812'
+    Kmer compl.: '84.3792'
+    BUSCO sing.: 96.2%
+    BUSCO dupl.: 1.8%
+    BUSCO frag.: 0.8%
+    BUSCO miss.: 1.2%
+  Curated collapsed:
+    Total bp: 4,458,562,265
+    GC %: '33.89'
+    Gaps/Gbp: '48.22'
+    Total gap bp: 23,700
+    Scaffolds: '146'
+    Scaffold N50: 388,221,567
+    Scaffold L50: '4'
+    Scaffold L90: '9'
+    Contigs: '361'
+    Contig N50: 35,864,000
+    Contig L50: '33'
+    Contig L90: '120'
+    QV: '65.3739'
+    Kmer compl.: '84.3086'
+    BUSCO sing.: 96.5%
+    BUSCO dupl.: 1.5%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 1.3%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: hemiptera_odb12
+
+Data:
+  Profile: Long reads Arima
+  Coverage: 47 307
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Caroline Menguy
+Affiliation: Genoscope
+
+Date and time: 2026-01-12 01:07:06 CET

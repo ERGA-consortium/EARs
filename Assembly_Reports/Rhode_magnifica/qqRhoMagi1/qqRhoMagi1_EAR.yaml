@@ -1,0 +1,92 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3139262'
+ToLID: qqRhoMagi1
+Species: Rhode magnifica
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 3,486,225,572
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 2,759,692,961
+    Haploid Number: '0'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.6.Q62
+
+Curator notes:
+  Contamination notes: '"60 sequences identified by fcs-gx as bacteria were removed"'
+  Other observations: '"Hi-C libraries for this species failed, so a contig-level
+    assembly was made and submitted"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 2,759,692,961
+    GC %: '35.32'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 2,824
+    Scaffold N50: 2,704,898
+    Scaffold L50: '309'
+    Scaffold L90: 1,069
+    Contigs: 2,824
+    Contig N50: 2,704,898
+    Contig L50: '309'
+    Contig L90: 1,069
+    QV: '62.1106'
+    Kmer compl.: '82.8355'
+    BUSCO sing.: 91.3%
+    BUSCO dupl.: 5.3%
+    BUSCO frag.: 1.5%
+    BUSCO miss.: 1.9%
+  Curated pri:
+    Total bp: 2,759,692,961
+    GC %: '35.32'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 2,824
+    Scaffold N50: 2,704,898
+    Scaffold L50: '309'
+    Scaffold L90: 1,069
+    Contigs: 2,824
+    Contig N50: 2,704,898
+    Contig L50: '309'
+    Contig L90: 1,069
+    QV: '62.1106'
+    Kmer compl.: '82.8355'
+    BUSCO sing.: 91.3%
+    BUSCO dupl.: 5.3%
+    BUSCO frag.: 1.5%
+    BUSCO miss.: 1.9%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arachnida_odb12
+
+Data:
+  Profile: PacBio HiFi
+  Coverage: '37'
+
+Assembly pipeline:
+  HiFiasm:
+    ver: 0.25.0
+  purge-dups:
+    ver: 1.2.6
+  fcs-gx:
+    ver: 0.5.0
+
+Curation pipeline: {}
+
+Submitter: Tom Brown
+Affiliation: IZW
+
+Date and time: 2026-02-19 14:09:00 CET

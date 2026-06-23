@@ -1,0 +1,90 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2721269'
+ToLID: qqStaHerc9
+Species: Stalagtia hercegovinensis
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,285,618,970
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 2,806,615,544
+    Haploid Number: '0'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.6.Q63
+
+Curator notes:
+  Contamination notes: '"None"'
+  Other observations: '"Hi-C data showed no interactions, so a contig-level assembly
+    was submitted. Approximately 60 sequences were identified as bacteria and removed"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 2,806,615,544
+    GC %: '35.1'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 1,133
+    Scaffold N50: 5,079,695
+    Scaffold L50: '167'
+    Scaffold L90: '592'
+    Contigs: 1,133
+    Contig N50: 5,079,695
+    Contig L50: '167'
+    Contig L90: '592'
+    QV: '63.4485'
+    Kmer compl.: '73.2506'
+    BUSCO sing.: 91.1%
+    BUSCO dupl.: 6.4%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 1.9%
+  Curated pri:
+    Total bp: 2,806,615,544
+    GC %: '35.1'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 1,133
+    Scaffold N50: 5,079,695
+    Scaffold L50: '167'
+    Scaffold L90: '592'
+    Contigs: 1,133
+    Contig N50: 5,079,695
+    Contig L50: '167'
+    Contig L90: '592'
+    QV: '63.4485'
+    Kmer compl.: '73.2506'
+    BUSCO sing.: 91.1%
+    BUSCO dupl.: 6.4%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 1.9%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arachnida_odb12
+
+Data:
+  Profile: PacBio HiFi
+  Coverage: '40'
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.25.0
+  purge-dups:
+    ver: 1.2.6
+
+Curation pipeline: {}
+
+Submitter: Tom Brown
+Affiliation: IZW
+
+Date and time: 2026-02-18 13:55:39 CET

@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3139642'
+ToLID: qdBraStyg1
+Species: Brachydesmus stygivagus
+Class: Diplopoda
+Order: Polydesmida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 291,521,673
+    Haploid Number: '12 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 340,315,033
+    Haploid Number: '5'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q64
+
+Curator notes:
+  Interventions/Gb: 1029
+  Contamination notes: '"BlobTools identified more than 300 small scaffolds as potential
+    contaminants, primarily corresponding to bacteria, with additional matches to
+    fungi and chordates. With the exception of a couple, these contaminated scaffolds
+    were removed from the assembly provided for review. The elimination of these putative
+    contaminants did not seem to affect the BUSCO scores"'
+  Other observations: '"This extensively modified version of our curated assembly
+    was made possible thanks to the expertise of the EAR reviewers, who recognized
+    that many of the SUPER scaffolds were, in fact, chromosome arms. For the most
+    part, the reviewers subsequently assembled these themselves. The heterochromatic
+    regions between the purported chromosome arms were assembled with a low degree
+    of confidence due to the inherent difficulties of assembling repetitive regions.
+    This second review of the assembly addresses a few more issues that were spotted
+    by the main reviewer"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 357,806,435
+    GC %: '32.79'
+    Gaps/Gbp: '433.2'
+    Total gap bp: 31,000
+    Scaffolds: '685'
+    Scaffold N50: 3,203,691
+    Scaffold L50: '23'
+    Scaffold L90: '176'
+    Contigs: '840'
+    Contig N50: 1,566,716
+    Contig L50: '60'
+    Contig L90: '279'
+    QV: '63.7115'
+    Kmer compl.: '86.2459'
+    BUSCO sing.: 92.4%
+    BUSCO dupl.: 1.4%
+    BUSCO frag.: 2.8%
+    BUSCO miss.: 3.4%
+  Curated pri:
+    Total bp: 340,315,033
+    GC %: '32.4'
+    Gaps/Gbp: '808.07'
+    Total gap bp: 55,000
+    Scaffolds: '280'
+    Scaffold N50: 48,226,045
+    Scaffold L50: '3'
+    Scaffold L90: '39'
+    Contigs: '555'
+    Contig N50: 1,596,000
+    Contig L50: '58'
+    Contig L90: '242'
+    QV: '64.5587'
+    Kmer compl.: '86.0456'
+    BUSCO sing.: 96.3%
+    BUSCO dupl.: 1.0%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 2.5%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: PACBIO HIFI OmniC
+  Coverage: 100x 105x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.24.0-r702
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+  CLAWS:
+    ver: '3.1'
+
+Curation pipeline:
+  PretextViewAI:
+    ver: 1.0.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Francisco Camara
+Affiliation: CNAG Barcelona
+
+Date and time: 2026-02-20 15:59:40 CET

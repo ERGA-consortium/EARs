@@ -1,0 +1,92 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2560939'
+ToLID: ilAmaRaga7
+Species: Amata ragazzii
+Class: Insecta
+Order: Lepidoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 355,561,558
+    Haploid Number: '31 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: ZW
+  Observed:
+    Haploid size (bp): 2,040,249,389
+    Haploid Number: '0'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    hap1: 5.5.Q57
+
+Curator notes:
+  Contamination notes: '"NA"'
+  Other observations: '"This is a contig level assembly. The production of the HiC
+    reads failed so there is no scaffolding for this species."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 2,040,249,389
+    GC %: '36.77'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 12,156
+    Scaffold N50: 249,096
+    Scaffold L50: 2,552
+    Scaffold L90: 8,042
+    Contigs: 12,156
+    Contig N50: 249,096
+    Contig L50: 2,552
+    Contig L90: 8,042
+    QV: '57.4524'
+    Kmer compl.: '90.8128'
+    BUSCO sing.: 89.3%
+    BUSCO dupl.: 2.4%
+    BUSCO frag.: 3.4%
+    BUSCO miss.: 4.9%
+  Curated hap1:
+    Total bp: 2,040,249,389
+    GC %: '36.77'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 12,156
+    Scaffold N50: 249,096
+    Scaffold L50: 2,552
+    Scaffold L90: 8,042
+    Contigs: 12,156
+    Contig N50: 249,096
+    Contig L50: 2,552
+    Contig L90: 8,042
+    QV: '57.4524'
+    Kmer compl.: '90.8128'
+    BUSCO sing.: 89.3%
+    BUSCO dupl.: 2.4%
+    BUSCO frag.: 3.4%
+    BUSCO miss.: 4.9%
+
+BUSCO:
+  ver: 5.8.0 (euk_genome_min, miniprot)
+  lineage: lepidoptera_odb10
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 28.25x 61.67x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: Galaxy Version 0.25.0+galaxy0
+    key param: VGP Galaxy workflow VGP4 v 0.5
+  purge_dups:
+    ver: Galaxy Version 1.2.6+galaxy0
+    key param: VGP Galaxy workflow VGP6 v 0.10.4
+
+Curation pipeline: {}
+
+Submitter: Marcella Sozzoni
+Affiliation: UNIFI
+
+Date and time: 2026-02-16 10:21:50 CET

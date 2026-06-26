@@ -1,0 +1,211 @@
+ERGA Assembly Report: v24.04.03_beta
+Tags: ERGA-BGE
+
+TxID: '3102972'
+ToLID: qmTriMatu1
+Species: Trichoniscus matulici
+Class: Malacostraca
+Order: Isopoda
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 2,904,951,799
+    Haploid Number: '8 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: F
+  Observed:
+    Haploid size (bp): 2,869,951,676
+    Haploid Number: '8'
+    Ploidy: '2'
+    Sample Sex: F
+
+EBP metrics:
+  EBP quality code:
+    pri: 5.8.Q52
+
+Curator notes:
+  Interventions/Gb: 715
+  Contamination notes: '"Contamination report for assembly labelled primary: Total
+    length of scaffolds removed: 65,033,288 (2.2 %); Scaffolds removed: 567 (16.4
+    %); Largest scaffold removed: (6,451,661); FCS-GX contaminant species (number
+    of scaffolds; total length of scaffolds): Pararheinheimera texasensis, g-proteobacteria
+    (78; 2,812,616); Lacihabitans soyangensis, CFB group bacteria (32; 1,779,580);
+    Aeromonas tecta, g-proteobacteria (30; 1,434,594); Lacunisphaera limnophila, verrucomicrobia
+    (28; 910,335); Phnomibacter ginsenosidimutans, CFB group bacteria (27; 1,778,221);
+    Oleiharenicola lentus, verrucomicrobia (17; 559,902); Lacibacter luteus, CFB group
+    bacteria (16; 3,176,477); Variovorax sp. 67-131, b-proteobacteria (15; 2,498,489);
+    Bosea vaviloviae, a-proteobacteria (14; 1,191,278); Paucibacter aquatile, b-proteobacteria
+    (12; 1,090,731); Fuscovulum blasticum, a-proteobacteria (10; 644,917); Arcicella
+    aurantiaca, CFB group bacteria (9; 1,464,333); Arcicella rosea, CFB group bacteria
+    (8; 536,627); Flavobacterium hydrocarbonoxydans, CFB group bacteria (8; 285,883);
+    Fluviicola taffensis, CFB group bacteria (8; 219,308); Lacunisphaera sp., verrucomicrobia
+    (8; 143,246); Variovorax sp., b-proteobacteria (7; 1,586,245); Phragmitibacter
+    flavus, verrucomicrobia (6; 186,800); Lacibacter cauensis, CFB group bacteria
+    (5; 173,993); Runella aurantiaca, CFB group bacteria (5; 147,371); Oleiharenicola
+    sp., verrucomicrobia (5; 130,474); Candidatus Brachybacter algidus, CFB group
+    bacteria (4; 2,450,680); Variovorax boronicumulans, b-proteobacteria (4; 460,988);
+    Bosea psychrotolerans, a-proteobacteria (4; 271,936); Pseudarcicella hirudinis,
+    CFB group bacteria (4; 282,257); Flectobacillus major, CFB group bacteria (4;
+    270,068); Pelomonas saccharophila, b-proteobacteria (4; 267,093); Emticicia agri,
+    CFB group bacteria (4; 154,010); Methylibium sp., b-proteobacteria (4; 134,536);
+    Taibaiella soli, CFB group bacteria (4; 90,612); Alkanindiges illinoisensis, g-proteobacteria
+    (3; 328,128); Taibaiella lutea, CFB group bacteria (3; 134,039); Runella rosea,
+    CFB group bacteria (3; 206,638); Ferruginibacter sp., CFB group bacteria (3; 130,840);
+    Terrimonas sp., CFB group bacteria (3; 183,564); Emticicia aquatica, CFB group
+    bacteria (3; 92,793); Rheinheimera riviphila, g-proteobacteria (3; 89,477); Roseateles
+    aquatilis, b-proteobacteria (3; 95,800); Flavobacterium geliluteum, CFB group
+    bacteria (3; 98,798); Aquincola rivuli, b-proteobacteria (3; 43,756); Aquihabitans
+    sp., actinobacteria (3; 47,513); Aminobacter carboxidus, a-proteobacteria (2;
+    5,192,793); Kinneretia asaccharophila, b-proteobacteria (2; 193,145); Acinetobacter
+    bohemicus, g-proteobacteria (2; 188,985); Alkanindiges hydrocarboniclasticus,
+    g-proteobacteria (2; 167,138); Bosea lathyri, a-proteobacteria (2; 179,243); Dyadobacter
+    bucti, CFB group bacteria (2; 139,963); Xinfangfangia pollutisoli, a-proteobacteria
+    (2; 93,184); Paucibacter toxinivorans, b-proteobacteria (2; 81,667); Niabella
+    ginsengisoli, CFB group bacteria (2; 66,218); Pseudomonas alkylphenolica, g-proteobacteria
+    (2; 73,890); Paucibacter sp., b-proteobacteria (2; 47,434); Candidatus Fluviicola
+    riflensis, CFB group bacteria (2; 74,595); Dyadobacter jejuensis, CFB group bacteria
+    (2; 65,424); Candidatus Didemnitutus sp., verrucomicrobia (2; 74,433); Paraflavitalea
+    devenefica, CFB group bacteria (2; 70,910); Flavobacterium saccharophilum, CFB
+    group bacteria (2; 70,356); Sediminibacterium goheungense, CFB group bacteria
+    (2; 69,697); Variovorax guangxiensis, b-proteobacteria (2; 34,276); Stagnimonas
+    aquatica, g-proteobacteria (2; 28,654); Rhabdothermincola salaria, actinobacteria
+    (2; 37,829); Flavobacterium piscis, CFB group bacteria (2; 29,000); Sphingobacterium
+    detergens, CFB group bacteria (1; 6,451,661); Devosia ginsengisoli, a-proteobacteria
+    (1; 4,573,212); Microbacterium maritypicum, high GC Gram+ (1; 4,350,392); Sphingopyxis
+    witflariensis, a-proteobacteria (1; 4,002,761); Mesorhizobium zhangyense, a-proteobacteria
+    (1; 3,095,000); Flavobacterium terrigena, CFB group bacteria (1; 3,040,654); Marortus
+    luteolus, g-proteobacteria (1; 480,538); Acinetobacter populi, g-proteobacteria
+    (1; 376,571); Agriterribacter humi, CFB group bacteria (1; 165,394); Brevundimonas
+    alba, a-proteobacteria (1; 126,807); Deminuibacter soli, CFB group bacteria (1;
+    92,967); Flavipsychrobacter stenotrophus, CFB group bacteria (1; 92,251); Chryseobacterium
+    aahli, CFB group bacteria (1; 89,992); Microbacterium chocolatum, high GC Gram+
+    (1; 86,297); Pseudochelatococcus contaminans, a-proteobacteria (1; 85,121); Aquirhabdus
+    parva, g-proteobacteria (1; 85,204); Dasania marina, g-proteobacteria (1; 84,281);
+    Kandeliimicrobium roseum, a-proteobacteria (1; 78,619); Sinobacterium norvegicum,
+    g-proteobacteria (1; 66,454); Bosea minatitlanensis, a-proteobacteria (1; 65,594);
+    Dyadobacter frigoris, CFB group bacteria (1; 59,852); Panacibacter ginsenosidivorans,
+    CFB group bacteria (1; 58,937); Pseudorhodobacter sp. PARRP1, a-proteobacteria
+    (1; 56,388); Pseudochrobactrum algeriensis, a-proteobacteria (1; 53,645); Bosea
+    spartocytisi, a-proteobacteria (1; 53,335); Thiomonas intermedia, b-proteobacteria
+    (1; 51,741); Rheinheimera baltica, g-proteobacteria (1; 51,208); Bradyrhizobium
+    brasilense, a-proteobacteria (1; 49,975); Terrimonas ferruginea, CFB group bacteria
+    (1; 47,040); Microbacterium ihumii, high GC Gram+ (1; 45,591); Niastella vici,
+    CFB group bacteria (1; 45,121); Sediminibacterium soli, CFB group bacteria (1;
+    40,015); Microbacterium phage Elva, prokaryotic viruses (1; 39,288); Flavisolibacter
+    ginsengisoli, CFB group bacteria (1; 38,756); Brevundimonas vitisensis, a-proteobacteria
+    (1; 38,078); Methylotenera versatilis, b-proteobacteria (1; 36,516); Cypionkella
+    psychrotolerans, a-proteobacteria (1; 36,424); Brevundimonas lenta, a-proteobacteria
+    (1; 36,189); Pelomonas sp., b-proteobacteria (1; 35,107); Piscinibacter defluvii,
+    b-proteobacteria (1; 35,015); Bosea caraganae, a-proteobacteria (1; 34,972); Leucobacter
+    weissii, high GC Gram+ (1; 34,164); Dyadobacter fermentans, CFB group bacteria
+    (1; 33,694); Sinobacterium caligoides, g-proteobacteria (1; 31,515); Emticicia
+    aquatilis, CFB group bacteria (1; 30,789); Flavobacterium urocaniciphilum, CFB
+    group bacteria (1; 30,774); Dyadobacter luticola, CFB group bacteria (1; 30,110);
+    Acinetobacter baylyi, g-proteobacteria (1; 30,098); Hydrobacter penzbergensis,
+    CFB group bacteria (1; 30,014); Rhabdaerophilum calidifontis, a-proteobacteria
+    (1; 29,510); Rhabdothermincola sediminis, actinobacteria (1; 29,143); Acinetobacter
+    rudis, g-proteobacteria (1; 29,010); Mucilaginibacter rivuli, CFB group bacteria
+    (1; 28,806); Pseudogemmobacter hezensis, a-proteobacteria (1; 28,679); Rhodobacter
+    flagellatus, a-proteobacteria (1; 27,440); Aquincola tertiaricarbonis, b-proteobacteria
+    (1; 27,341); Dyadobacter psychrotolerans, CFB group bacteria (1; 27,016); Dyadobacter
+    arcticus, CFB group bacteria (1; 26,917); Candidatus Vicinibacter affinis, CFB
+    group bacteria (1; 26,691); Pedobacter planticolens, CFB group bacteria (1; 26,080);
+    Alishewanella agri, g-proteobacteria (1; 25,768); Bacteriovorax stolpii, proteobacteria
+    (1; 24,824); Methylotenera oryzisoli, b-proteobacteria (1; 24,207); Halobacteriovorax
+    sp. JY17, proteobacteria (1; 23,378); Candidatus Halocyntiibacter alkanivorans,
+    a-proteobacteria (1; 23,375); Pedobacter polaris, CFB group bacteria (1; 22,294);
+    Pedobacter insulae, CFB group bacteria (1; 22,282); Runella zeae, CFB group bacteria
+    (1; 21,869); Ideonella azotifigens, b-proteobacteria (1; 21,687); Halovulum dunhuangense,
+    a-proteobacteria (1; 21,675); Cyclobacterium salsum, CFB group bacteria (1; 20,965);
+    Chitinophaga tropicalis, CFB group bacteria (1; 19,719); Eisenibacter elegans,
+    CFB group bacteria (1; 19,532); Rheinheimera mangrovi, g-proteobacteria (1; 19,445);
+    Ferruginibacter lapsinanis, CFB group bacteria (1; 19,228); Taibaiella sp., CFB
+    group bacteria (1; 17,280); Flavobacterium hydatis, CFB group bacteria (1; 17,000);
+    Pedobacter boryungensis, CFB group bacteria (1; 16,669); Niabella agricola, CFB
+    group bacteria (1; 16,056); Shewanella xiamenensis, g-proteobacteria (1; 15,168);
+    Sphingomonas zeae, a-proteobacteria (1; 11,420); Paracoccus beibuensis, a-proteobacteria
+    (1; 10,884); Foetidibacter luteolus, CFB group bacteria (1; 4,000); Variovorax
+    gossypii, b-proteobacteria (1; 3,000); Ideonella alba, b-proteobacteria (1; 3,000);
+    Gemmobacter aestuarii, a-proteobacteria (1; 3,000); Filimonas sp., CFB group bacteria
+    (1; 3,000); Hydrotalea flava, CFB group bacteria (1; 3,000); Brevundimonas subvibrioides,
+    a-proteobacteria (1; 2,000); Leadbetterella byssophila, CFB group bacteria (1;
+    2,000); Limnovirga soli, CFB group bacteria (1; 2,000); Aeromonas eucrenophila,
+    g-proteobacteria (1; 2,000); Salipiger marinus, a-proteobacteria (1; 2,000); Flavisolibacter
+    tropicus, CFB group bacteria (1; 1,000); Aquirufa nivalisilvae, CFB group bacteria
+    (1; 1,000); Undibacterium hunanense, b-proteobacteria (1; 1,000); Arcicella sp.,
+    CFB group bacteria (1; 1,000); Sphingobacterium lumbrici, CFB group bacteria (1;
+    1,000); Niastella sp. SCN 39-18, CFB group bacteria (1; 1,000); Ramlibacter monticola,
+    b-proteobacteria (1; 1,000);Mucilaginibacter arboris, CFB group bacteria (1; 1,000);Acinetobacter
+    kyonggiensis, g-proteobacteria (1; 1,000);Acinetobacter tjernbergiae, g-proteobacteria
+    (1; 1,000);Oceaniferula marina, verrucomicrobia (1; 1,000);Sphingobacterium soli,
+    CFB group bacteria (1; 1,000);Pelomonas aquatica, b-proteobacteria (1; 1,000);Tabrizicola
+    sediminis, a-proteobacteria (1; 1,000);Variovorax beijingensis, b-proteobacteria
+    (1; 1,000);Barcodes (2; 29)"'
+  Other observations: '""'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 2,982,799,840
+    GC %: '29.03'
+    Gaps/Gbp: 3,084.69
+    Total gap bp: 920,100
+    Scaffolds: 3,464
+    Scaffold N50: 345,693,118
+    Scaffold L50: '4'
+    Scaffold L90: '19'
+    Contigs: 12,665
+    Contig N50: 600,751
+    Contig L50: 1,369
+    Contig L90: 5,937
+    Kmer compl.: '94.13'
+    BUSCO sing.: 92.5%
+    BUSCO dupl.: 3.4%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 3.8%
+  Curated pri:
+    Total bp: 2,869,951,676
+    GC %: '28.47'
+    Gaps/Gbp: 3,161.73
+    Total gap bp: 946,800
+    Scaffolds: 2,614
+    Scaffold N50: 358,918,473
+    Scaffold L50: '4'
+    Scaffold L90: '8'
+    Contigs: 11,688
+    Contig N50: 603,143
+    Contig L50: 1,332
+    Contig L90: 5,609
+    Kmer compl.: '91.77'
+    BUSCO sing.: 93.7%
+    BUSCO dupl.: 2.4%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 3.7%
+
+BUSCO:
+  ver: 6.0.0
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: PacBio HiFi Arima v2
+  Coverage: 37x 180x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.25.0-r726
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+
+Curation pipeline:
+  hifiasm:
+    ver: 0.25.0-r726
+    key param: --primary
+  yahs:
+    ver: 1.2.2
+  TreeVal:
+    ver: 1.2.1
+
+Submitter: Danil Zilov
+Affiliation: WSI
+
+Date and time: 2026-04-15 17:34:38 CEST

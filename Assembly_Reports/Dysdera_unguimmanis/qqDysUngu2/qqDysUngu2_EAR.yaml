@@ -1,0 +1,109 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '119148'
+ToLID: qqDysUngu2
+Species: Dysdera unguimmanis
+Class: Arachnida
+Order: Araneae
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,553,664,201
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: XX
+  Observed:
+    Haploid size (bp): 1,813,754,433
+    Haploid Number: '8'
+    Ploidy: '3'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    Pri: 6.8.Q59
+
+Curator notes:
+  Contamination notes: '"FCS-GX identified 32 bacterial sequences that were removed
+    from the assembly, the total amount of these contaminants added up 3,812,705 bp
+    of sequence."'
+  Other observations: '"This assembly was obtained with Hifiasm from HiFi data. After
+    scaffolding with Yahs the genome was still highly fragmented and duplicated but
+    we could make several joins and edits during curation with PretextMap, resulting
+    in a substantial increase on scaffold N50 from (~2 Mb to 228Mb) and reducing duplication.
+    Curation made 25 cuts in contigs, 49 breaks at gaps and 63 joins. 178 haplotig
+    sequences, adding up a total of 121 Mb of sequence, were removed during curaton.
+    Before curation, purge_dups had removed 7341 sequences, adding up a total of 1.5
+    Gb of sequence and reducing busco dups from 81% to 21% while keeping completeness
+    at 97%."'
+
+Metrics:
+  Pre-curation Pri:
+    Total bp: 1,949,241,826
+    GC %: '35.2'
+    Gaps/Gbp: '981.92'
+    Total gap bp: 382,800
+    Scaffolds: '722'
+    Scaffold N50: 9,020,784
+    Scaffold L50: '61'
+    Scaffold L90: '268'
+    Contigs: 2,636
+    Contig N50: 1,067,851
+    Contig L50: '627'
+    Contig L90: 1,726
+    QV: '59.5959'
+    Kmer compl.: '93.8064'
+    BUSCO sing.: 74.8%
+    BUSCO dupl.: 21.1%
+    BUSCO frag.: 1.2%
+    BUSCO miss.: 2.8%
+  Curated Pri:
+    Total bp: 1,813,754,433
+    GC %: '35.21'
+    Gaps/Gbp: 1,248.79
+    Total gap bp: 453,000
+    Scaffolds: '176'
+    Scaffold N50: 225,879,246
+    Scaffold L50: '3'
+    Scaffold L90: '7'
+    Contigs: 2,441
+    Contig N50: 1,063,808
+    Contig L50: '585'
+    Contig L90: 1,611
+    QV: '59.5951'
+    Kmer compl.: '91.8288'
+    BUSCO sing.: 79.7%
+    BUSCO dupl.: 15.2%
+    BUSCO frag.: 1.2%
+    BUSCO miss.: 3.8%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arachnida_odb12
+
+Data:
+  Profile: PacBio HiFi Arima Hi-C
+  Coverage: 95 115
+
+Assembly pipeline:
+  CLAWS:
+    ver: v3.1
+  Filtlong:
+    ver: v0.2.1
+    key param: --min_mean_q 80
+  Hifiasm:
+    ver: 0.24.0
+    key param: --telo-m TTAGG
+  Purge_dups:
+    ver: 1.2.6
+  Yahs:
+    ver: 1.2a
+    key param: --no-contig-ec
+
+Curation pipeline:
+  Blobtoolkit Nextflow: {}
+
+Submitter: Jessica Gomez-Garrido
+Affiliation: CNAG
+
+Date and time: 2026-04-09 14:45:17 CEST

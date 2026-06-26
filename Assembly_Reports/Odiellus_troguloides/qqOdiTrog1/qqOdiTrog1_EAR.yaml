@@ -1,0 +1,94 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '48695'
+ToLID: qqOdiTrog1
+Species: Odiellus troguloides
+Class: Arachnida
+Order: Opiliones
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 955,856,693
+    Haploid Number: '8 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 1,753,345,540
+    Haploid Number: '141'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 7.7.Q63
+
+Curator notes:
+  Contamination notes: '"FCS-GX identified 6 contigs as bacterial contaminants and
+    these were removed from the assembly."'
+  Other observations: '"Assembly was performed by the CNAG. We obtained a contig level
+    assembly for this assembly because even though the cN50 and sN50 are >20Mbases
+    the genome of this species has proven to have long stretches of repetitive sequence
+    througout which the HiC illumina is unable to deal with. We first assembled the
+    ONT reads with Hifiasm and then ran purge_dups to try and collapse duplicated
+    haplotigs and some of repeats."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,753,802,154
+    GC %: '34.43'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '147'
+    Scaffold N50: 24,462,099
+    Scaffold L50: '25'
+    Scaffold L90: '70'
+    Contigs: '147'
+    Contig N50: 24,462,099
+    Contig L50: '25'
+    Contig L90: '70'
+    QV: '62.8486'
+    Kmer compl.: '73.1984'
+    BUSCO sing.: 95.1%
+    BUSCO dupl.: 2.7%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.9%
+  Curated pri:
+    Total bp: 1,753,345,540
+    GC %: '34.43'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: '141'
+    Scaffold N50: 24,462,099
+    Scaffold L50: '25'
+    Scaffold L90: '70'
+    Contigs: '141'
+    Contig N50: 24,462,099
+    Contig L50: '25'
+    Contig L90: '70'
+    QV: '63.2432'
+    Kmer compl.: '73.1947'
+    BUSCO sing.: 95.1%
+    BUSCO dupl.: 2.7%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.9%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: ONT Hi-C
+  Coverage: 46x 70x
+
+Assembly pipeline:
+  CLAWS: {}
+
+Curation pipeline:
+  FCS-GX:
+    ver: 0.5.5
+
+Submitter: Francisco Camara
+Affiliation: CNAG
+
+Date and time: 2026-03-11 11:50:31 CET

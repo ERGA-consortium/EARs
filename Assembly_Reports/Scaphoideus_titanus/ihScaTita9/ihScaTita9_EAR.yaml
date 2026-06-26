@@ -1,0 +1,95 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '376741'
+ToLID: ihScaTita9
+Species: Scaphoideus titanus
+Class: Insecta
+Order: Hemiptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 3,580,978,054
+    Haploid Number: '9 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 3,557,496,593
+    Haploid Number: '7'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.8.Q25
+
+Curator notes:
+  Contamination notes: '"A small number of bacteria sequences identified by fcs-gx"'
+  Other observations: '"None"'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 3,678,265,121
+    GC %: '36.12'
+    Gaps/Gbp: '748.18'
+    Total gap bp: 275,200
+    Scaffolds: 3,369
+    Scaffold N50: 281,580,310
+    Scaffold L50: '5'
+    Scaffold L90: '577'
+    Contigs: 6,121
+    Contig N50: 2,586,553
+    Contig L50: '340'
+    Contig L90: 2,257
+    QV: '25.7716'
+    Kmer compl.: '68.9125'
+    BUSCO sing.: 96.4%
+    BUSCO dupl.: 2.7%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 0.4%
+  Curated pri:
+    Total bp: 3,557,496,593
+    GC %: '36.01'
+    Gaps/Gbp: '757.27'
+    Total gap bp: 270,000
+    Scaffolds: 2,062
+    Scaffold N50: 440,186,620
+    Scaffold L50: '4'
+    Scaffold L90: '387'
+    Contigs: 4,756
+    Contig N50: 2,738,581
+    Contig L50: '319'
+    Contig L90: 1,942
+    QV: '25.7105'
+    Kmer compl.: '67.9999'
+    BUSCO sing.: 96.5%
+    BUSCO dupl.: 2.5%
+    BUSCO frag.: 0.6%
+    BUSCO miss.: 0.4%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: hemiptera_odb12
+
+Data:
+  Profile: ONT HiC
+  Coverage: NA NA
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.25.0
+  purge-dups:
+    ver: 1.2.6
+  yahs:
+    ver: 1.1a
+  fcs-gx:
+    ver: 0.5.0
+
+Curation pipeline:
+  pretextview:
+    ver: 1.0.0
+
+Submitter: Tom Brown
+Affiliation: IZW
+
+Date and time: 2026-02-28 09:52:05 CET

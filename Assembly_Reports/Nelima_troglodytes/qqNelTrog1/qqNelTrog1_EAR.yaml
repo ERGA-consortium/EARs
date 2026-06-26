@@ -1,0 +1,150 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3237719'
+ToLID: qqNelTrog1
+Species: Nelima troglodytes
+Class: Arachnida
+Order: Opiliones
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 668,900,136
+    Haploid Number: '10 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 697,869,398
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: NA
+
+EBP metrics:
+  EBP quality code:
+    hap1: 6.7.Q60
+    hap2: 6.7.Q61
+
+Curator notes:
+  Contamination notes: '"56,522,598 bp contained in 348 sequences were considered
+    contaminats by FCS-GX and removed from hap1. Additionally, 23,775,017 bp contained
+    in 43 sequences were also considered contaminants and removed from hap2. After
+    running blobtoolkit, all sequences with higher GC than 0.43 were also considered
+    contamintants and removed. In total, 397 and 53 additional sequences adding a
+    total of 38.6 and 25.3 Mb were removed from hap1 and hap2, respectively. The longest
+    removed contigs for hap1 and hap2 were 6,693,555 and 5,526,655 bp, respectively."'
+  Other observations: '"This genome assembly was produced by assembling ONT data with
+    Hifiasm and then scaffolding with Yahs. Curation was made in diploid mode and
+    we are planning to submit both haplotypes to the ENA. Curation made 34 cuts in
+    contigs, 48 breaks at gaps and 113 joins"'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 832,818,357
+    GC %: '39.92'
+    Gaps/Gbp: '220.94'
+    Total gap bp: 36,800
+    Scaffolds: 1,427
+    Scaffold N50: 36,862,694
+    Scaffold L50: '8'
+    Scaffold L90: '273'
+    Contigs: 1,611
+    Contig N50: 4,053,437
+    Contig L50: '51'
+    Contig L90: '437'
+    QV: '53.283'
+    Kmer compl.: '96.8931'
+    BUSCO sing.: 96.3%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 1.7%
+    BUSCO miss.: 1.3%
+  Pre-curation hap2:
+    Total bp: 671,348,240
+    GC %: '37.32'
+    Gaps/Gbp: '315.78'
+    Total gap bp: 42,400
+    Scaffolds: '301'
+    Scaffold N50: 49,609,403
+    Scaffold L50: '6'
+    Scaffold L90: '22'
+    Contigs: '513'
+    Contig N50: 4,188,491
+    Contig L50: '44'
+    Contig L90: '200'
+    QV: '60.5424'
+    Kmer compl.: '93.2094'
+    BUSCO sing.: 95.5%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 1.7%
+    BUSCO miss.: 2.0%
+  Curated hap1:
+    Total bp: 697,869,398
+    GC %: '36.58'
+    Gaps/Gbp: '302.35'
+    Total gap bp: 42,200
+    Scaffolds: '565'
+    Scaffold N50: 45,280,967
+    Scaffold L50: '7'
+    Scaffold L90: '35'
+    Contigs: '776'
+    Contig N50: 4,476,087
+    Contig L50: '42'
+    Contig L90: '219'
+    QV: '60.3652'
+    Kmer compl.: '91.3958'
+    BUSCO sing.: 96.2%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 1.8%
+    BUSCO miss.: 1.5%
+  Curated hap2:
+    Total bp: 653,445,983
+    GC %: '36.68'
+    Gaps/Gbp: '350.45'
+    Total gap bp: 45,800
+    Scaffolds: '226'
+    Scaffold N50: 51,368,909
+    Scaffold L50: '6'
+    Scaffold L90: '13'
+    Contigs: '455'
+    Contig N50: 4,188,491
+    Contig L50: '42'
+    Contig L90: '184'
+    QV: '61.8997'
+    Kmer compl.: '91.433'
+    BUSCO sing.: 96.2%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 1.8%
+    BUSCO miss.: 1.5%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arachnida_odb12
+
+Data:
+  Profile: ONT Arima Hi-C
+  Coverage: 174 125
+
+Assembly pipeline:
+  CLAWS:
+    ver: v3.1
+  Filtlong:
+    ver: v0.2.1
+    key param: --target_bases 60000000000
+  Hifiasm:
+    ver: 0.24.0
+    key param: --telo-m TTAGG
+  Yahs:
+    ver: 1.2a
+    key param: --no-contig-ec
+
+Curation pipeline:
+  FCS-GX:
+    ver: None
+  PretextViewAI:
+    ver: 1.0.5
+  Blobtoolkit:
+    ver: 0.6.0
+
+Submitter: Jessica Gomez-Garrido
+Affiliation: CNAG
+
+Date and time: 2026-05-06 11:12:59 CEST

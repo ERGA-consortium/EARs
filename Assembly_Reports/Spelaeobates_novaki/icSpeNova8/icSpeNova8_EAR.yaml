@@ -1,0 +1,102 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3086108'
+ToLID: icSpeNova8
+Species: Spelaeobates novaki
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 178,524,440
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 247,701,476
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q62
+
+Curator notes:
+  Interventions/Gb: 140
+  Contamination notes: '"Used FCS-GX to remove 1679 contaminant sequences. Dysgonomonas
+    was a prominant cobiont"'
+  Other observations: '"First round of curation made 3 cuts in contigs, 6 breaks at
+    gaps and 13 joins. A second round made 8 breaks at gaps and 5 joins. Hi-C library
+    was not very good. Relied a lot on the mq10 map for determining chromosome assingment
+    and the mq0 map for visualizing repeats."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 485,711,178
+    GC %: '36.31'
+    Gaps/Gbp: 1,210.6
+    Total gap bp: 117,600
+    Scaffolds: 2,237
+    Scaffold N50: 5,227,499
+    Scaffold L50: '17'
+    Scaffold L90: '670'
+    Contigs: 2,825
+    Contig N50: 2,313,496
+    Contig L50: '41'
+    Contig L90: 1,038
+    QV: '57.2829'
+    Kmer compl.: '10.5669'
+    BUSCO sing.: 98.8%
+    BUSCO dupl.: 0.5%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.5%
+  Curated pri:
+    Total bp: 247,701,476
+    GC %: '31.91'
+    Gaps/Gbp: '294.71'
+    Total gap bp: 14,600
+    Scaffolds: '552'
+    Scaffold N50: 15,758,168
+    Scaffold L50: '6'
+    Scaffold L90: '29'
+    Contigs: '625'
+    Contig N50: 5,965,395
+    Contig L50: '13'
+    Contig L90: '64'
+    QV: '62.2597'
+    Kmer compl.: '70.6668'
+    BUSCO sing.: 97.8%
+    BUSCO dupl.: 0.3%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 1.4%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: PACBIO HIFI Arima Hi-C
+  Coverage: 195x 455x
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.24.0-r702
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a
+  CLAWS:
+    ver: '2.3'
+
+Curation pipeline:
+  PretextViewAI:
+    ver: 1.0.5
+  GRIT_Rapid:
+    ver: '2.0'
+
+Submitter: Tyler Alioto
+Affiliation: CNAG
+
+Date and time: 2026-02-26 00:45:46 CET

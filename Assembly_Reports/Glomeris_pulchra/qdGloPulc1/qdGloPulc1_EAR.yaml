@@ -1,0 +1,168 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '2799294'
+ToLID: qdGloPulc1
+Species: Glomeris pulchra
+Class: Diplopoda
+Order: Glomerida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 438,212,396
+    Haploid Number: '12 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 361,559,850
+    Haploid Number: '13'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    hap1: 7.7.Q56
+
+Curator notes:
+  Interventions/Gb: 29
+  Contamination notes: '"Repeated attempts to run BlobTools were unsuccessful, so
+    we used an alternative tool called FCS-GX (Foreign Contamination Screen _ Genome
+    eXclusion), to identify contaminated scaffolds. In this species, the -alt- includes
+    85 contaminated scaffolds with diverse bacterial sequences. Of these, four scaffolds
+    exceeded 1 Mbp. The -prim- assembly contains 3 contaminated scaffolds. All contaminated
+    scaffolds from both haps were flagged as contaminants during a preliminary curation
+    step using pretextview, and were subsequently removed from the analysis in the
+    pretextview file shared for review."'
+  Other observations: '"We generated a new diploid assembly of Glomeris pulchra from
+    scratch. During initial trials, hifiasm failed to correctly identify the heterozygous
+    and homozygous coverage peaks, producing assemblies with an inflated number of
+    duplicated BUSCOs. To stabilize the assembly graph, we re-ran hifiasm with a manually
+    specified homozygous coverage value (hom_cov = 86), matching the homozygous peak
+    predicted by GenomeScope2 for the ONT read set. This adjustment substantially
+    improved the assembly: duplicated BUSCOs were nearly eliminated, and no additional
+    purge_dups step was required. We then curated the assembly in diploid mode. Because
+    the Hi-C dataset was of relatively poor quality: approximately 68% of Hi-C reads
+    did not map to the assembly. And because one haplotype (hap1) was noticeably more
+    fragmented than the other, we prioritized optimizing the more contiguous haplotype
+    (hap2). Several contigs originally assigned to hap1 were reassigned to hap2 when
+    their structure and Hi-C signal supported this, and hap2 was designated as the
+    primary assembly (pri or hap1 for compatibility with the EAR nomenclature). Hap1
+    was retained as the alternative assembly (alt or hap2). After curation, both the
+    primary and alternative assemblies showed substantial improvements in contiguity,
+    reflected in higher cN50 and sN50 values. Merqury QV scores also increased for
+    both haplotypes (due to a bug in the EAR generating script only the QV of the
+    prim/hap1 is shown at the report table), indicating improved consensus accuracy.
+    The final Pretext maps for each assembly underwent two rounds of internal review,
+    and save_state files have been provided for both assemblies. Finally,to evaluate
+    whether the two G. pulchra samples (GP7 and GP16) belonged to the same species
+    and to identify the most suitable assembly for downstream curation, we compared
+    them using HoBRAC and Mash. HoBRAC performs reference-free structural validation
+    by combining whole-genome alignment, BUSCO-anchored synteny, and reference ranking
+    to detect misassemblies, large-scale rearrangements, and haplotig artifacts, while
+    Mash estimates genomic relatedness by rapidly comparing the k-mer sketches of
+    two assemblies to compute an approximate evolutionary distance. Synteny analysis
+    in HoBRAC showed strong chromosome-level collinearity between GP7 and GP16, and
+    Mash reported a very small inter-assembly distance (0.0119), consistent with two
+    individuals from the same species. BUSCO profiles were similarly high for both
+    assemblies, with GP7 showing fewer duplicated BUSCOs and GP16 exhibiting a larger
+    assembly size due to increased repeat content. Because the Hi-C library mapped
+    poorly to GP16 (78% unmapped reads), only GP7 was curated further, and GP16 was
+    retained as an uncurated but biologically validated conspecific assembly."'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 392,759,916
+    GC %: '41.06'
+    Gaps/Gbp: '415.01'
+    Total gap bp: 32,600
+    Scaffolds: '631'
+    Scaffold N50: 14,327,784
+    Scaffold L50: '10'
+    Scaffold L90: '226'
+    Contigs: '794'
+    Contig N50: 8,886,200
+    Contig L50: '16'
+    Contig L90: '301'
+    BUSCO sing.: 97.5%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 1.7%
+  Pre-curation hap2:
+    Total bp: 1,104,426,000
+    GC %: '44.14'
+    Gaps/Gbp: '612.99'
+    Total gap bp: 135,400
+    Scaffolds: 5,795
+    Scaffold N50: 319,200
+    Scaffold L50: '454'
+    Scaffold L90: 3,479
+    Contigs: 6,472
+    Contig N50: 276,670
+    Contig L50: '513'
+    Contig L90: 4,076
+    BUSCO sing.: 96.6%
+    BUSCO dupl.: 1.1%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 2.0%
+  Curated hap1:
+    Total bp: 361,559,850
+    GC %: '39.41'
+    Gaps/Gbp: '141.06'
+    Total gap bp: 10,200
+    Scaffolds: '101'
+    Scaffold N50: 23,890,722
+    Scaffold L50: '6'
+    Scaffold L90: '20'
+    Contigs: '152'
+    Contig N50: 10,975,611
+    Contig L50: '11'
+    Contig L90: '40'
+    BUSCO sing.: 96.5%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 0.3%
+    BUSCO miss.: 2.6%
+  Curated hap2:
+    Total bp: 351,028,581
+    GC %: '39.73'
+    Gaps/Gbp: '247.84'
+    Total gap bp: 17,400
+    Scaffolds: '260'
+    Scaffold N50: 15,660,490
+    Scaffold L50: '7'
+    Scaffold L90: '65'
+    Contigs: '347'
+    Contig N50: 8,123,070
+    Contig L50: '14'
+    Contig L90: '96'
+    BUSCO sing.: 97.5%
+    BUSCO dupl.: 0.4%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 1.9%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arthropoda_odb10
+
+Data:
+  Profile: ONT Omni-C
+  Coverage: 72 127
+
+Assembly pipeline:
+  CLAWS:
+    ver: v3.1.0
+  Filtlong:
+    ver: v0.2.1
+    key param: --filtlong-min-mean-q 99
+  Hifiasm:
+    ver: 0.24.0
+    key param: --hom-cov 86
+  Yahs:
+    ver: 1.2a
+
+Curation pipeline:
+  "FCS-GX (ForeignContamination Screen\u2013Genome eXclusion)": {}
+
+Submitter: Francisco Camara Ferreira
+Affiliation: CNAG
+
+Date and time: 2026-05-13 11:16:38 CEST

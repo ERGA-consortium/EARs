@@ -8,6 +8,8 @@ concurrency:
   group: ear-bot-pr-${{ github.event.issue.number }}
   cancel-in-progress: false
 
+permissions: {}
+
 jobs:
   new-comment:
     if: github.actor != 'erga-ear-bot[bot]' && github.event.issue.pull_request && (contains(github.event.issue.labels.*.name, 'ERGA-BGE') || contains(github.event.issue.labels.*.name, 'ERGA-Pilot') || contains(github.event.issue.labels.*.name, 'ERGA-Community'))

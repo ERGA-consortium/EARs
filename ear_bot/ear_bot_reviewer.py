@@ -117,8 +117,14 @@ class EAR_get_reviewer:
                 self.data, institution, project
             )
             reviewer_print = subprocess.run(
-                f"python {_get_local_path(self.GET_EAR_REVIEWER_SCRIPT)} -i '{institution}' -t '{project}'",
-                shell=True,
+                [
+                    sys.executable,
+                    _get_local_path(self.GET_EAR_REVIEWER_SCRIPT),
+                    "-i",
+                    institution,
+                    "-t",
+                    project,
+                ],
                 capture_output=True,
                 text=True,
             ).stdout
@@ -378,6 +384,11 @@ class EARBotReviewer:
             institution = self._search_for_institution(pr)
             project = self._search_in_body(pr, "Project")
             try:
+                if project not in self.valid_projects:
+                    raise Exception(
+                        f"Invalid project name in the PR body: {project!r}. "
+                        f"Please use one of the following project names: {', '.join(self.valid_projects)}"
+                    )
                 if deadline_passed or reject:
                     message = (
                         f"@{old_reviewers_list[0]} Time is out! I will look for the next reviewer on the list :)"
@@ -859,8 +870,11 @@ class EARBotReviewer:
 
     def _add_yaml_file(self, EAR_pdf_filename):
         output_pdf_to_yaml = subprocess.run(
-            f"python {_get_local_path(self.EARPDF_TO_YAML_SCRIPT)} {_get_local_path(EAR_pdf_filename)}",
-            shell=True,
+            [
+                sys.executable,
+                _get_local_path(self.EARPDF_TO_YAML_SCRIPT),
+                _get_local_path(EAR_pdf_filename),
+            ],
             capture_output=True,
             text=True,
         )

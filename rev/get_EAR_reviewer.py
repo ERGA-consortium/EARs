@@ -102,6 +102,9 @@ def select_best_reviewer(data, calling_institution, use_bge):
     top_score = eligible_candidates[0]['Adjusted Score'] if eligible_candidates else None
     top_candidates = [c for c in eligible_candidates if c['Adjusted Score'] == top_score] if top_score is not None else []
 
+    if not top_candidates:
+        return eligible_candidates, [], "no eligible candidates"
+
     if len(top_candidates) == 1:
         return eligible_candidates, top_candidates, "highest adjusted calling score in this particular selection"
 

@@ -116,6 +116,10 @@ class EAR_get_reviewer:
             _, top_candidate, _ = get_EAR_reviewer.select_best_reviewer(
                 self.data, institution, project
             )
+            if not top_candidate:
+                raise Exception(
+                    f"No active reviewer outside {institution!r} is available."
+                )
             reviewer_print = subprocess.run(
                 f"python {_get_local_path(self.GET_EAR_REVIEWER_SCRIPT)} -i '{institution}' -t '{project}'",
                 shell=True,
@@ -187,7 +191,11 @@ class EAR_get_reviewer:
                     reviewer_data["Calling Score"] = str(reviewer_data_score)
                     reviewer_data["Total Reviews"] = str(reviewer_data_total + 1)
                     reviewer_data["Last Review"] = submitted_at
-            elif reviewer_data_id in fined_reviewers:
+            # Not an elif: a reviewer who timed out is always also in
+            # `reviewers`, since both sets come from the same "do you agree to
+            # review" comments.  As an elif this branch never ran and the
+            # timeout penalty documented in the README was never applied.
+            if reviewer_data_id in fined_reviewers:
                 reviewer_data_score += 1
                 reviewer_data["Calling Score"] = str(reviewer_data_score)
             if reviewer_data_institution == institution.lower():
@@ -362,7 +370,7 @@ class EARBotReviewer:
             self._check_pr_activity(pr, current_date)
             if (
                 pr.get_review_requests()[0].totalCount > 0
-                or pr.get_reviews().totalCount > 0
+                or self._has_binding_review(pr)
                 or not pr.assignees
             ):
                 continue
@@ -440,15 +448,18 @@ class EARBotReviewer:
             print(f"Missing required environment variables.\n{e}")
             sys.exit(1)
 
+        # GitHub logins are case-insensitive, and the roster spelling does not
+        # always match the login casing, so compare everything lower-cased.
         supervisors = [
-            reviewer["Github ID"]
+            reviewer["Github ID"].lower()
             for reviewer in self.EAR_reviewer.data
-            if reviewer["Supervisor"] == "Y" and reviewer["Github ID"] != pr.user.login
+            if reviewer["Supervisor"] == "Y"
+            and reviewer["Github ID"].lower() != pr.user.login.lower()
         ]
 
         if (
             comment_author in supervisors
-            and "@erga-ear-bot clear" in comment_text
+            and "@erga-ear-bot clear" in self._first_reply_line(comment_text)
             and pr.state == "closed"
         ):
             comment_reviewer = self._search_comment_user(pr, "do you agree to review")
@@ -457,12 +468,14 @@ class EARBotReviewer:
             )
             for label in pr.get_labels():
                 pr.remove_from_labels(label)
+            print("Cleared the active tasks for this PR.")
+            sys.exit()
 
         if not pr.assignees:
             if comment_author not in supervisors:
                 print("The comment author is not one of the supervisors.")
                 sys.exit()
-            if "ok" in comment_text:
+            if re.search(r"\bok\b", self._first_reply_line(comment_text)):
                 pr.add_to_assignees(comment_author)
                 if not self.pr_number:
                     raise Exception("PR_NUMBER is not set")
@@ -478,7 +491,7 @@ class EARBotReviewer:
             if pr.get_review_requests()[0].totalCount > 0:
                 print("The PR is already assigned to a reviewer.")
                 sys.exit()
-            if pr.get_reviews().totalCount > 0:
+            if self._has_binding_review(pr):
                 print("The PR already has a review.")
                 sys.exit()
             if comment_author in map(
@@ -494,12 +507,7 @@ class EARBotReviewer:
                 print("The reviewer is not the one who was asked to review the PR.")
                 sys.exit()
 
-            first_line = ""
-            for line in comment_text.split("\n"):
-                stripped = line.strip()
-                if stripped and not stripped.startswith(">"):
-                    first_line = stripped
-                    break
+            first_line = self._first_reply_line(comment_text)
 
             if bool(re.search(r"\byes\b", first_line)):
                 time_wasted_reviewers = set(
@@ -553,13 +561,18 @@ class EARBotReviewer:
         except Exception as e:
             print(f"Missing required environment variables.\n{e}")
             sys.exit(1)
+        if not pr.assignee:
+            print("The PR has no assigned supervisor yet.")
+            sys.exit()
         supervisor = pr.assignee.login
         researcher = pr.user.login
-        comment_reviewer = pr.get_reviews()
-        if comment_reviewer.totalCount == 0 or (
-            comment_reviewer.totalCount > 0
-            and comment_reviewer[0].user.login.lower() != reviewer
-        ):
+        # Check the approver against the reviewer the bot actually appointed.
+        # REVIEWER comes from github.event.review.user.login and the workflow
+        # already gates on state == 'approved', so looking for that review in
+        # pr.get_reviews() would always succeed and constrain nothing. Any
+        # passer-by can approve a PR on a public repo.
+        appointed = self._search_comment_user(pr, "do you agree to review")
+        if not appointed or appointed[0] != reviewer:
             print("The reviewer is not the one who agreed to review the PR.")
             sys.exit()
         pr.create_issue_comment(
@@ -572,6 +585,8 @@ class EARBotReviewer:
         )
 
     def get_user_info(self, user):
+        if user is None:
+            return "", ""
         user_id = user.login
         user_name = user.name or user_id
         return user_id.lower(), user_name
@@ -606,16 +621,20 @@ class EARBotReviewer:
         pr = self.repo.get_pull(int(self.pr_number))
         reviews = pr.get_reviews().reversed
         merged = os.getenv("MERGED_STATUS") == "true"
-        if merged and reviews.totalCount > 0:
+        # Only a review carrying a verdict may be recorded as the review of
+        # this PR.  Falling back to reviews[0] here could otherwise credit a
+        # passer-by who left a COMMENTED review.
+        binding_reviews = self._binding_reviews(pr)
+        if merged and binding_reviews:
             comment_reviewers = self._search_comment_user(pr, "for the review")
             the_review = next(
                 (
                     review
-                    for review in reviews
+                    for review in binding_reviews
                     if comment_reviewers
                     and review.user.login.lower() == comment_reviewers[0]
                 ),
-                reviews[0],
+                binding_reviews[0],
             )
             open_date = pr.created_at.strftime("%Y-%m-%d")
             submitted_at = datetime.now(tz=cet).strftime("%Y-%m-%d")
@@ -625,7 +644,10 @@ class EARBotReviewer:
             reviewer_id, reviewer_name = self.get_user_info(the_review.user)
 
             interaction_count = 0
-            other_participants = set()
+            # Keyed by lower-cased GitHub ID so the roster lookup below can
+            # match it.  The value is the display name, used only as a
+            # fallback when the person is not on the roster.
+            other_participants = {}
             for comment in list(pr.get_issue_comments()) + list(reviews):
                 body = comment.body.strip()
                 if not body:
@@ -643,7 +665,7 @@ class EARBotReviewer:
                         supervisor_id,
                         reviewer_id,
                     }:
-                        other_participants.add(comment_user_name)
+                        other_participants[comment_user_id] = comment_user_name
 
             supervisor_institution = ""
             reviewer_institution = ""
@@ -658,8 +680,7 @@ class EARBotReviewer:
                     if github_id == reviewer_id:
                         reviewer_name = full_name
                     if github_id in other_participants:
-                        other_participants.remove(github_id)
-                        other_participants.add(full_name)
+                        other_participants[github_id] = full_name
                 if github_id == supervisor_id:
                     supervisor_institution = entry.get("Institution", "")
                 if github_id == reviewer_id:
@@ -668,7 +689,26 @@ class EARBotReviewer:
             species = self._search_in_body(pr, "Species")
             tag = self._search_in_body(pr, "Project")
             researcher_institution = self._search_for_institution(pr)
-            other_participants_str = ", ".join(sorted(other_participants))
+            other_participants_str = ", ".join(sorted(other_participants.values()))
+
+            # Resolved before any commit below.  This used to run after both
+            # CSVs were already written, so a merged PR with no PDF left the
+            # data half-updated and could not be re-run safely.
+            EAR_pdf = next(
+                (
+                    file
+                    for file in pr.get_files()
+                    if file.filename.lower().endswith(".pdf")
+                ),
+                None,
+            )
+            if EAR_pdf is None:
+                pr.create_issue_comment(
+                    "I could not find an EAR PDF in this PR, so I did not record the review."
+                )
+                pr.add_to_labels("ERROR!")
+                print("No PDF file found in the PR. Nothing was recorded.")
+                return
 
             self.EAR_reviewer.add_pr(
                 pr_url=pr.html_url,
@@ -694,24 +734,26 @@ class EARBotReviewer:
                 institution=institution,
                 submitted_at=submitted_at,
             )
-            EAR_pdf = next(
-                file
-                for file in pr.get_files()
-                if file.filename.lower().endswith(".pdf")
-            )
             self._add_yaml_file(EAR_pdf.filename)
 
             if self._search_in_body(pr, "Project") == "ERGA-BGE":
                 EAR_pdf_url = re.sub(r"/blob/[\w\d]+/", "/blob/main/", EAR_pdf.blob_url)
                 slack_post = (
                     f":tada: *New Assembly Finished!* :tada:\n\n"
-                    f"Congratulations to {researcher_name} and the {institution} team for the high-quality assembly of _{species}_\n\n"
-                    f"The assembly was reviewed by {reviewer_name}, and the process supervised by {supervisor_name}. The EAR can be found in the following link:\n"
+                    f"Congratulations to {self._slack_escape(researcher_name)} and the"
+                    f" {self._slack_escape(institution)} team for the high-quality"
+                    f" assembly of _{self._slack_escape(species)}_\n\n"
+                    f"The assembly was reviewed by {self._slack_escape(reviewer_name)},"
+                    f" and the process supervised by {self._slack_escape(supervisor_name)}."
+                    " The EAR can be found in the following link:\n"
                     f"{EAR_pdf_url}"
                 )
                 self._create_slack_post(slack_post)
         elif not merged:
-            supervisor = pr.assignee.login
+            # A PR can be closed before a supervisor is ever assigned, and the
+            # EAR-UPDATE path never assigns one at all.  Fall back to the
+            # researcher so this warning still reaches somebody.
+            supervisor = pr.assignee.login if pr.assignee else pr.user.login
             pr.create_issue_comment(
                 f"Attention @{supervisor}!\n"
                 "The PR has been closed, but the reviewers will retain their working PR count in case it is re-opened.\n"
@@ -729,6 +771,39 @@ class EARBotReviewer:
             pr.create_issue_comment(
                 "The YAML file has been updated based on the new EAR.pdf"
             )
+
+    @staticmethod
+    def _first_reply_line(comment_text):
+        """Return the first non-empty, non-quoted line of a comment.
+
+        Commands are only recognised here so that quoting the bot's own
+        message back at it does not count as a reply.
+        """
+        for line in comment_text.split("\n"):
+            stripped = line.strip()
+            if stripped and not stripped.startswith(">"):
+                return stripped
+        return ""
+
+    @staticmethod
+    def _binding_reviews(pr):
+        """Reviews that carry a verdict, newest first.
+
+        get_reviews() also returns COMMENTED reviews, which any user can
+        leave on a public repo and which cannot be deleted afterwards.
+        Counting those meant a single stray comment review stopped the bot
+        from ever assigning a reviewer, and could be recorded as the review
+        of the PR once it merged.
+        """
+        return [
+            review
+            for review in pr.get_reviews().reversed
+            if review.state in ("APPROVED", "CHANGES_REQUESTED")
+        ]
+
+    @classmethod
+    def _has_binding_review(cls, pr):
+        return bool(cls._binding_reviews(pr))
 
     def _is_bot_user(self, comment):
         user_type = comment.raw_data.get("user", {}).get("type", None)
@@ -833,6 +908,20 @@ class EARBotReviewer:
                 time_to_add = timedelta(days=1)
             current_date += time_to_add
         return current_date
+
+    @staticmethod
+    def _slack_escape(text):
+        """Escape the three characters Slack treats as markup.
+
+        Without this a species or institution name taken from the PR body
+        could contain <!channel> and notify the whole channel.
+        """
+        return (
+            str(text)
+            .replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+        )
 
     def _create_slack_post(self, content):
         from slack_sdk import WebClient

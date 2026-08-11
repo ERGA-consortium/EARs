@@ -1,0 +1,239 @@
+"""Roster and review-log storage for the EAR bot.
+
+Everything that reads or writes the two CSV files in ``rev/`` lives here:
+
+    rev/reviewers_list.csv   the reviewer roster and its scores
+    rev/EAR_reviews.csv      the append-only log of completed reviews
+
+Two rules this module exists to enforce:
+
+1. **A write never silently loses another run's changes.**  ``update_if_unchanged``
+   sends the blob SHA the content was based on, so GitHub rejects the write if
+   the file moved underneath us.  On rejection the caller's data is re-read and
+   the change is re-applied, rather than clobbering or giving up.
+
+2. **Recording a completed review is all-or-nothing.**  ``record_review``
+   validates every precondition before writing anything, so a merge is either
+   fully recorded or not recorded at all.  The previous code committed
+   EAR_reviews.csv first and could then fail on the roster write, leaving a
+   review logged against a reviewer whose counters were never updated and no
+   safe way to re-run.
+"""
+
+import csv
+import io
+
+from github import UnknownObjectException
+
+from rev import get_EAR_reviewer
+
+REVIEWERS_CSV = "rev/reviewers_list.csv"
+EAR_REVIEWS_CSV = "rev/EAR_reviews.csv"
+
+# How many times to re-read and re-apply after a conflicting write.
+MAX_WRITE_ATTEMPTS = 3
+
+
+class RosterError(Exception):
+    """A precondition for updating the roster was not met."""
+
+
+def replace(repo, path, message, content):
+    """Write ``path`` unconditionally, creating it if absent.
+
+    For files only this bot produces, where there is no concurrent writer to
+    conflict with.  Use ``update_if_unchanged`` for the shared CSVs.
+    """
+    try:
+        contents = repo.get_contents(path)
+        if isinstance(contents, list):
+            raise RosterError(f"Expected a file, got a directory: {path}")
+        result = repo.update_file(path, message, content, contents.sha)
+        print(f"Updated {path} file.")
+    except UnknownObjectException:
+        result = repo.create_file(path, message, content)
+        print(f"Created {path} file.")
+    return result["content"].sha
+
+
+def update_if_unchanged(repo, path, message, content, sha):
+    """Write ``path`` only if its current blob still matches ``sha``.
+
+    ``sha`` is required: an optional one would make forgetting it re-introduce
+    the lost-update race this function exists to prevent.  Returns the new blob
+    SHA so a caller writing the same path repeatedly can carry it forward.
+    """
+    result = repo.update_file(path, message, content, sha)
+    print(f"Updated {path} file.")
+    return result["content"].sha
+
+
+def _fetch(repo, path):
+    contents = repo.get_contents(path)
+    if isinstance(contents, list):
+        raise RosterError(f"Expected a file, got a directory: {path}")
+    text = contents.decoded_content.decode("utf-8")
+    if not text:
+        raise RosterError(f"The CSV file is empty: {path}")
+    return text, contents.sha
+
+
+class Roster:
+    """The reviewer roster, plus the review log it is updated alongside."""
+
+    def __init__(self, repo):
+        self.repo = repo
+        self._load()
+
+    def _load(self):
+        text, self.sha = _fetch(self.repo, REVIEWERS_CSV)
+        self.fieldnames = get_EAR_reviewer.csv_fieldnames(text)
+        self.data = get_EAR_reviewer.parse_csv(text)
+
+    def ids(self):
+        return {row.get("Github ID", "").lower() for row in self.data}
+
+    def missing(self, reviewers):
+        """Which of ``reviewers`` are not on the roster."""
+        known = self.ids()
+        return {r for r in reviewers if r and r.lower() not in known}
+
+    def _write(self, message):
+        """Commit the in-memory roster, re-applying on conflict.
+
+        A conflict means another workflow run committed between our read and
+        our write.  Retrying against a stale copy would undo their change, so
+        the change set is re-applied to freshly read data instead.
+        """
+        for attempt in range(MAX_WRITE_ATTEMPTS):
+            try:
+                self.sha = update_if_unchanged(
+                    self.repo,
+                    REVIEWERS_CSV,
+                    message,
+                    get_EAR_reviewer.format_csv(self.data, self.fieldnames),
+                    self.sha,
+                )
+                return
+            except Exception as exc:
+                if attempt == MAX_WRITE_ATTEMPTS - 1:
+                    raise
+                print(f"Roster write rejected ({exc}); re-reading and retrying.")
+                pending = {
+                    row.get("Github ID", "").lower(): row for row in self.data
+                }
+                self._load()
+                for row in self.data:
+                    updated = pending.get(row.get("Github ID", "").lower())
+                    if updated:
+                        row.update(updated)
+
+    def apply(
+        self,
+        reviewers,
+        busy,
+        institution="",
+        submitted_at="",
+        fined_reviewers=(),
+        message="Update reviewers list",
+        strict=True,
+    ):
+        """Adjust counters for ``reviewers`` and commit.
+
+        With ``strict`` (the default) an unknown ID raises before anything is
+        touched, so a caller recording a review cannot half-apply a change set.
+
+        Release paths pass ``strict=False``: freeing everyone else's counters
+        matters more than refusing because one person has since left the
+        consortium and been removed from the roster.  Without this, a single
+        departed reviewer permanently blocks the CLEAR command for that PR.
+        """
+        reviewers = {r.lower() for r in reviewers if r}
+        if not reviewers:
+            print("No reviewers to update.")
+            return
+        unknown = self.missing(reviewers)
+        if unknown:
+            if strict:
+                raise RosterError(
+                    f"Not on the reviewers list: {', '.join(sorted(unknown))}"
+                )
+            print(f"Not on the reviewers list, skipping: {', '.join(sorted(unknown))}")
+            reviewers -= unknown
+            if not reviewers:
+                return
+
+        fined = {r.lower() for r in fined_reviewers if r}
+        for row in self.data:
+            row_id = row.get("Github ID", "").lower()
+            score = int(row.get("Calling Score", 1000) or 1000)
+            total = int(row.get("Total Reviews", 0) or 0)
+            working = int(row.get("Working PRs", 0) or 0)
+
+            if row_id in reviewers:
+                row["Working PRs"] = str(working + 1 if busy else max(0, working - 1))
+                if submitted_at:
+                    score -= 1
+                    row["Calling Score"] = str(score)
+                    row["Total Reviews"] = str(total + 1)
+                    row["Last Review"] = submitted_at
+            # Not an elif: a reviewer who timed out is always also in
+            # `reviewers`, since both sets come from the same "do you agree to
+            # review" comments.
+            if row_id in fined:
+                score += 1
+                row["Calling Score"] = str(score)
+            if institution and row.get("Institution", "").lower() == institution.lower():
+                row["Calling Score"] = str(score + 1)
+
+        self._write(message)
+        print(f"Updated the reviewers list for {', '.join(sorted(reviewers))}.")
+
+    def already_recorded(self, pr_url):
+        """True if the review log already has a row for this PR.
+
+        WF6 fires once per close, but a manual re-run would otherwise append a
+        duplicate row for the same PR.
+        """
+        text, _ = _fetch(self.repo, EAR_REVIEWS_CSV)
+        return any(
+            row and row[0].strip() == pr_url
+            for row in csv.reader(io.StringIO(text))
+        )
+
+    def record_review(self, row_values, reviewers, institution, submitted_at):
+        """Append a review row and update the roster, or do neither.
+
+        Every precondition is checked before the first write.  The roster is
+        written first because it is the file with a concurrent writer and so
+        the one that can still fail; the append-only log follows once the
+        contended write has succeeded.
+        """
+        pr_url = row_values[0]
+        if self.already_recorded(pr_url):
+            print(f"{pr_url} is already in the review log; nothing to record.")
+            return False
+
+        unknown = self.missing(reviewers)
+        if unknown:
+            raise RosterError(
+                f"Not on the reviewers list: {', '.join(sorted(unknown))}"
+            )
+
+        self.apply(
+            reviewers=reviewers,
+            busy=False,
+            institution=institution,
+            submitted_at=submitted_at,
+        )
+
+        text, sha = _fetch(self.repo, EAR_REVIEWS_CSV)
+        buffer = io.StringIO()
+        csv.writer(buffer, lineterminator="\n").writerow(row_values)
+        if not text.endswith("\n"):
+            text += "\n"
+        update_if_unchanged(
+            self.repo, EAR_REVIEWS_CSV, "Add new EAR review", text + buffer.getvalue(), sha
+        )
+        print(f"Recorded the review for {pr_url}.")
+        return True

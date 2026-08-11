@@ -32,6 +32,8 @@ Customisation notes:
   - Slack posting is skipped for non-BGE projects; adjust the condition in
     closed_pr() to enable it for other project types.
 """
+import csv
+import io
 import os
 import re
 import subprocess
@@ -53,22 +55,34 @@ def _get_local_path(filename):
     return os.path.join(root_folder, filename)
 
 
-def commit(repo, path, message, content):
+def commit(repo, path, message, content, sha=None):
+    """Write ``content`` to ``path``.
+
+    ``sha`` must be the blob SHA the caller based ``content`` on.  Passing it
+    makes GitHub reject the write if the file changed in the meantime, so two
+    workflow runs cannot silently overwrite each other.  Re-reading the SHA
+    here instead would make every write succeed and quietly drop the other
+    run's changes.
+
+    Raises on failure.  Callers relied on this printing and returning, which
+    meant a lost update looked identical to a successful one in the job log.
+
+    Returns the blob SHA of the file as written, so a caller that writes the
+    same path more than once in a single run can carry it forward.  Reusing a
+    stale SHA for the second write would be rejected as a conflict.
+    """
     try:
-        contents = repo.get_contents(path)
-        if not isinstance(contents, list):
-            repo.update_file(contents.path, message, content, contents.sha)
-            print(f"Updated {path} file.")
-        else:
-            print(f"{path} file could not be updated.")
+        if sha is None:
+            contents = repo.get_contents(path)
+            if isinstance(contents, list):
+                raise Exception(f"Expected a file, got a directory: {path}")
+            sha = contents.sha
+        result = repo.update_file(path, message, content, sha)
+        print(f"Updated {path} file.")
     except UnknownObjectException:
-        try:
-            repo.create_file(path, message, content)
-            print(f"Created {path} file.")
-        except Exception as e:
-            print(f"Error creating {path} file.\n\n{content}\n\n\n{e}")
-    except Exception as e:
-        print(f"Error updating {path} file.\n{e}")
+        result = repo.create_file(path, message, content)
+        print(f"Created {path} file.")
+    return result["content"].sha
 
 
 class EAR_get_reviewer:
@@ -88,7 +102,10 @@ class EAR_get_reviewer:
 
     def __init__(self, repo) -> None:
         self.repo = repo
-        csv_data = self._fetch_csv_from_repo(self.REVIEWERS_CSV)
+        csv_data, self.reviewers_sha = self._fetch_csv_from_repo(self.REVIEWERS_CSV)
+        # Header order is preserved from the file rather than rebuilt from
+        # dict key order when writing back.
+        self.reviewers_fieldnames = get_EAR_reviewer.csv_fieldnames(csv_data)
         self.data = get_EAR_reviewer.parse_csv(csv_data)
 
     def _fetch_csv_from_repo(self, csv_path):
@@ -98,7 +115,7 @@ class EAR_get_reviewer:
         csv_data = contents.decoded_content.decode("utf-8")
         if not csv_data:
             raise Exception(f"The CSV file is empty: {csv_path}")
-        return csv_data
+        return csv_data, contents.sha
 
     def get_supervisor(self, user, calling_institution):
         try:
@@ -147,17 +164,38 @@ class EAR_get_reviewer:
         other_participants,
         notes,
     ):
-        ear_reviews_csv_data = self._fetch_csv_from_repo(self.EAR_REVIEWS_CSV)
+        ear_reviews_csv_data, sha = self._fetch_csv_from_repo(self.EAR_REVIEWS_CSV)
 
-        csv_row = (
-            f"{pr_url},{species},{tag},{requester_name},"
-            f"{requester_affiliation},{reviewer_name},{reviewer_affiliation},"
-            f"{supervisor_name},{supervisor_affiliation},{interaction_count},"
-            f'{open_date},{approval_date},"{other_participants}",{notes}\n'
+        # csv.writer so that a species, name or institution containing a comma
+        # or a quote cannot shift the remaining columns of the row.
+        buffer = io.StringIO()
+        csv.writer(buffer, lineterminator="\n").writerow(
+            [
+                pr_url,
+                species,
+                tag,
+                requester_name,
+                requester_affiliation,
+                reviewer_name,
+                reviewer_affiliation,
+                supervisor_name,
+                supervisor_affiliation,
+                interaction_count,
+                open_date,
+                approval_date,
+                other_participants,
+                notes,
+            ]
         )
-        ear_reviews_csv_data += csv_row
+        if not ear_reviews_csv_data.endswith("\n"):
+            ear_reviews_csv_data += "\n"
+        ear_reviews_csv_data += buffer.getvalue()
         commit(
-            self.repo, self.EAR_REVIEWS_CSV, "Add new EAR review", ear_reviews_csv_data
+            self.repo,
+            self.EAR_REVIEWS_CSV,
+            "Add new EAR review",
+            ear_reviews_csv_data,
+            sha=sha,
         )
         print(f"Added {reviewer_name} to the EAR reviews CSV file.")
 
@@ -201,10 +239,30 @@ class EAR_get_reviewer:
             if reviewer_data_institution == institution.lower():
                 reviewer_data["Calling Score"] = str(reviewer_data_score + 1)
 
-        csv_str = ",".join(self.data[0].keys()) + "\n"
-        for row in self.data:
-            csv_str += ",".join(row.values()) + "\n"
-        commit(self.repo, self.REVIEWERS_CSV, "Update reviewers list", csv_str)
+        unknown = {
+            reviewer_id
+            for reviewer_id in reviewers
+            if not any(
+                row.get("Github ID", "").lower() == reviewer_id for row in self.data
+            )
+        }
+        if unknown:
+            # Previously these were skipped silently while the function still
+            # reported success and committed an unchanged file.
+            raise Exception(
+                f"Not on the reviewers list: {', '.join(sorted(unknown))}"
+            )
+
+        csv_str = get_EAR_reviewer.format_csv(self.data, self.reviewers_fieldnames)
+        # find_reviewer() calls this once per PR in a single scheduled run, so
+        # the SHA has to move forward after each write.
+        self.reviewers_sha = commit(
+            self.repo,
+            self.REVIEWERS_CSV,
+            "Update reviewers list",
+            csv_str,
+            sha=self.reviewers_sha,
+        )
         print(f"Updated the reviewers list for {', '.join(reviewers)}.\n{csv_str}")
 
 

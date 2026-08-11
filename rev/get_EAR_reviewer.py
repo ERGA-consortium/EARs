@@ -5,6 +5,8 @@ version = "v25.10.10"
 
 import requests
 import random
+import csv
+import io
 from datetime import datetime
 import argparse
 
@@ -24,10 +26,37 @@ def download_csv(url):
         return None
 
 def parse_csv(csv_str):
-    lines = csv_str.strip().split('\n')
-    headers = lines[0].split(',')
-    data = [dict(zip(headers, line.split(','))) for line in lines[1:]]
-    return data
+    # csv.DictReader rather than str.split(',') so that a quoted field
+    # containing a comma, for example "Aury, Jean-Marc", does not shift every
+    # following column.
+    #
+    # DictReader fills columns a short row does not reach with None, whereas
+    # the old dict(zip(...)) left the key out entirely so that .get(key,
+    # default) fell back to the default.  Dropping the Nones keeps that
+    # behaviour, so one truncated hand-edit degrades instead of crashing every
+    # int() cast downstream.
+    reader = csv.DictReader(io.StringIO(csv_str.strip()))
+    return [
+        {key: value for key, value in row.items() if value is not None}
+        for row in reader
+    ]
+
+def csv_fieldnames(csv_str):
+    """Column names in file order, parsed the same way as the rows."""
+    return csv.DictReader(io.StringIO(csv_str.strip())).fieldnames or []
+
+def format_csv(data, fieldnames=None):
+    """Render roster rows back to CSV, quoting anything that needs it."""
+    if not data:
+        return ''
+    if fieldnames is None:
+        fieldnames = list(data[0].keys())
+    buffer = io.StringIO()
+    writer = csv.DictWriter(buffer, fieldnames=fieldnames, lineterminator='\n')
+    writer.writeheader()
+    for row in data:
+        writer.writerow({key: row.get(key, '') for key in fieldnames})
+    return buffer.getvalue()
 
 def normalize_institution(institution):
     institution = institution.lower()

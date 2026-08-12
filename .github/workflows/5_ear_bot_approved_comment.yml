@@ -74,7 +74,7 @@ jobs:
 
       - name: Set up Python
         if: ${{ env.SHOULD_RUN == 'true' }}
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 

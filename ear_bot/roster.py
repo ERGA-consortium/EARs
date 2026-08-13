@@ -94,18 +94,28 @@ class Roster:
         return {row.get("Github ID", "").lower() for row in self.data}
 
     def missing(self, reviewers):
-        """Which of ``reviewers`` are not on the roster."""
+        """Which of ``reviewers`` are not on the roster.
+
+        A blank ID counts as missing.  get_user_info() returns "" for a
+        deleted GitHub account, and treating that as known let a merge be
+        half-recorded: the log row was written with empty reviewer fields
+        while the roster update quietly did nothing.
+        """
         known = self.ids()
-        return {r for r in reviewers if r and r.lower() not in known}
+        return {r for r in reviewers if not r or r.lower() not in known}
 
-    def _write(self, message):
-        """Commit the in-memory roster, re-applying on conflict.
+    def _write(self, message, mutate):
+        """Apply ``mutate`` to the roster rows and commit, retrying on conflict.
 
-        A conflict means another workflow run committed between our read and
-        our write.  Retrying against a stale copy would undo their change, so
-        the change set is re-applied to freshly read data instead.
+        ``mutate`` is a callable taking the row list and changing it in place.
+        It is deliberately re-run rather than re-sent: on a conflict the local
+        copy is discarded, the file is re-read, and the same change is applied
+        to the *other run's* committed rows.  Re-sending our own snapshot would
+        overwrite whatever they wrote, which is the lost update this class
+        exists to prevent.
         """
         for attempt in range(MAX_WRITE_ATTEMPTS):
+            mutate(self.data)
             try:
                 self.sha = update_if_unchanged(
                     self.repo,
@@ -116,17 +126,12 @@ class Roster:
                 )
                 return
             except Exception as exc:
+                # Drop our uncommitted edits either way, so the caller is never
+                # left holding counters that were never written.
+                self._load()
                 if attempt == MAX_WRITE_ATTEMPTS - 1:
                     raise
                 print(f"Roster write rejected ({exc}); re-reading and retrying.")
-                pending = {
-                    row.get("Github ID", "").lower(): row for row in self.data
-                }
-                self._load()
-                for row in self.data:
-                    updated = pending.get(row.get("Github ID", "").lower())
-                    if updated:
-                        row.update(updated)
 
     def apply(
         self,
@@ -148,45 +153,52 @@ class Roster:
         consortium and been removed from the roster.  Without this, a single
         departed reviewer permanently blocks the CLEAR command for that PR.
         """
+        # Checked before blanks are dropped, so a deleted account (which
+        # get_user_info reports as "") is reported rather than silently
+        # becoming a no-op.
+        unknown = self.missing(reviewers)
         reviewers = {r.lower() for r in reviewers if r}
+        if unknown:
+            named = sorted(u or "(unknown user)" for u in unknown)
+            if strict:
+                raise RosterError(f"Not on the reviewers list: {', '.join(named)}")
+            print(f"Not on the reviewers list, skipping: {', '.join(named)}")
+            reviewers -= {u.lower() for u in unknown if u}
         if not reviewers:
             print("No reviewers to update.")
             return
-        unknown = self.missing(reviewers)
-        if unknown:
-            if strict:
-                raise RosterError(
-                    f"Not on the reviewers list: {', '.join(sorted(unknown))}"
-                )
-            print(f"Not on the reviewers list, skipping: {', '.join(sorted(unknown))}")
-            reviewers -= unknown
-            if not reviewers:
-                return
 
         fined = {r.lower() for r in fined_reviewers if r}
-        for row in self.data:
-            row_id = row.get("Github ID", "").lower()
-            score = int(row.get("Calling Score", 1000) or 1000)
-            total = int(row.get("Total Reviews", 0) or 0)
-            working = int(row.get("Working PRs", 0) or 0)
 
-            if row_id in reviewers:
-                row["Working PRs"] = str(working + 1 if busy else max(0, working - 1))
-                if submitted_at:
-                    score -= 1
+        def mutate(rows):
+            for row in rows:
+                row_id = row.get("Github ID", "").lower()
+                score = int(row.get("Calling Score", 1000) or 1000)
+                total = int(row.get("Total Reviews", 0) or 0)
+                working = int(row.get("Working PRs", 0) or 0)
+
+                if row_id in reviewers:
+                    row["Working PRs"] = str(
+                        working + 1 if busy else max(0, working - 1)
+                    )
+                    if submitted_at:
+                        score -= 1
+                        row["Calling Score"] = str(score)
+                        row["Total Reviews"] = str(total + 1)
+                        row["Last Review"] = submitted_at
+                # Not an elif: a reviewer who timed out is always also in
+                # `reviewers`, since both sets come from the same "do you agree
+                # to review" comments.
+                if row_id in fined:
+                    score += 1
                     row["Calling Score"] = str(score)
-                    row["Total Reviews"] = str(total + 1)
-                    row["Last Review"] = submitted_at
-            # Not an elif: a reviewer who timed out is always also in
-            # `reviewers`, since both sets come from the same "do you agree to
-            # review" comments.
-            if row_id in fined:
-                score += 1
-                row["Calling Score"] = str(score)
-            if institution and row.get("Institution", "").lower() == institution.lower():
-                row["Calling Score"] = str(score + 1)
+                if (
+                    institution
+                    and row.get("Institution", "").lower() == institution.lower()
+                ):
+                    row["Calling Score"] = str(score + 1)
 
-        self._write(message)
+        self._write(message, mutate)
         print(f"Updated the reviewers list for {', '.join(sorted(reviewers))}.")
 
     def already_recorded(self, pr_url):
@@ -217,23 +229,54 @@ class Roster:
         unknown = self.missing(reviewers)
         if unknown:
             raise RosterError(
-                f"Not on the reviewers list: {', '.join(sorted(unknown))}"
+                f"Not on the reviewers list: {', '.join(sorted(unknown or {'(unknown user)'}))}"
             )
 
+        # The log row goes first because it is the idempotency key.  If the
+        # roster write then fails, a re-run sees the row and stops, leaving a
+        # reviewer uncredited -- visible as a stuck Working PRs count.  The
+        # reverse order fails the other way: the counters are applied, no row
+        # exists to detect that, and a re-run applies them a second time,
+        # corrupting scores silently and permanently.
+        self._append_review(row_values)
         self.apply(
             reviewers=reviewers,
             busy=False,
             institution=institution,
             submitted_at=submitted_at,
         )
-
-        text, sha = _fetch(self.repo, EAR_REVIEWS_CSV)
-        buffer = io.StringIO()
-        csv.writer(buffer, lineterminator="\n").writerow(row_values)
-        if not text.endswith("\n"):
-            text += "\n"
-        update_if_unchanged(
-            self.repo, EAR_REVIEWS_CSV, "Add new EAR review", text + buffer.getvalue(), sha
-        )
         print(f"Recorded the review for {pr_url}.")
         return True
+
+    def _append_review(self, row_values):
+        """Append one row to the review log, retrying on conflict.
+
+        Re-reads on every attempt, so a row another run appended in the
+        meantime is preserved rather than overwritten.
+        """
+        pr_url = row_values[0]
+        for attempt in range(MAX_WRITE_ATTEMPTS):
+            text, sha = _fetch(self.repo, EAR_REVIEWS_CSV)
+            if any(
+                row and row[0].strip() == pr_url
+                for row in csv.reader(io.StringIO(text))
+            ):
+                print(f"{pr_url} was logged by a concurrent run.")
+                return
+            buffer = io.StringIO()
+            csv.writer(buffer, lineterminator="\n").writerow(row_values)
+            if not text.endswith("\n"):
+                text += "\n"
+            try:
+                update_if_unchanged(
+                    self.repo,
+                    EAR_REVIEWS_CSV,
+                    "Add new EAR review",
+                    text + buffer.getvalue(),
+                    sha,
+                )
+                return
+            except Exception as exc:
+                if attempt == MAX_WRITE_ATTEMPTS - 1:
+                    raise
+                print(f"Review log write rejected ({exc}); re-reading and retrying.")

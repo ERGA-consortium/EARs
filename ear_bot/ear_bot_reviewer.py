@@ -391,7 +391,11 @@ class EARBotReviewer:
                 print("The reviewer is not the one who was asked to review the PR.")
                 sys.exit()
 
-            if self._says(comment_text, r"\byes\b"):
+            answer = self._decision(
+                comment_text, {"yes": r"\byes\b", "no": r"\bno\b"}
+            )
+
+            if answer == "yes":
                 time_wasted_reviewers = set(
                     self._search_comment_user(pr, "Time is out!")
                 )
@@ -411,7 +415,7 @@ class EARBotReviewer:
                     " be able to click on the link to the contact map file!)\n"
                     "Contact the PR assignee for any issues."
                 )
-            elif self._says(comment_text, r"\bno\b"):
+            elif answer == "no":
                 self.find_reviewer([pr], reject=True)
             else:
                 current_date = datetime.now(tz=cet)
@@ -458,13 +462,17 @@ class EARBotReviewer:
         if appointed:
             authorised = appointed[0] == reviewer
         else:
-            # The bot never asked anyone, so this PR was assigned by hand
-            # through the GitHub UI.  Fall back to whoever the review was
-            # actually requested from, rather than rejecting a legitimate
-            # approval outright.
-            authorised = reviewer in {
-                user.login.lower() for user in pr.requested_reviewers
-            }
+            # The bot never asked anyone, so this PR was assigned by hand.
+            # pr.requested_reviewers is useless here: GitHub drops a reviewer
+            # from that list the moment they submit their review, so by the
+            # time --approve runs it never contains them.  The review-request
+            # events still record it.
+            authorised = any(
+                event.event == "review_requested"
+                and getattr(event, "requested_reviewer", None)
+                and event.requested_reviewer.login.lower() == reviewer
+                for event in pr.as_issue().get_events()
+            )
         if not authorised:
             print("The reviewer is not the one who agreed to review the PR.")
             sys.exit()
@@ -514,21 +522,28 @@ class EARBotReviewer:
         pr = self.repo.get_pull(int(self.pr_number))
         reviews = pr.get_reviews().reversed
         merged = os.getenv("MERGED_STATUS") == "true"
-        # Only a review carrying a verdict may be recorded as the review of
-        # this PR.  Falling back to reviews[0] here could otherwise credit a
-        # passer-by who left a COMMENTED review.
-        binding_reviews = self._binding_reviews(pr)
-        if merged and binding_reviews:
-            comment_reviewers = self._search_comment_user(pr, "for the review")
-            the_review = next(
-                (
-                    review
-                    for review in binding_reviews
-                    if comment_reviewers
-                    and review.user.login.lower() == comment_reviewers[0]
-                ),
-                binding_reviews[0],
-            )
+        # What may be recorded as *the* review of this PR, best first.  A
+        # verdict from the appointed reviewer wins; failing that, any review
+        # they left, because a reviewer who clicks Comment instead of Approve
+        # has still done the work and must still be credited and released.
+        # A passer-by's review is never recorded, whatever its state.
+        current = self._current_reviewers(pr)
+        thanked = self._search_comment_user(pr, "for the review")
+        candidates = [
+            review
+            for review in self._binding_reviews(pr)
+            if thanked and review.user and review.user.login.lower() == thanked[0]
+        ]
+        candidates += [
+            review for review in self._binding_reviews(pr) if review not in candidates
+        ]
+        candidates += [
+            review
+            for review in self._reviews_by(pr, current)
+            if review not in candidates
+        ]
+        if merged and candidates:
+            the_review = candidates[0]
             open_date = pr.created_at.strftime("%Y-%m-%d")
             submitted_at = datetime.now(tz=cet).strftime("%Y-%m-%d")
 
@@ -726,6 +741,27 @@ class EARBotReviewer:
             for line in cls._unquoted_lines(comment_text)
         )
 
+    @classmethod
+    def _decision(cls, comment_text, options):
+        """Pick between competing answers by which the author wrote first.
+
+        ``options`` maps a name to a pattern.  Scanning line by line and
+        returning the first line that matches exactly one option keeps
+        "No, sorry. Ask Alice, yes she knows this genus" a refusal: testing
+        the whole comment for "yes" before "no" turned that into an
+        acceptance and appointed someone who had just declined.  A line
+        containing both is ambiguous and is skipped rather than guessed at.
+        """
+        for line in cls._unquoted_lines(comment_text):
+            hits = [
+                name
+                for name, pattern in options.items()
+                if re.search(pattern, line, re.IGNORECASE)
+            ]
+            if len(hits) == 1:
+                return hits[0]
+        return None
+
     # DISMISSED is included: branch protection flips an approval to DISMISSED
     # when new commits land, and that review still represents work done.
     # Excluding it meant a merged PR whose approval had been dismissed was
@@ -748,6 +784,28 @@ class EARBotReviewer:
             if review.state in cls.VERDICT_STATES
         ]
 
+    def _current_reviewers(self, pr):
+        """Whoever is on the hook right now, lower-cased.
+
+        Only the most recent person asked, not the whole ask history: earlier
+        names in that list are reviewers who already timed out, and treating
+        their old review as live work blocked the PR forever.  Anyone GitHub
+        still lists as a requested reviewer counts too, which covers PRs
+        assigned by hand rather than by the bot.
+        """
+        asked = self._search_comment_user(pr, "do you agree to review")
+        current = {asked[0]} if asked else set()
+        return current | {
+            user.login.lower() for user in pr.requested_reviewers if user
+        }
+
+    def _reviews_by(self, pr, logins):
+        return [
+            review
+            for review in pr.get_reviews()
+            if review.user and review.user.login.lower() in logins
+        ]
+
     def _review_in_progress(self, pr):
         """True if somebody is already reviewing, so the bot must not re-solicit.
 
@@ -757,15 +815,13 @@ class EARBotReviewer:
         declare "Time is out!" and hand the PR to somebody else while the
         appointed reviewer was mid-review.
         """
-        if self._binding_reviews(pr):
+        current = self._current_reviewers(pr)
+        if current and self._reviews_by(pr, current):
             return True
-        appointed = set(self._search_comment_user(pr, "do you agree to review"))
-        if not appointed:
-            return False
-        return any(
-            review.user and review.user.login.lower() in appointed
-            for review in pr.get_reviews()
-        )
+        # A verdict from anyone else still counts, but only from someone who
+        # could plausibly be reviewing: a passer-by's review on a public repo
+        # must not be able to freeze the PR.
+        return bool(current) and bool(self._binding_reviews(pr))
 
     @classmethod
     def _has_binding_review(cls, pr):

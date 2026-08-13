@@ -177,3 +177,31 @@ def test_timeout_penalty_applies_with_no_reviewers_to_release(repo, roster):
 def test_unknown_fined_reviewer_is_ignored(repo, roster):
     roster.apply(reviewers=set(), busy=False, fined_reviewers={"ghost"})
     assert repo.writes == []
+
+
+def test_a_landed_write_is_not_applied_twice(repo, roster):
+    """The response can be lost after GitHub has already committed.
+
+    Treating every exception as "did not land" re-ran the mutation on top of
+    our own committed change, double-counting the review.
+    """
+    real = repo.update_file
+
+    def commit_then_fail(path, message, content, sha):
+        real(path, message, content, sha)          # the write lands
+        raise RuntimeError("502 Bad Gateway")      # the response does not
+
+    repo.update_file = commit_then_fail
+    roster.apply(reviewers={"alice"}, busy=False, submitted_at="2026-01-01")
+    repo.update_file = real
+
+    alice = repo.roster_rows()["alice"]
+    assert alice["Total Reviews"] == "4", "review counted twice"
+    assert alice["Calling Score"] == "999", "score adjusted twice"
+    assert alice["Working PRs"] == "0"
+
+
+def test_mixed_case_unknown_fined_reviewer_is_dropped(repo, roster):
+    """missing() returns original case; the subtraction must lower-case it."""
+    roster.apply(reviewers=set(), busy=False, fined_reviewers={"Ghost"})
+    assert repo.writes == [], "committed an unchanged roster"

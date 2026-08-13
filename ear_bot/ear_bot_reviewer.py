@@ -65,6 +65,14 @@ class EARBotReviewer:
 
     EARPDF_TO_YAML_SCRIPT = "EARpdf_to_yaml.py"
 
+    # "no problem", "no worries" and friends are agreement, not refusal.
+    # Matching a bare \bno\b read "Sure, no problem" as a decline and handed
+    # the assembly to somebody else.
+    YES_NO = {
+        "yes": r"\byes\b",
+        "no": r"\bno\b(?!\s+(?:problem|worries|issue|trouble|objection))",
+    }
+
     def __init__(self) -> None:
         token = os.getenv("GITHUB_APP_TOKEN")
         if not token:
@@ -250,7 +258,9 @@ class EARBotReviewer:
             labels = {label.name for label in pr.get_labels()}
             # Inactivity tracking covers every PR the bot manages, which
             # includes EAR-UPDATE and ERROR! PRs that never get a project
-            # label.  Gating it on valid_projects alone let those rot silently.
+            # label.  It is deliberately narrower than it once was: this used
+            # to run on every open PR in the repo, which is why the bot spent
+            # months posting weekly pings at Dependabot.
             if not labels & (set(self.valid_projects) | {"EAR-UPDATE", "ERROR!"}):
                 continue
             self._check_pr_activity(pr, current_date)
@@ -396,7 +406,7 @@ class EARBotReviewer:
                 sys.exit()
 
             answer = self._decision(
-                comment_text, {"yes": r"\byes\b", "no": r"\bno\b"}
+                comment_text, self.YES_NO
             )
 
             if answer == "yes":
@@ -462,21 +472,21 @@ class EARBotReviewer:
         # already gates on state == 'approved', so looking for that review in
         # pr.get_reviews() would always succeed and constrain nothing. Any
         # passer-by can approve a PR on a public repo.
-        appointed = self._search_comment_user(pr, "do you agree to review")
-        if appointed:
-            authorised = appointed[0] == reviewer
-        else:
-            # The bot never asked anyone, so this PR was assigned by hand.
-            # pr.requested_reviewers is useless here: GitHub drops a reviewer
-            # from that list the moment they submit their review, so by the
-            # time --approve runs it never contains them.  The review-request
-            # events still record it.
-            authorised = any(
-                event.event == "review_requested"
-                and getattr(event, "requested_reviewer", None)
-                and event.requested_reviewer.login.lower() == reviewer
-                for event in pr.as_issue().get_events()
-            )
+        # Anyone currently on the hook counts, plus anyone a review was ever
+        # requested from.  Checking only the bot's most recent ask rejected a
+        # reviewer the supervisor assigned by hand after the bot's candidate
+        # declined, and that rejection cascaded: with no thank-you posted,
+        # closed_pr found nothing recordable, so the real reviewer went
+        # uncredited and the declining one stayed marked busy.
+        #
+        # pr.requested_reviewers alone is not enough, because GitHub drops a
+        # reviewer from it the moment they submit; the request event persists.
+        authorised = reviewer in self._current_reviewers(pr) or any(
+            event.event == "review_requested"
+            and getattr(event, "requested_reviewer", None)
+            and event.requested_reviewer.login.lower() == reviewer
+            for event in pr.as_issue().get_events()
+        )
         if not authorised:
             print("The reviewer is not the one who agreed to review the PR.")
             sys.exit()
@@ -761,12 +771,6 @@ class EARBotReviewer:
         ]
 
     @classmethod
-    def _first_reply_line(cls, comment_text):
-        """The first non-empty, non-quoted line of a comment."""
-        lines = cls._unquoted_lines(comment_text)
-        return lines[0] if lines else ""
-
-    @classmethod
     def _says(cls, comment_text, pattern):
         """True if any line the author actually wrote matches ``pattern``.
 
@@ -783,24 +787,25 @@ class EARBotReviewer:
     def _decision(cls, comment_text, options):
         """Pick between competing answers by which the author wrote first.
 
-        ``options`` maps a name to a pattern.  The first line containing any of
-        them decides, and within that line the leftmost match wins.
+        ``options`` maps a name to a pattern.  A line answers only if exactly
+        one option matches it; a line matching both is ambiguous and is
+        skipped rather than guessed at.
 
-        Both halves matter.  Line order keeps "No, sorry. Ask Alice, yes she
-        knows this genus" a refusal, which testing the whole comment for "yes"
-        before "no" turned into an acceptance of someone who had just
-        declined.  Position within the line keeps "Yes, no problem." an
-        acceptance, which treating any two-option line as ambiguous turned
-        into an "Invalid confirmation!" and a re-ask.
+        Guessing was tried and was worse.  Taking the leftmost match turned
+        "I can't say yes or no until Monday" into an acceptance, appointing a
+        reviewer who had explicitly not committed.  The case that motivated it
+        -- "Yes, no problem." being rejected -- is handled by the NO pattern
+        excluding the "no problem/worries/..." idioms instead, which is the
+        real distinction.
         """
         for line in cls._unquoted_lines(comment_text):
             hits = [
-                (match.start(), name)
+                name
                 for name, pattern in options.items()
-                if (match := re.search(pattern, line, re.IGNORECASE))
+                if re.search(pattern, line, re.IGNORECASE)
             ]
-            if hits:
-                return min(hits)[1]
+            if len(hits) == 1:
+                return hits[0]
         return None
 
     # DISMISSED is included: branch protection flips an approval to DISMISSED
@@ -841,9 +846,15 @@ class EARBotReviewer:
         }
 
     def _reviews_by(self, pr, logins):
+        """Reviews by any of ``logins``, newest first.
+
+        The ordering matches _binding_reviews deliberately: closed_pr takes
+        candidates[0] as the review to record, so a chronological list here
+        would credit the oldest verdict rather than the latest one.
+        """
         return [
             review
-            for review in pr.get_reviews()
+            for review in pr.get_reviews().reversed
             if review.user and review.user.login.lower() in logins
         ]
 
@@ -856,17 +867,13 @@ class EARBotReviewer:
         declare "Time is out!" and hand the PR to somebody else while the
         appointed reviewer was mid-review.
         """
+        # Strictly author-based.  An earlier version also accepted a verdict
+        # from anyone at all as long as *somebody* was appointed, which let a
+        # passer-by's CHANGES_REQUESTED on a public repo freeze the PR: the
+        # deadline never fired, no successor was asked, and the appointed
+        # reviewer's eventual "Yes" was discarded.
         current = self._current_reviewers(pr)
-        if current and self._reviews_by(pr, current):
-            return True
-        # A verdict from anyone else still counts, but only from someone who
-        # could plausibly be reviewing: a passer-by's review on a public repo
-        # must not be able to freeze the PR.
-        return bool(current) and bool(self._binding_reviews(pr))
-
-    @classmethod
-    def _has_binding_review(cls, pr):
-        return bool(cls._binding_reviews(pr))
+        return bool(current) and bool(self._reviews_by(pr, current))
 
     def _is_bot_user(self, comment):
         user_type = comment.raw_data.get("user", {}).get("type", None)

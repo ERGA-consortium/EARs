@@ -1,5 +1,7 @@
 """Comment parsing, review-state detection, and the merge path."""
 
+from ear_bot.ear_bot_reviewer import EARBotReviewer
+
 from .conftest import FakeComment, FakePR, FakeEvent, FakeReview
 
 
@@ -33,7 +35,7 @@ def test_quoted_clear_is_ignored(bot):
     assert not bot._says(text, r"@erga-ear-bot\s+clear")
 
 
-OPTS = {"yes": r"\byes\b", "no": r"\bno\b"}
+OPTS = EARBotReviewer.YES_NO
 
 
 def test_decline_mentioning_yes_later_is_still_a_decline(bot):
@@ -166,10 +168,19 @@ def test_appointed_reviewers_comment_review_is_recordable(bot):
     assert len(bot._reviews_by(pr, eligible)) == 1
 
 
-def test_yes_and_no_on_one_line_takes_the_leftmost(bot):
-    """"Yes, no problem." is an acceptance, not an ambiguous reply."""
+def test_no_problem_is_agreement_not_refusal(bot):
+    """These are ordinary acceptances; reading them as declines reassigned
+    the assembly to somebody else."""
     assert bot._decision("Yes, no problem.", OPTS) == "yes"
-    assert bot._decision("No problem - yes I'll take it", OPTS) == "no"
+    assert bot._decision("No problem - yes I'll take it", OPTS) == "yes"
+    for text in ("Sure, no problem", "No worries, I can review it"):
+        assert bot._decision(text, OPTS) != "no", text
+
+
+def test_genuinely_ambiguous_replies_are_not_guessed(bot):
+    """Guessing here appointed reviewers who had explicitly not committed."""
+    assert bot._decision("yes or no, I am not sure", OPTS) is None
+    assert bot._decision("I can't say yes or no until Monday.", OPTS) is None
 
 
 def test_line_order_still_beats_position(bot):
@@ -181,3 +192,35 @@ def test_yaml_path_is_case_insensitive(bot):
     assert bot._yaml_path_for("a/b/X_EAR.PDF") == "a/b/X_EAR.yaml"
     assert bot._yaml_path_for("a/b/X_EAR.pdf") == "a/b/X_EAR.yaml"
     assert bot._yaml_path_for("a/v1.pdf.d/X.pdf") == "a/v1.pdf.d/X.yaml"
+
+
+def test_passerby_verdict_does_not_freeze_a_pr_with_someone_appointed(bot):
+    """The half of the passer-by case the previous suite left uncovered.
+
+    A stranger's CHANGES_REQUESTED used to make this True, so the deadline
+    never fired, no successor was asked, and the appointed reviewer's
+    eventual "Yes" was discarded.
+    """
+    pr = FakePR(
+        reviews=[FakeReview("passerby", "CHANGES_REQUESTED")], comments=[asked("rev")]
+    )
+    assert not bot._review_in_progress(pr)
+
+
+def test_reviews_by_is_newest_first(bot):
+    """closed_pr takes candidates[0]; chronological order credited the oldest."""
+    pr = FakePR(
+        reviews=[FakeReview("rev", "CHANGES_REQUESTED"), FakeReview("rev", "APPROVED")],
+        comments=[asked("rev")],
+    )
+    assert bot._reviews_by(pr, {"rev"})[0].state == "APPROVED"
+
+
+def test_hand_assigned_reviewer_is_thanked_after_an_earlier_ask(bot):
+    """Supervisor assigns C by hand after the bot's candidate A declined."""
+    pr = FakePR(
+        reviews=[FakeReview("carol", "APPROVED")],
+        comments=[asked("alice")],
+        events=[FakeEvent("review_requested", "carol")],
+    )
+    assert any("for the review" in c for c in run_approve(bot, pr, "carol"))

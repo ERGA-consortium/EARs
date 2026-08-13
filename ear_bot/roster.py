@@ -97,6 +97,7 @@ class Roster:
 
     def _load(self):
         text, self.sha = _fetch(self.repo, REVIEWERS_CSV)
+        self._committed_text = text
         self.fieldnames = get_EAR_reviewer.csv_fieldnames(text)
         self.data = get_EAR_reviewer.parse_csv(text)
 
@@ -123,22 +124,35 @@ class Roster:
         to the *other run's* committed rows.  Re-sending our own snapshot would
         overwrite whatever they wrote, which is the lost update this class
         exists to prevent.
+
+        Known limitation: if our write lands, the response is lost, *and*
+        another run commits on top before we re-read, the content check below
+        cannot tell that ours landed and the change is applied twice.  Closing
+        that needs a per-operation idempotency key, which the roster CSV has
+        no column for -- unlike the review log, which dedupes on the PR URL.
         """
         for attempt in range(MAX_WRITE_ATTEMPTS):
             mutate(self.data)
+            payload = get_EAR_reviewer.format_csv(self.data, self.fieldnames)
             try:
                 self.sha = update_if_unchanged(
-                    self.repo,
-                    REVIEWERS_CSV,
-                    message,
-                    get_EAR_reviewer.format_csv(self.data, self.fieldnames),
-                    self.sha,
+                    self.repo, REVIEWERS_CSV, message, payload, self.sha
                 )
                 return
             except Exception as exc:
                 # Drop our uncommitted edits either way, so the caller is never
                 # left holding counters that were never written.
                 self._load()
+                # An exception does not prove the write was rejected.  GitHub
+                # may have committed it and only the response been lost, and
+                # re-running `mutate` on a file that already contains our
+                # change would apply it twice -- the silent score corruption
+                # this class exists to prevent.  Only a stale SHA proves
+                # nothing landed, and the cheap way to tell them apart is to
+                # look at what is actually committed now.
+                if self._committed_text.strip() == payload.strip():
+                    print("Roster write had already landed; not re-applying.")
+                    return
                 if attempt == MAX_WRITE_ATTEMPTS - 1:
                     raise
                 print(f"Roster write rejected ({exc}); re-reading and retrying.")
@@ -179,9 +193,11 @@ class Roster:
         # set that happens to travel with it.  A reviewer who was asked twice
         # and then accepted leaves `reviewers` empty while still owing the
         # penalty, and returning early here dropped it silently.
-        fined = {r.lower() for r in fined_reviewers if r} - self.missing(
-            fined_reviewers
-        )
+        # missing() returns IDs in their original case, so it has to be
+        # lower-cased before subtracting, exactly as the reviewers set above.
+        fined = {r.lower() for r in fined_reviewers if r} - {
+            u.lower() for u in self.missing(fined_reviewers) if u
+        }
         if not reviewers and not fined:
             print("No reviewers to update.")
             return

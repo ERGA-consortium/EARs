@@ -14,10 +14,11 @@ Two rules this module exists to enforce:
 
 2. **Recording a completed review is all-or-nothing.**  ``record_review``
    validates every precondition before writing anything, so a merge is either
-   fully recorded or not recorded at all.  The previous code committed
-   EAR_reviews.csv first and could then fail on the roster write, leaving a
-   review logged against a reviewer whose counters were never updated and no
-   safe way to re-run.
+   fully recorded or not recorded at all.  It writes the review-log row before
+   the roster counters, because that row is the key a re-run checks: getting
+   only as far as the row leaves a reviewer uncredited and visibly still busy,
+   whereas applying the counters first and failing leaves nothing to show it
+   happened, so a re-run applies them again and corrupts scores silently.
 """
 
 import csv
@@ -173,11 +174,17 @@ class Roster:
                 raise RosterError(f"Not on the reviewers list: {', '.join(named)}")
             print(f"Not on the reviewers list, skipping: {', '.join(named)}")
             reviewers -= {u.lower() for u in unknown if u}
-        if not reviewers:
+
+        # Not gated on `reviewers`: the timeout penalty is a separate change
+        # set that happens to travel with it.  A reviewer who was asked twice
+        # and then accepted leaves `reviewers` empty while still owing the
+        # penalty, and returning early here dropped it silently.
+        fined = {r.lower() for r in fined_reviewers if r} - self.missing(
+            fined_reviewers
+        )
+        if not reviewers and not fined:
             print("No reviewers to update.")
             return
-
-        fined = {r.lower() for r in fined_reviewers if r}
 
         def mutate(rows):
             for row in rows:
@@ -225,10 +232,17 @@ class Roster:
     def record_review(self, row_values, reviewers, institution, submitted_at):
         """Append a review row and update the roster, or do neither.
 
-        Every precondition is checked before the first write.  The roster is
-        written first because it is the file with a concurrent writer and so
-        the one that can still fail; the append-only log follows once the
-        contended write has succeeded.
+        Every precondition is checked before the first write.  The log row is
+        written *first* because it is the idempotency key: if the roster write
+        then fails, a re-run sees the row and stops, leaving a reviewer
+        uncredited, which is visible as a stuck Working PRs count.  The
+        reverse order fails the other way -- the counters are applied with no
+        row to record that it happened, so a re-run applies them again and
+        corrupts scores silently.  Do not swap these.
+
+        Returns False without touching the counters if the review was already
+        logged, including when a concurrent run logged it between our check
+        and our write.
         """
         pr_url = row_values[0]
         if self.already_recorded(pr_url):
@@ -241,13 +255,11 @@ class Roster:
                 f"Not on the reviewers list: {', '.join(sorted(unknown or {'(unknown user)'}))}"
             )
 
-        # The log row goes first because it is the idempotency key.  If the
-        # roster write then fails, a re-run sees the row and stops, leaving a
-        # reviewer uncredited -- visible as a stuck Working PRs count.  The
-        # reverse order fails the other way: the counters are applied, no row
-        # exists to detect that, and a re-run applies them a second time,
-        # corrupting scores silently and permanently.
-        self._append_review(row_values)
+        if not self._append_review(row_values):
+            # Another run won the race and logged it.  It applies the counters
+            # too, so applying them here as well would double-count.
+            print(f"{pr_url} was logged by a concurrent run; leaving counters to it.")
+            return False
         self.apply(
             reviewers=reviewers,
             busy=False,
@@ -261,7 +273,9 @@ class Roster:
         """Append one row to the review log, retrying on conflict.
 
         Re-reads on every attempt, so a row another run appended in the
-        meantime is preserved rather than overwritten.
+        meantime is preserved rather than overwritten.  Returns True if this
+        call wrote the row and False if it was already there, so the caller
+        can tell "recorded" from "somebody else recorded it".
         """
         pr_url = row_values[0]
         for attempt in range(MAX_WRITE_ATTEMPTS):
@@ -270,8 +284,7 @@ class Roster:
                 row and row[0].strip() == pr_url
                 for row in csv.reader(io.StringIO(text))
             ):
-                print(f"{pr_url} was logged by a concurrent run.")
-                return
+                return False
             buffer = io.StringIO()
             csv.writer(buffer, lineterminator="\n").writerow(row_values)
             if not text.endswith("\n"):
@@ -284,7 +297,7 @@ class Roster:
                     text + buffer.getvalue(),
                     sha,
                 )
-                return
+                return True
             except Exception as exc:
                 if attempt == MAX_WRITE_ATTEMPTS - 1:
                     raise

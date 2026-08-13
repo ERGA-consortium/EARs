@@ -51,8 +51,8 @@ def test_plain_answers_still_work(bot):
     assert bot._decision("No", OPTS) == "no"
 
 
-def test_ambiguous_line_is_not_guessed(bot):
-    assert bot._decision("yes or no, I am not sure", OPTS) is None
+def test_no_answer_at_all_returns_none(bot):
+    assert bot._decision("I will look at it next week", OPTS) is None
 
 
 # --- review state -----------------------------------------------------------
@@ -164,3 +164,20 @@ def test_appointed_reviewers_comment_review_is_recordable(bot):
     pr = FakePR(reviews=[FakeReview("rev", "COMMENTED")], comments=[asked("rev")])
     eligible = bot._current_reviewers(pr)
     assert len(bot._reviews_by(pr, eligible)) == 1
+
+
+def test_yes_and_no_on_one_line_takes_the_leftmost(bot):
+    """"Yes, no problem." is an acceptance, not an ambiguous reply."""
+    assert bot._decision("Yes, no problem.", OPTS) == "yes"
+    assert bot._decision("No problem - yes I'll take it", OPTS) == "no"
+
+
+def test_line_order_still_beats_position(bot):
+    text = "No, sorry I can't.\nMaybe ask @alice - yes, she knows this genus."
+    assert bot._decision(text, OPTS) == "no"
+
+
+def test_yaml_path_is_case_insensitive(bot):
+    assert bot._yaml_path_for("a/b/X_EAR.PDF") == "a/b/X_EAR.yaml"
+    assert bot._yaml_path_for("a/b/X_EAR.pdf") == "a/b/X_EAR.yaml"
+    assert bot._yaml_path_for("a/v1.pdf.d/X.pdf") == "a/v1.pdf.d/X.yaml"

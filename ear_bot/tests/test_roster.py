@@ -151,3 +151,29 @@ def test_exists_reports_missing_and_present(repo):
 
     assert exists(repo, REVIEWERS_CSV)
     assert not exists(repo, "Assembly_Reports/x/x_EAR.yaml")
+
+
+def test_concurrent_log_hit_does_not_double_apply_counters(repo, roster):
+    """If another run logs the row first, it owns the counters too."""
+    repo.commit_concurrently(
+        EAR_REVIEWS_CSV, f"PR URL,Species\n{ROW[0]},Foo\n"
+    )
+    before = repo.roster_rows()["alice"]
+    assert roster.record_review(
+        row_values=ROW, reviewers=["alice"], institution="Sanger",
+        submitted_at="2026-01-01",
+    ) is False
+    after = repo.roster_rows()["alice"]
+    assert after["Total Reviews"] == before["Total Reviews"]
+    assert after["Working PRs"] == before["Working PRs"]
+
+
+def test_timeout_penalty_applies_with_no_reviewers_to_release(repo, roster):
+    """A reviewer asked twice then accepting leaves `reviewers` empty."""
+    roster.apply(reviewers=set(), busy=False, fined_reviewers={"alice"})
+    assert repo.roster_rows()["alice"]["Calling Score"] == "1001"
+
+
+def test_unknown_fined_reviewer_is_ignored(repo, roster):
+    roster.apply(reviewers=set(), busy=False, fined_reviewers={"ghost"})
+    assert repo.writes == []

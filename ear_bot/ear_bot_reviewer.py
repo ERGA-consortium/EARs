@@ -663,7 +663,7 @@ class EARBotReviewer:
             # missing instead.  The Slack post is not retried: it has no
             # idempotency key, and re-announcing an assembly to the whole
             # consortium is worse than a human reposting a missed one.
-            yaml_path = EAR_pdf.filename.replace(".pdf", ".yaml")
+            yaml_path = self._yaml_path_for(EAR_pdf.filename)
             if recorded or not roster_module.exists(self.repo, yaml_path):
                 self._add_yaml_file(EAR_pdf.filename)
             if not recorded:
@@ -717,9 +717,35 @@ class EARBotReviewer:
                 return
             self._add_yaml_file(EAR_pdf_filename)
             print("No review has been found for this merged PR.")
+            if self._current_reviewers(pr):
+                # Somebody was appointed but nothing they wrote is recordable,
+                # so the merge cannot credit them and their Working PRs stays
+                # up.  The two sibling unrecordable paths both warn and label;
+                # staying silent here left a reviewer permanently busy with
+                # nobody told.
+                supervisor = pr.assignee.login if pr.assignee else pr.user.login
+                pr.create_issue_comment(
+                    f"Attention @{supervisor}! This PR was merged, but I could not"
+                    " find a review from the appointed reviewer, so I did not record"
+                    " it. They keep their working PR count; if that is not right,"
+                    " please instruct me to clear the active tasks."
+                )
+                pr.add_to_labels("ERROR!")
             pr.create_issue_comment(
                 "The YAML file has been updated based on the new EAR.pdf"
             )
+
+    @staticmethod
+    def _yaml_path_for(pdf_filename):
+        """The YAML path for an EAR PDF.
+
+        splitext, not replace(".pdf", ".yaml"): the finder that selects the
+        PDF matches case-insensitively, so a file committed as ``*.PDF`` left
+        the derived name identical to the PDF's own path.  That silently
+        skipped generation on one branch and, on the other, read the binary
+        PDF as text and overwrote it.
+        """
+        return os.path.splitext(pdf_filename)[0] + ".yaml"
 
     @staticmethod
     def _unquoted_lines(comment_text):
@@ -757,21 +783,24 @@ class EARBotReviewer:
     def _decision(cls, comment_text, options):
         """Pick between competing answers by which the author wrote first.
 
-        ``options`` maps a name to a pattern.  Scanning line by line and
-        returning the first line that matches exactly one option keeps
-        "No, sorry. Ask Alice, yes she knows this genus" a refusal: testing
-        the whole comment for "yes" before "no" turned that into an
-        acceptance and appointed someone who had just declined.  A line
-        containing both is ambiguous and is skipped rather than guessed at.
+        ``options`` maps a name to a pattern.  The first line containing any of
+        them decides, and within that line the leftmost match wins.
+
+        Both halves matter.  Line order keeps "No, sorry. Ask Alice, yes she
+        knows this genus" a refusal, which testing the whole comment for "yes"
+        before "no" turned into an acceptance of someone who had just
+        declined.  Position within the line keeps "Yes, no problem." an
+        acceptance, which treating any two-option line as ambiguous turned
+        into an "Invalid confirmation!" and a re-ask.
         """
         for line in cls._unquoted_lines(comment_text):
             hits = [
-                name
+                (match.start(), name)
                 for name, pattern in options.items()
-                if re.search(pattern, line, re.IGNORECASE)
+                if (match := re.search(pattern, line, re.IGNORECASE))
             ]
-            if len(hits) == 1:
-                return hits[0]
+            if hits:
+                return min(hits)[1]
         return None
 
     # DISMISSED is included: branch protection flips an approval to DISMISSED
@@ -987,7 +1016,7 @@ class EARBotReviewer:
             capture_output=True,
             text=True,
         )
-        yaml_filename = EAR_pdf_filename.replace(".pdf", ".yaml")
+        yaml_filename = self._yaml_path_for(EAR_pdf_filename)
         with open(_get_local_path(yaml_filename), "r") as file:
             yaml_content = file.read()
         replace(self.repo, yaml_filename, "Add YAML file", yaml_content)

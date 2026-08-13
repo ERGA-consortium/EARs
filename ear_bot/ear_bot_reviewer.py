@@ -527,21 +527,15 @@ class EARBotReviewer:
         # they left, because a reviewer who clicks Comment instead of Approve
         # has still done the work and must still be credited and released.
         # A passer-by's review is never recorded, whatever its state.
-        current = self._current_reviewers(pr)
+        # Only somebody actually on the hook may be recorded: the appointed
+        # reviewer, whoever GitHub still lists as requested, or whoever the bot
+        # already thanked.  Anyone can approve a PR on a public repo, so a
+        # passer-by's verdict must never be credited with the review.
         thanked = self._search_comment_user(pr, "for the review")
-        candidates = [
-            review
-            for review in self._binding_reviews(pr)
-            if thanked and review.user and review.user.login.lower() == thanked[0]
-        ]
-        candidates += [
-            review for review in self._binding_reviews(pr) if review not in candidates
-        ]
-        candidates += [
-            review
-            for review in self._reviews_by(pr, current)
-            if review not in candidates
-        ]
+        eligible = self._current_reviewers(pr) | set(thanked[:1])
+        by_eligible = self._reviews_by(pr, eligible)
+        candidates = [r for r in by_eligible if r.state in self.VERDICT_STATES]
+        candidates += [r for r in by_eligible if r not in candidates]
         if merged and candidates:
             the_review = candidates[0]
             open_date = pr.created_at.strftime("%Y-%m-%d")
@@ -612,10 +606,14 @@ class EARBotReviewer:
             )
             institution = self._search_for_institution(pr)
 
-            # Every precondition is checked before the first write.  Anything
-            # that would have raised part-way through now stops here, with the
-            # reviewer released so they do not stay busy forever, and nothing
-            # half-recorded.
+            # Every precondition is checked before the first write, so a run
+            # that cannot record the review writes nothing at all.
+            #
+            # It deliberately does not release the reviewer either.  WF6 can
+            # fire again if the PR is reopened and re-closed, and an automatic
+            # release would decrement Working PRs once per run.  Retaining the
+            # count and asking for CLEAR matches what the bot already does for
+            # a PR closed unmerged, and CLEAR is issued by a human once.
             problem = None
             if EAR_pdf is None:
                 problem = "I could not find an EAR PDF in this PR"
@@ -625,11 +623,10 @@ class EARBotReviewer:
                     " reviewers list"
                 )
             if problem:
-                self.roster.apply(
-                    reviewers=[reviewer_id], busy=False, strict=False
-                )
                 pr.create_issue_comment(
-                    f"I did not record this review because {problem}."
+                    f"I did not record this review because {problem}.\n"
+                    "The reviewers keep their working PR count for now; if that"
+                    " is not right, please instruct me to clear the active tasks."
                 )
                 pr.add_to_labels("ERROR!")
                 print(f"Nothing recorded for PR #{pr.number}: {problem}.")

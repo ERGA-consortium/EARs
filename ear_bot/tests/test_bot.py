@@ -146,3 +146,21 @@ def test_stranger_without_a_request_event_is_not_thanked(bot):
         events=[FakeEvent("labeled")],
     )
     assert run_approve(bot, pr, "stranger") == []
+
+
+# --- what may be recorded as the review ------------------------------------
+
+def test_passerby_verdict_is_not_recordable(bot):
+    """Anyone can approve on a public repo; only the appointed reviewer counts."""
+    pr = FakePR(reviews=[FakeReview("passerby", "APPROVED")], comments=[asked("rev")])
+    eligible = bot._current_reviewers(pr) | set(
+        bot._search_comment_user(pr, "for the review")[:1]
+    )
+    assert bot._reviews_by(pr, eligible) == []
+
+
+def test_appointed_reviewers_comment_review_is_recordable(bot):
+    """Clicking Comment instead of Approve still earns the credit."""
+    pr = FakePR(reviews=[FakeReview("rev", "COMMENTED")], comments=[asked("rev")])
+    eligible = bot._current_reviewers(pr)
+    assert len(bot._reviews_by(pr, eligible)) == 1

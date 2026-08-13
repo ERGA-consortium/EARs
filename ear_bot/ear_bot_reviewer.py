@@ -44,6 +44,7 @@ from github import Auth, Github
 
 root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(root_folder)
+from ear_bot import roster as roster_module  # noqa: E402
 from ear_bot.roster import Roster, replace  # noqa: E402
 from rev import get_EAR_reviewer  # noqa: E402
 
@@ -227,11 +228,14 @@ class EARBotReviewer:
             reject: If True, treats the current reviewer as having declined
                     (used when comment() receives a "No" reply).
 
-        Skips PRs without a project label entirely.  For the remaining EAR
-        PRs, calls _check_pr_activity() regardless of the other skip
-        conditions to keep DELAYED/STALLED labels up to date, then skips
-        those with a pending review request, an accepted review, or no
-        assigned supervisor.
+        Two separate gates.  A PR the bot does not manage at all -- no project
+        label, not EAR-UPDATE, not ERROR! -- is skipped outright.  EAR-UPDATE
+        and ERROR! PRs then get _check_pr_activity() so their DELAYED/STALLED
+        labels and weekly ping keep working, but go no further, because they
+        have no project label and so no reviewer to assign.  Project PRs get
+        the activity check too, and are then skipped for reviewer selection if
+        they have a pending review request, a review already in progress, or
+        no assigned supervisor.
 
         Customisation: the 100-working-hour deadline comes from _deadline();
         change the ``timedelta(hours=100)`` there to adjust the timeout window.
@@ -653,9 +657,20 @@ class EARBotReviewer:
                 institution=institution,
                 submitted_at=submitted_at,
             )
+            # A dedup hit means an earlier run logged the review, but it may
+            # have died before finishing here.  Returning outright left the
+            # YAML permanently ungenerated, so pick up whatever is still
+            # missing instead.  The Slack post is not retried: it has no
+            # idempotency key, and re-announcing an assembly to the whole
+            # consortium is worse than a human reposting a missed one.
+            yaml_path = EAR_pdf.filename.replace(".pdf", ".yaml")
+            if recorded or not roster_module.exists(self.repo, yaml_path):
+                self._add_yaml_file(EAR_pdf.filename)
             if not recorded:
+                print(
+                    f"{pr.html_url} was already recorded; skipping the Slack post."
+                )
                 return
-            self._add_yaml_file(EAR_pdf.filename)
 
             if self._search_in_body(pr, "Project") == "ERGA-BGE":
                 EAR_pdf_url = re.sub(r"/blob/[\w\d]+/", "/blob/main/", EAR_pdf.blob_url)

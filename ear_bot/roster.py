@@ -68,6 +68,15 @@ def update_if_unchanged(repo, path, message, content, sha):
     return result["content"].sha
 
 
+def exists(repo, path):
+    """True if ``path`` is already committed."""
+    try:
+        repo.get_contents(path)
+        return True
+    except UnknownObjectException:
+        return False
+
+
 def _fetch(repo, path):
     contents = repo.get_contents(path)
     if isinstance(contents, list):

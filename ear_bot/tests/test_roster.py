@@ -144,3 +144,10 @@ def test_real_roster_round_trips_byte_for_byte():
 
     src = open("rev/reviewers_list.csv").read()
     assert g.format_csv(g.parse_csv(src), g.csv_fieldnames(src)).strip() == src.strip()
+
+
+def test_exists_reports_missing_and_present(repo):
+    from ear_bot.roster import exists
+
+    assert exists(repo, REVIEWERS_CSV)
+    assert not exists(repo, "Assembly_Reports/x/x_EAR.yaml")

@@ -13,6 +13,7 @@ import os
 import sys
 
 import pytest
+from github import UnknownObjectException
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
@@ -54,6 +55,8 @@ class FakeRepo:
         self.before_write = {}
 
     def get_contents(self, path):
+        if path not in self.files:
+            raise UnknownObjectException(404, "Not Found", None)
         text, sha = self.files[path]
         return FakeContents(text, sha, path)
 

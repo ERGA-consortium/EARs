@@ -40,10 +40,12 @@ from argparse import ArgumentParser
 from datetime import datetime, timedelta
 
 import pytz
-from github import Auth, Github, UnknownObjectException
+from github import Auth, Github
 
 root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(root_folder)
+from ear_bot import roster as roster_module  # noqa: E402
+from ear_bot.roster import Roster, replace  # noqa: E402
 from rev import get_EAR_reviewer  # noqa: E402
 
 cet = pytz.timezone("CET")
@@ -51,153 +53,6 @@ cet = pytz.timezone("CET")
 
 def _get_local_path(filename):
     return os.path.join(root_folder, filename)
-
-
-def commit(repo, path, message, content):
-    try:
-        contents = repo.get_contents(path)
-        if not isinstance(contents, list):
-            repo.update_file(contents.path, message, content, contents.sha)
-            print(f"Updated {path} file.")
-        else:
-            print(f"{path} file could not be updated.")
-    except UnknownObjectException:
-        try:
-            repo.create_file(path, message, content)
-            print(f"Created {path} file.")
-        except Exception as e:
-            print(f"Error creating {path} file.\n\n{content}\n\n\n{e}")
-    except Exception as e:
-        print(f"Error updating {path} file.\n{e}")
-
-
-class EAR_get_reviewer:
-    """Thin wrapper around the CSV data files and get_EAR_reviewer helpers.
-
-    Fetches ``rev/reviewers_list.csv`` from the GitHub repo on construction
-    and exposes methods to select supervisors/reviewers and to commit updates
-    back to the repo.
-
-    To point the bot at different CSV paths, change the class-level constants
-    REVIEWERS_CSV and EAR_REVIEWS_CSV.
-    """
-
-    REVIEWERS_CSV = "rev/reviewers_list.csv"
-    EAR_REVIEWS_CSV = "rev/EAR_reviews.csv"
-    GET_EAR_REVIEWER_SCRIPT = "rev/get_EAR_reviewer.py"
-
-    def __init__(self, repo) -> None:
-        self.repo = repo
-        csv_data = self._fetch_csv_from_repo(self.REVIEWERS_CSV)
-        self.data = get_EAR_reviewer.parse_csv(csv_data)
-
-    def _fetch_csv_from_repo(self, csv_path):
-        contents = self.repo.get_contents(csv_path)
-        if isinstance(contents, list):
-            raise Exception(f"Expected a file, got a directory: {csv_path}")
-        csv_data = contents.decoded_content.decode("utf-8")
-        if not csv_data:
-            raise Exception(f"The CSV file is empty: {csv_path}")
-        return csv_data
-
-    def get_supervisor(self, user, calling_institution):
-        try:
-            selected_supervisor = get_EAR_reviewer.select_random_supervisor(
-                self.data, user, calling_institution
-            )
-            if selected_supervisor is None:
-                raise Exception("No supervisor selected")
-            return selected_supervisor.get("Github ID")
-        except Exception as e:
-            raise Exception(f"No eligible supervisors found.\n{e}")
-
-    def get_reviewer(self, institution, project):
-        try:
-            _, top_candidate, _ = get_EAR_reviewer.select_best_reviewer(
-                self.data, institution, project
-            )
-            reviewer_print = subprocess.run(
-                f"python {_get_local_path(self.GET_EAR_REVIEWER_SCRIPT)} -i '{institution}' -t '{project}'",
-                shell=True,
-                capture_output=True,
-                text=True,
-            ).stdout
-            return top_candidate[0].get("Github ID"), reviewer_print
-        except Exception as e:
-            raise Exception(f"No eligible candidates found.\n{e}")
-
-    def add_pr(
-        self,
-        pr_url,
-        species,
-        tag,
-        requester_name,
-        requester_affiliation,
-        reviewer_name,
-        reviewer_affiliation,
-        supervisor_name,
-        supervisor_affiliation,
-        interaction_count,
-        open_date,
-        approval_date,
-        other_participants,
-        notes,
-    ):
-        ear_reviews_csv_data = self._fetch_csv_from_repo(self.EAR_REVIEWS_CSV)
-
-        csv_row = (
-            f"{pr_url},{species},{tag},{requester_name},"
-            f"{requester_affiliation},{reviewer_name},{reviewer_affiliation},"
-            f"{supervisor_name},{supervisor_affiliation},{interaction_count},"
-            f'{open_date},{approval_date},"{other_participants}",{notes}\n'
-        )
-        ear_reviews_csv_data += csv_row
-        commit(
-            self.repo, self.EAR_REVIEWS_CSV, "Add new EAR review", ear_reviews_csv_data
-        )
-        print(f"Added {reviewer_name} to the EAR reviews CSV file.")
-
-    def update_reviewers_list(
-        self,
-        reviewers,
-        busy,
-        institution="",
-        submitted_at="",
-        fined_reviewers=set(),
-    ):
-        if not reviewers:
-            print("No reviewers to update.")
-            return
-        for reviewer_data in self.data:
-            reviewer_data_id = reviewer_data.get("Github ID", "").lower()
-            reviewer_data_score = int(reviewer_data.get("Calling Score", 1000))
-            reviewer_data_total = int(reviewer_data.get("Total Reviews", 0))
-            reviewer_data_institution = reviewer_data.get("Institution", "").lower()
-            working_prs = int(reviewer_data.get("Working PRs", 0))
-
-            if reviewer_data_id in reviewers:
-                if busy:
-                    working_prs += 1
-                else:
-                    working_prs = max(0, working_prs - 1)
-                reviewer_data["Working PRs"] = str(working_prs)
-
-                if submitted_at:
-                    reviewer_data_score -= 1
-                    reviewer_data["Calling Score"] = str(reviewer_data_score)
-                    reviewer_data["Total Reviews"] = str(reviewer_data_total + 1)
-                    reviewer_data["Last Review"] = submitted_at
-            elif reviewer_data_id in fined_reviewers:
-                reviewer_data_score += 1
-                reviewer_data["Calling Score"] = str(reviewer_data_score)
-            if reviewer_data_institution == institution.lower():
-                reviewer_data["Calling Score"] = str(reviewer_data_score + 1)
-
-        csv_str = ",".join(self.data[0].keys()) + "\n"
-        for row in self.data:
-            csv_str += ",".join(row.values()) + "\n"
-        commit(self.repo, self.REVIEWERS_CSV, "Update reviewers list", csv_str)
-        print(f"Updated the reviewers list for {', '.join(reviewers)}.\n{csv_str}")
 
 
 class EARBotReviewer:
@@ -210,18 +65,58 @@ class EARBotReviewer:
 
     EARPDF_TO_YAML_SCRIPT = "EARpdf_to_yaml.py"
 
+    # "no problem", "no worries" and friends are agreement, not refusal.
+    # Matching a bare \bno\b read "Sure, no problem" as a decline and handed
+    # the assembly to somebody else.
+    YES_NO = {
+        "yes": r"\byes\b",
+        "no": r"\bno\b(?!\s+(?:problem|worries|issue|trouble|objection))",
+    }
+
     def __init__(self) -> None:
         token = os.getenv("GITHUB_APP_TOKEN")
         if not token:
             raise Exception("GITHUB_APP_TOKEN environment variable is not set")
         g = Github(auth=Auth.Token(token))
         self.repo = g.get_repo(str(os.getenv("GITHUB_REPOSITORY")))
-        self.EAR_reviewer = EAR_get_reviewer(self.repo)
+        self.roster = Roster(self.repo)
         self.pr_number = os.getenv("PR_NUMBER")
         self.comment_text = os.getenv("COMMENT_TEXT")
         self.comment_author = os.getenv("COMMENT_AUTHOR")
         self.reviewer = os.getenv("REVIEWER")
         self.valid_projects = ["ERGA-BGE", "ERGA-Pilot", "ERGA-Community"]
+
+    GET_EAR_REVIEWER_SCRIPT = "rev/get_EAR_reviewer.py"
+
+    def select_supervisor(self, user, calling_institution):
+        try:
+            selected = get_EAR_reviewer.select_random_supervisor(
+                self.roster.data, user, calling_institution
+            )
+            if selected is None:
+                raise Exception("No supervisor selected")
+            return selected.get("Github ID")
+        except Exception as e:
+            raise Exception(f"No eligible supervisors found.\n{e}")
+
+    def select_reviewer(self, institution, project):
+        try:
+            _, top_candidate, _ = get_EAR_reviewer.select_best_reviewer(
+                self.roster.data, institution, project
+            )
+            if not top_candidate:
+                raise Exception(
+                    f"No active reviewer outside {institution!r} is available."
+                )
+            reviewer_print = subprocess.run(
+                f"python {_get_local_path(self.GET_EAR_REVIEWER_SCRIPT)} -i '{institution}' -t '{project}'",
+                shell=True,
+                capture_output=True,
+                text=True,
+            ).stdout
+            return top_candidate[0].get("Github ID"), reviewer_print
+        except Exception as e:
+            raise Exception(f"No eligible candidates found.\n{e}")
 
     def find_supervisor(self):
         """Validate the PR and request supervisor confirmation (--supervisor flag).
@@ -304,7 +199,7 @@ class EARBotReviewer:
             "do you agree to [supervise]" in comment.body
             for comment in pr.get_issue_comments().reversed
         ):
-            supervisor = self.EAR_reviewer.get_supervisor(
+            supervisor = self.select_supervisor(
                 researcher, calling_institution
             )
             pr.create_issue_comment(
@@ -341,10 +236,14 @@ class EARBotReviewer:
             reject: If True, treats the current reviewer as having declined
                     (used when comment() receives a "No" reply).
 
-        Skips PRs that already have a pending review request, an accepted
-        review, no project label, or no assigned supervisor.  Calls
-        _check_pr_activity() on every PR regardless of skip conditions to
-        keep DELAYED/STALLED labels up to date.
+        Two separate gates.  A PR the bot does not manage at all -- no project
+        label, not EAR-UPDATE, not ERROR! -- is skipped outright.  EAR-UPDATE
+        and ERROR! PRs then get _check_pr_activity() so their DELAYED/STALLED
+        labels and weekly ping keep working, but go no further, because they
+        have no project label and so no reviewer to assign.  Project PRs get
+        the activity check too, and are then skipped for reviewer selection if
+        they have a pending review request, a review already in progress, or
+        no assigned supervisor.
 
         Customisation: the 100-working-hour deadline comes from _deadline();
         change the ``timedelta(hours=100)`` there to adjust the timeout window.
@@ -356,13 +255,20 @@ class EARBotReviewer:
         current_date = datetime.now(tz=cet)
 
         for pr in prs:
+            labels = {label.name for label in pr.get_labels()}
+            # Inactivity tracking covers every PR the bot manages, which
+            # includes EAR-UPDATE and ERROR! PRs that never get a project
+            # label.  It is deliberately narrower than it once was: this used
+            # to run on every open PR in the repo, which is why the bot spent
+            # months posting weekly pings at Dependabot.
+            if not labels & (set(self.valid_projects) | {"EAR-UPDATE", "ERROR!"}):
+                continue
             self._check_pr_activity(pr, current_date)
+            if not labels & set(self.valid_projects):
+                continue
             if (
                 pr.get_review_requests()[0].totalCount > 0
-                or not any(
-                    label.name in self.valid_projects for label in pr.get_labels()
-                )
-                or pr.get_reviews().totalCount > 0
+                or self._review_in_progress(pr)
                 or not pr.assignees
             ):
                 continue
@@ -388,7 +294,7 @@ class EARBotReviewer:
 
                 if deadline_passed or reject or not old_reviewers_list:
                     new_reviewer, get_EAR_reviewer_print = (
-                        self.EAR_reviewer.get_reviewer(institution, project)
+                        self.select_reviewer(institution, project)
                     )
                     if new_reviewer is None:
                         raise Exception("No reviewer found")
@@ -398,7 +304,7 @@ class EARBotReviewer:
                         "Please reply to this message only with **Yes** or **No** by"
                         f" {self._deadline(current_date).strftime('%d-%b-%Y at %H:%M CET')}"
                     )
-                    self.EAR_reviewer.update_reviewers_list(
+                    self.roster.apply(
                         reviewers=[new_reviewer.lower()], busy=True
                     )
             except Exception as e:
@@ -440,29 +346,34 @@ class EARBotReviewer:
             print(f"Missing required environment variables.\n{e}")
             sys.exit(1)
 
+        # GitHub logins are case-insensitive, and the roster spelling does not
+        # always match the login casing, so compare everything lower-cased.
         supervisors = [
-            reviewer["Github ID"]
-            for reviewer in self.EAR_reviewer.data
-            if reviewer["Supervisor"] == "Y" and reviewer["Github ID"] != pr.user.login
+            reviewer["Github ID"].lower()
+            for reviewer in self.roster.data
+            if reviewer["Supervisor"] == "Y"
+            and reviewer["Github ID"].lower() != pr.user.login.lower()
         ]
 
         if (
             comment_author in supervisors
-            and "@erga-ear-bot clear" in comment_text
+            and self._says(comment_text, r"@erga-ear-bot\s+clear")
             and pr.state == "closed"
         ):
             comment_reviewer = self._search_comment_user(pr, "do you agree to review")
-            self.EAR_reviewer.update_reviewers_list(
-                reviewers=set(comment_reviewer), busy=False
+            self.roster.apply(
+                reviewers=set(comment_reviewer), busy=False, strict=False
             )
             for label in pr.get_labels():
                 pr.remove_from_labels(label)
+            print("Cleared the active tasks for this PR.")
+            sys.exit()
 
         if not pr.assignees:
             if comment_author not in supervisors:
                 print("The comment author is not one of the supervisors.")
                 sys.exit()
-            if "ok" in comment_text:
+            if self._says(comment_text, r"\bok(ay)?\b"):
                 pr.add_to_assignees(comment_author)
                 if not self.pr_number:
                     raise Exception("PR_NUMBER is not set")
@@ -478,7 +389,7 @@ class EARBotReviewer:
             if pr.get_review_requests()[0].totalCount > 0:
                 print("The PR is already assigned to a reviewer.")
                 sys.exit()
-            if pr.get_reviews().totalCount > 0:
+            if self._review_in_progress(pr):
                 print("The PR already has a review.")
                 sys.exit()
             if comment_author in map(
@@ -494,21 +405,19 @@ class EARBotReviewer:
                 print("The reviewer is not the one who was asked to review the PR.")
                 sys.exit()
 
-            first_line = ""
-            for line in comment_text.split("\n"):
-                stripped = line.strip()
-                if stripped and not stripped.startswith(">"):
-                    first_line = stripped
-                    break
+            answer = self._decision(
+                comment_text, self.YES_NO
+            )
 
-            if bool(re.search(r"\byes\b", first_line)):
+            if answer == "yes":
                 time_wasted_reviewers = set(
                     self._search_comment_user(pr, "Time is out!")
                 )
-                self.EAR_reviewer.update_reviewers_list(
+                self.roster.apply(
                     reviewers=set(comment_reviewer) - set([comment_author]),
                     busy=False,
                     fined_reviewers=time_wasted_reviewers,
+                    strict=False,
                 )
                 pr.create_review_request([comment_author])
                 pr.create_issue_comment(
@@ -520,7 +429,7 @@ class EARBotReviewer:
                     " be able to click on the link to the contact map file!)\n"
                     "Contact the PR assignee for any issues."
                 )
-            elif bool(re.search(r"\bno\b", first_line)):
+            elif answer == "no":
                 self.find_reviewer([pr], reject=True)
             else:
                 current_date = datetime.now(tz=cet)
@@ -553,13 +462,32 @@ class EARBotReviewer:
         except Exception as e:
             print(f"Missing required environment variables.\n{e}")
             sys.exit(1)
+        if not pr.assignee:
+            print("The PR has no assigned supervisor yet.")
+            sys.exit()
         supervisor = pr.assignee.login
         researcher = pr.user.login
-        comment_reviewer = pr.get_reviews()
-        if comment_reviewer.totalCount == 0 or (
-            comment_reviewer.totalCount > 0
-            and comment_reviewer[0].user.login.lower() != reviewer
-        ):
+        # Check the approver against the reviewer the bot actually appointed.
+        # REVIEWER comes from github.event.review.user.login and the workflow
+        # already gates on state == 'approved', so looking for that review in
+        # pr.get_reviews() would always succeed and constrain nothing. Any
+        # passer-by can approve a PR on a public repo.
+        # Anyone currently on the hook counts, plus anyone a review was ever
+        # requested from.  Checking only the bot's most recent ask rejected a
+        # reviewer the supervisor assigned by hand after the bot's candidate
+        # declined, and that rejection cascaded: with no thank-you posted,
+        # closed_pr found nothing recordable, so the real reviewer went
+        # uncredited and the declining one stayed marked busy.
+        #
+        # pr.requested_reviewers alone is not enough, because GitHub drops a
+        # reviewer from it the moment they submit; the request event persists.
+        authorised = reviewer in self._current_reviewers(pr) or any(
+            event.event == "review_requested"
+            and getattr(event, "requested_reviewer", None)
+            and event.requested_reviewer.login.lower() == reviewer
+            for event in pr.as_issue().get_events()
+        )
+        if not authorised:
             print("The reviewer is not the one who agreed to review the PR.")
             sys.exit()
         pr.create_issue_comment(
@@ -572,6 +500,8 @@ class EARBotReviewer:
         )
 
     def get_user_info(self, user):
+        if user is None:
+            return "", ""
         user_id = user.login
         user_name = user.name or user_id
         return user_id.lower(), user_name
@@ -606,17 +536,22 @@ class EARBotReviewer:
         pr = self.repo.get_pull(int(self.pr_number))
         reviews = pr.get_reviews().reversed
         merged = os.getenv("MERGED_STATUS") == "true"
-        if merged and reviews.totalCount > 0:
-            comment_reviewers = self._search_comment_user(pr, "for the review")
-            the_review = next(
-                (
-                    review
-                    for review in reviews
-                    if comment_reviewers
-                    and review.user.login.lower() == comment_reviewers[0]
-                ),
-                reviews[0],
-            )
+        # What may be recorded as *the* review of this PR, best first.  A
+        # verdict from the appointed reviewer wins; failing that, any review
+        # they left, because a reviewer who clicks Comment instead of Approve
+        # has still done the work and must still be credited and released.
+        # A passer-by's review is never recorded, whatever its state.
+        # Only somebody actually on the hook may be recorded: the appointed
+        # reviewer, whoever GitHub still lists as requested, or whoever the bot
+        # already thanked.  Anyone can approve a PR on a public repo, so a
+        # passer-by's verdict must never be credited with the review.
+        thanked = self._search_comment_user(pr, "for the review")
+        eligible = self._current_reviewers(pr) | set(thanked[:1])
+        by_eligible = self._reviews_by(pr, eligible)
+        candidates = [r for r in by_eligible if r.state in self.VERDICT_STATES]
+        candidates += [r for r in by_eligible if r not in candidates]
+        if merged and candidates:
+            the_review = candidates[0]
             open_date = pr.created_at.strftime("%Y-%m-%d")
             submitted_at = datetime.now(tz=cet).strftime("%Y-%m-%d")
 
@@ -625,7 +560,10 @@ class EARBotReviewer:
             reviewer_id, reviewer_name = self.get_user_info(the_review.user)
 
             interaction_count = 0
-            other_participants = set()
+            # Keyed by lower-cased GitHub ID so the roster lookup below can
+            # match it.  The value is the display name, used only as a
+            # fallback when the person is not on the roster.
+            other_participants = {}
             for comment in list(pr.get_issue_comments()) + list(reviews):
                 body = comment.body.strip()
                 if not body:
@@ -643,11 +581,11 @@ class EARBotReviewer:
                         supervisor_id,
                         reviewer_id,
                     }:
-                        other_participants.add(comment_user_name)
+                        other_participants[comment_user_id] = comment_user_name
 
             supervisor_institution = ""
             reviewer_institution = ""
-            for entry in self.EAR_reviewer.data:
+            for entry in self.roster.data:
                 github_id = entry.get("Github ID", "").lower()
                 full_name = entry.get("Full Name")
                 if full_name:
@@ -658,8 +596,7 @@ class EARBotReviewer:
                     if github_id == reviewer_id:
                         reviewer_name = full_name
                     if github_id in other_participants:
-                        other_participants.remove(github_id)
-                        other_participants.add(full_name)
+                        other_participants[github_id] = full_name
                 if github_id == supervisor_id:
                     supervisor_institution = entry.get("Institution", "")
                 if github_id == reviewer_id:
@@ -668,50 +605,101 @@ class EARBotReviewer:
             species = self._search_in_body(pr, "Species")
             tag = self._search_in_body(pr, "Project")
             researcher_institution = self._search_for_institution(pr)
-            other_participants_str = ", ".join(sorted(other_participants))
+            other_participants_str = ", ".join(sorted(other_participants.values()))
 
-            self.EAR_reviewer.add_pr(
-                pr_url=pr.html_url,
-                species=species,
-                tag=tag,
-                requester_name=researcher_name,
-                requester_affiliation=researcher_institution,
-                reviewer_name=reviewer_name,
-                reviewer_affiliation=reviewer_institution,
-                supervisor_name=supervisor_name,
-                supervisor_affiliation=supervisor_institution,
-                interaction_count=interaction_count,
-                open_date=open_date,
-                approval_date=submitted_at,
-                other_participants=other_participants_str,
-                notes="N/A",
+            # Resolved before any commit below.  This used to run after both
+            # CSVs were already written, so a merged PR with no PDF left the
+            # data half-updated and could not be re-run safely.
+            EAR_pdf = next(
+                (
+                    file
+                    for file in pr.get_files()
+                    if file.filename.lower().endswith(".pdf")
+                ),
+                None,
             )
-
             institution = self._search_for_institution(pr)
-            self.EAR_reviewer.update_reviewers_list(
+
+            # Every precondition is checked before the first write, so a run
+            # that cannot record the review writes nothing at all.
+            #
+            # It deliberately does not release the reviewer either.  WF6 can
+            # fire again if the PR is reopened and re-closed, and an automatic
+            # release would decrement Working PRs once per run.  Retaining the
+            # count and asking for CLEAR matches what the bot already does for
+            # a PR closed unmerged, and CLEAR is issued by a human once.
+            problem = None
+            if EAR_pdf is None:
+                problem = "I could not find an EAR PDF in this PR"
+            elif self.roster.missing([reviewer_id]):
+                problem = (
+                    f"the reviewer (`{reviewer_id or 'unknown'}`) is not on the"
+                    " reviewers list"
+                )
+            if problem:
+                pr.create_issue_comment(
+                    f"I did not record this review because {problem}.\n"
+                    "The reviewers keep their working PR count for now; if that"
+                    " is not right, please instruct me to clear the active tasks."
+                )
+                pr.add_to_labels("ERROR!")
+                print(f"Nothing recorded for PR #{pr.number}: {problem}.")
+                return
+
+            recorded = self.roster.record_review(
+                row_values=[
+                    pr.html_url,
+                    species,
+                    tag,
+                    researcher_name,
+                    researcher_institution,
+                    reviewer_name,
+                    reviewer_institution,
+                    supervisor_name,
+                    supervisor_institution,
+                    interaction_count,
+                    open_date,
+                    submitted_at,
+                    other_participants_str,
+                    "N/A",
+                ],
                 reviewers=[reviewer_id],
-                busy=False,
                 institution=institution,
                 submitted_at=submitted_at,
             )
-            EAR_pdf = next(
-                file
-                for file in pr.get_files()
-                if file.filename.lower().endswith(".pdf")
-            )
-            self._add_yaml_file(EAR_pdf.filename)
+            # A dedup hit means an earlier run logged the review, but it may
+            # have died before finishing here.  Returning outright left the
+            # YAML permanently ungenerated, so pick up whatever is still
+            # missing instead.  The Slack post is not retried: it has no
+            # idempotency key, and re-announcing an assembly to the whole
+            # consortium is worse than a human reposting a missed one.
+            yaml_path = self._yaml_path_for(EAR_pdf.filename)
+            if recorded or not roster_module.exists(self.repo, yaml_path):
+                self._add_yaml_file(EAR_pdf.filename)
+            if not recorded:
+                print(
+                    f"{pr.html_url} was already recorded; skipping the Slack post."
+                )
+                return
 
             if self._search_in_body(pr, "Project") == "ERGA-BGE":
                 EAR_pdf_url = re.sub(r"/blob/[\w\d]+/", "/blob/main/", EAR_pdf.blob_url)
                 slack_post = (
                     f":tada: *New Assembly Finished!* :tada:\n\n"
-                    f"Congratulations to {researcher_name} and the {institution} team for the high-quality assembly of _{species}_\n\n"
-                    f"The assembly was reviewed by {reviewer_name}, and the process supervised by {supervisor_name}. The EAR can be found in the following link:\n"
+                    f"Congratulations to {self._slack_escape(researcher_name)} and the"
+                    f" {self._slack_escape(institution)} team for the high-quality"
+                    f" assembly of _{self._slack_escape(species)}_\n\n"
+                    f"The assembly was reviewed by {self._slack_escape(reviewer_name)},"
+                    f" and the process supervised by {self._slack_escape(supervisor_name)}."
+                    " The EAR can be found in the following link:\n"
                     f"{EAR_pdf_url}"
                 )
                 self._create_slack_post(slack_post)
         elif not merged:
-            supervisor = pr.assignee.login
+            # A PR can be closed before a supervisor is ever assigned, and the
+            # EAR-UPDATE path never assigns one at all.  Fall back to the
+            # researcher so this warning still reaches somebody.
+            supervisor = pr.assignee.login if pr.assignee else pr.user.login
             pr.create_issue_comment(
                 f"Attention @{supervisor}!\n"
                 "The PR has been closed, but the reviewers will retain their working PR count in case it is re-opened.\n"
@@ -719,16 +707,173 @@ class EARBotReviewer:
             )
             pr.add_to_labels("ERROR!")
         else:
+            # A merged PR with no recordable review, for example an EAR-UPDATE.
+            # The default matters: a bare next() raised StopIteration here and
+            # the job died with a traceback and no comment on the PR.
             EAR_pdf_filename = next(
-                file.filename
-                for file in pr.get_files()
-                if file.filename.lower().endswith(".pdf")
+                (
+                    file.filename
+                    for file in pr.get_files()
+                    if file.filename.lower().endswith(".pdf")
+                ),
+                None,
             )
+            if EAR_pdf_filename is None:
+                pr.create_issue_comment(
+                    "This PR was merged without an EAR PDF, so there was nothing for me to update."
+                )
+                pr.add_to_labels("ERROR!")
+                print("No PDF file found in this merged PR.")
+                return
             self._add_yaml_file(EAR_pdf_filename)
             print("No review has been found for this merged PR.")
+            if self._current_reviewers(pr):
+                # Somebody was appointed but nothing they wrote is recordable,
+                # so the merge cannot credit them and their Working PRs stays
+                # up.  The two sibling unrecordable paths both warn and label;
+                # staying silent here left a reviewer permanently busy with
+                # nobody told.
+                supervisor = pr.assignee.login if pr.assignee else pr.user.login
+                pr.create_issue_comment(
+                    f"Attention @{supervisor}! This PR was merged, but I could not"
+                    " find a review from the appointed reviewer, so I did not record"
+                    " it. They keep their working PR count; if that is not right,"
+                    " please instruct me to clear the active tasks."
+                )
+                pr.add_to_labels("ERROR!")
             pr.create_issue_comment(
                 "The YAML file has been updated based on the new EAR.pdf"
             )
+
+    @staticmethod
+    def _yaml_path_for(pdf_filename):
+        """The YAML path for an EAR PDF.
+
+        splitext, not replace(".pdf", ".yaml"): the finder that selects the
+        PDF matches case-insensitively, so a file committed as ``*.PDF`` left
+        the derived name identical to the PDF's own path.  That silently
+        skipped generation on one branch and, on the other, read the binary
+        PDF as text and overwrote it.
+        """
+        return os.path.splitext(pdf_filename)[0] + ".yaml"
+
+    @staticmethod
+    def _unquoted_lines(comment_text):
+        """The comment's own lines, with any quoted reply stripped out.
+
+        Quoting the bot's own message back at it must not count as a command,
+        which is what matching against the raw body allowed.
+        """
+        return [
+            stripped
+            for line in comment_text.split("\n")
+            if (stripped := line.strip()) and not stripped.startswith(">")
+        ]
+
+    @classmethod
+    def _says(cls, comment_text, pattern):
+        """True if any line the author actually wrote matches ``pattern``.
+
+        Deliberately not first-line-only: people open with a greeting, and
+        rejecting that was worse than the loose substring match it replaced,
+        because the failure path stamps ERROR! and fails the workflow.
+        """
+        return any(
+            re.search(pattern, line, re.IGNORECASE)
+            for line in cls._unquoted_lines(comment_text)
+        )
+
+    @classmethod
+    def _decision(cls, comment_text, options):
+        """Pick between competing answers by which the author wrote first.
+
+        ``options`` maps a name to a pattern.  A line answers only if exactly
+        one option matches it; a line matching both is ambiguous and is
+        skipped rather than guessed at.
+
+        Guessing was tried and was worse.  Taking the leftmost match turned
+        "I can't say yes or no until Monday" into an acceptance, appointing a
+        reviewer who had explicitly not committed.  The case that motivated it
+        -- "Yes, no problem." being rejected -- is handled by the NO pattern
+        excluding the "no problem/worries/..." idioms instead, which is the
+        real distinction.
+        """
+        for line in cls._unquoted_lines(comment_text):
+            hits = [
+                name
+                for name, pattern in options.items()
+                if re.search(pattern, line, re.IGNORECASE)
+            ]
+            if len(hits) == 1:
+                return hits[0]
+        return None
+
+    # DISMISSED is included: branch protection flips an approval to DISMISSED
+    # when new commits land, and that review still represents work done.
+    # Excluding it meant a merged PR whose approval had been dismissed was
+    # never recorded at all.
+    VERDICT_STATES = ("APPROVED", "CHANGES_REQUESTED", "DISMISSED")
+
+    @classmethod
+    def _binding_reviews(cls, pr):
+        """Reviews that carry a verdict, newest first.
+
+        get_reviews() also returns COMMENTED reviews, which any user can
+        leave on a public repo and which cannot be deleted afterwards.
+        Counting those meant a single stray comment review stopped the bot
+        from ever assigning a reviewer, and could be recorded as the review
+        of the PR once it merged.
+        """
+        return [
+            review
+            for review in pr.get_reviews().reversed
+            if review.state in cls.VERDICT_STATES
+        ]
+
+    def _current_reviewers(self, pr):
+        """Whoever is on the hook right now, lower-cased.
+
+        Only the most recent person asked, not the whole ask history: earlier
+        names in that list are reviewers who already timed out, and treating
+        their old review as live work blocked the PR forever.  Anyone GitHub
+        still lists as a requested reviewer counts too, which covers PRs
+        assigned by hand rather than by the bot.
+        """
+        asked = self._search_comment_user(pr, "do you agree to review")
+        current = {asked[0]} if asked else set()
+        return current | {
+            user.login.lower() for user in pr.requested_reviewers if user
+        }
+
+    def _reviews_by(self, pr, logins):
+        """Reviews by any of ``logins``, newest first.
+
+        The ordering matches _binding_reviews deliberately: closed_pr takes
+        candidates[0] as the review to record, so a chronological list here
+        would credit the oldest verdict rather than the latest one.
+        """
+        return [
+            review
+            for review in pr.get_reviews().reversed
+            if review.user and review.user.login.lower() in logins
+        ]
+
+    def _review_in_progress(self, pr):
+        """True if somebody is already reviewing, so the bot must not re-solicit.
+
+        Author-aware on purpose.  GitHub clears the pending review request as
+        soon as a requested reviewer submits *any* review, including a
+        comment-only one, so filtering purely on review state let the bot
+        declare "Time is out!" and hand the PR to somebody else while the
+        appointed reviewer was mid-review.
+        """
+        # Strictly author-based.  An earlier version also accepted a verdict
+        # from anyone at all as long as *somebody* was appointed, which let a
+        # passer-by's CHANGES_REQUESTED on a public repo freeze the PR: the
+        # deadline never fired, no successor was asked, and the appointed
+        # reviewer's eventual "Yes" was discarded.
+        current = self._current_reviewers(pr)
+        return bool(current) and bool(self._reviews_by(pr, current))
 
     def _is_bot_user(self, comment):
         user_type = comment.raw_data.get("user", {}).get("type", None)
@@ -834,6 +979,20 @@ class EARBotReviewer:
             current_date += time_to_add
         return current_date
 
+    @staticmethod
+    def _slack_escape(text):
+        """Escape the three characters Slack treats as markup.
+
+        Without this a species or institution name taken from the PR body
+        could contain <!channel> and notify the whole channel.
+        """
+        return (
+            str(text)
+            .replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+        )
+
     def _create_slack_post(self, content):
         from slack_sdk import WebClient
 
@@ -864,10 +1023,10 @@ class EARBotReviewer:
             capture_output=True,
             text=True,
         )
-        yaml_filename = EAR_pdf_filename.replace(".pdf", ".yaml")
+        yaml_filename = self._yaml_path_for(EAR_pdf_filename)
         with open(_get_local_path(yaml_filename), "r") as file:
             yaml_content = file.read()
-        commit(self.repo, yaml_filename, "Add YAML file", yaml_content)
+        replace(self.repo, yaml_filename, "Add YAML file", yaml_content)
         print(output_pdf_to_yaml.stdout, output_pdf_to_yaml.stderr)
 
 

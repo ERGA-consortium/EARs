@@ -8,6 +8,12 @@ concurrency:
   group: ear-bot-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: false
 
+# Unlike the other workflows, this one's checkout has no `token:` input, so it
+# relies on the ambient GITHUB_TOKEN. Granting contents: read explicitly rather
+# than depending on the public-repo default, which is not clearly documented.
+permissions:
+  contents: read
+
 jobs:
   approved-changes:
     if: github.event.review.state == 'approved' && (contains(github.event.pull_request.labels.*.name, 'ERGA-BGE') || contains(github.event.pull_request.labels.*.name, 'ERGA-Pilot') || contains(github.event.pull_request.labels.*.name, 'ERGA-Community'))

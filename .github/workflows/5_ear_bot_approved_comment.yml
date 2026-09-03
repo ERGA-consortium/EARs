@@ -10,6 +10,9 @@ concurrency:
   group: ear-bot-approved-${{ github.event.workflow_run.id }}
   cancel-in-progress: false
 
+permissions:
+  actions: read
+
 jobs:
   approved-changes:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}

@@ -3,3 +3,4 @@ pytz
 slack_sdk
 pdfplumber
 pyyaml
+requests

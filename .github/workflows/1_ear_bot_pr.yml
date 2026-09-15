@@ -10,6 +10,8 @@ concurrency:
   group: ear-bot-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: false
 
+permissions: {}
+
 jobs:
   add-label-and-find-supervisor:
     runs-on: ubuntu-latest

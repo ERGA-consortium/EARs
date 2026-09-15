@@ -8,6 +8,8 @@ concurrency:
   group: ear-bot-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: false
 
+permissions: {}
+
 jobs:
   closed-pr:
     if: contains(github.event.pull_request.labels.*.name, 'ERGA-BGE') || contains(github.event.pull_request.labels.*.name, 'ERGA-Pilot') || contains(github.event.pull_request.labels.*.name, 'ERGA-Community') || contains(github.event.pull_request.labels.*.name, 'EAR-UPDATE')

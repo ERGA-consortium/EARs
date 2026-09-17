@@ -8,6 +8,8 @@ concurrency:
   group: ear-bot-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: false
 
+permissions: {}
+
 jobs:
   approved-changes:
     if: github.event.review.state == 'approved' && (contains(github.event.pull_request.labels.*.name, 'ERGA-BGE') || contains(github.event.pull_request.labels.*.name, 'ERGA-Pilot') || contains(github.event.pull_request.labels.*.name, 'ERGA-Community'))
@@ -15,7 +17,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: "main"
           persist-credentials: false

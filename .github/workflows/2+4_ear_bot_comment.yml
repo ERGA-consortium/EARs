@@ -8,6 +8,8 @@ concurrency:
   group: ear-bot-pr-${{ github.event.issue.number }}
   cancel-in-progress: false
 
+permissions: {}
+
 jobs:
   new-comment:
     if: github.actor != 'erga-ear-bot[bot]' && github.event.issue.pull_request && (contains(github.event.issue.labels.*.name, 'ERGA-BGE') || contains(github.event.issue.labels.*.name, 'ERGA-Pilot') || contains(github.event.issue.labels.*.name, 'ERGA-Community'))
@@ -23,14 +25,14 @@ jobs:
           repositories: "EARs"
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: "main"
           token: ${{ steps.generate-token.outputs.token }}
           persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 

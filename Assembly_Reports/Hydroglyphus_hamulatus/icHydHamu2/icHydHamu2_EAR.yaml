@@ -1,0 +1,104 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3078427'
+ToLID: icHydHamu2
+Species: Hydroglyphus hamulatus
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 398,697,633
+    Haploid Number: '17 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: X0
+  Observed:
+    Haploid size (bp): 472,514,253
+    Haploid Number: '15'
+    Ploidy: '2'
+    Sample Sex: X0
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q26
+
+Curator notes:
+  Interventions/Gb: 190
+  Contamination notes: '"Some contaminant contigs were detected by FCS-GX and blobtools
+    and were removed (Wolbachia and other proteobacteria)."'
+  Other observations: '"The assembly was produced with hifiasm using HiFi data. The
+    resulting collapsetd *.bp.p_ctg.gfa was selected, screened for contamination with
+    FCS-GX, and purged of haplotigs with purge_dups. Scaffolding was performed with
+    YaHS. 91 changes were made using PretextView. The QV value comes from merkuryfk
+    and is low (30). However the QV value estimated by merkury is 62. I don''t know
+    why there is such a big difference."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 504,646,154
+    GC %: '34.69'
+    Gaps/Gbp: '576.64'
+    Total gap bp: 58,200
+    Scaffolds: '195'
+    Scaffold N50: 28,882,811
+    Scaffold L50: '7'
+    Scaffold L90: '17'
+    Contigs: '486'
+    Contig N50: 2,434,142
+    Contig L50: '61'
+    Contig L90: '235'
+    QV: '30.3'
+    Kmer compl.: '82.72'
+    BUSCO sing.: 96.6%
+    BUSCO dupl.: 1.6%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 1.6%
+  Curated collapsed:
+    Total bp: 472,514,253
+    GC %: '33.84'
+    Gaps/Gbp: '649.72'
+    Total gap bp: 61,400
+    Scaffolds: '87'
+    Scaffold N50: 32,287,851
+    Scaffold L50: '6'
+    Scaffold L90: '13'
+    Contigs: '394'
+    Contig N50: 2,651,501
+    Contig L50: '56'
+    Contig L90: '199'
+    QV: '26.2'
+    Kmer compl.: '82.14'
+    BUSCO sing.: 97.6%
+    BUSCO dupl.: 0.6%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 1.6%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: insecta_odb12
+
+Data:
+  Profile: PacBio HiFi Arima HiC
+  Coverage: NA NA
+
+Assembly pipeline:
+  hifiasm:
+    ver: 0.25.0
+  purge_dups:
+    ver: 1.2.6
+  YaHS:
+    ver: 1.2a.2
+  NBIS/Earth-Biogenome-Project-pilot:
+    ver: 85e04ded1d
+  sanger-tol/blobtoolkit:
+    ver: 0.10.0
+
+Curation pipeline:
+  sanger-tol/curationpretext:
+    ver: 1.5.1
+
+Submitter: "Estelle Proux-W\xE9ra"
+Affiliation: SciLifeLab
+
+Date and time: 2026-06-26 11:05:59 CEST

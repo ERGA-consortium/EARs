@@ -1,0 +1,98 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1380992'
+ToLID: xbPinRudi
+Species: Pinna rudis
+Class: Bivalvia
+Order: Pterioida
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 1,264,691,974
+    Haploid Number: '14 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 804,820,570
+    Haploid Number: '17'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q62
+
+Curator notes:
+  Contamination notes: '"There are no signs of contamination in the data, mitochondria
+    removed from assembly"'
+  Other observations: '"Assembly comes out smaller than the expected size of around
+    1Gb. The haploid number of 14 given in GoaT is likely to be incorrect. Correct
+    number seems to be 17."'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 825,238,288
+    GC %: '35.96'
+    Gaps/Gbp: '350.2'
+    Total gap bp: 57,800
+    Scaffolds: '92'
+    Scaffold N50: 43,106,870
+    Scaffold L50: '8'
+    Scaffold L90: '16'
+    Contigs: '381'
+    Contig N50: 3,852,967
+    Contig L50: '66'
+    Contig L90: '208'
+    BUSCO sing.: 95.7%
+    BUSCO dupl.: 2.1%
+    BUSCO frag.: 0.4%
+    BUSCO miss.: 1.8%
+  Curated collapsed:
+    Total bp: 804,820,570
+    GC %: '35.96'
+    Gaps/Gbp: '418.73'
+    Total gap bp: 67,400
+    Scaffolds: '41'
+    Scaffold N50: 46,528,323
+    Scaffold L50: '7'
+    Scaffold L90: '15'
+    Contigs: '378'
+    Contig N50: 3,852,967
+    Contig L50: '65'
+    Contig L90: '204'
+    BUSCO sing.: 97.0%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 1.5%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: HiFi OmniC
+  Coverage: 76x 286x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+  purge_dups:
+    ver: 1.2.6
+  NBIS/Earth-Biogenome-Project-pilot:
+    ver: e6e9c1621b
+  sanger-tol/blobtoolkit:
+    ver: 0.9.0
+  YaHS:
+    ver: 1.2.2
+
+Curation pipeline:
+  agp-tpf-utils:
+    ver: 1.2.3
+  sanger-tol/curationpretext:
+    ver: 1.5.1
+
+Submitter: Tomas Larsson
+Affiliation: SciLifeLab
+
+Date and time: 2026-06-09 10:48:30 CEST

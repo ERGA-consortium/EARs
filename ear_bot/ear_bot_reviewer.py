@@ -341,10 +341,11 @@ class EARBotReviewer:
             reject: If True, treats the current reviewer as having declined
                     (used when comment() receives a "No" reply).
 
-        Skips PRs that already have a pending review request, an accepted
-        review, no project label, or no assigned supervisor.  Calls
-        _check_pr_activity() on every PR regardless of skip conditions to
-        keep DELAYED/STALLED labels up to date.
+        Skips PRs without a project label entirely.  For the remaining EAR
+        PRs, calls _check_pr_activity() regardless of the other skip
+        conditions to keep DELAYED/STALLED labels up to date, then skips
+        those with a pending review request, an accepted review, or no
+        assigned supervisor.
 
         Customisation: the 100-working-hour deadline comes from _deadline();
         change the ``timedelta(hours=100)`` there to adjust the timeout window.
@@ -356,12 +357,11 @@ class EARBotReviewer:
         current_date = datetime.now(tz=cet)
 
         for pr in prs:
+            if not any(label.name in self.valid_projects for label in pr.get_labels()):
+                continue
             self._check_pr_activity(pr, current_date)
             if (
                 pr.get_review_requests()[0].totalCount > 0
-                or not any(
-                    label.name in self.valid_projects for label in pr.get_labels()
-                )
                 or pr.get_reviews().totalCount > 0
                 or not pr.assignees
             ):

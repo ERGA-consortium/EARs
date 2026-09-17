@@ -1,0 +1,107 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '94942'
+ToLID: qmAusTorr9
+Species: Austropotamobius torrentium
+Class: Malacostraca
+Order: Decapoda
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 10,622,541,117
+    Haploid Number: '58 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: unknown
+  Observed:
+    Haploid size (bp): 12,403,682,275
+    Haploid Number: '90'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.8.Q60
+
+Curator notes:
+  Interventions/Gb: 36
+  Contamination notes: '"FCS-GX detected several bacteria and proteobacteria hits.
+    430 contigs (43Mb) were removed. Mitochondrial hits were removed"'
+  Other observations: '"PacBio reads were assembled with hifiasm (HiC-mode, primary
+    collapsed assembly selected). FCS-GX detected several contaminations. Purge_dups
+    was run in default mode but removed more than 25% of content - primarily due to
+    REPEAT-tagged sequences. Therefore the purging was done manually by filtering
+    contigs based on mitohifi, btk, purge_dups and BUSCO results. Tiara was not used
+    at this point, as the classification failed for the crayfish. Yahs was used in
+    default mode to scaffold the contigs. Manual curation was done with PretextView.
+    In a first round the scaffolds were roughly assigned to chromosomes and the remaining
+    duplications were removed (~800Mb). The HiC Map was recreated for a second curation
+    round. I ended up with 90 chromosomes, but I am not sure if that is correct. The
+    genome is very repetitive and also shows several off-diagonal signals. Most of
+    them repeat-induced. SUPER_18 and SUPER_24 show a strong signal. According to
+    the literature Austropotamobius torrentium should have 88 chromosomes. I am open
+    for any suggestions."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 13,090,152,542
+    GC %: '45.29'
+    Gaps/Gbp: 1,028.79
+    Total gap bp: 1,346,700
+    Scaffolds: 2,478
+    Scaffold N50: 140,652,335
+    Scaffold L50: '33'
+    Scaffold L90: '95'
+    Contigs: 15,945
+    Contig N50: 2,245,118
+    Contig L50: 1,353
+    Contig L90: 6,847
+    QV: '60.5143'
+    Kmer compl.: '91.6926'
+    BUSCO sing.: 95.3%
+    BUSCO dupl.: 3.1%
+    BUSCO frag.: 1.1%
+    BUSCO miss.: 0.5%
+  Curated pri:
+    Total bp: 12,403,682,275
+    GC %: '45.48'
+    Gaps/Gbp: 1,078.47
+    Total gap bp: 1,365,000
+    Scaffolds: 1,583
+    Scaffold N50: 139,418,510
+    Scaffold L50: '36'
+    Scaffold L90: '79'
+    Contigs: 14,960
+    Contig N50: 2,164,511
+    Contig L50: 1,313
+    Contig L90: 6,625
+    QV: '60.4073'
+    Kmer compl.: '91.0933'
+    BUSCO sing.: 96.0%
+    BUSCO dupl.: 2.2%
+    BUSCO frag.: 1.0%
+    BUSCO miss.: 0.7%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: arthropoda_odb12
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 60x 28x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.0-r726
+    key param: l2
+  purge_dups:
+    ver: 1.2.6
+
+Curation pipeline:
+  GRIT_Rapid:
+    ver: 1a3d79a8
+
+Submitter: Martin Pippel
+Affiliation: SciLifeLab
+
+Date and time: 2026-08-12 14:39:29 CEST

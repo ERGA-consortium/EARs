@@ -423,7 +423,8 @@ class EARBotReviewer:
            "no"  → calls find_reviewer(reject=True) to move to the next one.
         3. Any supervisor on a *closed* PR comments "@erga-ear-bot CLEAR" →
            removes all labels and resets reviewer busy status.
-        4. Anything else → posts an error or exits silently.
+        4. Anything else → exits silently, unless the supervisor who was asked
+           still owes an OK on an open PR, which is flagged as before.
 
         Customisation: the CLEAR command string is checked case-insensitively
         in comment_text; change "@erga-ear-bot clear" here and in the README
@@ -468,6 +469,13 @@ class EARBotReviewer:
                     raise Exception("PR_NUMBER is not set")
                 self.find_reviewer([self.repo.get_pull(int(self.pr_number))])
             else:
+                # Supervisors use the PR to tell the researcher what needs
+                # fixing, which is what the wiki asks them to do.  Only the
+                # supervisor who was asked, on an open PR, still owes an OK.
+                asked = self._search_comment_user(pr, "do you agree to [supervise]")
+                if pr.state == "closed" or (asked and comment_author != asked[0]):
+                    print("The comment is not a pending confirmation.")
+                    sys.exit()
                 pr.create_issue_comment("Invalid confirmation!")
                 pr.add_to_labels("ERROR!")
                 sys.exit(1)

@@ -1,0 +1,112 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '3230685'
+ToLID: icPseApti1
+Species: Pseudanchomenus aptinoides
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 828,164,504
+    Haploid Number: '19 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: Unknown
+  Observed:
+    Haploid size (bp): 1,011,526,972
+    Haploid Number: '17'
+    Ploidy: '2'
+    Sample Sex: Unknown
+
+EBP metrics:
+  EBP quality code:
+    collapsed: 6.7.Q62
+
+Curator notes:
+  Interventions/Gb: 278
+  Contamination notes: '""'
+  Other observations: '"The assembly of Pseudanchomenus aptinoides (icPseApti1) is
+    based on 33X PacBio data and 181X Arima Hi-C data generated as part of the European
+    Reference Genome Atlas (ERGA, https://www.erga-biodiversity.eu/) via the Biodiversity
+    Genomics Europe project (BGE, https://biodiversitygenomics.eu/). The assembly
+    process included the following steps: initial PacBio assembly generation with
+    Hifiasm, removal of contaminant sequences using Context, removal of haplotypic
+    duplications using purge_dups, and Hi-C-based scaffolding with YaHS. In total,
+    35 contigs were identified as contaminants (bacterial, archaeal, or viral), totaling
+    9.446 Mb (with the largest being 4.384 Mb). Additionally, 1145 regions totaling
+    121.128 Mb (with the largest being 0.567 Mb) were identified as haplotypic duplications
+    and removed. The mitochondrial genome was assembled using OATK. Finally, the primary
+    assembly was analyzed and manually improved using Pretext. During manual curation,
+    11 haplotypic regions were removed, totaling 8.298Mb , (with the largest being
+    1.993Mb).Chromosome-scale scaffolds confirmed by Hi-C data were named in order
+    of size.Scaffolds 700 through 710 were initially included in the assembly, but
+    they turned out to be repeated sequences, which is why it was decided to leave
+    them as unplaced sequences"'
+
+Metrics:
+  Pre-curation collapsed:
+    Total bp: 1,089,488,111
+    GC %: '31.53'
+    Gaps/Gbp: '405.7'
+    Total gap bp: 45,200
+    Scaffolds: 1,079
+    Scaffold N50: 6,363,035
+    Scaffold L50: '27'
+    Scaffold L90: '375'
+    Contigs: 1,504
+    Contig N50: 2,362,129
+    Contig L50: '69'
+    Contig L90: '629'
+    QV: '62.3893'
+    Kmer compl.: '85.4298'
+    BUSCO sing.: 90.5%
+    BUSCO dupl.: 5.1%
+    BUSCO frag.: 1.5%
+    BUSCO miss.: 2.8%
+  Curated collapsed:
+    Total bp: 1,011,526,972
+    GC %: '31.53'
+    Gaps/Gbp: '407.31'
+    Total gap bp: 53,200
+    Scaffolds: '654'
+    Scaffold N50: 22,308,763
+    Scaffold L50: '16'
+    Scaffold L90: '205'
+    Contigs: 1,066
+    Contig N50: 2,847,141
+    Contig L50: '58'
+    Contig L90: '474'
+    QV: '62.3073'
+    Kmer compl.: '78.307'
+    BUSCO sing.: 84.8%
+    BUSCO dupl.: 4.7%
+    BUSCO frag.: 0.5%
+    BUSCO miss.: 10.1%
+
+BUSCO:
+  ver: WARNING! possible version mismatch
+  lineage: WARNING! possible lineage mismatch
+
+Data:
+  Profile: Long reads Arima
+  Coverage: 33 181
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.19.5-r593
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: '1.2'
+
+Curation pipeline:
+  PretextMap:
+    ver: 0.1.9
+  PretextView:
+    ver: 0.2.5
+
+Submitter: Sophie Mangenot
+Affiliation: Genoscope
+
+Date and time: 2026-09-23 06:15:32 CEST

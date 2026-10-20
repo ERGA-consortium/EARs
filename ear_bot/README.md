@@ -17,6 +17,7 @@ flowchart TD
     E -->|Supervisor comments OK| F[WF2+4 issue_comment\nAssign supervisor\nFind reviewer]
     F --> G[Ask reviewer: Yes / No\nMark reviewer busy]
     G -->|Yes| H[Request GitHub review]
+    G -->|Supervisor requests a reviewer manually\nWF3b| H
     G -->|No| F
     G -->|100 working-hours timeout\nWF3 scheduled 9:00 & 21:00 CET| F
     F -->|All reviewers exhausted| I[Ping supervisor — manual action needed]
@@ -37,6 +38,7 @@ flowchart TD
 | 1 | `1_ear_bot_pr.yml` | `pull_request_target` [opened, reopened, synchronize, edited] on `Assembly_Reports/**/*.pdf` | `--supervisor` | Validate PR, apply label, find & ping supervisor |
 | 2+4 | `2+4_ear_bot_comment.yml` | `issue_comment` [created] (PR only, with project label) | `--comment` | Handle OK / Yes / No / CLEAR; find next reviewer |
 | 3 | `3_ear_bot_reviewer.yml` | `schedule` (09:00 & 21:00 CET) + `workflow_dispatch` | `--search` | Timeout check, next reviewer, DELAYED/STALLED labels |
+| 3b | `3_ear_bot_manual_reviewer.yml` | `pull_request_target` [review_requested] by a person (not the bot), with project label | `--manual-review` | Adopt a manually requested reviewer: free everyone the bot asked, mark the new reviewer busy, tell the pending one no reply is needed |
 | 5a | `5_ear_bot_approved.yml` | `pull_request_review` [submitted, approved] | — | Save PR_NUMBER + REVIEWER to artifact |
 | 5b | `5_ear_bot_approved_comment.yml` | `workflow_run` on WF5a [completed] | `--approve` | Read artifact, thank reviewer, notify supervisor |
 | 6 | `6_ear_bot_merge.yml` | `pull_request_target` [closed] | `--merge` | Update CSVs, generate YAML, post Slack (ERGA-BGE only) |

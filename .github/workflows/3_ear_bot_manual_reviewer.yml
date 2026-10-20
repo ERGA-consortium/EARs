@@ -1,0 +1,52 @@
+name: The EARs Reviewing bot for manually requested reviewers
+
+on:
+  pull_request_target:
+    types: [review_requested]
+
+concurrency:
+  group: ear-bot-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  manual-reviewer:
+    # Skip the bot's own requests (made after a Yes), team requests and bot reviewers such as Copilot.
+    if: github.event.sender.login != 'erga-ear-bot[bot]' && github.event.requested_reviewer.type == 'User' && (contains(github.event.pull_request.labels.*.name, 'ERGA-BGE') || contains(github.event.pull_request.labels.*.name, 'ERGA-Pilot') || contains(github.event.pull_request.labels.*.name, 'ERGA-Community'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: 917566
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: "ERGA-consortium"
+          repositories: "EARs"
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: "main"
+          token: ${{ steps.generate-token.outputs.token }}
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Run python script to adopt the reviewer
+        env:
+          GITHUB_APP_TOKEN: ${{ steps.generate-token.outputs.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REVIEWER: ${{ github.event.requested_reviewer.login }}
+          REQUESTER: ${{ github.event.sender.login }}
+        run: |
+          uv pip install --system -r ear_bot/requirements.txt
+          python -u ear_bot/ear_bot_reviewer.py --manual-review

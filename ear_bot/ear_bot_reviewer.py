@@ -8,6 +8,8 @@ Actions workflow (see .github/workflows/).  One flag is required:
     --comment      React to a new issue comment (OK / Yes / No / CLEAR).
     --search       Scheduled scan: advance timed-out reviewer requests and
                    apply DELAYED/STALLED labels.
+    --manual-review  Adopt a reviewer requested by hand: free the reviewers
+                   the bot asked and mark the requested one busy.
     --approve      Thank the reviewer after they submit an approved review.
     --merge        Finalise a merged or closed PR: update CSVs, generate
                    YAML, post to Slack (ERGA-BGE only).
@@ -18,7 +20,8 @@ Required environment variables (injected by workflows):
     PR_NUMBER           PR number (most flags).
     COMMENT_TEXT        Raw comment body (--comment only).
     COMMENT_AUTHOR      Comment author login (--comment only).
-    REVIEWER            Reviewer login (--approve only).
+    REVIEWER            Reviewer login (--approve and --manual-review).
+    REQUESTER           Login of whoever requested the review (--manual-review only).
     MERGED_STATUS       "true" or "false" (--merge only).
     SLACK_TOKEN         Slack bot token (--merge only, ERGA-BGE PRs).
     SLACK_CHANNEL_ID    Target Slack channel ID (--merge only).
@@ -221,6 +224,7 @@ class EARBotReviewer:
         self.comment_text = os.getenv("COMMENT_TEXT")
         self.comment_author = os.getenv("COMMENT_AUTHOR")
         self.reviewer = os.getenv("REVIEWER")
+        self.requester = os.getenv("REQUESTER")
         self.valid_projects = ["ERGA-BGE", "ERGA-Pilot", "ERGA-Community"]
 
     def find_supervisor(self):
@@ -539,6 +543,48 @@ class EARBotReviewer:
                 )
                 print("Invalid comment text.")
                 sys.exit()
+
+    def manual_reviewer(self):
+        """Adopt a reviewer requested by hand instead of via Yes (--manual-review flag).
+
+        Triggered by WF3b when a person (not the bot) requests a review.
+        Marks everyone the bot asked as not busy, marks the requested reviewer
+        busy, and tells the reviewer still being asked that no reply is needed.
+        Does nothing if a reviewer was already appointed, so the counts are
+        adjusted only once per PR.
+        """
+        if not self.pr_number or not self.reviewer or not self.requester:
+            print("Missing required environment variables.")
+            sys.exit(1)
+        pr = self.repo.get_pull(int(self.pr_number))
+        reviewer = self.reviewer.lower()
+
+        if any(
+            self._is_bot_user(comment)
+            and (
+                "I appointed you as the EAR reviewer" in comment.body
+                or "was assigned manually" in comment.body
+            )
+            for comment in pr.get_issue_comments()
+        ):
+            print("A reviewer was already appointed for this PR.")
+            sys.exit()
+
+        # Everyone asked is still busy: the bot only releases them on a Yes.
+        asked = self._search_comment_user(pr, "do you agree to review")
+        self.EAR_reviewer.update_reviewers_list(
+            reviewers=set(asked) - {reviewer}, busy=False
+        )
+        if reviewer not in asked:
+            self.EAR_reviewer.update_reviewers_list(reviewers=[reviewer], busy=True)
+
+        message = (
+            f"@{reviewer} was assigned manually as the EAR reviewer by @{self.requester}.\n"
+            "I will track this as one of your _Working PRs_ until you finish this review."
+        )
+        if asked and asked[0] != reviewer:
+            message += f"\n\n@{asked[0]} no need to reply anymore, thanks!"
+        pr.create_issue_comment(message)
 
     def approve_reviewer(self):
         """Post a thank-you comment after the reviewer submits an approval (--approve flag).
@@ -885,6 +931,7 @@ if __name__ == "__main__":
     group.add_argument("--supervisor", action="store_true")
     group.add_argument("--comment", action="store_true")
     group.add_argument("--search", action="store_true")
+    group.add_argument("--manual-review", action="store_true")
     group.add_argument("--approve", action="store_true")
     group.add_argument("--merged", action="store_true")
     args = parser.parse_args()
@@ -895,6 +942,8 @@ if __name__ == "__main__":
         EARBot.comment()
     elif args.search:
         EARBot.find_reviewer()
+    elif args.manual_review:
+        EARBot.manual_reviewer()
     elif args.approve:
         EARBot.approve_reviewer()
     elif args.merged:

@@ -12,7 +12,7 @@ permissions: {}
 
 jobs:
   closed-pr:
-    if: contains(github.event.pull_request.labels.*.name, 'ERGA-BGE') || contains(github.event.pull_request.labels.*.name, 'ERGA-Pilot') || contains(github.event.pull_request.labels.*.name, 'ERGA-Community') || contains(github.event.pull_request.labels.*.name, 'EAR-UPDATE')
+    if: contains(github.event.pull_request.labels.*.name, 'ERGA-BGE') || contains(github.event.pull_request.labels.*.name, 'ERGA-Pilot') || contains(github.event.pull_request.labels.*.name, 'ERGA-Community') || contains(github.event.pull_request.labels.*.name, 'ERGA-CBP') || contains(github.event.pull_request.labels.*.name, 'ERGA-ATLASea') || contains(github.event.pull_request.labels.*.name, 'EAR-UPDATE')
     runs-on: ubuntu-latest
     steps:
       - name: Generate a token

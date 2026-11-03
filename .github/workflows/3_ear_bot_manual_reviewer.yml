@@ -13,7 +13,7 @@ permissions: {}
 jobs:
   manual-reviewer:
     # Skip the bot's own requests (made after a Yes), team requests and bot reviewers such as Copilot.
-    if: github.event.sender.login != 'erga-ear-bot[bot]' && github.event.requested_reviewer.type == 'User' && (contains(github.event.pull_request.labels.*.name, 'ERGA-BGE') || contains(github.event.pull_request.labels.*.name, 'ERGA-Pilot') || contains(github.event.pull_request.labels.*.name, 'ERGA-Community'))
+    if: github.event.sender.login != 'erga-ear-bot[bot]' && github.event.requested_reviewer.type == 'User' && (contains(github.event.pull_request.labels.*.name, 'ERGA-BGE') || contains(github.event.pull_request.labels.*.name, 'ERGA-Pilot') || contains(github.event.pull_request.labels.*.name, 'ERGA-Community') || contains(github.event.pull_request.labels.*.name, 'ERGA-CBP') || contains(github.event.pull_request.labels.*.name, 'ERGA-ATLASea'))
     runs-on: ubuntu-latest
     steps:
       - name: Generate a token

@@ -121,6 +121,7 @@ def select_random_supervisor(data, exclude_id, calling_institution):
     supervisors = [
         reviewer for reviewer in data
         if reviewer['Supervisor'] == 'Y' 
+           and reviewer['Active'] == 'Y'
            and reviewer['Github ID'] != exclude_id 
            and normalize_institution(reviewer['Institution']) != normalize_institution(calling_institution)
     ]

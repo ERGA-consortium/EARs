@@ -13,13 +13,15 @@ flowchart TD
     A[PR opened / updated] -->|WF1 pull_request_target| B{Validate PR}
     B -->|File count ≠ 1, bad body, invalid project| C[Add ERROR! label]
     B -->|Modified existing PDF| D[Add EAR-UPDATE label]
-    B -->|OK| E[Tag PR with project label\nPing supervisor for OK]
-    E -->|Supervisor comments OK| F[WF2+4 issue_comment\nAssign supervisor\nFind reviewer]
+    B -->|OK| T[Tag PR with project label] --> P{Pre-review of the\nEAR data in the PDF}
+    P -->|FAIL| C
+    P -->|No FAIL| E[Assign a random active supervisor\nno OK needed]
+    E --> F[Find reviewer]
     F --> G[Ask reviewer: Yes / No\nMark reviewer busy]
     G -->|Yes| H[Request GitHub review]
-    G -->|Supervisor requests a reviewer manually\nWF3b| H
+    G -->|Supervisor picks a reviewer: Reviewers button WF3b\nor add reviewer command WF2+4| H
     G -->|No| F
-    G -->|100 working-hours timeout\nWF3 scheduled 9:00 & 21:00 CET| F
+    G -->|3 working days timeout, 100 h for old PRs\nWF3 scheduled 9:00 & 21:00 CET| F
     F -->|All reviewers exhausted| I[Ping supervisor — manual action needed]
     H -->|Reviewer submits approval| J[WF5 pull_request_review → workflow_run\nThank reviewer, notify supervisor]
     J -->|Supervisor merges| K[WF6 pull_request_target closed\nUpdate CSVs, generate YAML, post to Slack]
@@ -35,8 +37,8 @@ flowchart TD
 
 | # | File | Trigger | Bot flag | Action |
 |---|------|---------|----------|--------|
-| 1 | `1_ear_bot_pr.yml` | `pull_request_target` [opened, reopened, synchronize, edited] on `Assembly_Reports/**/*.pdf` | `--supervisor` | Validate PR, apply label, find & ping supervisor |
-| 2+4 | `2+4_ear_bot_comment.yml` | `issue_comment` [created] (PR only, with project label) | `--comment` | Handle OK / Yes / No / CLEAR; find next reviewer |
+| 1 | `1_ear_bot_pr.yml` | `pull_request_target` [opened, reopened, synchronize, edited] on `Assembly_Reports/**/*.pdf` | `--supervisor` | Validate PR, apply label, pre-review the PDF, assign a supervisor, ask a reviewer |
+| 2+4 | `2+4_ear_bot_comment.yml` | `issue_comment` [created] (PR only, with project label) | `--comment` | Handle Yes / No / add reviewer / CLEAR; find next reviewer |
 | 3 | `3_ear_bot_reviewer.yml` | `schedule` (09:00 & 21:00 CET) + `workflow_dispatch` | `--search` | Timeout check, next reviewer, DELAYED/STALLED labels |
 | 3b | `3_ear_bot_manual_reviewer.yml` | `pull_request_target` [review_requested] by a person (not the bot), with project label | `--manual-review` | Adopt a manually requested reviewer: free everyone the bot asked, mark the new reviewer busy, tell the pending one no reply is needed |
 | 5a | `5_ear_bot_approved.yml` | `pull_request_review` [submitted, approved] | — | Save PR_NUMBER + REVIEWER to artifact |
@@ -49,12 +51,12 @@ flowchart TD
 
 | Who | When | Command | Effect |
 |-----|------|---------|--------|
-| Supervisor | After bot pings them | `OK` | Supervisor is assigned; bot immediately searches for a reviewer |
+| Any supervisor | PR open | `@erga-ear-bot add reviewer @user` | Requests a review from @user and adopts them like the Reviewers button: frees everyone the bot asked, marks @user busy. Does nothing if a reviewer is already appointed |
 | Reviewer | After bot asks them | `Yes` | Reviewer is formally requested; all previously-pinged-but-declined reviewers are unbusy'd |
 | Reviewer | After bot asks them | `No` | Bot moves to the next candidate |
 | Supervisor | After PR is **closed** | `@erga-ear-bot CLEAR` | Clears all labels and sets all asked-reviewers' busy status back to N |
 
-All commands are case-insensitive. Only the first non-quoted line of the comment is checked for Yes/No.
+No OK is needed from supervisors any more: the bot assigns one, and another supervisor takes over by changing the assignee. All commands are case-insensitive. Only the first non-quoted line of the comment is checked for Yes/No.
 
 ---
 
@@ -65,7 +67,9 @@ All commands are case-insensitive. Only the first non-quoted line of the comment
 | `ERGA-BGE` | Project type BGE | WF1 | WF6 (on close) or CLEAR command |
 | `ERGA-Pilot` | Project type Pilot | WF1 | WF6 (on close) or CLEAR command |
 | `ERGA-Community` | Project type Community | WF1 | WF6 (on close) or CLEAR command |
-| `ERROR!` | Validation problem (bad body, wrong file count, etc.) | WF1 / WF2+4 | WF1 on next valid edit or push |
+| `ERGA-CBP` | Project type CBP | WF1 | WF6 (on close) or CLEAR command |
+| `ERGA-ATLASea` | Project type ATLASea | WF1 | WF6 (on close) or CLEAR command |
+| `ERROR!` | Validation problem (bad body, wrong file count, pre-review FAIL, etc.) | WF1 / WF2+4 | WF1 on next valid edit or push |
 | `EAR-UPDATE` | PR is modifying an already-approved EAR | WF1 | Manual / WF6 |
 | `DELAYED` | Researcher has not commented in ≥ 4 weeks | WF3 | Manual |
 | `STALLED` | Nobody has commented in ≥ 4 weeks | WF3 | WF3 when activity resumes |
@@ -138,6 +142,27 @@ Append-only log of completed reviews. One row per merged PR, written by WF6. Col
 
 ---
 
+## Pre-review
+
+EARs made with `scripts/make_EAR.py` v26.10.21 or later store the report data as JSON in the PDF's XMP metadata. On every push, WF1 reads it with `scripts/EARpdf_to_yaml.py` and posts one comment (`ear_bot/pre_review.py`):
+
+| Check | Result when it differs or is NA |
+|-------|-------------------------------|
+| EAR data readable (format and Report ID) | FAIL, other checks skipped |
+| Species: PR vs PDF, ignoring capitals and spaces | FAIL |
+| ToLID, Project: PR vs PDF | WARNING, both values shown |
+| PretextView link per haplotype: present, opens | WARNING if missing, FAIL if broken; note if it can't be confirmed (access refused, web page instead of file) |
+| K-mer spectra, FCS-GX and BlobToolKit per haplotype, coverage, pipelines, curation notes | WARNING |
+| make_EAR flags | WARNING, counted and listed |
+
+Any FAIL adds `ERROR!` and stops before a supervisor is assigned. A PDF without EAR data (older make_EAR, or re-saved by another program) FAILs.
+
+**Old and new PRs:** only PRs opened on or after `NEW_SYSTEM_FROM` (in `ear_bot_reviewer.py`) get the pre-review and the 3-working-day reply time. Older PRs keep the old system: no pre-review, 100 working hours. Set the date on the release day, once the Galaxy tool ships the new make_EAR, otherwise EARs made in Galaxy fail. While it is unset, every PR is old.
+
+At merge, WF6 makes the YAML with `scripts/EARpdf_to_yaml.py`, or the old `EARpdf_to_yaml.py` for PDFs without EAR data, and appends an `EAR review` section (PR, submitter, reviewer, supervisor, affiliations, dates).
+
+---
+
 ## Troubleshooting
 
 **Bot not responding to a new PR**
@@ -147,7 +172,7 @@ Check that the PDF is under `Assembly_Reports/` and that only one file was chang
 WF1 clears `ERROR!` automatically when the PR body is edited (if the body is now valid) or when a new commit is pushed (if the file-count issue is resolved). If neither applies, a supervisor can remove the label manually.
 
 **Reviewer asked but no response / deadline passed**
-WF3 runs twice daily and calls `find_reviewer` with a deadline check. If 100 working hours have elapsed since the last "do you agree to review" comment, it moves to the next candidate automatically. No manual intervention needed unless all reviewers are exhausted.
+WF3 runs twice daily and calls `find_reviewer` with a deadline check. If 3 working days (100 working hours for PRs opened before `NEW_SYSTEM_FROM`) have elapsed since the last "do you agree to review" comment, it moves to the next candidate automatically. No manual intervention needed unless all reviewers are exhausted.
 
 **All reviewers exhausted**
 The bot posts an error comment and adds `ERROR!`. The supervisor must manually assign a reviewer via GitHub's review-request UI, then clear `ERROR!` manually.

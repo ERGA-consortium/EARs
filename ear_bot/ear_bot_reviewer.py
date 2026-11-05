@@ -4,10 +4,13 @@ EAR bot — automated peer-review coordinator for ERGA Assembly Reports.
 Entry point: run as ``python ear_bot_reviewer.py <flag>`` from a GitHub
 Actions workflow (see .github/workflows/).  One flag is required:
 
-    --supervisor   Validate a new/updated PR and ping a supervisor.
-    --comment      React to a new issue comment (OK / Yes / No / CLEAR).
+    --supervisor   Validate a new/updated PR, pre-review the EAR data in the
+                   PDF, assign a supervisor and ask a reviewer.
+    --comment      React to a new issue comment (Yes / No / add reviewer / CLEAR).
     --search       Scheduled scan: advance timed-out reviewer requests and
                    apply DELAYED/STALLED labels.
+    --manual-review  Adopt a reviewer requested by hand: free the reviewers
+                   the bot asked and mark the requested one busy.
     --approve      Thank the reviewer after they submit an approved review.
     --merge        Finalise a merged or closed PR: update CSVs, generate
                    YAML, post to Slack (ERGA-BGE only).
@@ -18,35 +21,52 @@ Required environment variables (injected by workflows):
     PR_NUMBER           PR number (most flags).
     COMMENT_TEXT        Raw comment body (--comment only).
     COMMENT_AUTHOR      Comment author login (--comment only).
-    REVIEWER            Reviewer login (--approve only).
+    REVIEWER            Reviewer login (--approve and --manual-review).
+    REQUESTER           Login of whoever requested the review (--manual-review only).
     MERGED_STATUS       "true" or "false" (--merge only).
     SLACK_TOKEN         Slack bot token (--merge only, ERGA-BGE PRs).
     SLACK_CHANNEL_ID    Target Slack channel ID (--merge only).
 
 Customisation notes:
-  - valid_projects: add or remove project labels in EARBotReviewer.__init__.
-  - Deadline length (100 working hours): change the ``timedelta(hours=100)``
-    literal in _deadline().
+  - valid_projects: add or remove project labels in EARBotReviewer.__init__
+    and in the label filters of the workflows.
+  - Deadline length (3 working days, 100 working hours for old PRs): change
+    the hours in _deadline().
+  - NEW_SYSTEM_FROM: the release day; older PRs keep the old system.
   - Inactivity thresholds (1 week ping, 4 weeks DELAYED/STALLED): change the
     timedelta values in _check_pr_activity().
   - Slack posting is skipped for non-BGE projects; adjust the condition in
     closed_pr() to enable it for other project types.
 """
+import base64
 import os
 import re
 import subprocess
 import sys
+import tempfile
 from argparse import ArgumentParser
 from datetime import datetime, timedelta
 
 import pytz
-from github import Auth, Github, UnknownObjectException
+import yaml
+from github import Auth, Github, GithubException, UnknownObjectException
 
 root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(root_folder)
+import pre_review  # noqa: E402
 from rev import get_EAR_reviewer  # noqa: E402
 
 cet = pytz.timezone("CET")
+
+# PRs opened on or after this day use the new system: pre-review of the EAR data
+# in the PDF and 3 working days to reply. Older PRs keep the old system (no
+# pre-review, 100 working hours). Set it on the release day, e.g.
+# datetime(2026, 12, 1, tzinfo=pytz.utc); while it is None every PR is old.
+NEW_SYSTEM_FROM = None
+
+
+def is_new_system(pr):
+    return NEW_SYSTEM_FROM is not None and pr.created_at >= NEW_SYSTEM_FROM
 
 
 def _get_local_path(filename):
@@ -208,7 +228,8 @@ class EARBotReviewer:
     corresponds to one CLI flag and one workflow stage.
     """
 
-    EARPDF_TO_YAML_SCRIPT = "EARpdf_to_yaml.py"
+    # New PDFs carry their data as JSON; older ones only work with the old text scraper.
+    EARPDF_TO_YAML_SCRIPTS = ("scripts/EARpdf_to_yaml.py", "EARpdf_to_yaml.py")
 
     def __init__(self) -> None:
         token = os.getenv("GITHUB_APP_TOKEN")
@@ -221,7 +242,8 @@ class EARBotReviewer:
         self.comment_text = os.getenv("COMMENT_TEXT")
         self.comment_author = os.getenv("COMMENT_AUTHOR")
         self.reviewer = os.getenv("REVIEWER")
-        self.valid_projects = ["ERGA-BGE", "ERGA-Pilot", "ERGA-Community"]
+        self.requester = os.getenv("REQUESTER")
+        self.valid_projects = ["ERGA-BGE", "ERGA-Pilot", "ERGA-Community", "ERGA-CBP", "ERGA-ATLASea"]
 
     def find_supervisor(self):
         """Validate the PR and request supervisor confirmation (--supervisor flag).
@@ -229,9 +251,11 @@ class EARBotReviewer:
         Triggered by WF1 on PR open, reopen, synchronise, or body edit.
         Checks that exactly one PDF was added (not modified), that the PR body
         contains valid Project/Species/Affiliation fields, and that the project
-        label is one of valid_projects.  Applies ERROR! on any failure.
-        On success, applies the project label and pings a randomly selected
-        supervisor from a different institution.
+        label is one of valid_projects, then pre-reviews the EAR data stored in
+        the PDF (see pre_review.py).  Applies ERROR! on any failure.
+        On success, applies the project label, assigns a random active
+        supervisor from a different institution (no OK needed) and asks the
+        first reviewer.
 
         Customisation: to change what the bot checks in the PR body, modify
         _search_in_body() calls below; to change the welcome message or
@@ -285,9 +309,6 @@ class EARBotReviewer:
             pr.add_to_labels("ERROR!")
             raise Exception(f"Invalid project name: {project}")
 
-        if error_label_existed and action_type != "reopened":
-            pr.remove_from_labels("ERROR!")
-
         if not any(
             "I added the corresponding tag" in comment.body
             for comment in pr.get_issue_comments().reversed
@@ -300,17 +321,25 @@ class EARBotReviewer:
         if not any(label.name in self.valid_projects for label in pr.get_labels()):
             pr.add_to_labels(project)
 
-        if not any(
-            "do you agree to [supervise]" in comment.body
-            for comment in pr.get_issue_comments().reversed
-        ):
+        if not self._pre_review(pr, files_changed[0], project, species):
+            pr.add_to_labels("ERROR!")
+            raise Exception("The pre-review failed.")
+
+        if error_label_existed and action_type != "reopened":
+            pr.remove_from_labels("ERROR!")
+
+        if not pr.assignees:
+            # No OK needed: another supervisor takes over by changing the assignee.
             supervisor = self.EAR_reviewer.get_supervisor(
                 researcher, calling_institution
             )
+            pr.add_to_assignees(supervisor)
             pr.create_issue_comment(
-                f"Hi @{supervisor}, do you agree to [supervise](https://github.com/ERGA-consortium/EARs/wiki/Assignees-section) this assembly?\n"
-                "Please reply to this message only with **OK** to give acknowledge."
+                f"Hi @{supervisor}, you are the [supervisor](https://github.com/ERGA-consortium/EARs/wiki/Supervisors-(assignee)-section) of this assembly.\n"
+                "I will look for a reviewer now. If another supervisor takes over, just change the assignee."
             )
+            self.find_reviewer([self.repo.get_pull(pr.number)])
+            return  # just assigned: nobody to tell about an updated PDF yet
 
         if action_type == "synchronize" and pr.assignees:
             reviewer = next(
@@ -333,8 +362,8 @@ class EARBotReviewer:
     def find_reviewer(self, prs=[], reject=False):
         """Find and ask the next eligible reviewer for each open PR (--search flag).
 
-        Called directly after a supervisor says OK (via comment()), and also
-        by WF3 on schedule to advance timed-out requests.
+        Called directly after the supervisor is assigned (via find_supervisor()),
+        and also by WF3 on schedule to advance timed-out requests.
 
         Args:
             prs:    List of PR objects to process.  Defaults to all open PRs.
@@ -347,8 +376,8 @@ class EARBotReviewer:
         those with a pending review request, an accepted review, or no
         assigned supervisor.
 
-        Customisation: the 100-working-hour deadline comes from _deadline();
-        change the ``timedelta(hours=100)`` there to adjust the timeout window.
+        Customisation: the timeout window (3 working days, 100 working hours
+        for old PRs) comes from _deadline().
         """
         # Will run when supervisor approves to be a assignee, or when there is a rejection or a deadline passed for a reviewer
         if not prs:
@@ -371,7 +400,7 @@ class EARBotReviewer:
                 pr, text="do you agree to review"
             )
             deadline_passed = (
-                self._deadline(last_comment_date) < current_date
+                self._deadline(last_comment_date, pr) < current_date
                 if last_comment_date
                 else False
             )
@@ -396,7 +425,7 @@ class EARBotReviewer:
                     pr.create_issue_comment(
                         f"Hi @{new_reviewer}, do you agree to review this assembly?\n"
                         "Please reply to this message only with **Yes** or **No** by"
-                        f" {self._deadline(current_date).strftime('%d-%b-%Y at %H:%M CET')}"
+                        f" {self._deadline(current_date, pr).strftime('%d-%b-%Y at %H:%M CET')}"
                     )
                     self.EAR_reviewer.update_reviewers_list(
                         reviewers=[new_reviewer.lower()], busy=True
@@ -415,16 +444,15 @@ class EARBotReviewer:
         Triggered by WF2+4 on every issue_comment event for PRs that carry a
         project label.  Handles four cases:
 
-        1. Supervisor hasn't been assigned yet and the author is a supervisor:
-           expects "OK" → assigns them and calls find_reviewer().
+        1. Any supervisor writes "@erga-ear-bot add reviewer @user" on an open
+           PR → requests the review and adopts @user like the Reviewers button.
         2. Supervisor has been assigned but no reviewer yet — author is the
            most-recently-asked reviewer:
            "yes" → formally requests the review and marks others as not busy.
            "no"  → calls find_reviewer(reject=True) to move to the next one.
         3. Any supervisor on a *closed* PR comments "@erga-ear-bot CLEAR" →
            removes all labels and resets reviewer busy status.
-        4. Anything else → exits silently, unless the supervisor who was asked
-           still owes an OK on an open PR, which is flagged as before.
+        4. Anything else → exits silently.
 
         Customisation: the CLEAR command string is checked case-insensitively
         in comment_text; change "@erga-ear-bot clear" here and in the README
@@ -447,6 +475,13 @@ class EARBotReviewer:
             if reviewer["Supervisor"] == "Y" and reviewer["Github ID"] != pr.user.login
         ]
 
+        add_reviewer = re.search(
+            r"@erga-ear-bot\s+add\s+reviewer\s+@([a-z0-9-]+)", comment_text
+        )
+        if add_reviewer and comment_author in supervisors and pr.state == "open":
+            self._add_reviewer(pr, add_reviewer[1], comment_author)
+            return
+
         if (
             comment_author in supervisors
             and "@erga-ear-bot clear" in comment_text
@@ -460,25 +495,9 @@ class EARBotReviewer:
                 pr.remove_from_labels(label)
 
         if not pr.assignees:
-            if comment_author not in supervisors:
-                print("The comment author is not one of the supervisors.")
-                sys.exit()
-            if "ok" in comment_text:
-                pr.add_to_assignees(comment_author)
-                if not self.pr_number:
-                    raise Exception("PR_NUMBER is not set")
-                self.find_reviewer([self.repo.get_pull(int(self.pr_number))])
-            else:
-                # Supervisors use the PR to tell the researcher what needs
-                # fixing, which is what the wiki asks them to do.  Only the
-                # supervisor who was asked, on an open PR, still owes an OK.
-                asked = self._search_comment_user(pr, "do you agree to [supervise]")
-                if pr.state == "closed" or (asked and comment_author != asked[0]):
-                    print("The comment is not a pending confirmation.")
-                    sys.exit()
-                pr.create_issue_comment("Invalid confirmation!")
-                pr.add_to_labels("ERROR!")
-                sys.exit(1)
+            # The bot assigns the supervisor itself once the PR passes its checks.
+            print("No supervisor is assigned yet.")
+            sys.exit()
         else:
             print(
                 "The PR has already been assigned to a supervisor.\nChecking for the reviewer..."
@@ -535,10 +554,79 @@ class EARBotReviewer:
                 pr.create_issue_comment(
                     f"Invalid confirmation!\nHi @{comment_author}, do you agree to review this assembly?\n"
                     "Please reply to this message only with **Yes** or **No** by"
-                    f" {self._deadline(current_date).strftime('%d-%b-%Y at %H:%M CET')}"
+                    f" {self._deadline(current_date, pr).strftime('%d-%b-%Y at %H:%M CET')}"
                 )
                 print("Invalid comment text.")
                 sys.exit()
+
+    def manual_reviewer(self):
+        """Adopt a reviewer requested by hand instead of via Yes (--manual-review flag).
+
+        Triggered by WF3b when a person (not the bot) requests a review.
+        Marks everyone the bot asked as not busy, marks the requested reviewer
+        busy, and tells the reviewer still being asked that no reply is needed.
+        Does nothing if a reviewer was already appointed, so the counts are
+        adjusted only once per PR.
+        """
+        if not self.pr_number or not self.reviewer or not self.requester:
+            print("Missing required environment variables.")
+            sys.exit(1)
+        pr = self.repo.get_pull(int(self.pr_number))
+        if self._reviewer_appointed(pr):
+            print("A reviewer was already appointed for this PR.")
+            sys.exit()
+        self._adopt_reviewer(pr, self.reviewer.lower(), self.requester)
+
+    def _add_reviewer(self, pr, reviewer, requester):
+        """'@erga-ear-bot add reviewer @user' from a supervisor: request and adopt."""
+        if self._reviewer_appointed(pr):
+            pr.create_issue_comment(
+                f"@{requester} a reviewer is already appointed on this PR, so I changed nothing."
+            )
+            return
+        try:
+            pr.create_review_request([reviewer])
+        except GithubException as e:
+            message = e.data.get("message", e) if isinstance(e.data, dict) else e
+            pr.create_issue_comment(
+                f"@{requester} I could not request a review from @{reviewer}: {message}"
+            )
+            return
+        if not pr.assignees:
+            pr.add_to_assignees(requester)
+        self._adopt_reviewer(pr, reviewer, requester)
+
+    def _reviewer_appointed(self, pr):
+        return any(
+            self._is_bot_user(comment)
+            and (
+                "I appointed you as the EAR reviewer" in comment.body
+                or "was assigned manually" in comment.body
+            )
+            for comment in pr.get_issue_comments()
+        )
+
+    def _adopt_reviewer(self, pr, reviewer, requester):
+        """Free everyone the bot asked, mark the chosen reviewer busy and say so.
+
+        Shared by the GitHub Reviewers button (--manual-review) and the
+        'add reviewer' command, so the two always behave the same.
+        """
+        # Everyone asked is still busy: the bot only releases them on a Yes.
+        asked = self._search_comment_user(pr, "do you agree to review")
+        self.EAR_reviewer.update_reviewers_list(
+            reviewers=set(asked) - {reviewer}, busy=False
+        )
+        if reviewer not in asked:
+            self.EAR_reviewer.update_reviewers_list(reviewers=[reviewer], busy=True)
+
+        message = (
+            f"@{reviewer} was assigned manually as the EAR reviewer by @{requester}.\n"
+            "I will track this as one of your _Working PRs_ until you finish this review."
+        )
+        if asked and asked[0] != reviewer:
+            message += f"\n\n@{asked[0]} no need to reply anymore, thanks!"
+        pr.create_issue_comment(message)
 
     def approve_reviewer(self):
         """Post a thank-you comment after the reviewer submits an approval (--approve flag).
@@ -593,7 +681,9 @@ class EARBotReviewer:
           - Appends a row to EAR_reviews.csv (via EAR_get_reviewer.add_pr).
           - Updates reviewers_list.csv: reviewer score -1, total +1, last
             review date set, working PRs -1; same-institution reviewers +1.
-          - Generates a YAML file next to the PDF via EARpdf_to_yaml.py.
+          - Generates a YAML file next to the PDF (scripts/EARpdf_to_yaml.py,
+            or the old EARpdf_to_yaml.py for PDFs without EAR data) and adds
+            the submitter, reviewer, supervisor and dates at the end.
           - Posts a Slack announcement (ERGA-BGE projects only).
 
         Merged without a review (EAR-UPDATE):
@@ -707,7 +797,20 @@ class EARBotReviewer:
                 for file in pr.get_files()
                 if file.filename.lower().endswith(".pdf")
             )
-            self._add_yaml_file(EAR_pdf.filename)
+            self._add_yaml_file(
+                EAR_pdf.filename,
+                review_info={
+                    "PR": pr.html_url,
+                    "Submitter": researcher_name,
+                    "Submitter affiliation": researcher_institution,
+                    "Reviewer": reviewer_name,
+                    "Reviewer affiliation": reviewer_institution,
+                    "Supervisor": supervisor_name,
+                    "Supervisor affiliation": supervisor_institution,
+                    "Opened": open_date,
+                    "Merged": submitted_at,
+                },
+            )
 
             if self._search_in_body(pr, "Project") == "ERGA-BGE":
                 EAR_pdf_url = re.sub(r"/blob/[\w\d]+/", "/blob/main/", EAR_pdf.blob_url)
@@ -718,6 +821,9 @@ class EARBotReviewer:
                     f"{EAR_pdf_url}"
                 )
                 self._create_slack_post(slack_post)
+        elif not merged and not pr.assignee:
+            # Closed before passing the checks: no supervisor, no reviewer asked, nothing to clear.
+            print("Closed before a supervisor was assigned: nothing to clear.")
         elif not merged:
             supervisor = pr.assignee.login
             pr.create_issue_comment(
@@ -808,7 +914,7 @@ class EARBotReviewer:
             return None
         return pr.created_at.astimezone(cet)
 
-    def _search_in_body(self, pr, text_to_check):
+    def _search_in_body(self, pr, text_to_check, required=True):
         lines = pr.body.strip().split("\n")
         for line in lines:
             if line.strip().startswith(f"- {text_to_check}:"):
@@ -817,6 +923,8 @@ class EARBotReviewer:
                     item_value = parts[1].strip()
                     if item_value:
                         return item_value
+        if not required:
+            return None
         pr.create_issue_comment(
             f"Attention @{pr.user.login}, the field `{text_to_check}:` is missing or empty!\n"
             f"Please fix the issue by editing your first message (click on the three dots '…' in the top right corner of it)"
@@ -828,10 +936,37 @@ class EARBotReviewer:
         institution = self._search_in_body(pr, "Affiliation")
         return get_EAR_reviewer.normalize_institution(institution)
 
-    def _deadline(self, start_date):
+    def _pre_review(self, pr, pdf_file, project, species):
+        """Post the pre-review of the PR's PDF. False when it has a FAIL."""
+        if not is_new_system(pr):
+            print("PR opened before the new system: no pre-review.")
+            return True
+        # The workflow checks out main, so the PR's PDF comes from the API (blobs up to 100 MB).
+        blob = self.repo.get_git_blob(pdf_file.sha)
+        with tempfile.TemporaryDirectory() as tmp:
+            pdf_path = os.path.join(tmp, "EAR.pdf")
+            with open(pdf_path, "wb") as fh:
+                fh.write(base64.b64decode(blob.content))
+            try:
+                data = pre_review.ear_data.load(pdf_path)
+            except pre_review.ear_data.ConvertError as e:
+                pr.create_issue_comment(pre_review.format_comment(error=e))
+                return False
+        pr_fields = {
+            "Species": species,
+            "Project": project,
+            "ToLID": self._search_in_body(pr, "ToLID", required=False),
+        }
+        rows = pre_review.pre_review(data["report"], pr_fields)
+        pr.create_issue_comment(
+            pre_review.format_comment(rows, version=data["report"].get("version"))
+        )
+        return all(level != pre_review.FAIL for level, _, _ in rows)
+
+    def _deadline(self, start_date, pr):
         current_date = start_date
         added_hours = timedelta(hours=0)
-        total_hours = timedelta(hours=100)
+        total_hours = timedelta(hours=72 if is_new_system(pr) else 100)
         while added_hours != total_hours:
             remaining_hours = total_hours - added_hours
             time_to_add = min(remaining_hours, timedelta(days=1))
@@ -865,18 +1000,33 @@ class EARBotReviewer:
         print(f"Slack post created: {link}")
         return True
 
-    def _add_yaml_file(self, EAR_pdf_filename):
-        output_pdf_to_yaml = subprocess.run(
-            f"python {_get_local_path(self.EARPDF_TO_YAML_SCRIPT)} {_get_local_path(EAR_pdf_filename)}",
-            shell=True,
-            capture_output=True,
-            text=True,
-        )
+    def _add_yaml_file(self, EAR_pdf_filename, review_info=None):
+        """Make the YAML with the new script, or the old one for PDFs without EAR data,
+        add the review details at the end and commit it next to the PDF."""
+        pdf_path = _get_local_path(EAR_pdf_filename)
+        for script in self.EARPDF_TO_YAML_SCRIPTS:
+            output = subprocess.run(
+                [sys.executable, _get_local_path(script), pdf_path],
+                capture_output=True,
+                text=True,
+            )
+            print(script, output.stdout, output.stderr)
+            if output.returncode == 0:
+                break
+        else:
+            raise Exception(f"No script could make the YAML of {EAR_pdf_filename}")
         yaml_filename = EAR_pdf_filename.replace(".pdf", ".yaml")
         with open(_get_local_path(yaml_filename), "r") as file:
             yaml_content = file.read()
+        if review_info:
+            yaml_content = (
+                yaml_content.rstrip("\n")
+                + "\n\n"
+                + yaml.safe_dump(
+                    {"EAR review": review_info}, sort_keys=False, allow_unicode=True
+                )
+            )
         commit(self.repo, yaml_filename, "Add YAML file", yaml_content)
-        print(output_pdf_to_yaml.stdout, output_pdf_to_yaml.stderr)
 
 
 if __name__ == "__main__":
@@ -885,6 +1035,7 @@ if __name__ == "__main__":
     group.add_argument("--supervisor", action="store_true")
     group.add_argument("--comment", action="store_true")
     group.add_argument("--search", action="store_true")
+    group.add_argument("--manual-review", action="store_true")
     group.add_argument("--approve", action="store_true")
     group.add_argument("--merged", action="store_true")
     args = parser.parse_args()
@@ -895,6 +1046,8 @@ if __name__ == "__main__":
         EARBot.comment()
     elif args.search:
         EARBot.find_reviewer()
+    elif args.manual_review:
+        EARBot.manual_reviewer()
     elif args.approve:
         EARBot.approve_reviewer()
     elif args.merged:

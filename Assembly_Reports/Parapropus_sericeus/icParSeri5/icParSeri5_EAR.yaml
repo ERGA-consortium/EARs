@@ -1,0 +1,108 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-BGE
+
+TxID: '1457124'
+ToLID: icParSeri5
+Species: Parapropus sericeus
+Class: Insecta
+Order: Coleoptera
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 475,491,312
+    Haploid Number: '11 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: NA
+  Observed:
+    Haploid size (bp): 320,522,931
+    Haploid Number: '12'
+    Ploidy: '2'
+    Sample Sex: XX
+
+EBP metrics:
+  EBP quality code:
+    hap1: 5.7.Q54
+
+Curator notes:
+  Interventions/Gb: 66
+  Contamination notes: '"Contaminants were found and removed with the pipeline NCBI
+    FCS GX v Galaxy Version 0.5.5+galaxy1. Scaffolds that are flagged as contaminants
+    by BlobToolKit were confirmed with FCS output table and with contact in the map
+    as non-contaminants."'
+  Other observations: '"This genome is highly fragmented, with a low contig N50, which
+    makes it difficult to validate the internal chromosomal organization. Only one
+    X chromosomes was found with alignement with close relatives Leptodirus hochenwartii.
+    Y chromosome could not be identified"'
+
+Metrics:
+  Pre-curation hap1:
+    Total bp: 357,343,292
+    GC %: '31.22'
+    Gaps/Gbp: 1,603.5
+    Total gap bp: 114,600
+    Scaffolds: '182'
+    Scaffold N50: 16,428,764
+    Scaffold L50: '9'
+    Scaffold L90: '21'
+    Contigs: '755'
+    Contig N50: 887,040
+    Contig L50: '126'
+    Contig L90: '398'
+    QV: '54.7745'
+    Kmer compl.: '67.0712'
+    BUSCO sing.: 94.2%
+    BUSCO dupl.: 1.1%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 3.8%
+  Curated hap1:
+    Total bp: 320,522,931
+    GC %: '31.47'
+    Gaps/Gbp: 4,233.71
+    Total gap bp: 271,400
+    Scaffolds: '135'
+    Scaffold N50: 28,491,471
+    Scaffold L50: '5'
+    Scaffold L90: '12'
+    Contigs: 1,492
+    Contig N50: 403,605
+    Contig L50: '224'
+    Contig L90: '839'
+    QV: '54.7752'
+    Kmer compl.: '67.0666'
+    BUSCO sing.: 94.2%
+    BUSCO dupl.: 1.1%
+    BUSCO frag.: 0.9%
+    BUSCO miss.: 3.8%
+
+BUSCO:
+  ver: 5.8.0 (euk_genome_min, miniprot)
+  lineage: insecta_odb10
+
+Data:
+  Profile: HiFi HiC
+  Coverage: 32.93x 57.75x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: Galaxy Version 0.24.0+galaxy0
+    key param: VGP Galaxy workflow VGP3 v 0.2.8
+  purge_dups:
+    ver: Galaxy Version 1.2.6+galaxy0
+    key param: VGP Galaxy workflow VGP6 v 0.5
+  YaHS:
+    ver: Galaxy Version 1.2a.2+galaxy2
+    key param: VGP Galaxy workflow VGP8 v 1.4
+
+Curation pipeline:
+  PretextMap:
+    ver: Galaxy Version 0.1.9+galaxy1
+    key param: VGP workflow VGP PretextMap generation v2
+  HiGlass:
+    ver: '1.0'
+  PretextView:
+    ver: 1.0.0
+
+Submitter: Marcella Sozzoni
+Affiliation: UNIFI
+
+Date and time: 2026-10-26 10:29:52 CET

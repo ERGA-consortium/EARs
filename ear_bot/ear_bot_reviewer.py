@@ -229,7 +229,7 @@ class EARBotReviewer:
     """
 
     # New PDFs carry their data as JSON; older ones only work with the old text scraper.
-    EARPDF_TO_YAML_SCRIPTS = ("scripts/EARpdf_to_yaml.py", "EARpdf_to_yaml.py")
+    EARPDF_TO_YAML_SCRIPTS = ("scripts/EARpdf_to_yaml.py", "scripts/legacy/EARpdf_to_yaml.py")
 
     def __init__(self) -> None:
         token = os.getenv("GITHUB_APP_TOKEN")
@@ -682,7 +682,7 @@ class EARBotReviewer:
           - Updates reviewers_list.csv: reviewer score -1, total +1, last
             review date set, working PRs -1; same-institution reviewers +1.
           - Generates a YAML file next to the PDF (scripts/EARpdf_to_yaml.py,
-            or the old EARpdf_to_yaml.py for PDFs without EAR data) and adds
+            or scripts/legacy/EARpdf_to_yaml.py for PDFs without EAR data) and adds
             the submitter, reviewer, supervisor and dates at the end.
           - Posts a Slack announcement (ERGA-BGE projects only).
 

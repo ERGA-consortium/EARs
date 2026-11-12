@@ -144,7 +144,7 @@ Append-only log of completed reviews. One row per merged PR, written by WF6. Col
 
 ## Pre-review
 
-EARs made with `scripts/make_EAR.py` v26.10.21 or later store the report data as JSON in the PDF's XMP metadata. On every push, WF1 reads it with `scripts/EARpdf_to_yaml.py` and posts one comment (`ear_bot/pre_review.py`):
+EARs made with `scripts/make_EAR.py` v26.11.10 or later store the report data as JSON in the PDF's XMP metadata. On every push, WF1 reads it with `scripts/EARpdf_to_yaml.py` and posts one comment (`ear_bot/pre_review.py`):
 
 | Check | Result when it differs or is NA |
 |-------|-------------------------------|
@@ -159,7 +159,7 @@ Any FAIL adds `ERROR!` and stops before a supervisor is assigned. A PDF without 
 
 **Old and new PRs:** only PRs opened on or after `NEW_SYSTEM_FROM` (in `ear_bot_reviewer.py`) get the pre-review and the 3-working-day reply time. Older PRs keep the old system: no pre-review, 100 working hours. Set the date on the release day, once the Galaxy tool ships the new make_EAR, otherwise EARs made in Galaxy fail. While it is unset, every PR is old.
 
-At merge, WF6 makes the YAML with `scripts/EARpdf_to_yaml.py`, or the old `EARpdf_to_yaml.py` for PDFs without EAR data, and appends an `EAR review` section (PR, submitter, reviewer, supervisor, affiliations, dates).
+At merge, WF6 makes the YAML with `scripts/EARpdf_to_yaml.py`, or `scripts/legacy/EARpdf_to_yaml.py` for PDFs without EAR data, and appends an `EAR review` section (PR, submitter, reviewer, supervisor, affiliations, dates).
 
 ---
 

@@ -1604,18 +1604,18 @@ def _make_report(config, outdir, compress_images, log_capture):
             spectrum, limit, kind = read_cn_spectrum(path)
             percent, cutoff = false_duplications(spectrum, limit)
         except (OSError, ValueError, struct.error) as e:
-            logging.warning(f"# Could not compute false duplications for {hap} from "
+            logging.warning(f"# Could not compute kmer false duplications for {hap} from "
                             f"'{os.path.abspath(path)}': {e}; using NA.")
             continue
         false_dup_data[hap] = percent
-        logging.info(f"# False duplications for {hap}: {percent:.2f}% (read multiplicity cutoff {cutoff}; "
+        logging.info(f"# Kmer false duplications for {hap}: {percent:.2f}% (read multiplicity cutoff {cutoff}; "
                      f"{kind} '{os.path.abspath(path)}').")
     no_hist = [hap for hap in haplotypes if hap not in cn_hist_paths]
     if no_hist and (qv_path or comp_path):
         logging.info("# No k-mer copy-number histogram for " + ", ".join(no_hist) + " (Merqury "
                      "<prefix>.<asm>.spectra-cn.hist, or MerquryFK <prefix>.<asm>.spectra-cn.cni "
                      "from a run with -k); false duplications show NA.")
-    summary.append("False duplications: " + ", ".join(
+    summary.append("Kmer false duplications: " + ", ".join(
         f"{hap} {false_dup_data[hap]:.2f}%" if hap in false_dup_data else f"{hap} NA" for hap in haplotypes))
 
     # =======================================================================
@@ -1677,7 +1677,7 @@ def _make_report(config, outdir, compress_images, log_capture):
 
     asm_table_data.append(['QV'] + [format_2dp(qv_data.get(hap)) for hap in haplotypes])
     asm_table_data.append(['Kmer compl.'] + [format_2dp(completeness_data.get(hap)) for hap in haplotypes])
-    asm_table_data.append(['False dup.'] + [f"{false_dup_data[hap]:.2f}%" if hap in false_dup_data else ''
+    asm_table_data.append(['Kmer dupl.'] + [f"{false_dup_data[hap]:.2f}%" if hap in false_dup_data else ''
                                             for hap in haplotypes])
     for metric in ['BUSCO sing.', 'BUSCO dupl.', 'BUSCO frag.', 'BUSCO miss.']:
         asm_table_data.append([metric] + [busco_data[metric].get(hap, '') for hap in haplotypes])
@@ -1889,7 +1889,7 @@ def _make_report(config, outdir, compress_images, log_capture):
         # compared as displayed (2 decimals), so "5.00%" is never flagged as above 5%
         false_dup = false_dup_data.get(hap)
         if false_dup is not None and round(false_dup, 2) > 5:
-            flags.append(f"False duplications value is more than 5% for {hap}")
+            flags.append(f"Kmer false duplications value is more than 5% for {hap}")
 
     # Assembly-level checks
     for hap in haplotypes:

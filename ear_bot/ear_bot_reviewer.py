@@ -292,7 +292,7 @@ class EARBotReviewer:
             raise Exception("Empty PR description.")
 
         project = self._search_in_body(pr, "Project")
-        species = self._search_in_body(pr, "Species")
+        species = self._search_in_body(pr, "Species").strip("_* ")  # written in italics sometimes
         calling_institution = self._search_for_institution(pr)
 
         if project not in self.valid_projects:
@@ -783,7 +783,7 @@ class EARBotReviewer:
                 if github_id == reviewer_id:
                     reviewer_institution = entry.get("Institution", "")
 
-            species = self._search_in_body(pr, "Species")
+            species = self._search_in_body(pr, "Species").strip("_* ")
             tag = self._search_in_body(pr, "Project")
             researcher_institution = self._search_for_institution(pr)
             other_participants_str = ", ".join(sorted(other_participants))

@@ -78,30 +78,22 @@ No OK is needed from supervisors any more: the bot assigns one, and another supe
 
 ## Reviewer scoring
 
-Reviewer selection is implemented in `rev/get_EAR_reviewer.py` → `select_best_reviewer` / `adjust_score`.
+`rev/get_EAR_reviewer.py` is the single source of truth for selection and scoring; the bot imports its functions and posts its `format_report` table, so the table always names the reviewer the bot asks. The numbers live in the configuration block at the top of that script.
 
-**Eligibility** (hard filters applied before scoring):
+**Eligibility** (`select_best_reviewer`):
 - `Active == 'Y'`
 - Institution ≠ the submitter's institution (normalised via `normalize_institution`)
+- Not the submitter, not the PR's supervisor, and not anyone already asked on this PR
 
-**Score calculation** (starting from each reviewer's `Calling Score` in the CSV):
+**Score** (`score_breakdown`): the `Calling Score`, plus a bonus for never having reviewed and for the project's institutions (`PROJECT_BONUSES`), minus a penalty for being a supervisor, per working PR, and for a recent review. Ties go to fewest reviews, then oldest last review, then a random pick.
 
-| Adjustment | Condition |
-|------------|-----------|
-| +50 | `Last Review == 'NA'` (has never reviewed) |
-| +50 | Project is `ERGA-BGE` AND reviewer's institution is one of: CNAG, Sanger, Genoscope, SciLifeLab, IZW, UNIFI, UNIBA |
-| −5 | Reviewer is also a supervisor (`Supervisor == 'Y'`) |
-| −20 × N | Reviewer currently has N working PRs |
+**Updates to `reviewers_list.csv`** (the `record_*` functions):
+- Asked to review: `Working PRs + 1` (`record_assignment`)
+- Someone takes the PR (Yes, Reviewers button or `add reviewer`): everyone else asked gets `Working PRs − 1`; each one whose request timed out gets `Calling Score + 1` (`record_timeouts`)
+- Merged: reviewer `Calling Score − 1`, `Total Reviews + 1`, `Last Review` = merge date, `Working PRs − 1`; everyone at the submitter's institution `Calling Score + 1` (`record_review`)
+- CLEAR on a closed PR: everyone asked gets `Working PRs − 1`
 
-**Tiebreakers** (applied in order when multiple candidates share the top adjusted score):
-1. Oldest `Last Review` date
-2. Fewest `Total Reviews`
-3. Random selection
-
-**Score updates on merge** (via `update_reviewers_list`):
-- Reviewer: `Calling Score − 1`, `Total Reviews + 1`, `Last Review` = merge date, `Working PRs − 1`
-- Reviewers who timed out (wasted the bot's time): `Calling Score + 1`
-- All reviewers at the **same institution as the submitter**: `Calling Score + 1`
+Each update reads the file again right before writing and commits against that read; if another run committed in between, it reads and applies the change again. Both CSVs are written with the `csv` module, so values with commas are quoted.
 
 ---
 

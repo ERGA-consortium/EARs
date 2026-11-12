@@ -104,7 +104,6 @@ class EAR_get_reviewer:
 
     REVIEWERS_CSV = "rev/reviewers_list.csv"
     EAR_REVIEWS_CSV = "rev/EAR_reviews.csv"
-    GET_EAR_REVIEWER_SCRIPT = "rev/get_EAR_reviewer.py"
 
     def __init__(self, repo) -> None:
         self.repo = repo
@@ -131,20 +130,17 @@ class EAR_get_reviewer:
         except Exception as e:
             raise Exception(f"No eligible supervisors found.\n{e}")
 
-    def get_reviewer(self, institution, project):
-        try:
-            _, top_candidate, _ = get_EAR_reviewer.select_best_reviewer(
-                self.data, institution, project
-            )
-            reviewer_print = subprocess.run(
-                f"python {_get_local_path(self.GET_EAR_REVIEWER_SCRIPT)} -i '{institution}' -t '{project}'",
-                shell=True,
-                capture_output=True,
-                text=True,
-            ).stdout
-            return top_candidate[0].get("Github ID"), reviewer_print
-        except Exception as e:
-            raise Exception(f"No eligible candidates found.\n{e}")
+    def get_reviewer(self, institution, project, exclude_ids=()):
+        """The best reviewer and the selection report, from one selection run."""
+        candidates, top, reason = get_EAR_reviewer.select_best_reviewer(
+            self.data, institution, project, exclude_ids=exclude_ids
+        )
+        if not top:
+            raise Exception("No eligible candidates found.")
+        report = get_EAR_reviewer.format_report(
+            candidates, top, reason, now=datetime.now(tz=cet)
+        )
+        return top[0]["Github ID"], report
 
     def add_pr(
         self,
@@ -163,61 +159,59 @@ class EAR_get_reviewer:
         other_participants,
         notes,
     ):
-        ear_reviews_csv_data = self._fetch_csv_from_repo(self.EAR_REVIEWS_CSV)
+        values = [
+            pr_url, species, tag, requester_name, requester_affiliation,
+            reviewer_name, reviewer_affiliation, supervisor_name,
+            supervisor_affiliation, str(interaction_count), open_date,
+            approval_date, other_participants, notes,
+        ]
 
-        csv_row = (
-            f"{pr_url},{species},{tag},{requester_name},"
-            f"{requester_affiliation},{reviewer_name},{reviewer_affiliation},"
-            f"{supervisor_name},{supervisor_affiliation},{interaction_count},"
-            f'{open_date},{approval_date},"{other_participants}",{notes}\n'
-        )
-        ear_reviews_csv_data += csv_row
-        commit(
-            self.repo, self.EAR_REVIEWS_CSV, "Add new EAR review", ear_reviews_csv_data
-        )
+        def append_row(text):
+            headers = text.splitlines()[0].split(",")
+            if not text.endswith("\n"):
+                text += "\n"
+            return text + get_EAR_reviewer.to_csv(
+                [dict(zip(headers, values))], headers, include_header=False
+            )
+
+        self._update_file(self.EAR_REVIEWS_CSV, "Add new EAR review", append_row)
         print(f"Added {reviewer_name} to the EAR reviews CSV file.")
 
-    def update_reviewers_list(
-        self,
-        reviewers,
-        busy,
-        institution="",
-        submitted_at="",
-        fined_reviewers=set(),
-    ):
-        if not reviewers:
-            print("No reviewers to update.")
-            return
-        for reviewer_data in self.data:
-            reviewer_data_id = reviewer_data.get("Github ID", "").lower()
-            reviewer_data_score = int(reviewer_data.get("Calling Score", 1000))
-            reviewer_data_total = int(reviewer_data.get("Total Reviews", 0))
-            reviewer_data_institution = reviewer_data.get("Institution", "").lower()
-            working_prs = int(reviewer_data.get("Working PRs", 0))
+    def update_roster(self, change):
+        """Apply change(data) to the current reviewers list and commit it.
 
-            if reviewer_data_id in reviewers:
-                if busy:
-                    working_prs += 1
-                else:
-                    working_prs = max(0, working_prs - 1)
-                reviewer_data["Working PRs"] = str(working_prs)
+        The file is read again right before writing and committed against that
+        read, so a run that started earlier cannot overwrite newer updates.
+        change() is one of the get_EAR_reviewer record_* functions.
+        """
 
-                if submitted_at:
-                    reviewer_data_score -= 1
-                    reviewer_data["Calling Score"] = str(reviewer_data_score)
-                    reviewer_data["Total Reviews"] = str(reviewer_data_total + 1)
-                    reviewer_data["Last Review"] = submitted_at
-            elif reviewer_data_id in fined_reviewers:
-                reviewer_data_score += 1
-                reviewer_data["Calling Score"] = str(reviewer_data_score)
-            if reviewer_data_institution == institution.lower():
-                reviewer_data["Calling Score"] = str(reviewer_data_score + 1)
+        def apply(text):
+            self.data = get_EAR_reviewer.parse_csv(text)
+            change(self.data)
+            return get_EAR_reviewer.to_csv(self.data)
 
-        csv_str = ",".join(self.data[0].keys()) + "\n"
-        for row in self.data:
-            csv_str += ",".join(row.values()) + "\n"
-        commit(self.repo, self.REVIEWERS_CSV, "Update reviewers list", csv_str)
-        print(f"Updated the reviewers list for {', '.join(reviewers)}.\n{csv_str}")
+        self._update_file(self.REVIEWERS_CSV, "Update reviewers list", apply)
+
+    def _update_file(self, path, message, edit, attempts=3):
+        """Commit edit(current text) to path; on a conflict, read it again and retry."""
+        for attempt in range(attempts):
+            contents = self.repo.get_contents(path)
+            if isinstance(contents, list):
+                raise Exception(f"Expected a file, got a directory: {path}")
+            old_text = contents.decoded_content.decode("utf-8")
+            new_text = edit(old_text)
+            if new_text == old_text:
+                print(f"{path}: nothing to update.")
+                return
+            try:
+                self.repo.update_file(path, message, new_text, contents.sha)
+                print(f"Updated {path}.")
+                return
+            except GithubException as e:
+                # 409: someone else committed since our read.
+                if e.status != 409 or attempt == attempts - 1:
+                    raise
+                print(f"{path} changed while updating it, trying again.")
 
 
 class EARBotReviewer:
@@ -416,19 +410,25 @@ class EARBotReviewer:
                     pr.create_issue_comment(message)
 
                 if deadline_passed or reject or not old_reviewers_list:
-                    new_reviewer, get_EAR_reviewer_print = (
-                        self.EAR_reviewer.get_reviewer(institution, project)
+                    # Never the submitter, the supervisor, or anyone already asked on this PR.
+                    exclude = (
+                        old_reviewers_list
+                        + [pr.user.login]
+                        + [assignee.login for assignee in pr.assignees]
                     )
-                    if new_reviewer is None:
-                        raise Exception("No reviewer found")
+                    new_reviewer, get_EAR_reviewer_print = (
+                        self.EAR_reviewer.get_reviewer(institution, project, exclude)
+                    )
                     pr.create_issue_comment(f"```\n{get_EAR_reviewer_print}```")
                     pr.create_issue_comment(
                         f"Hi @{new_reviewer}, do you agree to review this assembly?\n"
                         "Please reply to this message only with **Yes** or **No** by"
                         f" {self._deadline(current_date, pr).strftime('%d-%b-%Y at %H:%M CET')}"
                     )
-                    self.EAR_reviewer.update_reviewers_list(
-                        reviewers=[new_reviewer.lower()], busy=True
+                    self.EAR_reviewer.update_roster(
+                        lambda data: get_EAR_reviewer.record_assignment(
+                            data, [new_reviewer], busy=True
+                        )
                     )
             except Exception as e:
                 supervisor = pr.assignee.login
@@ -470,9 +470,10 @@ class EARBotReviewer:
             sys.exit(1)
 
         supervisors = [
-            reviewer["Github ID"]
+            reviewer["Github ID"].lower()
             for reviewer in self.EAR_reviewer.data
-            if reviewer["Supervisor"] == "Y" and reviewer["Github ID"] != pr.user.login
+            if reviewer["Supervisor"] == "Y"
+            and reviewer["Github ID"].lower() != pr.user.login.lower()
         ]
 
         add_reviewer = re.search(
@@ -488,8 +489,10 @@ class EARBotReviewer:
             and pr.state == "closed"
         ):
             comment_reviewer = self._search_comment_user(pr, "do you agree to review")
-            self.EAR_reviewer.update_reviewers_list(
-                reviewers=set(comment_reviewer), busy=False
+            self.EAR_reviewer.update_roster(
+                lambda data: get_EAR_reviewer.record_assignment(
+                    data, set(comment_reviewer), busy=False
+                )
             )
             for label in pr.get_labels():
                 pr.remove_from_labels(label)
@@ -529,14 +532,7 @@ class EARBotReviewer:
                     break
 
             if bool(re.search(r"\byes\b", first_line)):
-                time_wasted_reviewers = set(
-                    self._search_comment_user(pr, "Time is out!")
-                )
-                self.EAR_reviewer.update_reviewers_list(
-                    reviewers=set(comment_reviewer) - set([comment_author]),
-                    busy=False,
-                    fined_reviewers=time_wasted_reviewers,
-                )
+                self._release_asked(pr, keep=comment_author)
                 pr.create_review_request([comment_author])
                 pr.create_issue_comment(
                     "Thanks for agreeing!\n"
@@ -596,6 +592,25 @@ class EARBotReviewer:
             pr.add_to_assignees(requester)
         self._adopt_reviewer(pr, reviewer, requester)
 
+    def _release_asked(self, pr, keep):
+        """The reviewer `keep` takes the PR: update the reviewers list once.
+
+        Everyone else the bot asked is freed (they stay busy until now), each
+        request that timed out costs +1 Calling Score, and `keep` becomes busy
+        if the bot never asked them. Returns the asked reviewers, newest first.
+        """
+        asked = self._search_comment_user(pr, "do you agree to review")
+        timed_out = self._search_comment_user(pr, "Time is out!")
+
+        def change(data):
+            get_EAR_reviewer.record_assignment(data, set(asked) - {keep}, busy=False)
+            get_EAR_reviewer.record_timeouts(data, timed_out)
+            if keep not in asked:
+                get_EAR_reviewer.record_assignment(data, [keep], busy=True)
+
+        self.EAR_reviewer.update_roster(change)
+        return asked
+
     def _reviewer_appointed(self, pr):
         return any(
             self._is_bot_user(comment)
@@ -612,13 +627,7 @@ class EARBotReviewer:
         Shared by the GitHub Reviewers button (--manual-review) and the
         'add reviewer' command, so the two always behave the same.
         """
-        # Everyone asked is still busy: the bot only releases them on a Yes.
-        asked = self._search_comment_user(pr, "do you agree to review")
-        self.EAR_reviewer.update_reviewers_list(
-            reviewers=set(asked) - {reviewer}, busy=False
-        )
-        if reviewer not in asked:
-            self.EAR_reviewer.update_reviewers_list(reviewers=[reviewer], busy=True)
+        asked = self._release_asked(pr, keep=reviewer)
 
         message = (
             f"@{reviewer} was assigned manually as the EAR reviewer by @{requester}.\n"
@@ -786,11 +795,10 @@ class EARBotReviewer:
             )
 
             institution = self._search_for_institution(pr)
-            self.EAR_reviewer.update_reviewers_list(
-                reviewers=[reviewer_id],
-                busy=False,
-                institution=institution,
-                submitted_at=submitted_at,
+            self.EAR_reviewer.update_roster(
+                lambda data: get_EAR_reviewer.record_review(
+                    data, reviewer_id, submitted_at, institution
+                )
             )
             EAR_pdf = next(
                 file

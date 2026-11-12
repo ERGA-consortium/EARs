@@ -1,0 +1,101 @@
+ERGA Assembly Report: v24.10.15
+Tags: ERGA-Community
+
+TxID: '880251'
+ToLID: fZinAsp1
+Species: Zingel asper
+Class: Actinopteri
+Order: Perciformes
+
+Genome Traits:
+  Expected:
+    Haploid size (bp): 843,563,058
+    Haploid Number: '24 (source: ancestor)'
+    Ploidy: '2 (source: ancestor)'
+    Sample Sex: male
+  Observed:
+    Haploid size (bp): 963,127,775
+    Haploid Number: '24'
+    Ploidy: '2'
+    Sample Sex: unknown
+
+EBP metrics:
+  EBP quality code:
+    pri: 6.7.Q55
+
+Curator notes:
+  Contamination notes: '"Blobtools detected presence of bacteria contaminants, which
+    were removed. Mitochondrial genome was removed from the assembly"'
+  Other observations: '"Sex chromosomes not found, Zingel zingel, x1x2y - x1x2, GC
+    content scaffolds that were not between 0,38 and 0,463, were smaller than 14400bp
+    and had less coverage than 6,4x were filtered out through blobtools. Also, those
+    sequences whose blast results were assigned to other lineages than Chordata were
+    spurious and therefore, removed.Manual curation using Hi-C contact maps resulted
+    in 21 joins and rearrangement of the assembly. The assembly contained 293 scaffolds
+    before manual curation and 245 scaffolds in the final curated assembly."'
+
+Metrics:
+  Pre-curation pri:
+    Total bp: 1,014,352,583
+    GC %: '41.09'
+    Gaps/Gbp: '0'
+    Total gap bp: '0'
+    Scaffolds: 1,747
+    Scaffold N50: 3,849,056
+    Scaffold L50: '68'
+    Scaffold L90: '310'
+    Contigs: 1,747
+    Contig N50: 3,849,056
+    Contig L50: '68'
+    Contig L90: '310'
+    QV: '55.6548'
+    Kmer compl.: '95.7086'
+    BUSCO sing.: 97.8%
+    BUSCO dupl.: 0.9%
+    BUSCO frag.: 0.7%
+    BUSCO miss.: 0.6%
+  Curated pri:
+    Total bp: 963,127,775
+    GC %: '40.86'
+    Gaps/Gbp: '848.28'
+    Total gap bp: 152,100
+    Scaffolds: '245'
+    Scaffold N50: 39,905,744
+    Scaffold L50: '11'
+    Scaffold L90: '22'
+    Contigs: 1,062
+    Contig N50: 3,215,671
+    Contig L50: '88'
+    Contig L90: '330'
+    QV: '55.8789'
+    Kmer compl.: '95.3343'
+    BUSCO sing.: 98.4%
+    BUSCO dupl.: 0.7%
+    BUSCO frag.: 0.2%
+    BUSCO miss.: 0.7%
+
+BUSCO:
+  ver: 6.0.0 (euk_genome_min, miniprot)
+  lineage: actinopterygii_odb12
+
+Data:
+  Profile: HiFi Bionano HiC
+  Coverage: 40x NA 60x
+
+Assembly pipeline:
+  Hifiasm:
+    ver: 0.25.40
+    key param: primary
+  purge_dups:
+    ver: 1.2.5
+  YaHS:
+    ver: 1.2.2
+
+Curation pipeline:
+  BlobtoolKit:
+    ver: 2.1.1
+
+Submitter: "Laura Triginer-Llabr\xE9s"
+Affiliation: University of Bern, Naturhistorisches Museum Bern
+
+Date and time: 2026-10-26 10:48:18 CET

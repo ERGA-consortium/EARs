@@ -5,7 +5,7 @@
 # note: AI tools were used to improve/clean/comment this version of the code
 """Writes the data stored as JSON in the EAR PDF's XMP metadata (format "EAR-data/1") as a YAML file.
 """
-version = "v26.10.23"
+version = "v26.11.11"
 
 import argparse
 import hashlib
@@ -58,7 +58,7 @@ def load(pdf_path):
     except json.JSONDecodeError:
         raise ConvertError("the stored data is not valid JSON")
     if data is None:
-        raise ConvertError("no EAR data stored in this PDF (probably made before make_EAR.py v26.10.21, "
+        raise ConvertError("no EAR data stored in this PDF (probably made before make_EAR.py v26.11.10, "
                            "or rewritten by another program, e.g. Ghostscript)")
     if not isinstance(data, dict) or data.get("format") != EAR_DATA_FORMAT:
         found = data.get("format") if isinstance(data, dict) else None
@@ -105,9 +105,23 @@ def gene_completeness(lines):
     return lines
 
 
+def kmer_combined(text):
+    """'Combined (hap1+hap2): QV 64.35, k-mer completeness 99.60%' ->
+    {'Combined (hap1+hap2)': {'QV': '64.35', 'k-mer completeness': '99.60%'}}.
+    {} when the report has no combined line ('NA', e.g. a haploid report); the line
+    as shown if it does not have that form."""
+    if not isinstance(text, str) or text == "NA":
+        return {}
+    label, sep, values = text.partition(": ")
+    parts = [value.rsplit(" ", 1) for value in values.split(", ")]
+    if not sep or not label.startswith("Combined (") or any(len(part) != 2 for part in parts):
+        return {"Combined": text}
+    return {label: dict(parts)}
+
+
 def data_profile(lines):
-    """['HiFi: 30x', 'Hi-C: NA'] -> {HiFi: 30x, Hi-C: NA}; 'NA' stays NA. If a data type
-    is listed twice, the lines are kept as shown."""
+    """['HiFi: 55.80 Gbp (16.6x)', 'Hi-C: NA'] -> {HiFi: 55.80 Gbp (16.6x), Hi-C: NA};
+    'NA' stays NA. If a data type is listed twice, the lines are kept as shown."""
     if not isinstance(lines, list):
         return lines
     pairs = [line.split(": ", 1) if ": " in line else [line, ""] for line in lines]
@@ -130,16 +144,17 @@ def yaml_sections(data):
     species = take("species")
     traits = take("genome_traits", genome_traits)
     ebp = take("ebp_metrics")
+    combined = kmer_combined(take("kmer_combined"))
     sections = [
         header,
         species if isinstance(species, dict) else {},      # TxID, ToLID, Species, Class, Order
         {"Genome Traits": traits},
         {"EBP metrics": ebp if ebp is missing else {"EBP quality code": ebp}},
         {"Flags": take("flags")},
-        {"Curation notes": take("curation_notes")},
+        {"Comments": take("curation_notes")},                 # under "Curator notes" in the PDF
         {"Hi-C contact map temp link": take("hic_temp_links")},
         {"Metrics": take("quality_metrics")},
-        {"K-mer tool": take("kmer_tool"), "BUSCO": take("gene_completeness", gene_completeness)},
+        {"K-mer tool": take("kmer_tool"), **combined, "BUSCO": take("gene_completeness", gene_completeness)},
         {"FCS-GX flagged sequences": take("fcs_gx")},
         {"Data": take("data_profile", data_profile)},
         {"Pipeline": take("pipeline")},
@@ -182,7 +197,7 @@ def build_parser():
         prog="EARpdf_to_yaml.py",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description=f"EARpdf_to_yaml.py {version}: write the data stored in an EAR PDF "
-                    f"(made by make_EAR.py v26.10.21 or later) as YAML.",
+                    f"(made by make_EAR.py v26.11.10 or later) as YAML.",
         epilog="The values are written as the PDF shows them. Exit code 1 when the PDF has no\n"
                "stored data, or the data does not match its Report ID.\n"
                "\n"

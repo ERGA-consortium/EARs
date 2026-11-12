@@ -44,6 +44,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import time
 from argparse import ArgumentParser
 from datetime import datetime, timedelta
 
@@ -194,11 +195,16 @@ class EAR_get_reviewer:
 
     def _update_file(self, path, message, edit, attempts=3):
         """Commit edit(current text) to path; on a conflict, read it again and retry."""
+        new_text = None
         for attempt in range(attempts):
             contents = self.repo.get_contents(path)
             if isinstance(contents, list):
                 raise Exception(f"Expected a file, got a directory: {path}")
             old_text = contents.decoded_content.decode("utf-8")
+            if old_text == new_text:
+                # Our write landed although the call failed (e.g. a retried 5xx): don't apply it twice.
+                print(f"Updated {path}.")
+                return
             new_text = edit(old_text)
             if new_text == old_text:
                 print(f"{path}: nothing to update.")
@@ -212,6 +218,7 @@ class EAR_get_reviewer:
                 if e.status != 409 or attempt == attempts - 1:
                     raise
                 print(f"{path} changed while updating it, trying again.")
+                time.sleep(2)  # let the newer commit show up in the next read
 
 
 class EARBotReviewer:
@@ -399,10 +406,15 @@ class EARBotReviewer:
             last_comment_date = self._search_last_comment_time(
                 pr, text="do you agree to review"
             )
-            deadline_passed = (
-                self._deadline(last_comment_date, pr) < current_date
-                if last_comment_date
-                else False
+            # After a No or a timeout with nobody left to ask, the last ask is answered
+            # already: don't time it out again (and ping the supervisor) on every run.
+            moved_on = self._search_last_comment_time(
+                pr, text="I will look for the next reviewer"
+            )
+            deadline_passed = bool(
+                last_comment_date
+                and self._deadline(last_comment_date, pr) < current_date
+                and not (moved_on and moved_on > last_comment_date)
             )
             institution = self._search_for_institution(pr)
             project = self._search_in_body(pr, "Project")
@@ -599,8 +611,6 @@ class EARBotReviewer:
                 f"@{requester} I could not request a review from @{reviewer}: {message}"
             )
             return
-        if not pr.assignees:
-            pr.add_to_assignees(requester)
         self._adopt_reviewer(pr, reviewer, requester)
 
     def _release_asked(self, pr, keep):
@@ -615,7 +625,7 @@ class EARBotReviewer:
 
         def change(data):
             get_EAR_reviewer.record_assignment(data, set(asked) - {keep}, busy=False)
-            get_EAR_reviewer.record_timeouts(data, timed_out)
+            get_EAR_reviewer.record_timeouts(data, set(timed_out) - {keep})
             if keep not in asked:
                 get_EAR_reviewer.record_assignment(data, [keep], busy=True)
 
@@ -624,7 +634,7 @@ class EARBotReviewer:
 
     def _reviewer_appointed(self, pr):
         return any(
-            self._is_bot_user(comment)
+            self._is_bot_state(comment)
             and (
                 "I appointed you as the EAR reviewer" in comment.body
                 or "was assigned manually" in comment.body
@@ -638,6 +648,9 @@ class EARBotReviewer:
         Shared by the GitHub Reviewers button (--manual-review) and the
         'add reviewer' command, so the two always behave the same.
         """
+        if not pr.assignees:
+            # Whoever picked the reviewer supervises; merge and approval need an assignee.
+            pr.add_to_assignees(requester)
         asked = self._release_asked(pr, keep=reviewer)
 
         message = (
@@ -867,6 +880,18 @@ class EARBotReviewer:
         user_type = comment.raw_data.get("user", {}).get("type", None)
         return str(user_type).lower() == "bot"
 
+    def _is_bot_state(self, comment):
+        """A bot comment the bot may read its own state from (asks, timeouts, appointments).
+
+        The welcome and pre-review comments repeat PR text and PDF data, so a value
+        like "@x do you agree to review" there must not look like a request.
+        """
+        first_line = comment.body.split("\n", 1)[0]
+        return self._is_bot_user(comment) and not (
+            first_line.startswith("### Automatic pre-review")
+            or "thanks for sending the EAR of" in first_line
+        )
+
     def _check_pr_activity(self, pr, current_date):
         one_week_ago = current_date - timedelta(weeks=1)
         four_weeks_ago = current_date - timedelta(weeks=4)
@@ -909,7 +934,7 @@ class EARBotReviewer:
     def _search_comment_user(self, pr, text_to_check):
         comment_user = []
         for comment in pr.get_issue_comments().reversed:
-            if self._is_bot_user(comment) and text_to_check in comment.body:
+            if self._is_bot_state(comment) and text_to_check in comment.body:
                 comment_user_re = re.findall(
                     r"\B@([a-z0-9](?:-(?=[a-z0-9])|[a-z0-9]){0,38}(?<=[a-z0-9]))",
                     comment.body,
@@ -924,7 +949,7 @@ class EARBotReviewer:
             is_bot = self._is_bot_user(comment)
             if from_bot != is_bot:
                 continue
-            if text and text not in comment.body:
+            if text and (text not in comment.body or (is_bot and not self._is_bot_state(comment))):
                 continue
             if from_user and comment.user.login.lower() != from_user.lower():
                 continue
@@ -976,7 +1001,14 @@ class EARBotReviewer:
             "Project": project,
             "ToLID": self._search_in_body(pr, "ToLID", required=False),
         }
-        rows = pre_review.pre_review(data["report"], pr_fields)
+        try:
+            rows = pre_review.pre_review(data["report"], pr_fields)
+        except (AttributeError, TypeError, ValueError) as e:
+            # load() checks the format and the Report ID, not the shape of each value.
+            pr.create_issue_comment(
+                pre_review.format_comment(error=f"the stored data has an unexpected shape ({e})")
+            )
+            return False
         pr.create_issue_comment(
             pre_review.format_comment(rows, version=data["report"].get("version"))
         )
@@ -1021,8 +1053,18 @@ class EARBotReviewer:
 
     def _add_yaml_file(self, EAR_pdf_filename, review_info=None):
         """Make the YAML with the new script, or the old one for PDFs without EAR data,
-        add the review details at the end and commit it next to the PDF."""
+        add the review details at the end and commit it next to the PDF.
+
+        Without review_info (an EAR-UPDATE), the review details of the YAML being
+        replaced are kept.
+        """
         pdf_path = _get_local_path(EAR_pdf_filename)
+        yaml_filename = EAR_pdf_filename.replace(".pdf", ".yaml")
+        kept_review = ""
+        if review_info is None and os.path.exists(_get_local_path(yaml_filename)):
+            with open(_get_local_path(yaml_filename)) as file:
+                old_yaml = file.read()
+            kept_review = old_yaml[old_yaml.find("\nEAR review:"):] if "\nEAR review:" in old_yaml else ""
         for script in self.EARPDF_TO_YAML_SCRIPTS:
             output = subprocess.run(
                 [sys.executable, _get_local_path(script), pdf_path],
@@ -1034,7 +1076,6 @@ class EARBotReviewer:
                 break
         else:
             raise Exception(f"No script could make the YAML of {EAR_pdf_filename}")
-        yaml_filename = EAR_pdf_filename.replace(".pdf", ".yaml")
         with open(_get_local_path(yaml_filename), "r") as file:
             yaml_content = file.read()
         if review_info:
@@ -1045,6 +1086,8 @@ class EARBotReviewer:
                     {"EAR review": review_info}, sort_keys=False, allow_unicode=True
                 )
             )
+        elif kept_review:
+            yaml_content = yaml_content.rstrip("\n") + "\n" + kept_review
         commit(self.repo, yaml_filename, "Add YAML file", yaml_content)
 
 

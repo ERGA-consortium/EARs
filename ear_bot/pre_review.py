@@ -70,7 +70,9 @@ def _per_hap(values, describe):
     """One row for all haps: (worst level, 'Hap1: … Hap2: …')."""
     results = [(hap, *describe(value)) for hap, value in values.items()]
     level = _worst([level for _, level, _ in results])
-    return level, " ".join(f"{hap.capitalize()}: {detail}." for hap, _, detail in results)
+    # Hap names come from the PDF: anything but hap1, hap2… is shown as code, so it stays inert.
+    label = lambda hap: hap.capitalize() if re.fullmatch(r"hap\d+", str(hap)) else _code(hap)  # noqa: E731
+    return level, " ".join(f"{label(hap)}: {detail}." for hap, _, detail in results)
 
 
 def pre_review(report, pr_fields, link_check=check_link):

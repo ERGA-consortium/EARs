@@ -309,7 +309,13 @@ class EARBotReviewer:
         ):
             pr.create_issue_comment(
                 f"Hi @{researcher}, thanks for sending the EAR of _{species}_.\n"
-                "I added the corresponding tag to the PR and will contact a supervisor and a reviewer ASAP."
+                + (
+                    # The pre-review comes next and can still stop the PR, so promise nothing yet.
+                    "I added the corresponding tag to the PR. I will check the EAR first,"
+                    " and once it passes I will contact a supervisor and a reviewer."
+                    if is_new_system(pr)
+                    else "I added the corresponding tag to the PR and will contact a supervisor and a reviewer ASAP."
+                )
             )
 
         if not any(label.name in self.valid_projects for label in pr.get_labels()):

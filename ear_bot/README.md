@@ -138,16 +138,20 @@ Append-only log of completed reviews. One row per merged PR, written by WF6. Col
 
 EARs made with `scripts/make_EAR.py` v26.11.10 or later store the report data as JSON in the PDF's XMP metadata. On every push, WF1 reads it with `scripts/EARpdf_to_yaml.py` and posts one comment (`ear_bot/pre_review.py`):
 
-| Check | Result when it differs or is NA |
-|-------|-------------------------------|
-| EAR data readable (format and Report ID) | FAIL, other checks skipped |
-| Species: PR vs PDF, ignoring capitals and spaces | FAIL |
-| ToLID, Project: PR vs PDF | WARNING, both values shown |
-| PretextView link per haplotype: present, opens | WARNING if missing, FAIL if broken; note if it can't be confirmed (access refused, web page instead of file) |
-| K-mer spectra, FCS-GX and BlobToolKit per haplotype, coverage, pipelines, curation notes | WARNING |
-| make_EAR flags | WARNING, counted and listed |
+| Section | Check | ❌ critical | ⚠️ warning |
+|---------|-------|-------------|------------|
+| | Metadata (EAR data readable: format and Report ID) | missing or unreadable; other checks skipped | |
+| Report vs PR body check | Species name (ignoring capitals, spaces and `_`/`*` italics) | differs | |
+| | ToLID, Project | | differs (both values shown) |
+| Contact map info | Pretext link (one row, all haps) | broken (HTTP 404/410) or not a web link | NA |
+| Metrics | Missing fields (NA cells in the metrics table) | | any, listed |
+| | K-mer spectra plots | NA | |
+| Contamination screening | FCS-GX, Blobplot (one row each, all haps) | both NA for every hap | NA for a hap, or FCS-GX flagged sequences |
+| Additional info | Dataset info | no data types listed | a data type without an amount |
+| | Pipelines info, Curation notes | | NA |
+| | Warning flags (make_EAR flags) | | any, counted and listed |
 
-Any FAIL adds `ERROR!` and stops before a supervisor is assigned. A PDF without EAR data (older make_EAR, or re-saved by another program) FAILs.
+A row for several haps shows the worst of them. A Pretext link that can't be confirmed (timeout, access refused, other HTTP error, a web page instead of the file) gets ℹ️ "check by hand". Any critical item adds `ERROR!` and stops before a supervisor is assigned; the comment names the items to fix.
 
 **Old and new PRs:** only PRs opened on or after `NEW_SYSTEM_FROM` (in `ear_bot_reviewer.py`) get the pre-review and the 3-working-day reply time. Older PRs keep the old system: no pre-review, 100 working hours. Set the date on the release day, once the Galaxy tool ships the new make_EAR, otherwise EARs made in Galaxy fail. While it is unset, every PR is old.
 

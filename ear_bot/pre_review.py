@@ -2,7 +2,7 @@
 
 The PDF stores the report data as JSON (see scripts/EARpdf_to_yaml.py). The
 bot reads it with Diego's own reader, compares it with the PR text and checks
-that no section is empty. pre_review() is pure: report in, rows out.
+that no section is empty. pre_review() only reaches the network through link_check, which tests can replace.
 """
 
 import importlib.util
@@ -19,9 +19,12 @@ _spec.loader.exec_module(ear_data)
 
 OK, NOTE, WARNING, FAIL = "ok", "note", "warning", "fail"
 ICONS = {OK: "✅", NOTE: "ℹ️", WARNING: "⚠️", FAIL: "❌"}
+SEVERITY = [OK, NOTE, WARNING, FAIL]  # a row for several haps shows the worst
 
 
 def is_missing(value):
+    if isinstance(value, (list, dict)):
+        return not value
     return value is None or str(value).strip().lower() in {"", "na", "n/a", "none", "-"}
 
 
@@ -33,13 +36,16 @@ def check_link(url):
         response = requests.get(url, stream=True, timeout=20)
         response.close()
     except requests.RequestException:
-        return FAIL, "does not open"
-    if response.status_code in (401, 403):
-        return NOTE, "access refused, please check it by hand"
-    if response.status_code >= 400:
+        # timeouts, DNS, SSL chains that browsers complete: not proof the link is wrong
+        return NOTE, "unreachable now, check by hand"
+    if response.status_code in (404, 410):
         return FAIL, f"broken (HTTP {response.status_code})"
+    if response.status_code in (401, 403):
+        return NOTE, "access refused, check by hand"
+    if response.status_code >= 400:
+        return NOTE, f"HTTP {response.status_code}, check by hand"
     if "text/html" in response.headers.get("Content-Type", ""):
-        return NOTE, "opens a web page, not the file, please check it by hand"
+        return NOTE, "web page, check by hand"
     return OK, "file found"
 
 
@@ -48,16 +54,32 @@ def _code(value, limit=120):
     if value is None:
         return "missing"
     text = " ".join(str(value).replace("`", "'").split())
-    return f"`{text[:limit]}`"
+    return f"`{text[:limit]}…`" if len(text) > limit else f"`{text}`"
 
 
 def _norm(value):
-    return " ".join(str(value or "").split()).lower()
+    # "_Genus species_" or "*Genus species*" in the PR text still matches.
+    return " ".join(str(value or "").strip("_* ").split()).lower()
+
+
+def _worst(levels):
+    return max(levels, key=SEVERITY.index)
+
+
+def _per_hap(values, describe):
+    """One row for all haps: (worst level, 'Hap1: … Hap2: …')."""
+    results = [(hap, *describe(value)) for hap, value in values.items()]
+    level = _worst([level for _, level, _ in results])
+    return level, " ".join(f"{hap.capitalize()}: {detail}." for hap, _, detail in results)
 
 
 def pre_review(report, pr_fields, link_check=check_link):
-    """Rows of (level, check, detail) for a stored report and the PR text fields."""
+    """Rows of (level, check, detail) for a stored report and the PR text fields.
+
+    Section headings are rows with level None.
+    """
     rows = []
+    section = lambda name: rows.append((None, name, ""))  # noqa: E731
     species = report.get("species") or {}
 
     def compare(name, pr_value, pdf_value, level, same):
@@ -68,9 +90,10 @@ def pre_review(report, pr_fields, link_check=check_link):
                 (level, name, f"PR: {_code(pr_value)}, PDF: {_code(pdf_value)}")
             )
 
+    section("Report vs PR body check")
     pdf_species = species.get("Species")
     compare(
-        "Species",
+        "Species name",
         pr_fields.get("Species"),
         pdf_species,
         FAIL,
@@ -95,31 +118,70 @@ def pre_review(report, pr_fields, link_check=check_link):
         str(pr_fields.get("Project")) in re.split(r"[,;\s]+", str(tags)),
     )
 
+    section("Contact map info")
     links = report.get("hic_temp_links") or {}
-    if not links:
-        rows.append((WARNING, "PretextView link", "NA"))
-    for hap, link in links.items():
-        name = f"PretextView link {hap}"
-        if is_missing(link):
-            rows.append((WARNING, name, "NA"))
+    if links:
+        level, detail = _per_hap(
+            links,
+            lambda link: (WARNING, "NA") if is_missing(link) else link_check(str(link).strip()),
+        )
+        rows.append((level, "Pretext link", detail))
+    else:
+        rows.append((WARNING, "Pretext link", "NA"))
+
+    section("Metrics")
+    metrics = report.get("quality_metrics")
+    if isinstance(metrics, dict) and metrics:
+        empty = [
+            f"{name} ({hap.capitalize()})"
+            for hap, values in metrics.items()
+            for name, value in (values or {}).items()
+            if is_missing(value)
+        ]
+        rows.append(
+            (WARNING, "Missing fields", f"{len(empty)}: " + ", ".join(map(_code, empty)))
+            if empty
+            else (OK, "Missing fields", "`0`")
+        )
+    else:
+        rows.append((WARNING, "Missing fields", "NA"))
+    if is_missing(report.get("kmer_spectra")):
+        rows.append((FAIL, "K-mer spectra plots", "NA"))
+    else:
+        rows.append((OK, "K-mer spectra plots", "present"))
+
+    section("Contamination screening")
+    fcs = report.get("fcs_gx") or {}
+    blobs = report.get("blobplots") or {}
+    if all(is_missing(v) for v in fcs.values()) and all(is_missing(v) for v in blobs.values()):
+        needed = "NA. FCS-GX or a blobplot is needed for at least one hap"
+        rows.append((FAIL, "FCS-GX", needed))
+        rows.append((FAIL, "Blobplot", needed))
+    else:
+        if fcs:
+            level, detail = _per_hap(
+                fcs,
+                lambda n: (WARNING, "NA")
+                if is_missing(n)
+                else (OK if str(n).strip() == "0" else WARNING, f"{_code(n)} flagged"),
+            )
+            rows.append((level, "FCS-GX", detail))
         else:
-            level, detail = link_check(str(link).strip())
-            rows.append((level, name, detail))
+            rows.append((WARNING, "FCS-GX", "NA"))
+        if blobs:
+            level, detail = _per_hap(
+                blobs, lambda p: (WARNING, "NA") if is_missing(p) else (OK, "present")
+            )
+            rows.append((level, "Blobplot", detail))
+        else:
+            rows.append((WARNING, "Blobplot", "NA"))
 
-    def present(name, value, detail="present"):
-        rows.append((WARNING, name, "NA") if is_missing(value) else (OK, name, detail))
-
-    present("K-mer spectra", report.get("kmer_spectra"))
-    for hap, count in (report.get("fcs_gx") or {"": "NA"}).items():
-        present(f"FCS-GX {hap}".strip(), count, f"{_code(count)} flagged sequences")
-    for hap, plot in (report.get("blobplots") or {"": "NA"}).items():
-        present(f"BlobToolKit {hap}".strip(), plot)
-
+    section("Additional info")
     data = report.get("data_profile")
     if isinstance(data, dict):
         data = [f"{kind}: {cov}" for kind, cov in data.items()]
-    if is_missing(data) or not isinstance(data, list):
-        rows.append((WARNING, "Coverage", "NA"))
+    if is_missing(data) or not isinstance(data, list) or not data:
+        rows.append((FAIL, "Dataset info", "NA"))
     else:
         empty = [
             line.split(": ", 1)[0]
@@ -127,19 +189,22 @@ def pre_review(report, pr_fields, link_check=check_link):
             if is_missing(line.split(": ", 1)[-1])
         ]
         rows.append(
-            (WARNING, "Coverage", "NA for " + ", ".join(map(_code, empty)))
+            (WARNING, "Dataset info", "NA for " + ", ".join(map(_code, empty)))
             if empty
-            else (OK, "Coverage", ", ".join(map(_code, data)))
+            else (OK, "Dataset info", ", ".join(map(_code, data)))
         )
 
-    present("Pipelines", report.get("pipeline"))
+    def present(name, value):
+        rows.append((WARNING, name, "NA") if is_missing(value) else (OK, name, "present"))
+
+    present("Pipelines info", report.get("pipeline"))
     present("Curation notes", report.get("curation_notes"))
 
     flags = report.get("flags") or []
     rows.append(
-        (WARNING, "make_EAR flags", f"{len(flags)}: " + "; ".join(map(_code, flags)))
+        (WARNING, "Warning flags", f"{len(flags)}: " + "; ".join(map(_code, flags)))
         if flags
-        else (OK, "make_EAR flags", "0")
+        else (OK, "Warning flags", "`0`")
     )
     return rows
 
@@ -148,31 +213,35 @@ def format_comment(rows=(), version=None, error=None):
     """The pre-review comment. With error, the data could not be read: one FAIL."""
     if error:
         return (
-            "### Pre-review\n"
-            f"{ICONS[FAIL]} **EAR data in the PDF:** could not read it: {_code(error, limit=500)}.\n\n"
+            "### Automatic pre-review\n"
+            f"{ICONS[FAIL]} **Metadata missing or unreadable:** {_code(error, limit=500)}.\n\n"
             "Please make the EAR with make_EAR.py v26.11.10 or later and upload the PDF it writes as it is. "
             "Programs that re-save PDFs (Ghostscript, print to PDF, online compressors) remove the data."
         )
     lines = [
-        "### Pre-review",
-        f"{ICONS[OK]} **EAR data in the PDF:** read, made with make_EAR {_code(version)}",
+        "### Automatic pre-review",
+        f"{ICONS[OK]} **Metadata present.** PDF made with make_EAR {_code(version)}",
         "",
         "| | Check | Result |",
         "|---|---|---|",
     ]
-    lines += [
-        f"| {ICONS[level]} | {name} | {detail.replace('|', '/')} |"
-        for level, name, detail in rows
-    ]
-    warnings = sum(level == WARNING for level, _, _ in rows)
-    fails = sum(level == FAIL for level, _, _ in rows)
+    for level, name, detail in rows:
+        if level is None:
+            lines.append(f"| | **{name}** | |")
+        else:
+            lines.append(f"| {ICONS[level]} | {name} | {detail.replace('|', '/')} |")
+    fails = [name for level, name, _ in rows if level == FAIL]
+    warnings = any(level == WARNING for level, _, _ in rows)
     lines.append("")
-    lines.append(
-        f"**{warnings} warnings, {fails} fails.** "
-        + (
-            "Please fix the fails in the PR text or the PDF, and I will check again."
-            if fails
-            else "Warnings don't stop the review: the supervisor and the reviewer will look at them."
+    if fails:
+        item = "item" if len(fails) == 1 else "items"
+        lines.append(
+            f"**{len(fails)} critical {item} to fix:** {', '.join(fails)}. "
+            "Please fix them in the PR text or the PDF, and I will check again."
         )
-    )
+    else:
+        lines.append(
+            "**No critical items found to fix.**"
+            + (" The warnings are for the supervisor and reviewer to double-check." if warnings else "")
+        )
     return "\n".join(lines)

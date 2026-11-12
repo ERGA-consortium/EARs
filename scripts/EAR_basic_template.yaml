@@ -1,0 +1,43 @@
+# ERGA Assembly Report (EAR) - YAML template for make_EAR.py (v26.11.10)
+# Paths can be absolute or relative. Relative paths are read from the folder you run
+# make_EAR.py in (not from the folder of this file); when in doubt, use full paths.
+# Anything left empty (""), written as NA (also n/a, none, "-" in quotes), or left with its
+# <Insert ...> placeholder shows as NA in the report.
+
+# SAMPLE INFORMATION
+tolid: <Insert ToLID> # (e.g., "mEleMax1" or empty "")
+species: <Insert species name> # MANDATORY! (e.g., "Homo sapiens")
+sex: <Insert sample sex> # (e.g., "XX", "X0", "ZW", "unknown", "NA"... or empty "")
+submitter: <Insert submitter full name> # (e.g., "John Doe" or empty "")
+affiliation: <Insert submitter affiliation> # (e.g., "Sanger" or empty "")
+tags: <Insert tag> # (e.g., "ERGA-BGE", "ERGA-Community"... or empty "")
+
+# SEQUENCING DATA
+DATA: # one line per data type with its amount in Gbp; the type is required, the amount can be "NA" or empty
+  - <Insert data type>: <Insert read amount in Gbp> # (e.g., HiFi: 30.23 or Hi-C: "")
+
+# GENOME PROFILING DATA
+PROFILING:
+  genomescope: <Insert /path/to/genomescope_linear_plot.png> # ...or empty ""
+  smudgeplot: <Insert /path/to/smudgeplot.png> # ...or empty ""
+
+# ASSEMBLY DATA
+ASSEMBLIES:
+  hap1: # one block per assembly, named hap1, hap2, hap3, hap4 (e.g. a primary/alternate pair is hap1 and hap2)
+    gfastats_nstar: <Insert /path/to/gfastats--nstar-report.txt> # MANDATORY!
+    busco_short: <Insert /path/to/busco_short_summary.txt> # MANDATORY! BUSCO short summary or compleasm summary.txt
+    merqury_folder: <Insert /path/to/Merqury_results_folder> # Merqury or MerquryFK output folder of one run covering all haplotypes; giving it in hap1 is enough ...or empty ""
+    fcs_gx: <Insert /path/to/fcs-gx_action_report.txt> # FCS-GX action report (not the taxonomy report) ...or empty ""
+    blobplot: <Insert /path/to/blobplot.png> # ...or empty ""
+    pretext_temp_link: <Insert .pretext file web link> # can also be a web folder or empty ""
+
+# METHODS DATA
+PIPELINE: <Insert methods notes> # free text in quotes "" (e.g., "Hifiasm v0.25 Hi-C mode, YaHS default. All assembled in Galaxy"), or the path to a .txt file (keeps line breaks), or empty ""
+
+# CURATION NOTES
+NOTES:
+  obs_ploidy: <Insert observed ploidy number> # integer; also gives the coverage per haplotype
+  obs_haploid_num: <Insert observed haploid number> # MANDATORY! the haploid number n as a whole number (e.g., 23)
+  obs_sex: <Insert observed sex> # (e.g., "XX", "X0", "ZW", "unknown", "NA"... or empty "")
+  curation_notes: <Insert curation notes> # free text in quotes "" about the curation, plastids, sample (e.g., low input, pooled)..., or the path to a .txt file (keeps line breaks), or empty "". Shown as "Comments" in the report
+  alignment_png: <Insert /path/to/alignment.png> # like d-genies, syri, etc... or empty ""

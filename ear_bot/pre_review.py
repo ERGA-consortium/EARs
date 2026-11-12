@@ -1,4 +1,4 @@
-"""Pre-review of an EAR PDF made by make_EAR.py v26.10.21 or later.
+"""Pre-review of an EAR PDF made by make_EAR.py v26.11.10 or later.
 
 The PDF stores the report data as JSON (see scripts/EARpdf_to_yaml.py). The
 bot reads it with Diego's own reader, compares it with the PR text and checks
@@ -150,7 +150,7 @@ def format_comment(rows=(), version=None, error=None):
         return (
             "### Pre-review\n"
             f"{ICONS[FAIL]} **EAR data in the PDF:** could not read it: {_code(error, limit=500)}.\n\n"
-            "Please make the EAR with make_EAR.py v26.10.21 or later and upload the PDF it writes as it is. "
+            "Please make the EAR with make_EAR.py v26.11.10 or later and upload the PDF it writes as it is. "
             "Programs that re-save PDFs (Ghostscript, print to PDF, online compressors) remove the data."
         )
     lines = [

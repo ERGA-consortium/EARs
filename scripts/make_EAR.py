@@ -2,7 +2,7 @@
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
 # note: AI tools were used to improve/clean/comment this version of the code
-EAR_version = "v26.10.21"
+EAR_version = "v26.11.10"
 
 import sys
 import argparse
@@ -17,6 +17,7 @@ import glob
 import math
 import json
 import hashlib
+import struct
 from urllib.parse import quote
 from datetime import datetime
 from xml.sax.saxutils import escape
@@ -41,18 +42,20 @@ rl_config.useA85 = 0
 VALID_HAPS = ["hap1", "hap2", "hap3", "hap4"]
 
 # ---- EBP chromosome-scale calibration --------------------------------------
-# Scaffold target is RELATIVE (scaffold N50 ~= chromosomal N50) rather than a fixed
-# bp value, and the standard adds that for species whose chromosome N50 is below a
-# megabase the target becomes C.C.Q40 - a 1 Mb contig bar is unreachable when a
-# whole chromosome is smaller than that.
+# EBP gives no numeric test for 'C'; in ERGA practice it is a curation judgement
+# backed by Hi-C signal, etc. Everything below is therefore a HEURISTIC PROXY and
+# is always reported as "estimated".
 #
-# We don't define a numeric test for diving the 'C', in ERGA practice it's more a
-# curation judgement backed by Hi-C signal, etc. Everything below is therefore a
-# HEURISTIC PROXY and is always reported as "estimated".
+# CHR_SCALE_FRAC operationalises "chromosome scale": a level counts as 'C' when
+# its N50 reaches 90% of the mean chromosome, which leaves karyotype variance (the
+# mean is not the median chromosome) in the assembly's favour.
 #
-# CHR_SCALE_FRAC operationalises "~=": a level counts as chromosome-scale when its
-# N50 reaches 90% of the mean chromosome, which leaves karyotype variance (the mean
-# is not the median chromosome) in the assembly's favour.
+# Small chromosomes (own practical rule, not part of the EBP standard): when the mean
+# chromosome is under ~1.1 Mb, a 1 Mb contig N50 is usually out of reach even for
+# a very good assembly, so the contig bar is lowered to CHR_SCALE_FRAC x the mean
+# chromosome. Meeting that bar is the same as reaching contig 'C', so for these
+# species the effective target is C.C.Q40. The EBP standard only notes that small
+# genomes may miss the targets and should still be submitted.
 CHR_SCALE_FRAC = 0.90        # N50 >= this fraction of a chromosome -> 'C'
 EBP_CONTIG_N50_BAR = 1_000_000   # the '6' of 6.C.Q40, before any small-chromosome cap
 
@@ -346,6 +349,68 @@ def format_2dp(value):
     if math.isinf(number):
         return 'inf'
     return f"{number:.2f}"
+
+
+# ---- Sequencing data: read amounts and read-depth recommendations ----------
+# DATA gives one read amount in Gbp per data type: the data used for the
+# assembly, that should be after filtering (if any), and with several libraries
+# of one type added up.
+# Coverage = read bases / largest haplotype, the same done for "Observed Haploid size";
+# per haplotype it is divided by the observed ploidy.
+# Minimum coverage PER HAPLOTYPE is from EBP standard with two practical choices of ours:
+# ultra-long ONT is held to the ONT value (20x) and Pore-C/CiFi to the upper end (>5-10x).
+# Types are free text, so each is matched case-insensitively by the first pattern
+# that fits; other types (Illumina, CLR, CycloneSEQ...) are shown in Gbp only.
+_WORD_START = r"(?<![a-z0-9])"     # '-', '_', ' ', '(' ... separate words
+_WORD_END = r"(?![a-z0-9])"
+DATA_COVERAGE_TARGETS = [          # (name, pattern, minimum coverage per haplotype)
+    # long-read chromatin conformation capture (before ONT, so "ONT Pore-C" is Pore-C)
+    ("Pore-C/CiFi", _WORD_START + r"(?:pore[\s_-]?c|cifi)" + _WORD_END, 10),
+    # short-read chromatin conformation capture
+    ("Hi-C", _WORD_START + r"(?:(?:hi|omni)[\s_-]?c" + _WORD_END + r"|arima|dovetail)", 25),
+    # ONT, standard and ultra-long
+    ("ONT", _WORD_START + r"(?:ont[\s_-]?ul|ul[\s_-]?ont|ont|ul|nanopore|ultra[\s_-]?long)" + _WORD_END, 25),
+    ("HiFi", r"hi[\s_-]?fi|" + _WORD_START + r"ccs" + _WORD_END, 15),
+]
+
+
+def coverage_target(data_type):
+    """(name, minimum coverage per haplotype) of the EBP recommendation for a DATA
+    type, or None when it has none."""
+    for name, pattern, minimum in DATA_COVERAGE_TARGETS:
+        if re.search(pattern, str(data_type), re.IGNORECASE):
+            return name, minimum
+    return None
+
+
+def parse_gbp(value):
+    """Read amount in Gbp from a DATA value: 30.23, "30.23", "30.23 Gbp", "30.23Gb"
+    (G, Gb or Gbp, any case). Raises ValueError with the reason otherwise, e.g. for
+    "30x" (a coverage, not an amount) or "30,23" (a decimal comma: read as a plain
+    number it would become 3,023 Gbp)."""
+    if value is None or isinstance(value, bool):
+        raise ValueError("it is not a number")
+    if isinstance(value, (int, float)):
+        number = float(value)
+    else:
+        text = str(value).strip()
+        match = re.fullmatch(r"((?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?)\s*(?:g|gb|gbp)?",
+                             text, re.IGNORECASE)
+        if not match:
+            if re.fullmatch(r"~?\s*[0-9.]+\s*x", text, re.IGNORECASE):
+                raise ValueError("it looks like a coverage, but DATA takes the read amount in Gbp")
+            if "," in text:
+                raise ValueError("use a dot as the decimal separator, e.g. 30.23")
+            raise ValueError("it is not an amount in Gbp, e.g. 30.23")
+        number = float(match.group(1))
+    if not math.isfinite(number) or number <= 0:
+        raise ValueError("it is not a positive amount")
+    return number
+
+
+def format_gbp(value):
+    """Gbp for display: two decimals, or two significant digits for tiny amounts."""
+    return f"{value:,.2f}" if value >= 0.005 else f"{value:.2g}"
 
 
 # ===========================================================================
@@ -854,6 +919,103 @@ def find_merqury_plots(merqury_dir, prefix=None):
     return plots
 
 
+# ---- False duplications ---------------------------------------------------
+# Computed as Merqury's eval/false_duplications.sh does, from the copy-number
+# spectrum of one assembly: for every read multiplicity, the number of distinct
+# k-mers found 0 ('read-only'), 1, 2, 3, 4 or >4 times in that assembly.
+#   Merqury   writes it as <prefix>.<asm>.spectra-cn.hist (text)
+#   MerquryFK keeps it only when run with -k, as <prefix>.<asm>.spectra-cn.cni
+#             (binary FastK histograms, same copy classes in the same order)
+# Both give identical numbers for the same reads, assembly and k.
+CN_CLASSES = ["read-only", "1", "2", "3", "4", ">4"]
+
+
+def read_cn_hist(path):
+    """Copy-number spectrum of a Merqury .spectra-cn.hist as
+    ({copy class: {read multiplicity: distinct k-mers}}, None); None = no upper
+    limit (see read_cn_cni). Raises OSError / ValueError."""
+    spectrum = {label: {} for label in CN_CLASSES}
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            parts = line.split()
+            if len(parts) != 3 or parts[0] not in spectrum:
+                continue                      # header ('Copies ...') or foreign line
+            try:
+                spectrum[parts[0]][int(parts[1])] = int(parts[2])
+            except ValueError:
+                continue
+    if not spectrum["1"]:
+        raise ValueError("no single-copy rows; is it a <prefix>.<asm>.spectra-cn.hist?")
+    return spectrum, None
+
+
+def read_cn_cni(path):
+    """Copy-number spectrum of a MerquryFK .spectra-cn.cni (kept with -k) as
+    (spectrum, limit). The file is a series of FastK histograms, each
+        int32 k, int32 low, int32 high, int64, int64, then high-low+1 int64 counts
+    (little-endian), the first six being the copy classes of CN_CLASSES. The bin
+    at 'high' may also hold every k-mer above it, so it is left out and 'high' is
+    returned as the limit: only multiplicities below it are known.
+    Raises OSError / ValueError."""
+    with open(path, "rb") as fh:
+        data = fh.read()
+    histograms, offset = [], 0
+    while offset < len(data):
+        if len(data) - offset < 28:
+            raise ValueError("truncated histogram header; is it a MerquryFK .cni?")
+        _k, low, high = struct.unpack_from("<3i", data, offset)
+        n = high - low + 1
+        if low < 1 or n < 1 or offset + 28 + 8 * n > len(data):
+            raise ValueError("unexpected histogram layout; is it a MerquryFK .cni?")
+        histograms.append((low, high, struct.unpack_from(f"<{n}q", data, offset + 28)))
+        offset += 28 + 8 * n
+    if len(histograms) < len(CN_CLASSES):
+        raise ValueError(f"{len(histograms)} histograms where at least {len(CN_CLASSES)} were expected")
+    limits = {high for _, high, _ in histograms[:len(CN_CLASSES)]}
+    if len(limits) != 1:
+        raise ValueError("the copy classes cover different ranges")
+    spectrum = {label: {low + i: count for i, count in enumerate(counts) if low + i < high}
+                for label, (low, high, counts) in zip(CN_CLASSES, histograms)}
+    return spectrum, limits.pop()
+
+
+def read_cn_spectrum(path):
+    """(spectrum, limit, kind) from either file type, told apart by content (a .cni
+    is binary and starts with NUL bytes; a .hist is text), so any file name works."""
+    with open(path, "rb") as fh:
+        head = fh.read(64)
+    if b"\x00" in head:
+        return read_cn_cni(path) + ("MerquryFK .cni",)
+    return read_cn_hist(path) + ("Merqury .hist",)
+
+
+def false_duplications(spectrum, limit=None):
+    """False duplications (%) as Merqury's eval/false_duplications.sh computes them.
+    The cutoff is 1.5 x the read multiplicity where single-copy assembly k-mers peak
+    (first highest bin; rounded half to even, like awk's printf "%.0f"). Below the
+    cutoff, it is the share of assembly k-mers found 2 or more times among those
+    found 1 or more times. limit: no bins from that multiplicity on (None: no limit).
+    Returns (percent, cutoff); raises ValueError when it cannot be computed."""
+    single = spectrum.get("1", {})
+    peak_count, peak_mult = 0, None
+    for mult in sorted(single):
+        if single[mult] > peak_count:
+            peak_count, peak_mult = single[mult], mult
+    if peak_mult is None:
+        raise ValueError("no single-copy k-mers")
+    cutoff = round(peak_mult * 1.5)
+    if limit is not None and cutoff > limit:
+        raise ValueError(f"the cutoff ({cutoff}) lies beyond the histogram, which stops at {limit}")
+
+    def below(label):
+        return sum(count for mult, count in spectrum.get(label, {}).items() if mult < cutoff)
+    one_copy = below("1")
+    more_copies = sum(below(label) for label in ("2", "3", "4", ">4"))
+    if one_copy + more_copies == 0:
+        raise ValueError("no assembly k-mers below the cutoff")
+    return 100 * more_copies / (one_copy + more_copies), cutoff
+
+
 # ---- FCS-GX ---------------------------------------------------------------
 
 def parse_fcs_gx(filepath):
@@ -911,9 +1073,10 @@ def make_image(path, max_w, max_h, compress=True, label="Image"):
 # ===========================================================================
 
 PER_HAP_FLAGS = ['gfastats_nstar', 'busco_short', 'fcs_gx', 'blobplot', 'pretext_temp_link',
-                 'merqury_spectra_cn']
+                 'merqury_spectra_cn', 'merqury_spectra_cn_hist']
 # Merqury files that can be given one by one instead of (or on top of) merqury_folder;
-# one per run, not per haplotype (merqury_spectra_cn is the per-haplotype one).
+# one per run, not per haplotype (merqury_spectra_cn and merqury_spectra_cn_hist are
+# the per-haplotype ones).
 MERQURY_FILE_KEYS = ['merqury_qv', 'merqury_completeness', 'merqury_spectra_asm',
                      'merqury_spectra_cn_combined']
 
@@ -954,7 +1117,7 @@ def build_config(args):
     override_scalar('tags', args.tags)
     override_scalar('PIPELINE', args.PIPELINE)
 
-    # DATA: 'type:depth,type:depth' ; depth optional
+    # DATA: 'type:Gbp,type:Gbp' ; the amount is optional
     if args.DATA is not None:
         data_list = []
         for item in args.DATA.split(','):
@@ -962,8 +1125,8 @@ def build_config(args):
             if not item:
                 continue
             if ':' in item:
-                dtype, depth = item.split(':', 1)
-                data_list.append({dtype.strip(): depth.strip()})
+                dtype, amount = item.split(':', 1)
+                data_list.append({dtype.strip(): amount.strip()})
             else:
                 data_list.append({item: ''})
         config['DATA'] = data_list
@@ -1169,25 +1332,29 @@ def _make_report(config, outdir, compress_images, log_capture):
                    + (f"; error: {goat['error']}" if goat['error'] else ""))
 
     # =======================================================================
-    # SEQUENCING DATA (listed as "<type>: <coverage>" in the Data profile)
+    # SEQUENCING DATA: read amount (Gbp) per data type. The coverage shown in the
+    # Data profile is derived further down, once the assembly size is known.
     # =======================================================================
-    data_lines = []
+    data_entries = []       # {'type', 'gbp' (float or None), 'text' (shown when gbp is None)}
     for item in data_list:
         if not isinstance(item, dict):
             continue
-        for technology, coverage in item.items():
+        for technology, amount in item.items():
             if is_empty(technology):
                 continue
-            if is_empty(coverage):
-                coverage_text = 'NA'
+            entry = {'type': str(technology).strip(), 'gbp': None, 'text': 'NA'}
+            if is_empty(amount):
+                note_missing(f"Read amount (Gbp) for DATA '{entry['type']}'", amount)
             else:
-                coverage_text = str(coverage).strip()
-                if to_number(coverage_text) is not None:     # plain number: add the 'x' of coverage
-                    coverage_text = f"{format_number(to_number(coverage_text))}x"
-            data_lines.append(f"{str(technology).strip()}: {coverage_text}")
-    if not data_lines:
-        logging.warning("# DATA (sequencing data and coverage) is missing; the data profile shows NA.")
-        data_lines = ["NA"]
+                try:
+                    entry['gbp'] = parse_gbp(amount)
+                except ValueError as reason:
+                    entry['text'] = str(amount).strip()
+                    logging.warning(f"# DATA '{entry['type']}': {amount!r} cannot be used ({reason}); "
+                                    f"it is shown as written and no coverage is derived from it.")
+            data_entries.append(entry)
+    if not data_entries:
+        logging.warning("# DATA (sequencing data and read amounts) is missing; the data profile shows NA.")
 
     # =======================================================================
     # METHODS (single free-text block)
@@ -1280,20 +1447,21 @@ def _make_report(config, outdir, compress_images, log_capture):
         logging.info(f"# {what} given directly: '{os.path.abspath(path)}'{note}")
 
     def read_merqury_file(reader, path, what):
-        """Rows of a summary file given or found, [] (logged) if unreadable or empty."""
+        """(rows, combined value) of a summary file given or found; ([], None) (logged)
+        if unreadable or empty. The combined value is that of the 'both' / 'asm1+asm2' row."""
         if not path:
-            return []
+            return [], None
         if not os.path.isfile(path):
             logging.warning(f"# Merqury {what} '{os.path.abspath(path)}' not found; using NA.")
-            return []
+            return [], None
         try:
-            rows = reader(path)[0]
+            rows, combined = reader(path)
         except (OSError, UnicodeDecodeError) as e:
             logging.warning(f"# Could not read the Merqury {what} '{os.path.abspath(path)}' ({e}); using NA.")
-            return []
+            return [], None
         if not rows:
             logging.warning(f"# No values found in the Merqury {what} '{os.path.abspath(path)}'; using NA.")
-        return rows
+        return rows, combined
 
     stats_for_matching = {h: gfastats_data[h] for h in haplotypes if h in gfastats_data}
     run = None              # the summary files found in the folder
@@ -1322,12 +1490,15 @@ def _make_report(config, outdir, compress_images, log_capture):
     qv_data = {}            # hap -> float QV
     completeness_data = {}  # hap -> float %
     asm_to_hap = {}
+    n_assemblies = 0        # assemblies in the Merqury results (combined row excluded)
+    combined_qv = combined_comp = None      # the 'both' / 'asm1+asm2' rows
     kmer_label = detect_kmer_tool(qv_path, comp_path)
     if qv_path or comp_path:
-        rows = read_merqury_file(read_merqury_qv, qv_path, "QV file")
-        comp_rows = read_merqury_file(read_merqury_completeness, comp_path, "completeness file")
+        rows, combined_qv = read_merqury_file(read_merqury_qv, qv_path, "QV file")
+        comp_rows, combined_comp = read_merqury_file(read_merqury_completeness, comp_path, "completeness file")
         mapping, k = match_merqury_rows(rows, stats_for_matching)
         labels = [r['label'] for r in rows] or [label for label, _ in comp_rows]
+        n_assemblies = len(labels)
         if mapping:
             asm_to_hap = mapping
             logging.info(f"# {kmer_label} assemblies matched to haplotypes by size (k={k}): "
@@ -1375,6 +1546,77 @@ def _make_report(config, outdir, compress_images, log_capture):
         found_in = f" found in '{os.path.abspath(merqury_folder)}'" if folder_ok else ""
         logging.warning(f"# No Merqury summary files (.qv / .completeness.stats){found_in}; "
                         f"QV and k-mer completeness show NA.")
+
+    # Combined values: shown only for two or more assemblies matched to haplotypes,
+    # and only when the per-assembly values of the same file were usable too (a
+    # completeness file of other assemblies says nothing about these).
+    combined_haps = [hap for hap in haplotypes if hap in asm_to_hap.values()]
+    combined_label = "+".join(combined_haps)
+    if len(combined_haps) < 2 or not qv_data:
+        combined_qv = None
+    if len(combined_haps) < 2 or not completeness_data:
+        combined_comp = None
+    combined_parts = []
+    if combined_qv is not None:
+        combined_parts.append(f"QV {format_2dp(combined_qv)}")
+    if combined_comp is not None:
+        combined_parts.append(f"k-mer completeness {format_2dp(combined_comp)}%")
+    combined_text = f"Combined ({combined_label}): " + ", ".join(combined_parts) if combined_parts else None
+    if combined_text:
+        logging.info(f"# {combined_text}"
+                     + ("; the k-mer completeness check uses this combined value." if combined_comp is not None else "."))
+        summary.append(combined_text)
+
+    # =======================================================================
+    # ASSEMBLY DATA: false duplications (optional), from the copy-number histogram
+    # of each assembly: Merqury <prefix>.<asm>.spectra-cn.hist or MerquryFK
+    # <prefix>.<asm>.spectra-cn.cni (kept only with -k). Found in merqury_folder
+    # through the run prefix and the assembly labels matched above, or given per
+    # haplotype as merqury_spectra_cn_hist (which then replaces the folder's).
+    # =======================================================================
+    cn_hist_paths = {}      # hap -> path
+    if folder_ok and run:
+        label_of = {hap: label for label, hap in asm_to_hap.items()}
+        for hap in haplotypes:
+            stems = []
+            if hap in label_of:
+                stems.append(f"{run['prefix']}.{label_of[hap]}.spectra-cn")
+            if len(haplotypes) == 1 and n_assemblies == 1:
+                stems.append(f"{run['prefix']}.spectra-cn")   # haploid output without the assembly name
+            for stem in stems:
+                found = [os.path.join(merqury_folder, stem + ext) for ext in (".hist", ".cni")
+                         if os.path.isfile(os.path.join(merqury_folder, stem + ext))]
+                if found:
+                    cn_hist_paths[hap] = found[0]
+                    break
+    for hap in haplotypes:
+        value = asm_data[hap].get('merqury_spectra_cn_hist')
+        if not is_empty(value):
+            given_directly(f"K-mer copy-number histogram for {hap}", str(value).strip(), cn_hist_paths.get(hap))
+            cn_hist_paths[hap] = str(value).strip()
+
+    false_dup_data = {}     # hap -> float %
+    for hap in haplotypes:
+        path = cn_hist_paths.get(hap)
+        if not path:
+            continue
+        try:
+            spectrum, limit, kind = read_cn_spectrum(path)
+            percent, cutoff = false_duplications(spectrum, limit)
+        except (OSError, ValueError, struct.error) as e:
+            logging.warning(f"# Could not compute kmer false duplications for {hap} from "
+                            f"'{os.path.abspath(path)}': {e}; using NA.")
+            continue
+        false_dup_data[hap] = percent
+        logging.info(f"# Kmer false duplications for {hap}: {percent:.2f}% (read multiplicity cutoff {cutoff}; "
+                     f"{kind} '{os.path.abspath(path)}').")
+    no_hist = [hap for hap in haplotypes if hap not in cn_hist_paths]
+    if no_hist and (qv_path or comp_path):
+        logging.info("# No k-mer copy-number histogram for " + ", ".join(no_hist) + " (Merqury "
+                     "<prefix>.<asm>.spectra-cn.hist, or MerquryFK <prefix>.<asm>.spectra-cn.cni "
+                     "from a run with -k); false duplications show NA.")
+    summary.append("Kmer false duplications: " + ", ".join(
+        f"{hap} {false_dup_data[hap]:.2f}%" if hap in false_dup_data else f"{hap} NA" for hap in haplotypes))
 
     # =======================================================================
     # ASSEMBLY DATA: BUSCO / compleasm (a given file must be readable)
@@ -1435,6 +1677,8 @@ def _make_report(config, outdir, compress_images, log_capture):
 
     asm_table_data.append(['QV'] + [format_2dp(qv_data.get(hap)) for hap in haplotypes])
     asm_table_data.append(['Kmer compl.'] + [format_2dp(completeness_data.get(hap)) for hap in haplotypes])
+    asm_table_data.append(['Kmer dupl.'] + [f"{false_dup_data[hap]:.2f}%" if hap in false_dup_data else ''
+                                            for hap in haplotypes])
     for metric in ['BUSCO sing.', 'BUSCO dupl.', 'BUSCO frag.', 'BUSCO miss.']:
         asm_table_data.append([metric] + [busco_data[metric].get(hap, '') for hap in haplotypes])
     # A missing value shows NA, as everywhere else in the report (an empty cell is ambiguous).
@@ -1460,6 +1704,58 @@ def _make_report(config, outdir, compress_images, log_capture):
     max_total_bp = max(total_bps) if total_bps else None
 
     # =======================================================================
+    # DATA PROFILE: read amount, coverage and the EBP read-depth check
+    # (see "Sequencing data" at the top for the definitions)
+    # =======================================================================
+    ploidy_n, ploidy_problem = None, None
+    if obs_ploidy != "NA":
+        try:
+            ploidy_n = parse_haploid_number(obs_ploidy)
+        except ValueError as reason:
+            ploidy_problem = f"obs_ploidy {obs_ploidy!r} cannot be used ({reason})"
+
+    data_lines, coverage_flags = [], []
+    coverage_shown = False
+    for entry in data_entries:
+        if entry['gbp'] is None:
+            data_lines.append(f"{entry['type']}: {entry['text']}")
+            continue
+        line = f"{entry['type']}: {format_gbp(entry['gbp'])} Gbp"
+        target = coverage_target(entry['type'])
+        if target is None:
+            logging.info(f"# DATA '{entry['type']}' has no EBP coverage recommendation; shown in Gbp only.")
+        elif max_total_bp:
+            name, minimum = target
+            coverage_shown = True
+            coverage = entry['gbp'] * 1e9 / max_total_bp
+            text = (f"# Coverage {entry['type']}: {format_gbp(entry['gbp'])} Gbp / {format_number(max_total_bp)} bp "
+                    f"(largest haplotype) = {coverage:.1f}x")
+            line += f" ({coverage:.1f}x)"     # the per-haplotype value goes to the log only
+            if ploidy_n:
+                per_haplotype = coverage / ploidy_n
+                # compared as displayed (1 decimal), so "15.0x per haplotype" is never flagged as below 15x
+                below = round(per_haplotype, 1) < minimum
+                logging.info(text + f"; ploidy {ploidy_n} -> {per_haplotype:.1f}x per haplotype; EBP recommendation "
+                             f"for {name} >{minimum}x per haplotype: " + ("below." if below else "met."))
+                if below:
+                    coverage_flags.append(f"{entry['type']} coverage is below the EBP recommendation of "
+                                          f">{minimum}x per haplotype")
+            else:
+                logging.info(text + ".")
+        data_lines.append(line)
+    if not data_lines:
+        data_lines = ["NA"]
+    if data_entries and not max_total_bp:
+        logging.warning("# No assembly size to derive the coverage from; the data profile shows Gbp only.")
+    if coverage_shown and not ploidy_n:
+        raw_ploidy = notes_cfg.get("obs_ploidy")
+        given_as_na = ploidy_problem is None and is_na(raw_ploidy)
+        reason = ploidy_problem or ("obs_ploidy given as NA" if given_as_na else "obs_ploidy is missing")
+        (logging.info if given_as_na else logging.warning)(
+            f"# {reason}: the EBP coverage check (per haplotype) is skipped.")
+    summary.append("Data profile: " + "; ".join(data_lines))
+
+    # =======================================================================
     # EBP CHROMOSOME SCALE (drives the 'C' notation and the contig N50 bar)
     # =======================================================================
     # Mean chromosome = observed assembly size / observed haploid number. Both are
@@ -1475,16 +1771,17 @@ def _make_report(config, outdir, compress_images, log_capture):
                         "contig N50 check is skipped for this report.")
 
     # Per-haplotype chromosome-scale judgement.
-    #   scaffold_c : EBP describes chromosome-scale as ">90% assigned to chromosomal
-    #                scaffolds (and thus scaffold N50 ~= chromosomal N50)". L90 <=
-    #                haploid number is a PROXY for that: it is a necessary condition,
-    #                not a sufficient one, since L90 is a pure size statistic and says
-    #                nothing about whether those scaffolds are validated chromosomes.
+    #   scaffold_c : EBP asks for ">90% sequence assigned to candidate chromosomal
+    #                sequences". L90 <= haploid number is a PROXY for that: it is a
+    #                necessary condition, not a sufficient one, since L90 is a pure
+    #                size statistic and says nothing about whether those scaffolds
+    #                are validated chromosomes.
     #   contig_c   : contig N50 reaches chromosome scale EBP's 'C' at contig level.
     #                Like EBP's notation this is an N50 statement: it does NOT mean
     #                the chromosomes are gapless.
     #   contig_bar : the '6' of 6.C.Q40, capped at chromosome scale so the bar is
-    #                never above what one chromosome can hold (EBP's C.C case).
+    #                never above what one chromosome can hold (the small-chromosome
+    #                cap, our own rule: see the calibration note at the top).
     #                None when no chromosome size could be derived, in that case the
     #                check is skipped rather than run against a bar we cannot justify.
     # None means "could not judge" and is kept distinct from False throughout.
@@ -1568,13 +1865,20 @@ def _make_report(config, outdir, compress_images, log_capture):
     if sex != "NA" and obs_sex != "NA" and str(sex).strip().lower() != str(obs_sex).strip().lower():
         flags.append("Observed sex is different from Sample sex")
 
+    # k-mer completeness: with two assemblies the combined value is the one judged, as
+    # each haplotype alone lacks the other's heterozygous k-mers (EBP: >90% of the read
+    # k-mers in the assembly). Per-haplotype values stay in the table. Compared as
+    # displayed (2 decimals), so "90.00" is never flagged as less than 90.
+    if combined_comp is not None and round(combined_comp, 2) < 90:
+        flags.append(f"Kmer completeness value is less than 90 for combined {combined_label}")
+
     # Per-haplotype QV, k-mer completeness, BUSCO
     for hap in haplotypes:
         qv = qv_data.get(hap)
         if qv is not None and qv < 40:
             flags.append(f"QV value is less than 40 for {hap}")
         completeness = completeness_data.get(hap)
-        if completeness is not None and completeness < 90:
+        if combined_comp is None and completeness is not None and round(completeness, 2) < 90:
             flags.append(f"Kmer completeness value is less than 90 for {hap}")
         single = to_number(str(busco_data['BUSCO sing.'].get(hap, '')).rstrip('%'))
         if single is not None and single < 90:
@@ -1582,6 +1886,10 @@ def _make_report(config, outdir, compress_images, log_capture):
         dupl = to_number(str(busco_data['BUSCO dupl.'].get(hap, '')).rstrip('%'))
         if dupl is not None and dupl > 5:
             flags.append(f"BUSCO duplicated value is more than 5% for {hap}")
+        # compared as displayed (2 decimals), so "5.00%" is never flagged as above 5%
+        false_dup = false_dup_data.get(hap)
+        if false_dup is not None and round(false_dup, 2) > 5:
+            flags.append(f"Kmer false duplications value is more than 5% for {hap}")
 
     # Assembly-level checks
     for hap in haplotypes:
@@ -1592,15 +1900,17 @@ def _make_report(config, outdir, compress_images, log_capture):
 
         # Scaffolding: the EBP scaffold target is 'C' (chromosome-scale), not a
         # fixed bp value, so failing it IS this warning. No scaffold N50
-        # threshold is checked - L90 > n is the standard's own criterion.
+        # threshold is checked - L90 > n is this script's proxy for EBP's ">90%
+        # assigned to chromosomes" (see scaffold_c above).
         if scale.get('scaffold_c') is False:
             flags.append(f"Not 90% of assembly in chromosomes for {hap} "
                          f"(scaffold L90 = {format_number(scale.get('scaffold_l90'))}, "
                          f"expected <= {obs_haploid_n})")
 
         # Contig N50: the '6' of 6.C.Q40, capped at chromosome scale so species
-        # whose chromosomes are under a megabase are judged against EBP's C.C
-        # target instead of an unreachable 1 Mb bar.
+        # whose mean chromosome is under ~1.1 Mb are judged against contig 'C'
+        # instead of an unreachable 1 Mb bar (the small-chromosome cap, our own
+        # rule: see the calibration note at the top).
         contig_n50 = scale.get('contig_n50')
         contig_bar = scale.get('contig_bar')
         if contig_n50 is not None and contig_bar and contig_n50 < contig_bar:
@@ -1610,6 +1920,9 @@ def _make_report(config, outdir, compress_images, log_capture):
             flags.append(f"Contig N50 below EBP standard for {hap} "
                          f"({format_number(round(contig_n50))} bp, "
                          f"expected >= {format_number(round(contig_bar))} bp){capped}")
+
+    # Read depth against the EBP recommendations (computed with the data profile)
+    flags.extend(coverage_flags)
 
 
     # =======================================================================
@@ -1690,7 +2003,8 @@ def _make_report(config, outdir, compress_images, log_capture):
 
     elements.append(Spacer(1, 8))
     elements.append(Paragraph(
-        "The following metrics were automatically flagged as below EBP recommended standards or different from expected:",
+        "The following were automatically flagged as likely below EBP recommended standards, "
+        "different from expected, or by additional checks:",
         styles['midiStyle']))
     elements.append(Spacer(1, 4))
     for flag in flags:
@@ -1701,7 +2015,7 @@ def _make_report(config, outdir, compress_images, log_capture):
     # Curator notes
     elements.append(Paragraph("Curator notes", styles['normalStyle']))
     elements.append(Spacer(1, 8))
-    curator_notes_text = f". Curation notes: &quot;{plain_text(curation_notes)}&quot;"
+    curator_notes_text = f". Comments: &quot;{plain_text(curation_notes)}&quot;"
     elements.append(Paragraph(curator_notes_text, styles["midiStyle"]))
     elements.append(Spacer(1, 8))
 
@@ -1749,7 +2063,8 @@ def _make_report(config, outdir, compress_images, log_capture):
     elements.append(Spacer(1, 5))
 
     # k-mer tool label
-    elements.append(Paragraph(f"K-mer tool: {kmer_label}", styles['miniStyle']))
+    kmer_line = f"K-mer tool: {kmer_label}" + (f"; {combined_text}" if combined_text else "")
+    elements.append(Paragraph(plain_text(kmer_line), styles['miniStyle']))
 
     # BUSCO/compleasm metadata line(s)
     busco_info_list = []    # (hap, info line)
@@ -1973,6 +2288,7 @@ def _make_report(config, outdir, compress_images, log_capture):
         "quality_metrics": {hap: {row[0]: str(row[i + 1]) for row in asm_table_data[1:]}
                             for i, hap in enumerate(haplotypes)},
         "kmer_tool": kmer_label,
+        "kmer_combined": combined_text or "NA",
         "gene_completeness": busco_lines,
         "kmer_spectra": spectra_shown or "NA",
         "fcs_gx": fcs_hash,
@@ -2087,9 +2403,10 @@ def build_parser():
     sample.add_argument('--tags', metavar='TAGS', help="e.g. ERGA-BGE (optional)")
 
     data = parser.add_argument_group("sequencing data")
-    data.add_argument('--DATA', metavar='TYPE[:COVERAGE],...',
-                      help="data types, each with an optional coverage, comma-separated, "
-                           "e.g. 'HiFi:30,Hi-C' (optional)")
+    data.add_argument('--DATA', metavar='TYPE[:GBP],...',
+                      help="read data used for the assembly, after filtering (if any): "
+                           "each data type once, with its amount in Gbp, comma-separated, "
+                           "e.g. 'HiFi:30.23,Hi-C:40.01' (optional)")
 
     profiling = parser.add_argument_group("genome profiling")
     profiling.add_argument('--genomescope', metavar='PNG', help="GenomeScope linear plot (optional)")
@@ -2114,13 +2431,18 @@ def build_parser():
         "Give the output folder, the files one by one (any file names, e.g. downloaded from Galaxy),\n"
         "or both: a file given directly replaces the one found in the folder. All optional.")
     kmer.add_argument('--merqury_folder', metavar='FOLDER',
-                      help="output folder; the QV, completeness and plots are found in it")
+                      help="output folder; the QV, completeness, plots and copy-number histograms "
+                           "are found in it")
     kmer.add_argument('--merqury_qv', metavar='TXT',
                       help="summary QV file <prefix>.qv (not the per-scaffold <prefix>.<asm>.qv)")
     kmer.add_argument('--merqury_completeness', metavar='TXT', help="<prefix>.completeness.stats")
     kmer.add_argument('--merqury_spectra_asm', metavar='PNG', help="spectra-asm plot")
     kmer.add_argument('--merqury_spectra_cn', metavar='PNG[,PNG,...]',
                       help="copy-number spectra plot per haplotype, comma-separated in hap order")
+    kmer.add_argument('--merqury_spectra_cn_hist', metavar='FILE[,FILE,...]',
+                      help="copy-number histogram per haplotype, for false duplications: Merqury "
+                           "<prefix>.<asm>.spectra-cn.hist or MerquryFK <prefix>.<asm>.spectra-cn.cni "
+                           "(MerquryFK keeps it only when run with -k); comma-separated in hap order")
     kmer.add_argument('--merqury_spectra_cn_combined', metavar='PNG',
                       help="copy-number spectra plot of all assemblies combined")
 
@@ -2130,10 +2452,12 @@ def build_parser():
     methods.add_argument('--obs_haploid_num', metavar='N',
                          help="observed haploid number n as a whole number, e.g. 23 "
                               "(mandatory unless in the YAML)")
-    methods.add_argument('--obs_ploidy', metavar='N', help="observed ploidy, e.g. 2 (optional)")
+    methods.add_argument('--obs_ploidy', metavar='N',
+                         help="observed ploidy, e.g. 2; also gives the coverage per haplotype (optional)")
     methods.add_argument('--obs_sex', metavar='SEX', help="observed sex, e.g. XX, XY, ZW (optional)")
     methods.add_argument('--curation_notes', metavar='\'TEXT\' | TXT',
-                         help="curation notes as free text in quotes, or the path to a text file (optional)")
+                         help="curation notes as free text in quotes, or the path to a text file; shown "
+                              "as 'Comments' under Curator notes (optional)")
     methods.add_argument('--alignment_png', metavar='PNG[,PNG,...]',
                          help="alignment plot(s) between haplotypes, e.g. D-GENIES or SyRI (optional)")
 

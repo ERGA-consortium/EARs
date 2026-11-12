@@ -1,4 +1,4 @@
-# ERGA Assembly Report (EAR) - YAML template for make_EAR.py (v26.10.21)
+# ERGA Assembly Report (EAR) - YAML template for make_EAR.py (v26.11.10)
 # Paths can be absolute or relative. Relative paths are read from the folder you run
 # make_EAR.py in (not from the folder of this file); when in doubt, use full paths.
 # Anything left empty (""), written as NA (also n/a, none, "-" in quotes), or left with its
@@ -13,8 +13,8 @@ affiliation: <Insert submitter affiliation> # (e.g., "Sanger" or empty "")
 tags: <Insert tag> # (e.g., "ERGA-BGE", "ERGA-Community"... or empty "")
 
 # SEQUENCING DATA
-DATA: # one line per data type; the type is required, the coverage can be "NA" or empty
-  - <Insert data type>: <insert data coverage> # (e.g., HiFi: 30 or Hi-C: "")
+DATA: # one line per data type with its amount in Gbp; the type is required, the amount can be "NA" or empty
+  - <Insert data type>: <Insert read amount in Gbp> # (e.g., HiFi: 30.23 or Hi-C: "")
 
 # GENOME PROFILING DATA
 PROFILING:
@@ -36,8 +36,8 @@ PIPELINE: <Insert methods notes> # free text in quotes "" (e.g., "Hifiasm v0.25 
 
 # CURATION NOTES
 NOTES:
-  obs_ploidy: <Insert observed ploidy number> # integer
+  obs_ploidy: <Insert observed ploidy number> # integer; also gives the coverage per haplotype
   obs_haploid_num: <Insert observed haploid number> # MANDATORY! the haploid number n as a whole number (e.g., 23)
   obs_sex: <Insert observed sex> # (e.g., "XX", "X0", "ZW", "unknown", "NA"... or empty "")
-  curation_notes: <Insert curation notes> # free text in quotes "" about the curation, plastids, sample..., or the path to a .txt file (keeps line breaks), or empty ""
+  curation_notes: <Insert curation notes> # free text in quotes "" about the curation, plastids, sample (e.g., low input, pooled)..., or the path to a .txt file (keeps line breaks), or empty "". Shown as "Comments" in the report
   alignment_png: <Insert /path/to/alignment.png> # like d-genies, syri, etc... or empty ""

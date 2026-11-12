@@ -78,30 +78,22 @@ No OK is needed from supervisors any more: the bot assigns one, and another supe
 
 ## Reviewer scoring
 
-Reviewer selection is implemented in `rev/get_EAR_reviewer.py` → `select_best_reviewer` / `adjust_score`.
+`rev/get_EAR_reviewer.py` is the single source of truth for selection and scoring; the bot imports its functions and posts its `format_report` table, so the table always names the reviewer the bot asks. The numbers live in the configuration block at the top of that script.
 
-**Eligibility** (hard filters applied before scoring):
+**Eligibility** (`select_best_reviewer`):
 - `Active == 'Y'`
 - Institution ≠ the submitter's institution (normalised via `normalize_institution`)
+- Not the submitter, not the PR's supervisor, and not anyone already asked on this PR
 
-**Score calculation** (starting from each reviewer's `Calling Score` in the CSV):
+**Score** (`score_breakdown`): the `Calling Score`, plus a bonus for never having reviewed and for the project's institutions (`PROJECT_BONUSES`), minus a penalty for being a supervisor, per working PR, and for a recent review. Ties go to fewest reviews, then oldest last review, then a random pick.
 
-| Adjustment | Condition |
-|------------|-----------|
-| +50 | `Last Review == 'NA'` (has never reviewed) |
-| +50 | Project is `ERGA-BGE` AND reviewer's institution is one of: CNAG, Sanger, Genoscope, SciLifeLab, IZW, UNIFI, UNIBA |
-| −5 | Reviewer is also a supervisor (`Supervisor == 'Y'`) |
-| −20 × N | Reviewer currently has N working PRs |
+**Updates to `reviewers_list.csv`** (the `record_*` functions):
+- Asked to review: `Working PRs + 1` (`record_assignment`)
+- Someone takes the PR (Yes, Reviewers button or `add reviewer`): everyone else asked gets `Working PRs − 1`; each one whose request timed out gets `Calling Score + 1` (`record_timeouts`)
+- Merged: reviewer `Calling Score − 1`, `Total Reviews + 1`, `Last Review` = merge date, `Working PRs − 1`; everyone at the submitter's institution `Calling Score + 1` (`record_review`)
+- CLEAR on a closed PR: everyone asked gets `Working PRs − 1`
 
-**Tiebreakers** (applied in order when multiple candidates share the top adjusted score):
-1. Oldest `Last Review` date
-2. Fewest `Total Reviews`
-3. Random selection
-
-**Score updates on merge** (via `update_reviewers_list`):
-- Reviewer: `Calling Score − 1`, `Total Reviews + 1`, `Last Review` = merge date, `Working PRs − 1`
-- Reviewers who timed out (wasted the bot's time): `Calling Score + 1`
-- All reviewers at the **same institution as the submitter**: `Calling Score + 1`
+Each update reads the file again right before writing and commits against that read; if another run committed in between, it reads and applies the change again. Both CSVs are written with the `csv` module, so values with commas are quoted.
 
 ---
 
@@ -144,7 +136,7 @@ Append-only log of completed reviews. One row per merged PR, written by WF6. Col
 
 ## Pre-review
 
-EARs made with `scripts/make_EAR.py` v26.10.21 or later store the report data as JSON in the PDF's XMP metadata. On every push, WF1 reads it with `scripts/EARpdf_to_yaml.py` and posts one comment (`ear_bot/pre_review.py`):
+EARs made with `scripts/make_EAR.py` v26.11.10 or later store the report data as JSON in the PDF's XMP metadata. On every push, WF1 reads it with `scripts/EARpdf_to_yaml.py` and posts one comment (`ear_bot/pre_review.py`):
 
 | Check | Result when it differs or is NA |
 |-------|-------------------------------|
@@ -159,7 +151,7 @@ Any FAIL adds `ERROR!` and stops before a supervisor is assigned. A PDF without 
 
 **Old and new PRs:** only PRs opened on or after `NEW_SYSTEM_FROM` (in `ear_bot_reviewer.py`) get the pre-review and the 3-working-day reply time. Older PRs keep the old system: no pre-review, 100 working hours. Set the date on the release day, once the Galaxy tool ships the new make_EAR, otherwise EARs made in Galaxy fail. While it is unset, every PR is old.
 
-At merge, WF6 makes the YAML with `scripts/EARpdf_to_yaml.py`, or the old `EARpdf_to_yaml.py` for PDFs without EAR data, and appends an `EAR review` section (PR, submitter, reviewer, supervisor, affiliations, dates).
+At merge, WF6 makes the YAML with `scripts/EARpdf_to_yaml.py`, or `scripts/legacy/EARpdf_to_yaml.py` for PDFs without EAR data, and appends an `EAR review` section (PR, submitter, reviewer, supervisor, affiliations, dates).
 
 ---
 

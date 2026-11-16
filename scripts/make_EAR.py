@@ -2,7 +2,7 @@
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
 # note: AI tools were used to improve/clean/comment this version of the code
-EAR_version = "v26.11.10"
+EAR_version = "v26.11.16"
 
 import sys
 import argparse
@@ -358,7 +358,7 @@ def format_2dp(value):
 # Coverage = read bases / largest haplotype, the same done for "Observed Haploid size";
 # per haplotype it is divided by the observed ploidy.
 # Minimum coverage PER HAPLOTYPE is from EBP standard with two practical choices of ours:
-# ultra-long ONT is held to the ONT value (20x) and Pore-C/CiFi to the upper end (>5-10x).
+# ultra-long ONT is held to the ONT value (25x) and Pore-C/CiFi to the upper end (>5-10x).
 # Types are free text, so each is matched case-insensitively by the first pattern
 # that fits; other types (Illumina, CLR, CycloneSEQ...) are shown in Gbp only.
 _WORD_START = r"(?<![a-z0-9])"     # '-', '_', ' ', '(' ... separate words
@@ -567,12 +567,15 @@ GFASTATS_EXTRA_KEYS = ["Total contig length"]
 def parse_gfastats(path):
     """Return {field: value string} for GFASTATS_KEYS + GFASTATS_EXTRA_KEYS from a
     gfastats report; a field missing from the report maps to ''. Raises OSError if
-    the file cannot be read."""
+    the file cannot be read.
+    Reads 'field: value' and the 'field<TAB>value' lines of gfastats, so it's also
+    Galaxy-compatible (there also with --locale, so numbers like 225,297: to_number
+    and format_number handle the commas)."""
     with open(path, "r") as fh:
         content = fh.read()
     stats = {}
     for key in GFASTATS_KEYS + GFASTATS_EXTRA_KEYS:
-        match = re.search(rf"^\s*{re.escape(key)}:\s*(.+?)\s*$", content, re.MULTILINE)
+        match = re.search(rf"^\s*{re.escape(key)}(?::\s*|\t)(.+?)\s*$", content, re.MULTILINE)
         stats[key] = match.group(1) if match else ''
     return stats
 
@@ -723,7 +726,32 @@ def extract_busco_info(file_path):
 #   <prefix>.<asm>.qv            QV of every scaffold of one assembly
 #   <prefix>.completeness.stats  k-mer completeness of each assembly (+ combined)
 #   <prefix>[.<asm>].spectra-cn / <prefix>.spectra-asm .{fl,ln,st}.png
-# MerquryFK files start with a header row whose first cell is 'Assembly'.
+# MerquryFK files start with a header row whose first cell is 'Assembly'. The Galaxy
+# Merqury tool can add a header row of its own (option "Add column header"), over
+# Merqury's columns:
+#   assembly  unique k-mers  common k-mers  QV  error rate
+#   assembly  k-mer set  solid k-mers in assembly  solid k-mers in reads  completeness %
+# A data row can start with 'assembly' too: Merqury names each row after the assembly
+# file, and the Galaxy Merqury tool calls a single assembly 'assembly'. So a header row
+# is one whose first cell is 'assembly' and whose other cells are not numbers...
+GALAXY_MERQURY_HEADER_CELLS = {"unique k-mers", "k-mer set"}
+
+
+def _is_number(text):
+    try:
+        float(text)
+        return True
+    except ValueError:
+        return False
+
+
+def _merqury_header_kind(cells):
+    """'MerquryFK' or 'Galaxy' when the row is a header row (see above), None for a data row."""
+    cells = [c.strip().lower() for c in cells]
+    if cells[0] != "assembly" or any(_is_number(c) for c in cells[1:]):
+        return None
+    return "Galaxy" if GALAXY_MERQURY_HEADER_CELLS & set(cells) else "MerquryFK"
+
 
 def detect_kmer_tool(qv_file, completeness_file):
     """Return 'Merqury.FK' or 'Merqury' from the header of the summary files."""
@@ -734,7 +762,7 @@ def detect_kmer_tool(qv_file, completeness_file):
             with open(path) as f:
                 for line in f:
                     if line.strip():
-                        if line.split("\t", 1)[0].strip().lower() == "assembly":
+                        if _merqury_header_kind(line.rstrip("\n").split("\t")) == "MerquryFK":
                             return "Merqury.FK"
                         break
         except OSError:
@@ -743,11 +771,15 @@ def detect_kmer_tool(qv_file, completeness_file):
 
 
 def _read_merqury_table(path):
-    """(header in lower case or None, data rows split on tabs)."""
+    """(MerquryFK header in lower case or None, data rows split on tabs). A header row
+    added by the Galaxy Merqury tool is dropped: the columns are then Merqury's own."""
     with open(path) as fh:
         rows = [ln.rstrip("\n").split("\t") for ln in fh if ln.strip()]
-    if rows and rows[0][0].strip().lower() == "assembly":
+    kind = _merqury_header_kind(rows[0]) if rows else None
+    if kind == "MerquryFK":
         return [c.strip().lower() for c in rows[0]], rows[1:]
+    if kind == "Galaxy":
+        return None, rows[1:]
     return None, rows
 
 
@@ -1026,26 +1058,66 @@ def parse_fcs_gx(filepath):
 
 
 # ---- Images ---------------------------------------------------------------
+# Plots are PNG (actually, anything else Pillow reads) or SVG, told apart by content so any
+# file name works. An SVG is drawn with CairoSVG.
+
+def read_svg(path):
+    """The content of the file if it is an SVG, else None. Raises OSError."""
+    with open(path, "rb") as fh:
+        head = fh.read(65536)
+        # SVG is XML text: it starts with '<' (after a byte-order mark) and has an <svg> element
+        if not head.lstrip(b"\xef\xbb\xbf \t\r\n").startswith(b"<"):
+            return None
+        if not re.search(rb"<(?:[\w.-]+:)?svg[\s>/]", head):
+            return None
+        return head + fh.read()
+
+
+def render_svg(svg, max_w, max_h):
+    """A Pillow image of an SVG drawn as large as fits inside max_w x max_h points at
+    IMAGE_DPI, so it is already at the resolution make_image would downsample a PNG to.
+    CairoSVG runs in its safe mode (stated, not left to its default): no file or URL the
+    SVG refers to is read, and XML entities are refused."""
+    try:
+        import cairosvg
+    except (ImportError, OSError) as e:   # OSError: CairoSVG is there but the cairo library is not
+        raise RuntimeError(f"SVG plots need CairoSVG [{e}]")
+    from PIL import Image as PILImage
+    # Proportions from a small drawing; the final one then sets only the limiting side,
+    # and CairoSVG derives the other from the SVG itself.
+    with PILImage.open(io.BytesIO(cairosvg.svg2png(bytestring=svg, output_width=64, unsafe=False))) as probe:
+        w, h = probe.size
+    box_w, box_h = max_w / 72 * IMAGE_DPI, max_h / 72 * IMAGE_DPI
+    if box_w / w <= box_h / h:
+        png = cairosvg.svg2png(bytestring=svg, output_width=max(1, round(box_w)), unsafe=False)
+    else:
+        png = cairosvg.svg2png(bytestring=svg, output_height=max(1, round(box_h)), unsafe=False)
+    return PILImage.open(io.BytesIO(png))
+
 
 def make_image(path, max_w, max_h, compress=True, label="Image"):
-    """A ReportLab Image of a PNG fitted inside max_w x max_h points with its
+    """A ReportLab Image of a PNG or SVG fitted inside max_w x max_h points with its
     proportions kept, or None (logged) if the file is missing or unreadable.
 
     compress=True: flatten transparency onto white, downsample to IMAGE_DPI at the
     printed size, and reduce to 256 colours without dithering. EAR plots are
     flat-colour graphics, so this is visually lossless while making the PDF smaller.
+    An SVG is drawn at IMAGE_DPI at its printed size (see render_svg) and flattened
+    onto white; compress=False only skips the 256 colours for it, since there is no
+    PNG file to embed as provided.
     """
     if not os.path.isfile(path):
         logging.warning(f"# {label} '{os.path.abspath(path)}' not found; using NA.")
         return None
     try:
-        from PIL import Image as PILImage   # installed with ReportLab
-        with PILImage.open(path) as im:
+        from PIL import Image as PILImage
+        svg = read_svg(path)
+        with (render_svg(svg, max_w, max_h) if svg is not None else PILImage.open(path)) as im:
             im.load()
             w_px, h_px = im.size
             scale = min(max_w / w_px, max_h / h_px)
             draw_w, draw_h = w_px * scale, h_px * scale
-            if not compress:
+            if not compress and svg is None:
                 return Image(path, width=draw_w, height=draw_h)
             if im.mode in ("RGBA", "LA") or (im.mode == "P" and "transparency" in im.info):
                 rgba = im.convert("RGBA")
@@ -1057,8 +1129,9 @@ def make_image(path, max_w, max_h, compress=True, label="Image"):
         if flat.width > target_w:
             target_h = max(1, round(flat.height * target_w / flat.width))
             flat = flat.resize((target_w, target_h), PILImage.Resampling.LANCZOS)
-        flat = flat.quantize(colors=256, method=PILImage.Quantize.MEDIANCUT,
-                             dither=PILImage.Dither.NONE)
+        if compress:
+            flat = flat.quantize(colors=256, method=PILImage.Quantize.MEDIANCUT,
+                                 dither=PILImage.Dither.NONE)
         buffer = io.BytesIO()
         flat.save(buffer, format="PNG", optimize=True)
         buffer.seek(0)
@@ -1131,7 +1204,7 @@ def build_config(args):
                 data_list.append({item: ''})
         config['DATA'] = data_list
 
-    # PROFILING (PNG-only)
+    # PROFILING (plots: PNG or SVG)
     profiling = config.get('PROFILING') or {}
     if args.genomescope is not None:
         profiling['genomescope'] = args.genomescope
@@ -1365,15 +1438,15 @@ def _make_report(config, outdir, compress_images, log_capture):
         pipeline_text = "NA"
 
     # =======================================================================
-    # GENOME PROFILING (PNG-only, optional)
+    # GENOME PROFILING (plots: PNG or SVG, optional)
     # =======================================================================
     genomescope_png = profiling.get('genomescope')
     smudgeplot_png = profiling.get('smudgeplot')
     if is_empty(genomescope_png):
-        note_missing("GenomeScope PNG", genomescope_png)
+        note_missing("GenomeScope plot", genomescope_png)
         genomescope_png = None
     if is_empty(smudgeplot_png):
-        note_missing("Smudgeplot PNG", smudgeplot_png)
+        note_missing("Smudgeplot plot", smudgeplot_png)
         smudgeplot_png = None
 
     # =======================================================================
@@ -2215,7 +2288,7 @@ def _make_report(config, outdir, compress_images, log_capture):
     if not is_empty(alignment_field):
         alignment_paths = [p.strip() for p in str(alignment_field).split(',') if not is_empty(p)]
     else:
-        note_missing("Alignment PNG", alignment_field)
+        note_missing("Alignment plot", alignment_field)
 
     alignment_hash = []
     any_alignment = False
@@ -2249,7 +2322,7 @@ def _make_report(config, outdir, compress_images, log_capture):
     for title, png in (("GenomeScope", genomescope_png), ("Smudgeplot", smudgeplot_png)):
         elements.append(Paragraph(title, styles['normalStyle']))
         elements.append(Spacer(1, 6))
-        img = make_image(str(png).strip(), 9 * cm, 9 * cm, compress_images, label=f"{title} PNG") if png else None
+        img = make_image(str(png).strip(), 9 * cm, 9 * cm, compress_images, label=f"{title} plot") if png else None
         if img:
             img.hAlign = 'LEFT'
             elements.append(img)
@@ -2377,6 +2450,7 @@ def build_parser():
                "hap1, the 2nd to hap2, and so on (up to 4). Leave a position empty to skip it,\n"
                "e.g. --fcs_gx ',h2_fcs.txt' gives hap1 no FCS-GX report.\n"
                "Relative paths are read from the folder you run the command in.\n"
+               "Plots (IMAGE) can be PNG or SVG.\n"
                "\n"
                "Examples:\n"
                "  python make_EAR.py --yaml EAR.yaml\n"
@@ -2409,8 +2483,8 @@ def build_parser():
                            "e.g. 'HiFi:30.23,Hi-C:40.01' (optional)")
 
     profiling = parser.add_argument_group("genome profiling")
-    profiling.add_argument('--genomescope', metavar='PNG', help="GenomeScope linear plot (optional)")
-    profiling.add_argument('--smudgeplot', metavar='PNG', help="Smudgeplot (optional)")
+    profiling.add_argument('--genomescope', metavar='IMAGE', help="GenomeScope linear plot (optional)")
+    profiling.add_argument('--smudgeplot', metavar='IMAGE', help="Smudgeplot (optional)")
 
     assembly = parser.add_argument_group("assembly data (comma-separated, one value per haplotype, in hap order)")
     assembly.add_argument('--gfastats_nstar', metavar='TXT[,TXT,...]',
@@ -2421,7 +2495,7 @@ def build_parser():
                                "(mandatory for at least one haplotype unless in the YAML)")
     assembly.add_argument('--fcs_gx', metavar='TXT[,TXT,...]',
                           help="FCS-GX action report per haplotype (optional)")
-    assembly.add_argument('--blobplot', metavar='PNG[,PNG,...]',
+    assembly.add_argument('--blobplot', metavar='IMAGE[,IMAGE,...]',
                           help="blob plot per haplotype (optional)")
     assembly.add_argument('--pretext_temp_link', metavar='URL[,URL,...]',
                           help="web link to the Pretext contact map (file or folder) per haplotype (optional)")
@@ -2436,14 +2510,14 @@ def build_parser():
     kmer.add_argument('--merqury_qv', metavar='TXT',
                       help="summary QV file <prefix>.qv (not the per-scaffold <prefix>.<asm>.qv)")
     kmer.add_argument('--merqury_completeness', metavar='TXT', help="<prefix>.completeness.stats")
-    kmer.add_argument('--merqury_spectra_asm', metavar='PNG', help="spectra-asm plot")
-    kmer.add_argument('--merqury_spectra_cn', metavar='PNG[,PNG,...]',
+    kmer.add_argument('--merqury_spectra_asm', metavar='IMAGE', help="spectra-asm plot")
+    kmer.add_argument('--merqury_spectra_cn', metavar='IMAGE[,IMAGE,...]',
                       help="copy-number spectra plot per haplotype, comma-separated in hap order")
     kmer.add_argument('--merqury_spectra_cn_hist', metavar='FILE[,FILE,...]',
                       help="copy-number histogram per haplotype, for false duplications: Merqury "
                            "<prefix>.<asm>.spectra-cn.hist or MerquryFK <prefix>.<asm>.spectra-cn.cni "
                            "(MerquryFK keeps it only when run with -k); comma-separated in hap order")
-    kmer.add_argument('--merqury_spectra_cn_combined', metavar='PNG',
+    kmer.add_argument('--merqury_spectra_cn_combined', metavar='IMAGE',
                       help="copy-number spectra plot of all assemblies combined")
 
     methods = parser.add_argument_group("methods and curation")
@@ -2458,12 +2532,13 @@ def build_parser():
     methods.add_argument('--curation_notes', metavar='\'TEXT\' | TXT',
                          help="curation notes as free text in quotes, or the path to a text file; shown "
                               "as 'Comments' under Curator notes (optional)")
-    methods.add_argument('--alignment_png', metavar='PNG[,PNG,...]',
+    methods.add_argument('--alignment_png', metavar='IMAGE[,IMAGE,...]',
                          help="alignment plot(s) between haplotypes, e.g. D-GENIES or SyRI (optional)")
 
     output = parser.add_argument_group("output")
     output.add_argument('--no_image_compression', action='store_true',
-                        help="embed plots exactly as provided (larger PDF). By default plots are "
+                        help="embed plots exactly as provided (larger PDF); SVG plots are still drawn "
+                             "at 300 dpi, without the colour reduction. By default plots are "
                              "flattened, downsampled to 300 dpi at their printed size and reduced to 256 colours")
     return parser
 

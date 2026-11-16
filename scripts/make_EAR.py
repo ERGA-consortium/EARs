@@ -2,33 +2,34 @@
 # by Diego De Panis
 # ERGA Sequencing and Assembly Committee
 # note: AI tools were used to improve/clean/comment this version of the code
-EAR_version = "v26.11.16"
-
-import sys
 import argparse
-import logging
-import re
-import yaml
-import os
+import glob
+import hashlib
 import io
+import json
+import logging
+import math
+import os
+import re
+import struct
+import sys
+from datetime import datetime
+from urllib.parse import quote
+from xml.etree import ElementTree
+from xml.sax.saxutils import escape
+
 import pytz
 import requests
-import glob
-import math
-import json
-import hashlib
-import struct
-from urllib.parse import quote
-from datetime import datetime
-from xml.sax.saxutils import escape
-from xml.etree import ElementTree
+import yaml
 from reportlab import rl_config
-from reportlab.lib.pagesizes import A4
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image, PageBreak, KeepTogether
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import cm
-from reportlab.pdfbase.pdfdoc import PDFStream, PDFName, PDFDictionary
+from reportlab.pdfbase.pdfdoc import PDFDictionary, PDFName, PDFStream
+from reportlab.platypus import Image, KeepTogether, PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+
+EAR_version = "v26.11.16"
 
 # Write image streams as raw binary instead of ASCII85 text: ~20% smaller PDF, identical content.
 rl_config.useA85 = 0
@@ -1607,7 +1608,9 @@ def _make_report(config, outdir, compress_images, log_capture):
                             + (f" for run '{run['prefix']}'" if run else "") + "; k-mer completeness shows NA.")
         matched = (f"matched by size (k={k})" if mapping else "matched by file order" if asm_to_hap
                    else "not matched")
-        shown = lambda path: f"'{os.path.abspath(path)}'" if path else "NA"
+
+        def shown(path):
+            return f"'{os.path.abspath(path)}'" if path else "NA"
         summary.append(f"{kmer_label}: {shown(qv_path)} | {shown(comp_path)} | {matched}"
                        + (": " + ", ".join(f"{a}->{h}" for a, h in asm_to_hap.items()) if asm_to_hap else ""))
     elif not merqury_folder:
@@ -1757,7 +1760,6 @@ def _make_report(config, outdir, compress_images, log_capture):
     # A missing value shows NA, as everywhere else in the report (an empty cell is ambiguous).
     asm_table_data = [row[:1] + ['NA' if is_empty(value) else value for value in row[1:]]
                       for row in asm_table_data]
-
 
     # =======================================================================
     # CURATION NOTES
@@ -1996,7 +1998,6 @@ def _make_report(config, outdir, compress_images, log_capture):
 
     # Read depth against the EBP recommendations (computed with the data profile)
     flags.extend(coverage_flags)
-
 
     # =======================================================================
     # PDF CONSTRUCTION

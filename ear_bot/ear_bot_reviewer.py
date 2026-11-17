@@ -71,7 +71,7 @@ PING_TEXT = "without any movements on this PR!"
 # in the PDF and 3 working days to reply. Older PRs keep the old system (no
 # pre-review, 100 working hours). Set it on the release day, e.g.
 # datetime(2026, 12, 1, tzinfo=pytz.utc); while it is None every PR is old.
-NEW_SYSTEM_FROM = None
+NEW_SYSTEM_FROM = datetime(2026, 11, 17, tzinfo=pytz.utc)
 
 
 def is_new_system(pr):

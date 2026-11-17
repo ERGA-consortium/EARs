@@ -2,7 +2,12 @@ name: The EARs Reviewing bot for assigning reviewer after supervisor approval
 
 on:
   schedule:
-    - cron: "0 9,21 * * *"
+    # Every hour, every day: GitHub often starts scheduled runs hours late or
+    # drops them, so a run at any hour gives more chances to land in office
+    # hours. The bot itself only posts 9:00-17:00 Berlin time on working days
+    # (in_office_hours() in ear_bot_reviewer.py); other runs only update labels.
+    # Minute 17 because GitHub delays runs at the start of the hour more.
+    - cron: "17 * * * *"
 
   workflow_dispatch:
 

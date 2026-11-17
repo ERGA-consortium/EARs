@@ -12,7 +12,7 @@ permissions: {}
 
 jobs:
   new-comment:
-    if: github.actor != 'erga-ear-bot[bot]' && github.event.issue.pull_request && (contains(github.event.issue.labels.*.name, 'ERGA-BGE') || contains(github.event.issue.labels.*.name, 'ERGA-Pilot') || contains(github.event.issue.labels.*.name, 'ERGA-Community'))
+    if: github.actor != 'erga-ear-bot[bot]' && github.event.issue.pull_request && (contains(github.event.issue.labels.*.name, 'ERGA-BGE') || contains(github.event.issue.labels.*.name, 'ERGA-Pilot') || contains(github.event.issue.labels.*.name, 'ERGA-Community') || contains(github.event.issue.labels.*.name, 'ERGA-CBP') || contains(github.event.issue.labels.*.name, 'ERGA-ATLASea'))
     runs-on: ubuntu-latest
     steps:
       - name: Generate a token

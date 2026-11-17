@@ -7,8 +7,9 @@ Actions workflow (see .github/workflows/).  One flag is required:
     --supervisor   Validate a new/updated PR, pre-review the EAR data in the
                    PDF, assign a supervisor and ask a reviewer.
     --comment      React to a new issue comment (Yes / No / add reviewer / CLEAR).
-    --search       Scheduled scan: advance timed-out reviewer requests and
-                   apply DELAYED/STALLED labels.
+    --search       Scheduled scan: advance timed-out reviewer requests, ping
+                   inactive PRs and apply DELAYED/STALLED labels. Posts only
+                   in office hours (9:00 to 17:00 Berlin time, working days).
     --manual-review  Adopt a reviewer requested by hand: free the reviewers
                    the bot asked and mark the requested one busy.
     --approve      Thank the reviewer after they submit an approved review.
@@ -33,8 +34,10 @@ Customisation notes:
   - Deadline length (3 working days, 100 working hours for old PRs): change
     the hours in _deadline().
   - NEW_SYSTEM_FROM: the release day; older PRs keep the old system.
-  - Inactivity thresholds (1 week ping, 4 weeks DELAYED/STALLED): change the
-    timedelta values in _check_pr_activity().
+  - Inactivity ping after 7 working days: PING_AFTER_HOURS. DELAYED/STALLED
+    after 4 calendar weeks: _check_pr_activity().
+  - Office hours and holidays (24 December to 1 January): in_office_hours()
+    and is_working_day(). They also apply to the reviewer deadlines.
   - Slack posting is skipped for non-BGE projects; adjust the condition in
     closed_pr() to enable it for other project types.
 """
@@ -57,7 +60,12 @@ sys.path.append(root_folder)
 import pre_review  # noqa: E402
 from rev import get_EAR_reviewer  # noqa: E402
 
-cet = pytz.timezone("CET")
+cet = pytz.timezone("Europe/Berlin")  # Berlin time for everyone, summer time included
+
+# Inactivity ping: after 7 working days without activity, and again 7 working
+# days after the last ping. PING_TEXT is how the bot finds its last ping.
+PING_AFTER_HOURS = 7 * 24
+PING_TEXT = "without any movements on this PR!"
 
 # PRs opened on or after this day use the new system: pre-review of the EAR data
 # in the PDF and 3 working days to reply. Older PRs keep the old system (no
@@ -68,6 +76,36 @@ NEW_SYSTEM_FROM = None
 
 def is_new_system(pr):
     return NEW_SYSTEM_FROM is not None and pr.created_at >= NEW_SYSTEM_FROM
+
+
+def is_working_day(moment):
+    """Monday to Friday, except 24 December to 1 January."""
+    holiday = (moment.month == 12 and moment.day >= 24) or (
+        moment.month == 1 and moment.day == 1
+    )
+    return moment.weekday() < 5 and not holiday
+
+
+def in_office_hours(moment):
+    """When the bot may post on its own schedule: 9:00 to 17:00 Berlin time on working days."""
+    moment = moment.astimezone(cet)
+    return is_working_day(moment) and 9 <= moment.hour < 17
+
+
+def add_working_hours(start, hours):
+    """start plus hours, counting only working days (weekends and holidays are skipped)."""
+    current_date = start.astimezone(cet)
+    added_hours = timedelta(hours=0)
+    total_hours = timedelta(hours=hours)
+    while added_hours != total_hours:
+        remaining_hours = total_hours - added_hours
+        time_to_add = min(remaining_hours, timedelta(days=1))
+        if is_working_day(current_date + time_to_add):
+            added_hours += time_to_add
+        else:
+            time_to_add = timedelta(days=1)
+        current_date += time_to_add
+    return current_date.astimezone(cet)
 
 
 def _get_local_path(filename):
@@ -366,7 +404,7 @@ class EARBotReviewer:
                 "The PR has been re-opened. Please check that everything looks OK."
             )
 
-    def find_reviewer(self, prs=[], reject=False):
+    def find_reviewer(self, prs=[], reject=False, scheduled=False):
         """Find and ask the next eligible reviewer for each open PR (--search flag).
 
         Called directly after the supervisor is assigned (via find_supervisor()),
@@ -374,6 +412,9 @@ class EARBotReviewer:
 
         Args:
             prs:    List of PR objects to process.  Defaults to all open PRs.
+            scheduled: True for the WF3 run. Then the bot only posts (timeouts,
+                    new asks, inactivity pings) in office hours, 9:00 to 17:00
+                    Berlin time on working days; labels are still updated.
             reject: If True, treats the current reviewer as having declined
                     (used when comment() receives a "No" reply).
 
@@ -391,11 +432,15 @@ class EARBotReviewer:
             prs = list(self.repo.get_pulls(state="open"))
 
         current_date = datetime.now(tz=cet)
+        # Replies to something a person just did stay immediate.
+        can_post = not scheduled or in_office_hours(current_date)
 
         for pr in prs:
             if not any(label.name in self.valid_projects for label in pr.get_labels()):
                 continue
-            self._check_pr_activity(pr, current_date)
+            self._check_pr_activity(pr, current_date, can_post)
+            if not can_post:
+                continue
             if (
                 pr.get_review_requests()[0].totalCount > 0
                 or pr.get_reviews().totalCount > 0
@@ -892,44 +937,71 @@ class EARBotReviewer:
             or "thanks for sending the EAR of" in first_line
         )
 
-    def _check_pr_activity(self, pr, current_date):
-        one_week_ago = current_date - timedelta(weeks=1)
+    def _check_pr_activity(self, pr, current_date, can_post=True):
+        """DELAYED/STALLED labels (4 calendar weeks) and the inactivity ping.
+
+        The ping goes to the supervisor after 7 working days without activity,
+        and again 7 working days after the last ping, only when can_post (office
+        hours on scheduled runs) and while neither label is set.
+        """
         four_weeks_ago = current_date - timedelta(weeks=4)
         labels = {label.name for label in pr.get_labels()}
 
         researcher = pr.user.login.lower()
-        last_researcher_comment = self._search_last_comment_time(
-            pr, from_bot=False, from_user=researcher
+        activity = self._activity(pr)
+        last_activity = max(when for _, when in activity)
+        last_researcher_activity = max(
+            when for who, when in activity if who in (researcher, "")
         )
 
-        last_activity = self._search_last_comment_time(pr, from_bot=False)
+        # DELAYED: the researcher hasn't commented, reviewed or pushed in 4 weeks
+        if last_researcher_activity < four_weeks_ago and "DELAYED" not in labels:
+            pr.add_to_labels("DELAYED")
+            labels.add("DELAYED")
 
-        # DELAYED: Researcher hasn't commented in a month
-        if last_researcher_comment < four_weeks_ago:
-            if "DELAYED" not in labels:
-                pr.add_to_labels("DELAYED")
-
-        # STALLED: No one has commented in a month
+        # STALLED: nobody has commented, reviewed or pushed in 4 weeks
         if last_activity < four_weeks_ago:
             if "STALLED" not in labels:
                 pr.add_to_labels("STALLED")
-        else:
-            # Remove STALLED if there's any recent comment
-            if "STALLED" in labels:
-                pr.remove_from_labels("STALLED")
+                labels.add("STALLED")
+        elif "STALLED" in labels:
+            pr.remove_from_labels("STALLED")
+            labels.discard("STALLED")
 
-        # Weekly ping only if no DELAYED or STALLED labels exist
-        if "DELAYED" not in labels and "STALLED" not in labels:
-            if last_activity < one_week_ago:
-                supervisor = pr.assignee.login if pr.assignee else pr.user.login
-                # Only ping once per week - check if we already pinged recently
-                last_ping = self._search_last_comment_time(
-                    pr, text="One week without any movements on this PR!"
+        if not can_post or labels & {"DELAYED", "STALLED"}:
+            return
+        if add_working_hours(last_activity, PING_AFTER_HOURS) < current_date:
+            supervisor = pr.assignee.login if pr.assignee else pr.user.login
+            # Also finds the old "One week without any movements" pings.
+            last_ping = self._search_last_comment_time(pr, text=PING_TEXT)
+            if not last_ping or (
+                add_working_hours(last_ping, PING_AFTER_HOURS) < current_date
+            ):
+                pr.create_issue_comment(
+                    f"Ping @{supervisor},\nSeven working days {PING_TEXT}"
                 )
-                if not last_ping or last_ping < one_week_ago:
-                    pr.create_issue_comment(
-                        f"Ping @{supervisor},\nOne week without any movements on this PR!"
-                    )
+
+    def _activity(self, pr):
+        """(login, time) for everything a person (not the bot) did on the PR.
+
+        Counts comments, reviews, comments on the code and pushes (the date of
+        each commit). Opening the PR counts as the author's first activity.
+        Login is "" when unknown: a commit whose email isn't linked to a
+        GitHub account. Such pushes count for everyone, the author included.
+        """
+        events = [(pr.user, pr.created_at)]
+        for item in list(pr.get_issue_comments()) + list(pr.get_review_comments()):
+            events.append((item.user, item.created_at))
+        for review in pr.get_reviews():
+            if review.submitted_at:
+                events.append((review.user, review.submitted_at))
+        for commit in pr.get_commits():
+            events.append((commit.author, commit.commit.committer.date))
+        return [
+            (account.login.lower() if account else "", when.astimezone(cet))
+            for account, when in events
+            if account is None or str(account.type).lower() != "bot"
+        ]
 
     def _search_comment_user(self, pr, text_to_check):
         comment_user = []
@@ -1015,18 +1087,7 @@ class EARBotReviewer:
         return all(level != pre_review.FAIL for level, _, _ in rows)
 
     def _deadline(self, start_date, pr):
-        current_date = start_date
-        added_hours = timedelta(hours=0)
-        total_hours = timedelta(hours=72 if is_new_system(pr) else 100)
-        while added_hours != total_hours:
-            remaining_hours = total_hours - added_hours
-            time_to_add = min(remaining_hours, timedelta(days=1))
-            if (current_date + time_to_add).weekday() < 5:
-                added_hours += time_to_add
-            else:
-                time_to_add = timedelta(days=1)
-            current_date += time_to_add
-        return current_date
+        return add_working_hours(start_date, 72 if is_new_system(pr) else 100)
 
     def _create_slack_post(self, content):
         from slack_sdk import WebClient
@@ -1107,7 +1168,7 @@ if __name__ == "__main__":
     elif args.comment:
         EARBot.comment()
     elif args.search:
-        EARBot.find_reviewer()
+        EARBot.find_reviewer(scheduled=True)
     elif args.manual_review:
         EARBot.manual_reviewer()
     elif args.approve:

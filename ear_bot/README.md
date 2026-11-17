@@ -21,12 +21,12 @@ flowchart TD
     G -->|Yes| H[Request GitHub review]
     G -->|Supervisor picks a reviewer: Reviewers button WF3b\nor add reviewer command WF2+4| H
     G -->|No| F
-    G -->|3 working days timeout, 100 h for old PRs\nWF3 scheduled 9:00 & 21:00 CET| F
+    G -->|3 working days timeout, 100 h for old PRs\nWF3 hourly, posts 9:00-17:00 Berlin time on working days| F
     F -->|All reviewers exhausted| I[Ping supervisor — manual action needed]
     H -->|Reviewer submits approval| J[WF5 pull_request_review → workflow_run\nThank reviewer, notify supervisor]
     J -->|Supervisor merges| K[WF6 pull_request_target closed\nUpdate CSVs, generate YAML, post to Slack]
     K --> L[Done ✓]
-    A -->|WF3 also runs on schedule| M[Check open PRs\nApply DELAYED / STALLED labels\nWeekly ping if no activity]
+    A -->|WF3 also runs on schedule| M[Check open PRs\nApply DELAYED / STALLED labels\nPing after 7 working days without activity]
 ```
 
 > **Concurrency:** WF1, WF2+4, and WF6 share the group `ear-bot-pr-{PR_NUMBER}` with `cancel-in-progress: false`, so runs for the same PR are serialised. WF5 uses a two-step artifact pattern: the first step (`pull_request_review` event) saves PR data to an artifact without secrets; the second step (`workflow_run` event) reads the artifact and runs the bot with the GitHub App token.
@@ -39,7 +39,7 @@ flowchart TD
 |---|------|---------|----------|--------|
 | 1 | `1_ear_bot_pr.yml` | `pull_request_target` [opened, reopened, synchronize, edited] on `Assembly_Reports/**/*.pdf` | `--supervisor` | Validate PR, apply label, pre-review the PDF, assign a supervisor, ask a reviewer |
 | 2+4 | `2+4_ear_bot_comment.yml` | `issue_comment` [created] (PR only, with project label) | `--comment` | Handle Yes / No / add reviewer / CLEAR; find next reviewer |
-| 3 | `3_ear_bot_reviewer.yml` | `schedule` (09:00 & 21:00 CET) + `workflow_dispatch` | `--search` | Timeout check, next reviewer, DELAYED/STALLED labels |
+| 3 | `3_ear_bot_reviewer.yml` | `schedule` (hourly, Mon–Fri) + `workflow_dispatch` | `--search` | Timeout check, next reviewer, inactivity ping, DELAYED/STALLED labels. Posts only in office hours |
 | 3b | `3_ear_bot_manual_reviewer.yml` | `pull_request_target` [review_requested] by a person (not the bot), with project label | `--manual-review` | Adopt a manually requested reviewer: free everyone the bot asked, mark the new reviewer busy, tell the pending one no reply is needed |
 | 5a | `5_ear_bot_approved.yml` | `pull_request_review` [submitted, approved] | — | Save PR_NUMBER + REVIEWER to artifact |
 | 5b | `5_ear_bot_approved_comment.yml` | `workflow_run` on WF5a [completed] | `--approve` | Read artifact, thank reviewer, notify supervisor |
@@ -71,8 +71,8 @@ No OK is needed from supervisors any more: the bot assigns one, and another supe
 | `ERGA-ATLASea` | Project type ATLASea | WF1 | WF6 (on close) or CLEAR command |
 | `ERROR!` | Validation problem (bad body, wrong file count, pre-review FAIL, etc.) | WF1 / WF2+4 | WF1 on next valid edit or push |
 | `EAR-UPDATE` | PR is modifying an already-approved EAR | WF1 | Manual / WF6 |
-| `DELAYED` | Researcher has not commented in ≥ 4 weeks | WF3 | Manual |
-| `STALLED` | Nobody has commented in ≥ 4 weeks | WF3 | WF3 when activity resumes |
+| `DELAYED` | Researcher has not commented, reviewed or pushed in ≥ 4 weeks | WF3 | Manual |
+| `STALLED` | Nobody has commented, reviewed or pushed in ≥ 4 weeks | WF3 | WF3 when activity resumes |
 
 ---
 
@@ -168,7 +168,7 @@ Check that the PDF is under `Assembly_Reports/` and that only one file was chang
 WF1 clears `ERROR!` automatically when the PR body is edited (if the body is now valid) or when a new commit is pushed (if the file-count issue is resolved). If neither applies, a supervisor can remove the label manually.
 
 **Reviewer asked but no response / deadline passed**
-WF3 runs twice daily and calls `find_reviewer` with a deadline check. If 3 working days (100 working hours for PRs opened before `NEW_SYSTEM_FROM`) have elapsed since the last "do you agree to review" comment, it moves to the next candidate automatically. No manual intervention needed unless all reviewers are exhausted.
+WF3 runs every hour on weekdays and calls `find_reviewer` with a deadline check. It only posts in office hours: 9:00 to 17:00 Berlin time on working days (Monday to Friday, except 24 December to 1 January); outside them it only updates labels. Replies to a comment or a review stay immediate. The deadlines count working days only. If 3 working days (100 working hours for PRs opened before `NEW_SYSTEM_FROM`) have elapsed since the last "do you agree to review" comment, it moves to the next candidate automatically. No manual intervention needed unless all reviewers are exhausted.
 
 **All reviewers exhausted**
 The bot posts an error comment and adds `ERROR!`. The supervisor must manually assign a reviewer via GitHub's review-request UI, then clear `ERROR!` manually.
@@ -180,7 +180,7 @@ All PR-specific workflows share the concurrency group `ear-bot-pr-{PR_NUMBER}` w
 WF6 only posts to Slack for `ERGA-BGE` PRs. Verify `SLACK_TOKEN` and `SLACK_CHANNEL_ID` are set and correct. The channel ID is hardcoded; the token must be a repository secret named `SLACK_TOKEN`.
 
 **`DELAYED` or `STALLED` label appeared**
-`DELAYED` means the submitter hasn't commented in 4 weeks. `STALLED` means no-one has. Both are set by WF3. `STALLED` is automatically removed when any non-bot comment appears. `DELAYED` must be removed manually after activity resumes.
+`DELAYED` means the submitter hasn't commented, reviewed or pushed in 4 weeks. `STALLED` means no-one has. Both are set by WF3. `STALLED` is automatically removed when there is any non-bot activity. `DELAYED` must be removed manually after activity resumes.
 
 ---
 
@@ -199,4 +199,4 @@ python rev/get_EAR_reviewer.py -i "CNAG" -t ERGA-BGE
 python rev/get_EAR_reviewer.py -i "Sanger" --supervisor --user myusername
 ```
 
-**Full bot logic** requires a `GITHUB_APP_TOKEN` with write access to the repository. The simplest way to test end-to-end is via `workflow_dispatch` on WF3 in a fork with the App installed.
+**Full bot logic** requires a `GITHUB_APP_TOKEN` with write access to the repository. The simplest way to test end-to-end is via `workflow_dispatch` on WF3 in a fork with the App installed. Outside office hours a WF3 run only updates labels and posts nothing.

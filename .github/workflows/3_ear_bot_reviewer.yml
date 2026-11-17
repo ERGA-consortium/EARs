@@ -2,7 +2,10 @@ name: The EARs Reviewing bot for assigning reviewer after supervisor approval
 
 on:
   schedule:
-    - cron: "0 9,21 * * *"
+    # Every hour, Monday to Friday, 07:00-15:00 UTC: covers 9:00-17:00 Berlin
+    # time in winter and in summer (cron is UTC). The bot itself only posts in
+    # office hours (in_office_hours() in ear_bot_reviewer.py).
+    - cron: "0 7-15 * * 1-5"
 
   workflow_dispatch:
 

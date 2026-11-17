@@ -9,3 +9,4 @@ dependencies:
   - requests=2.34.2
   - reportlab=5.0.1
   - pillow=13.0.0
+  - cairosvg=2.9.1

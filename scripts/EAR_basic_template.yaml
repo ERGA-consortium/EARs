@@ -1,8 +1,9 @@
-# ERGA Assembly Report (EAR) - YAML template for make_EAR.py (v26.11.10)
+# ERGA Assembly Report (EAR) - YAML template for make_EAR.py (v26.11.16)
 # Paths can be absolute or relative. Relative paths are read from the folder you run
-# make_EAR.py in (not from the folder of this file); when in doubt, use full paths.
+# make_EAR.py in. When in doubt, use full paths.
 # Anything left empty (""), written as NA (also n/a, none, "-" in quotes), or left with its
 # <Insert ...> placeholder shows as NA in the report.
+# Plots can be PNG or SVG.
 
 # SAMPLE INFORMATION
 tolid: <Insert ToLID> # (e.g., "mEleMax1" or empty "")

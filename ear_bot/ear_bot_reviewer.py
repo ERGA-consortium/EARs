@@ -434,11 +434,15 @@ class EARBotReviewer:
         current_date = datetime.now(tz=cet)
         # Replies to something a person just did stay immediate.
         can_post = not scheduled or in_office_hours(current_date)
+        if not can_post:
+            print("Outside office hours: only updating labels, not posting.")
 
         for pr in prs:
-            if not any(label.name in self.valid_projects for label in pr.get_labels()):
+            labels = {label.name for label in pr.get_labels()}
+            if not labels & set(self.valid_projects):
                 continue
-            self._check_pr_activity(pr, current_date, can_post)
+            # The inactivity ping is a scheduled message, never a reply.
+            self._check_pr_activity(pr, current_date, can_post and scheduled)
             if not can_post:
                 continue
             if (
@@ -456,14 +460,15 @@ class EARBotReviewer:
             moved_on = self._search_last_comment_time(
                 pr, text="I will look for the next reviewer"
             )
-            deadline_passed = bool(
+            # A No is a No, even after the deadline (WF3 may not have run yet).
+            deadline_passed = not reject and bool(
                 last_comment_date
                 and self._deadline(last_comment_date, pr) < current_date
                 and not (moved_on and moved_on > last_comment_date)
             )
-            institution = self._search_for_institution(pr)
-            project = self._search_in_body(pr, "Project")
             try:
+                institution = self._search_for_institution(pr)
+                project = self._search_in_body(pr, "Project")
                 if project not in self.valid_projects:
                     raise Exception(
                         f"Invalid project name in the PR body: {project!r}. "
@@ -500,9 +505,15 @@ class EARBotReviewer:
                     )
             except Exception as e:
                 supervisor = pr.assignee.login
-                pr.create_issue_comment(
-                    f"Hi @{supervisor}, it looks like there is a problem with this PR that requires your involvement to sort it out."
+                problem = "requires your involvement to sort it out."
+                # Retried on every run: say it once until something else happens.
+                last_bot = next(
+                    (c for c in pr.get_issue_comments().reversed if self._is_bot_user(c)), None
                 )
+                if not (last_bot and problem in last_bot.body):
+                    pr.create_issue_comment(
+                        f"Hi @{supervisor}, it looks like there is a problem with this PR that {problem}"
+                    )
                 pr.add_to_labels("ERROR!")
                 print(f"Error while finding reviewer for PR #{pr.number}:\n{e}")
 
@@ -949,9 +960,10 @@ class EARBotReviewer:
 
         researcher = pr.user.login.lower()
         activity = self._activity(pr)
-        last_activity = max(when for _, when in activity)
+        opened = pr.created_at.astimezone(cet)  # also when the author is a bot
+        last_activity = max((when for _, when in activity), default=opened)
         last_researcher_activity = max(
-            when for who, when in activity if who in (researcher, "")
+            (when for who, when in activity if who in (researcher, "")), default=opened
         )
 
         # DELAYED: the researcher hasn't commented, reviewed or pushed in 4 weeks

@@ -39,7 +39,7 @@ flowchart TD
 |---|------|---------|----------|--------|
 | 1 | `1_ear_bot_pr.yml` | `pull_request_target` [opened, reopened, synchronize, edited] on `Assembly_Reports/**/*.pdf` | `--supervisor` | Validate PR, apply label, pre-review the PDF, assign a supervisor, ask a reviewer |
 | 2+4 | `2+4_ear_bot_comment.yml` | `issue_comment` [created] (PR only, with project label) | `--comment` | Handle Yes / No / add reviewer / CLEAR; find next reviewer |
-| 3 | `3_ear_bot_reviewer.yml` | `schedule` (hourly, Mon–Fri) + `workflow_dispatch` | `--search` | Timeout check, next reviewer, inactivity ping, DELAYED/STALLED labels. Posts only in office hours |
+| 3 | `3_ear_bot_reviewer.yml` | `schedule` (every hour) + `workflow_dispatch` | `--search` | Timeout check, next reviewer, inactivity ping, DELAYED/STALLED labels. Posts only in office hours |
 | 3b | `3_ear_bot_manual_reviewer.yml` | `pull_request_target` [review_requested] by a person (not the bot), with project label | `--manual-review` | Adopt a manually requested reviewer: free everyone the bot asked, mark the new reviewer busy, tell the pending one no reply is needed |
 | 5a | `5_ear_bot_approved.yml` | `pull_request_review` [submitted, approved] | — | Save PR_NUMBER + REVIEWER to artifact |
 | 5b | `5_ear_bot_approved_comment.yml` | `workflow_run` on WF5a [completed] | `--approve` | Read artifact, thank reviewer, notify supervisor |
@@ -168,7 +168,7 @@ Check that the PDF is under `Assembly_Reports/` and that only one file was chang
 WF1 clears `ERROR!` automatically when the PR body is edited (if the body is now valid) or when a new commit is pushed (if the file-count issue is resolved). If neither applies, a supervisor can remove the label manually.
 
 **Reviewer asked but no response / deadline passed**
-WF3 runs every hour on weekdays and calls `find_reviewer` with a deadline check. It only posts in office hours: 9:00 to 17:00 Berlin time on working days (Monday to Friday, except 24 December to 1 January); outside them it only updates labels. Replies to a comment or a review stay immediate. The deadlines count working days only. If 3 working days (100 working hours for PRs opened before `NEW_SYSTEM_FROM`) have elapsed since the last "do you agree to review" comment, it moves to the next candidate automatically. No manual intervention needed unless all reviewers are exhausted.
+WF3 runs every hour (GitHub often starts scheduled runs hours late) and calls `find_reviewer` with a deadline check. It only posts in office hours: 9:00 to 17:00 Berlin time on working days (Monday to Friday, except 24 December to 1 January); outside them it only updates labels. Replies to a comment or a review stay immediate. The deadlines count working days only. If 3 working days (100 working hours for PRs opened before `NEW_SYSTEM_FROM`) have elapsed since the last "do you agree to review" comment, it moves to the next candidate automatically. No manual intervention needed unless all reviewers are exhausted.
 
 **All reviewers exhausted**
 The bot posts an error comment and adds `ERROR!`. The supervisor must manually assign a reviewer via GitHub's review-request UI, then clear `ERROR!` manually.

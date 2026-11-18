@@ -387,13 +387,19 @@ class EARBotReviewer:
             return  # just assigned: nobody to tell about an updated PDF yet
 
         if action_type == "synchronize" and pr.assignees:
+            # GitHub drops a reviewer from requested_reviewers once they submit a
+            # review, so also look at who reviewed (oldest first: the appointed one).
+            supervisor = pr.assignee.login.lower()
+            not_them = {supervisor, pr.user.login.lower()}
+            pending = [user.login.lower() for user in pr.requested_reviewers]
+            reviewed = [
+                review.user.login.lower()
+                for review in pr.get_reviews()
+                if review.user and str(review.user.type).lower() != "bot"
+            ]
             reviewer = next(
-                (
-                    reviewer.login.lower()
-                    for reviewer in pr.requested_reviewers
-                    if reviewer.login.lower() != pr.assignee.login.lower()
-                ),
-                pr.assignee.login.lower(),
+                (who for who in pending + reviewed if who not in not_them),
+                supervisor,
             )
             pr.create_issue_comment(f"Attention @{reviewer}, the EAR PDF was updated.")
 
